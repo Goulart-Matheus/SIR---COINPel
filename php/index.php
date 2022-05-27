@@ -1,4 +1,5 @@
 <?
+
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 include('../function/function.date.php');
