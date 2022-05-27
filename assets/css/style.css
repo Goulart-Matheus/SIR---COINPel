@@ -1,0 +1,6 @@
+.nav-tabs{
+    border-bottom: none !important;
+}
+table > tbody{
+    cursor: pointer !important;
+}
