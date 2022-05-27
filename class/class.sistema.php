@@ -6,6 +6,7 @@ class Sistema {
  var $msgExterna;
  var $mainURL;
  var $timeout;
+ var $version;
 
  function Sistema($url) {
   if ($this->mainURL == null) {
@@ -19,6 +20,7 @@ class Sistema {
   $this->msgExterna = $query->record[2];
   $this->titulo = $query->record[3];
   $this->timeout = $query->record[5];
+  $this->version = $query->record['current_version'];
  }
 
  function getSession() {
@@ -39,6 +41,9 @@ class Sistema {
 
  function getTitulo() {
   return $this->titulo;
+ }
+ function getVersion(){
+    return $this->version;
  }
 }
 ?>

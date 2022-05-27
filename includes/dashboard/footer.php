@@ -1,8 +1,20 @@
 </div>
 <footer class="main-footer">
+
     <div class="float-right d-none d-sm-block">
     </div>
-    <strong> © <?date('Y')?> <a href="http://www.coinpel.com.br" target="_blank">coinpel.com.br</a>
+
+    <div class="row">
+
+        <div class="col-10">
+            <strong> © <?date('Y')?> <a href="http://www.coinpel.com.br" target="_blank">coinpel.com.br</a></strong>
+        </div>
+
+        <div class="col-2 text-right">
+            Versão: <? echo $system->getVersion(); ?>
+        </div>
+    </div>
+
 </footer>
 
 <aside class="control-sidebar control-sidebar-dark">

@@ -720,13 +720,13 @@ sup {
 }
 
 a {
-    color: #00b1d9;
+    color: #28a745;
     text-decoration: none;
     background-color: transparent;
 }
 
 a:hover {
-    color: #00738d;
+    color: #1b7430;
     text-decoration: underline;
 }
 
@@ -3283,6 +3283,48 @@ fieldset:disabled a.btn {
 .btn-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(38, 189, 223, 0.5);
+}
+
+
+.btn-green {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-green:hover {
+    color: #fff;
+    background-color: #1b7430;
+    border-color: #1b7430;
+}
+
+.btn-green:focus,
+.btn-green.focus {
+    color: #fff;
+    background-color: #1b7430;
+    border-color: #1b7430;
+    box-shadow: 0 0 0 0.2rem rgba(60, 223, 38, 0.5);
+}
+
+.btn-green.disabled,
+.btn-green:disabled {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-green:not(:disabled):not(.disabled):active,
+.btn-green:not(:disabled):not(.disabled).active,
+.show > .btn-green.dropdown-toggle {
+    color: #fff;
+    background-color: #1b7430;
+    border-color: #1b7430;
+}
+
+.btn-green:not(:disabled):not(.disabled):active:focus,
+.btn-green:not(:disabled):not(.disabled).active:focus,
+.show > .btn-green.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(60, 223, 38, 0.5);
 }
 
 .btn-secondary {
@@ -8763,6 +8805,11 @@ button.bg-dark:focus {
     overflow: auto !important;
 }
 
+.overflow-auto-y{
+    overflow: auto !important;
+    overflow-x: hidden !important;
+}
+
 .overflow-hidden {
     overflow: hidden !important;
 }
@@ -11845,13 +11892,13 @@ sup {
 }
 
 a {
-    color: #00b1d9;
+    color: #28a745;
     text-decoration: none;
     background-color: transparent;
 }
 
 a:hover {
-    color: #00738d;
+    color: #1b7430;
     text-decoration: underline;
 }
 
@@ -14413,6 +14460,47 @@ fieldset:disabled a.btn {
     box-shadow: 0 0 0 0.2rem rgba(38, 189, 223, 0.5);
 }
 
+.btn-green {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-green:hover {
+    color: #fff;
+    background-color: #1b7430;
+    border-color: #1b7430;
+}
+
+.btn-green:focus,
+.btn-green.focus {
+    color: #fff;
+    background-color: #1b7430;
+    border-color: #1b7430;
+    box-shadow: 0 0 0 0.2rem rgba(60, 223, 38, 0.5);
+}
+
+.btn-green.disabled,
+.btn-green:disabled {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-green:not(:disabled):not(.disabled):active,
+.btn-green:not(:disabled):not(.disabled).active,
+.show > .btn-green.dropdown-toggle {
+    color: #fff;
+    background-color: #1b7430;
+    border-color: #1b7430;
+}
+
+.btn-green:not(:disabled):not(.disabled):active:focus,
+.btn-green:not(:disabled):not(.disabled).active:focus,
+.show > .btn-green.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(60, 223, 38, 0.5);
+}
+
 .btn-secondary {
     color: #fff;
     background-color: #6c757d;
@@ -14986,6 +15074,42 @@ fieldset:disabled a.btn {
 .btn-outline-dark:not(:disabled):not(.disabled).active:focus,
 .show > .btn-outline-dark.dropdown-toggle:focus {
     box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+}
+
+.btn-outline-green {
+    color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-green:hover {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-green:focus,
+.btn-outline-green.focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
+}
+
+.btn-outline-green.disabled,
+.btn-outline-green:disabled {
+    color: #6c757d;
+    background-color: transparent;
+}
+
+.btn-outline-green:not(:disabled):not(.disabled):active,
+.btn-outline-green:not(:disabled):not(.disabled).active,
+.show > .btn-outline-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-green:not(:disabled):not(.disabled):active:focus,
+.btn-outline-green:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5);
 }
 
 .btn-link {
@@ -44301,3 +44425,14 @@ html {
     width: 100px;
 }
 
+.bg-light-2 {
+    background-color: #F8FAFC !important;
+}
+
+.bg-light-3 {
+    background-color: #F8F8F8 !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
