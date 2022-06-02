@@ -74,7 +74,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_descricao"><span class="text-danger">*</span> Cadastro da descrição</label>
+                        <label for="form_descricao"><span class="text-danger">*</span> Cadastro da Espécie</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" maxlength="100" value="<? if ($erro) echo $form_descricao; ?>">
                     </div>
 
@@ -82,7 +82,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
                         <select class="form-control" name="form_habilitado">
                             <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>
-                            
+                            <option value="N" <? if ($erro && $form_habilitado == "N")?>>Não</option>
                         </select>
                     </div>
 

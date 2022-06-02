@@ -8,20 +8,20 @@
 
     $tab->setTab('Adicionar','fas fa-plus'      , 'MOTIVO_form.php'     );
     $tab->setTab('Pesquisar','fas fa-search'    , 'MOTIVO_view.php'     );
-    $tab->setTab('Editar'   ,'fas fa-pencil-alt', $_SERVER['PHP_SELF']   );
+    $tab->setTab('Editar'   ,'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
     $tab->printTab($_SERVER['PHP_SELF']);
 
-    $query->exec("SELECT id_motivo , descricao FROM motivo WHERE id_motivo = " . $id_motivo);
+    $query->exec("SELECT id_motivo , descricao  FROM motivo WHERE id_motivo = " . $id_motivo);
     $query->result($query->linha);
 
 ?>
 
     <section class="content">
 
-        <form method="post" action="<? echo $_SERVER['PHP_SELF'] . '?id_motivo=' . $id_motivo ?>">
+        <form method="post" action="<? echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
 
-            <input type="hidden" name="id_motivo" value="<? echo $query->record[0]; ?>">
+            <input type="hidden" name="id_pelagem" value="<? echo $query->record[0]; ?>">
 
             <div class="card p-0">
 
@@ -50,20 +50,21 @@
 
                                     $query->begin();
 
-                                    $itens =array(trim($form_descricao)         , 
-                                                  $_habilitado                  ,
-                                                  $_login                       , 
-                                                  $_ip                          , 
-                                                  $_data                        , 
-                                                  $_hora                        ,
+                                    $itens =array($id_motivo                   ,
+                                                  trim($form_descricao)         , 
+                                                  $_habilitado,
+                                                  $_login,
+                                                  $_ip,
+                                                  $_data,
+                                                  $_hora,
                                                   
                                                 );
-
 
                                     $where =array(0 => array('id_motivo', $id_motivo));
                                     $query->updateTupla('motivo', $itens, $where);
                                     
                                     $query->commit();
+
                                 }
 
                                 if($erro) echo callException($erro, 2);
@@ -80,12 +81,24 @@
 
                     <div class="form-row">
 
-                        <div class="form-group col-12">
-                            <label for="form_descricao"><span class="text-danger">*</span> Solicitante</label>
+                        
+                        <div class="form-group col-12 col-md-6">
+                            <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
                             <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($edit) echo trim($form_descricao); else echo trim($query->record[1]); ?>">
                         </div>
 
                     </div>
+
+                    <div class="form-row">
+
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
+                        <select class="form-control" name="form_habilitado">
+                           <option value= "S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>
+                           <option value= "N"  <? if ($erro && $form_habilitado == "N") echo 'selected';                        ?>>Não</option> 
+                        </select>
+                    </div>
+                       
 
                 </div>
 
@@ -106,4 +119,3 @@
 
 <? 
     include_once('../includes/dashboard/footer.php'); 
-?>

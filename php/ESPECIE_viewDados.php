@@ -160,7 +160,7 @@
 
                                     $paging->query->proximo();
 
-                                    $js_onclick = "OnClick=javascript:window.location=('editespecie.php?id_especie=" . $paging->query->record[0] . "')";
+                                    $js_onclick = "OnClick=javascript:window.location=('ESPECIE_edit.php?id_especie=" . $paging->query->record[0] . "')";
                                     
                                     echo "<tr>";
 

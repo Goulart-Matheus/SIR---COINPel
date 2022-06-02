@@ -50,7 +50,7 @@
 
                                     $query->begin();
 
-                                    $itens =array($_id_pelagem                  ,
+                                    $itens =array($id_pelagem                   ,
                                                   trim($form_descricao)         , 
                                                   $_habilitado,
                                                   $_login,
@@ -64,6 +64,7 @@
                                     $query->updateTupla('pelagem', $itens, $where);
                                     
                                     $query->commit();
+
                                 }
 
                                 if($erro) echo callException($erro, 2);
@@ -81,7 +82,7 @@
                     <div class="form-row">
 
                         
-                        <div class="form-group col-12 col-md-9">
+                        <div class="form-group col-12 col-md-6">
                             <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
                             <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($edit) echo trim($form_descricao); else echo trim($query->record[1]); ?>">
                         </div>
@@ -90,7 +91,7 @@
 
                     <div class="form-row">
 
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
                         <select class="form-control" name="form_habilitado">
                            <option value= "S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>

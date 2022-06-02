@@ -21,7 +21,7 @@
 
         <form method="post" action="<? echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
 
-            <input type="hidden" name="id_pelagem" value="<? echo $query->record[0]; ?>">
+            <input type="hidden" name="id_especie" value="<? echo $query->record[0]; ?>">
 
             <div class="card p-0">
 
@@ -50,7 +50,7 @@
 
                                     $query->begin();
 
-                                    $itens =array($_id_especie                 ,
+                                    $itens =array($id_especie                   ,
                                                   trim($form_descricao)         , 
                                                   $_habilitado,
                                                   $_login,
@@ -64,6 +64,7 @@
                                     $query->updateTupla('especie', $itens, $where);
                                     
                                     $query->commit();
+
                                 }
 
                                 if($erro) echo callException($erro, 2);
@@ -81,7 +82,7 @@
                     <div class="form-row">
 
                         
-                        <div class="form-group col-12 col-md-9">
+                        <div class="form-group col-12 col-md-6">
                             <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
                             <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($edit) echo trim($form_descricao); else echo trim($query->record[1]); ?>">
                         </div>
@@ -90,11 +91,11 @@
 
                     <div class="form-row">
 
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
                         <select class="form-control" name="form_habilitado">
                            <option value= "S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>
-                           <option value= "N"  <? if ($erro && $form_habilitado == "N") echo 'selected';                      ?>>Não</option> 
+                           <option value= "N"  <? if ($erro && $form_habilitado == "N") echo 'selected';                        ?>>Não</option> 
                         </select>
                     </div>
                        

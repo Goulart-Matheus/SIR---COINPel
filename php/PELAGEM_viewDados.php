@@ -5,9 +5,11 @@
 
     $query->exec("SELECT id_pelagem , descricao
                     FROM pelagem
-                   WHERE descricao ilike '%".$form_descricao."%'
+                   WHERE habilitado ilike '%".$form_habilitado."%' AND descricao ilike '%".$form_descricao."%'
+                   
                 ");
 
+                
     $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
     if(!$sort_by )   $sort_by  = 1;
@@ -160,7 +162,7 @@
 
                                     $paging->query->proximo();
 
-                                    $js_onclick = "OnClick=javascript:window.location=('editpelagem.php?id_pelagem=" . $paging->query->record[0] . "')";
+                                    $js_onclick = "OnClick=javascript:window.location=('PELAGEM_edit.php?id_pelagem=" . $paging->query->record[0] . "')";
                                     
                                     echo "<tr>";
 

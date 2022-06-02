@@ -45,7 +45,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 'pelagem',
                                 array(
                                     trim($form_descricao),
-                                    $_habilitado,
+                                    $form_habilitado,
                                     $_login,
                                     $_ip,
                                     $_data,
@@ -74,14 +74,15 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_descricao"><span class="text-danger">*</span> Cadastro descrição da Pelagem</label>
+                        <label for="form_descricao"><span class="text-danger">*</span> Cadastro Pelagem</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" maxlength="100" value="<? if ($erro) echo $form_descricao; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
-                        <select class="form-control" name="form_habilitado">
+                        <select class="form-control" name="form_habilitado " id= "form_habilitado "> 
                             <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>
+                            <option value="N" <? if ($erro && $form_habilitado == "N")?>>Não</option>
                             
                         </select>
                     </div>
