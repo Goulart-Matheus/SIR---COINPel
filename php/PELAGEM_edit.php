@@ -82,7 +82,7 @@
                     <div class="form-row">
 
                         
-                        <div class="form-group col-12 col-md-6">
+                        <div class="form-group col-12 col-md-12">
                             <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
                             <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($edit) echo trim($form_descricao); else echo trim($query->record[1]); ?>">
                         </div>
@@ -91,7 +91,7 @@
 
                     <div class="form-row">
 
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-12">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
                         <select class="form-control" name="form_habilitado">
                            <option value= "S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>

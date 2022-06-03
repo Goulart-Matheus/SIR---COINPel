@@ -21,7 +21,7 @@
 
         <form method="post" action="<? echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
 
-            <input type="hidden" name="id_pelagem" value="<? echo $query->record[0]; ?>">
+            <input type="hidden" name="id_motivo" value="<? echo $query->record[0]; ?>">
 
             <div class="card p-0">
 
@@ -52,7 +52,7 @@
 
                                     $itens =array($id_motivo                   ,
                                                   trim($form_descricao)         , 
-                                                  $_habilitado,
+                                                  $habilitado,
                                                   $_login,
                                                   $_ip,
                                                   $_data,
@@ -119,3 +119,4 @@
 
 <? 
     include_once('../includes/dashboard/footer.php'); 
+?>
