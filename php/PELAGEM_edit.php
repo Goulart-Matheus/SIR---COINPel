@@ -87,6 +87,17 @@
                             <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($edit) echo trim($form_descricao); else echo trim($query->record[1]); ?>">
                         </div>
 
+                        <div class="form-group col-12 col-md-12">
+                            <label for="form_descricao"><span class="text-danger">*</span> </label>
+                            <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($edit) echo trim($form_descricao); else echo trim($query->record[1]); ?>">
+                        </div>
+
+
+
+
+
+
+
                     </div>
 
                     <div class="form-row">

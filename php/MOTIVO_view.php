@@ -38,7 +38,7 @@
                     <div class="form-row">
 
                         <div class="form-group col-12">
-                            <label for="form_descricao"> Descrição do Solicitante</label>
+                            <label for="form_descricao"> Descrição do Motivo</label>
 
                             <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if($erro) echo $form_descricao; ?>">
                         </div>
