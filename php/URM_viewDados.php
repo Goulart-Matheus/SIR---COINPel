@@ -3,12 +3,21 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_tipo_contato , descricao , mascara 
-                    FROM tipo_contato
-                   WHERE descricao ilike '%" . $form_descricao . "%'AND mascara ilike '%".$form_mascara."%' 
+$where = "";
 
+$where .= $form_valor           != ""  ? " AND  valor        = $form_valor        "   : "";
+// $where .= $form_ativo   == "S"         ? " AND ativo = $form_ativo "   : "N";
+$where .= $form_mes_referencia   != ""  ? " AND mes_referencia = $form_mes_referencia" : "";
+$where .= $form_ano_referencia   != ""  ? " AND ano_referencia = $form_ano_referencia" : "";
+
+
+
+$query->exec("SELECT id_urm , valor , ativo , mes_referencia , ano_referencia
+                    FROM urm
+                   WHERE ativo ILIKE '%$form_ativo%'$where
                    
                 ");
+echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -17,7 +26,7 @@ if (!$sort_dir)   $sort_dir = 0;
 
 $sort->sortItem($sort_by, $sort_dir);
 
-$report_subtitulo   = "Descrição";
+$report_subtitulo   = "Valor";
 $report_periodo     = date('d/m/Y');
 
 if ($print) {
@@ -26,10 +35,11 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'             ,      10, 0),
-        array('Descricao'          ,     190, 1),
-        array('Documento'          ,     190, 1),
-        
+        array('Código',      10, 0),
+        array('valor',     190, 1),
+        array('ativo',     190, 1),
+        array('Mes_referencia',     190, 1),
+        array('Ano_referencia',     190, 1)
     );
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -42,20 +52,20 @@ if ($print) {
 
     if (isset($remove)) {
 
-        if (!isset($id_tipo_contato)) {
+        if (!isset($id_urm)) {
 
             $erro = 'Nenhum item selecionado!';
         } else {
 
             $querydel = new Query($bd);
 
-            for ($c = 0; $c < sizeof($id_tipo_contato); $c++) {
+            for ($c = 0; $c < sizeof($id_urm); $c++) {
 
-                $where = array(0 => array('id_tipo_contato', $id_urm[$c]));
-                $querydel->deleteTupla('tipo_contato', $where);
+                $where = array(0 => array('id_urm', $id_urm[$c]));
+                $querydel->deleteTupla('urm', $where);
             }
 
-            unset($_POST['id_tipo_contato']);
+            unset($_POST['id_urm']);
         }
     }
 
@@ -67,8 +77,8 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', 'TIPO_CONTATO_form.php');
-$tab->setTab('Pesquisar', 'fas fa-search', 'TIPO_CONTATO_view.php');
+$tab->setTab('Adicionar', 'fas fa-plus', 'URM_form.php');
+$tab->setTab('Pesquisar', 'fas fa-search', 'URM_view.php');
 $tab->setTab('Gerenciar', 'fas fa-cog', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
@@ -149,9 +159,12 @@ $n = $paging->query->rows();
                         <tr>
 
                             <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'descricao'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Documento'); ?> </td>
-                            
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Valor'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Ativo'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Mes_referencia'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Ano _referencia'); ?> </td>
+
+
                         </tr>
 
                         <?
@@ -160,12 +173,17 @@ $n = $paging->query->rows();
 
                             $paging->query->proximo();
 
-                            $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
+                            $js_onclick = "OnClick=javascript:window.location=('URM_edit.php?id_urm=" . $paging->query->record[0] . "')";
+
+
 
                             echo "<tr>";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' valor='id_urm[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
 
                             echo "</tr>";
                         }
@@ -177,7 +195,7 @@ $n = $paging->query->rows();
                     <tfoot>
 
                         <tr>
-                            <td colspan="2">
+                            <td colspan="5">
 
                                 <div class="text-center pt-2">
                                     <? echo $paging->viewTableSlice(); ?>

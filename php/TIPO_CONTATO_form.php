@@ -36,20 +36,20 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_tipo_mascara, 'Tipo_Mascara');
+                            $valida = new Valida($form_mascara, 'Mascara');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            if ($form_cpf != "") {
-                                $valida = new Valida(limpaCPF_CNPJ($form_cpf), 'Cpf');
-                                $valida->TamMinimo(11);
-                                $erro .= $valida->PegaErros();
-                            }
-                            if ($form_cpf != "") {
-                                $valida = new Valida(limpaCPF_CNPJ($form_cpf), 'rg');
-                                $valida->TamMinimo(10);
-                                $erro .= $valida->PegaErros();
-                            }
+                            //if ($form_cpf != "") {
+                            // $valida = new Valida(limpaCPF_CNPJ($form_cpf), 'Cpf');
+                            //$valida->TamMinimo(11);
+                            // $erro .= $valida->PegaErros();
+                            //}
+                            //if ($form_cpf != "") {
+                            // $valida = new Valida(limpaCPF_CNPJ($form_cpf), 'rg');
+                            // $valida->TamMinimo(10);
+                            // $erro .= $valida->PegaErros();
+                            //}
 
                             $valida = new Valida($form_habilitado, 'Habilitado');
                             $valida->TamMinimo(1);
@@ -58,8 +58,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         if (!$erro && isset($add)) {
 
-                            $form_cpf_unmask = limpaCPF_RG($form_cpf);
-                            $form_rg_unmask = limpaCPF_RG($form_rg);
+                            //$form_cpf_unmask = limpaCPF_RG($form_cpf);
+                            //$form_rg_unmask = limpaCPF_RG($form_rg);
 
                             $query_aux = new Query($bd);
 
@@ -70,6 +70,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 $x = $query_aux->rows();
                             }
 
+                            if ($form_cpf != "") {
+                                $query_aux->exec("SELECT * FROM responsavel WHERE rg = '$form_rg_unmask'");
+                                $x = $query_aux->rows();
+                            }
+
+
 
                             $query->begin();
 
@@ -77,8 +83,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 'tipo_contato',
                                 array(
                                     trim($form_descricao),
-                                    $form_tipo_mascara,
-                                    $habilitado,
+                                    $form_mascara,
+                                    $_habilitado,
                                     $_login,
                                     $_ip,
                                     $_data,
@@ -107,29 +113,33 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_descricao"><span class="text-danger">*</span> Nome Contato</label>
+                        <label for="form_descricao"><span class="text-danger">*</span> Contato</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" maxlength="100" value="<? if ($erro) echo $form_descricao; ?>">
                     </div>
 
 
-                    <!--<div class="form-group col-12 col-md-3">
-                        <label for="form_cpf">CPF</label>
-                        <input type="text" class="form-control form_cpf" name="form_cpf" id="form_cpf" maxlength="20" value="<? if ($erro) echo $form_cpf; ?>">
-                        <input type="hidden" class="form_cpf_unmask" name="form_cpf_unmask" value="<? if ($erro) echo $form_cpf_unmask; ?>">
-                        <div class="invalid-feedback">
-                            Preencha o campo cpf.
-                        </div>
-                    </div>-->
-
-
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_descricao"><span class="text-danger">*</span> Documento</label>
+                     <div class="form-group col-12 col-md-4">
+                        <label for="form_mascara"><span class="text-danger">*</span> Documento</label>
                         <input type="text" class="form-control form_mascara" name="form_mascara" id="form_mascara" maxlength="20" value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                         <div class="invalid-feedback">
                             Preencha o campo documento.
                         </div>
+
+
+
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_mascara"><span class="text-danger">*</span> Tipo de Documento</label>
+                        <select name="form_mascara" required id="form_mascara" class="form-control">
+                            <option value="" selected>Selecione o Documento:</option>
+                            <option value="CPF">CPF</option>
+                            <option value="RG">RG</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o Tipo de Documento.
+                        </div>
+
+
                     </div>
 
                     <div class="form-group col-12 col-md-4">
@@ -167,11 +177,27 @@ include_once('../includes/dashboard/footer.php');
 ?>
 
 
-<script>
-    var cont = 1,
-        cont_cpf = 1;
-    $('.form_cpf').mask('000.000.000-00');
+<script type="text/javascript">
 
+        $('#form_cpf'     ).mask('000.000.000-00'   , {reverse: false});
+
+        $('#form_telefone , #form_wpp , #form_acessor_telefone , #form_acessor_wpp').mask('(00) 0000-00009'   , {reverse: false}).on("keyup",function(e){
+
+            if($(this).val().length == 15){
+                $(this).mask('(00) 00000-00009');
+            } else {
+                $(this).mask('(00) 0000-00009');
+            }
+
+        });
+
+    </script>
+
+
+<!--<script>
+
+    $('.form_cpf').mask('000.000.000-00');
+    
     $('#form_nome,#form_cpf').on('change', function(e) {
 
         var rg = $('#form_rg').val();
@@ -184,9 +210,6 @@ include_once('../includes/dashboard/footer.php');
                 'rg': rg,
                 'cpf': cpf
             },
-
-
-
 
             function mascara_rg(elemento) {
                 $(elemento).mask('0000000000');
@@ -219,9 +242,6 @@ include_once('../includes/dashboard/footer.php');
         });
 
     
-    });
-    
+    }); -->
+
 </script>
-
-
-
