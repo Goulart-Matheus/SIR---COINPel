@@ -32,50 +32,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
-                            $valida = new Valida($form_descricao, 'Descrição');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
-                            $valida = new Valida($form_mascara, 'Mascara');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
-                            //if ($form_cpf != "") {
-                            // $valida = new Valida(limpaCPF_CNPJ($form_cpf), 'Cpf');
-                            //$valida->TamMinimo(11);
-                            // $erro .= $valida->PegaErros();
-                            //}
-                            //if ($form_cpf != "") {
-                            // $valida = new Valida(limpaCPF_CNPJ($form_cpf), 'rg');
-                            // $valida->TamMinimo(10);
-                            // $erro .= $valida->PegaErros();
-                            //}
-
-                            $valida = new Valida($form_habilitado, 'Habilitado');
+                            $valida = new Valida($form_descricao, 'Descricao');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
                         }
 
                         if (!$erro && isset($add)) {
-
-                            //$form_cpf_unmask = limpaCPF_RG($form_cpf);
-                            //$form_rg_unmask = limpaCPF_RG($form_rg);
-
-                            $query_aux = new Query($bd);
-
-                            $x = 0;
-
-                            if ($form_cpf != "") {
-                                $query_aux->exec("SELECT * FROM responsavel WHERE cpf = '$form_cpf_unmask'");
-                                $x = $query_aux->rows();
-                            }
-
-                            if ($form_cpf != "") {
-                                $query_aux->exec("SELECT * FROM responsavel WHERE rg = '$form_rg_unmask'");
-                                $x = $query_aux->rows();
-                            }
-
-
 
                             $query->begin();
 
@@ -84,7 +46,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 array(
                                     trim($form_descricao),
                                     $form_mascara,
-                                    $_habilitado,
+                                    $form_habilitado,
                                     $_login,
                                     $_ip,
                                     $_data,
@@ -118,53 +80,38 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
 
-                     <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-4">
                         <label for="form_mascara"><span class="text-danger">*</span> Documento</label>
-                        <input type="text" class="form-control form_mascara" name="form_mascara" id="form_mascara" maxlength="20" value="<? if ($erro) echo $form_mascara; ?>">
+                        <input type="text"class="form-control form_mascara"name="form_mascara"id="form_mascara"maxlength="20"value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                         <div class="invalid-feedback">
                             Preencha o campo documento.
                         </div>
 
+                    </div>
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_mascara"><span class="text-danger">*</span> Tipo de Documento</label>
-                        <select name="form_mascara" required id="form_mascara" class="form-control">
-                            <option value="" selected>Selecione o Documento:</option>
-                            <option value="CPF">CPF</option>
-                            <option value="RG">RG</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha o Tipo de Documento.
-                        </div>
+                        <label for="form_Habilitado"><span class="text-danger">*</span> Habilitado</label>
+                        <select class="form-control" name="form_habilitado" id="form_habilitado">
+                            <option value="S" selected>Sim</option>
+                            <option value="N">Não</option>
 
-
-                    </div>
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
-                        <select class="form-control" name="form_habilitado">
-                            <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected';
-                                                else echo 'selected'; ?>>Sim</option>
-                            <option value="N" <? if ($erro && $form_habilitado == "N") ?>>Não</option>
                         </select>
                     </div>
 
+
+                    
                 </div>
 
             </div>
 
-        </div>
-
-        </div>
-
-        <div class="card-footer border-top-0 bg-transparent">
-            <div class="text-center">
-                <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                <input class="btn btn-info" type="submit" name="add" value="Salvar">
+            <div class="card-footer border-top-0 bg-transparent">
+                <div class="text-center">
+                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
+                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
+                </div>
             </div>
-        </div>
 
         </div>
 
@@ -178,70 +125,18 @@ include_once('../includes/dashboard/footer.php');
 
 
 <script type="text/javascript">
-
-        $('#form_cpf'     ).mask('000.000.000-00'   , {reverse: false});
-
-        $('#form_telefone , #form_wpp , #form_acessor_telefone , #form_acessor_wpp').mask('(00) 0000-00009'   , {reverse: false}).on("keyup",function(e){
-
-            if($(this).val().length == 15){
-                $(this).mask('(00) 00000-00009');
-            } else {
-                $(this).mask('(00) 0000-00009');
-            }
-
-        });
-
-    </script>
-
-
-<!--<script>
-
-    $('.form_cpf').mask('000.000.000-00');
     
-    $('#form_nome,#form_cpf').on('change', function(e) {
+    $('#form_mascara').mask('000.000.000-00', {
+        reverse: false
+    }).on("keyup", function(e) {
 
-        var rg = $('#form_rg').val();
-        var cpf = $('#form_cpf').val();
+        if ($(this).val().length == 11) {
+            $(this).mask('000.000.000-00');
+        } else {
+            $(this).mask('0000000000');
+        }
 
-        $.ajax({
-            type: "GET",
-            url: "../includes/ajax_valida.php",
-            data: {
-                'rg': rg,
-                'cpf': cpf
-            },
-
-            function mascara_rg(elemento) {
-                $(elemento).mask('0000000000');
-
-            }
-
-            function mascara_cpf(elemento) {
-                $(elemento).mask('000.000.000-00');
-            }
-
-            $('.salvar').on('click', function(event) {
-                if (!submitFormValidad(this)) {
-                    event.preventDefault();
-                }
-                $cpf_unmask = $('.form_cpf').cleanVal();
-                $('.form_cpf_unmask').val($cpf_unmask);
-            });
-
-
-            $('.salvar').on('click', function(event) {
-                if (!submitFormValidad(this)) {
-                    event.preventDefault();
-                }
-                $cpf_unmask = $('.form_rg').cleanVal();
-                $('.form_cpf_unmask').val($cpf_unmask);
-
-            });
-
-
-        });
-
-    
-    }); -->
-
+    });
 </script>
+
+

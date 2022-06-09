@@ -82,7 +82,7 @@ $query->result($query->linha);
 
 
                     <div class="form-group col-6 col-md-6">
-                        <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
+                        <label for="form_descricao"><span class="text-danger">*</span> Descrição </label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if ($edit) echo trim($form_descricao);
                                                                                                                     else echo trim($query->record[1]); ?>">
                     </div>

@@ -32,9 +32,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
-                            $valida = new Valida($form_descricao, 'Descrição');
+                        
+                            $valida = new Valida($form_bairro, 'Bairro');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
+
+
                         }
 
                         if (!$erro && isset($add)) {
@@ -44,7 +47,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->insertTupla(
                                 'bairro',
                                 array(
-                                    trim($form_descricao),
+                                    trim($form_bairro),
                                     $form_habilitado,
                                     $_login,
                                     $_ip,
@@ -73,10 +76,20 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 <div class="form-row">
 
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_descricao"><span class="text-danger">*</span> Bairro</label>
-                        <input type="text" class="form-control" name="form_descricao" id="form_descricao" maxlength="100" value="<? if ($erro) echo $form_descricao; ?>">
+
+                <div class="form-group col-12 col-md-6">
+                        <label for="form_bairro"><span class="text-danger">*</span> Bairro</label>
+                        <select name="form_bairro" id="form_bairro" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_bairro : "";
+                            include("../includes/inc_select_bairro.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o bairro.
+                        </div>
                     </div>
+
+                    
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>

@@ -39,7 +39,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_descricao">Descrição do Bairro</label>
+                        <label for="form_descricao">Descrição Bairro</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if ($erro) echo $form_descricao; ?>">
                     </div>
 
