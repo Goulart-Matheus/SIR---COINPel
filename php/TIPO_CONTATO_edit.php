@@ -20,7 +20,9 @@ if ($print){
     unset($_GET['print']);
     $report_cabecalho =array(
         array('Código',        10, 0),
-        array('Descrição',     50, 1));
+        array('Descrição',     50, 1),
+        array('Habilitado'    , 10, 2));
+
         
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -94,21 +96,26 @@ $n =$paging->query->rows();
                         
                     </tr>
                     <?
-                    while ($n--) {
-                        $paging->query->proximo();
-                        $js_onclick ="OnClick=javascript:window.location=('TIPO_CONTRATO_edit.php?id_tipo_contrato=" . $paging->query->record[0] . "')";
+                   while ($n--) {
 
-                        echo "<td valign='top'><input type=checkbox class='form-check-value' name='id_proprietario[]' value=" . $paging->query->record[0] ."></td>";
-                        echo "<td valign='top' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                        echo "<td valign='top' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                                                
-                        echo "</tr>";
-                    }
+                    $paging->query->proximo();
+
+                    $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
+                    $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[1] . "')";
+
+                    echo "<tr>";
+
+                    echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
+                    echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                    echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+
+                    echo "</tr>";
+                }
                     ?>
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="9">
                             <div class="text-center pt-2">
                                 <? echo $paging->viewTableSlice(); ?>
                             </div>

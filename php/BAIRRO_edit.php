@@ -87,9 +87,7 @@ $query->result($query->linha);
                                                                                                                     else echo trim($query->record[1]); ?>">
                     </div>
 
-                </div>
 
-                <div class="form-row">
 
                     <div class="form-group col-6 col-md-6">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
@@ -99,7 +97,11 @@ $query->result($query->linha);
                             <option value="N" <? if ($erro && $form_habilitado == "N") echo 'selected';                        ?>>Não</option>
                         </select>
                     </div>
+
+
                 </div>
+
+                               
             </div>
 
             <div class="card-footer border-top-0 bg-transparent">

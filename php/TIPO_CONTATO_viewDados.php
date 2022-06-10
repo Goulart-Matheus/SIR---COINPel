@@ -3,7 +3,7 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_tipo_contato , descricao , mascara
+$query->exec("SELECT id_tipo_contato , descricao , habilitado
                     FROM tipo_contato
                    WHERE descricao ilike '%" . $form_descricao . "%'
                    
@@ -25,9 +25,9 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'   ,      10, 0),
-        array('Descricao',     190, 1),
-        array('Mascara'  ,     190, 1)
+        array('Código'        ,     10, 0),
+        array('Descricao'     ,     190, 1),
+        array('Habilitado'    ,     10, 2)
 
     );
 
@@ -50,7 +50,7 @@ if ($print) {
 
             for ($c = 0; $c < sizeof($id_tipo_contato); $c++) {
 
-                $where = array(0 => array('id_tipo_contato', $id_tipo_contato[$c]));
+                $where = array(0 => array('id_tipo_contato', $id_tipo_tipo_contato[$c]));
                 $querydel->deleteTupla('tipo_contato', $where);
             }
 
@@ -149,7 +149,7 @@ $n = $paging->query->rows();
 
                             <td width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição '); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Documento '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Habilitado '); ?> </td>
                         </tr>
 
                         <?
@@ -159,12 +159,14 @@ $n = $paging->query->rows();
                             $paging->query->proximo();
 
                             $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
+                            $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[1] . "')";
 
                             echo "<tr>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+
                             echo "</tr>";
                         }
 

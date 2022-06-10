@@ -82,7 +82,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_mascara"><span class="text-danger">*</span> Documento</label>
-                        <input type="text"class="form-control form_mascara"name="form_mascara"id="form_mascara"maxlength="20"value="<? if ($erro) echo $form_mascara; ?>">
+                        <input type="text" class="form-control form_mascara" name="form_mascara" id="form_mascara" maxlength="20" value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                         <div class="invalid-feedback">
                             Preencha o campo documento.
@@ -101,7 +101,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
 
-                    
+
                 </div>
 
             </div>
@@ -123,20 +123,46 @@ $tab->printTab($_SERVER['PHP_SELF']);
 include_once('../includes/dashboard/footer.php');
 ?>
 
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.mask.js"></script>
+
+
 
 <script type="text/javascript">
-    
+    //  $('#form_mascara').mask('000.000.000-00', {
+    // reverse: false}).on("keyup", function(e)) 
+    // {
+
+    // if ($(this).val().length == 11) {
+    // $(this).mask('000.000.000-00');
+    //} else {
+
+    // if ($(this).val().length == 10) {
+    // $(this).mask('0000000000');
+    // }
+    //}
+    //}
+
+    //$("#cpf").mask("000.000.000-00");
+    //$("#cpf").mask("000.000.000-00");
+</script>
+
+<script type="text/javascript">
+
+    $("#form_mascara").mask("0000000000");
     $('#form_mascara').mask('000.000.000-00', {
         reverse: false
     }).on("keyup", function(e) {
 
-        if ($(this).val().length == 11) {
+        if ($(this).val().length == 11
+        ) {
             $(this).mask('000.000.000-00');
-        } else {
+        } if ($(this).val().length == 13
+        ) {
+            $(this).mask('0000000000');  
+        }else {
             $(this).mask('0000000000');
         }
 
     });
 </script>
-
-

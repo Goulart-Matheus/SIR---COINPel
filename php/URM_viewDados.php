@@ -35,11 +35,11 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código',      10, 0),
-        array('valor',     190, 1),
-        array('ativo',     190, 1),
-        array('Mes_referencia',     190, 1),
-        array('Ano_referencia',     190, 1)
+        array('Código',              10, 0),
+        array('valor',              190, 1),
+        array('ativo',              190, 2),
+        array('Mes_referencia',     190, 3),
+        array('Ano_referencia',     190, 4)
     );
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -180,10 +180,10 @@ $n = $paging->query->rows();
                             echo "<tr>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' valor='id_urm[]' value=" . $paging->query->record[0] . "></td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
 
                             echo "</tr>";
                         }
