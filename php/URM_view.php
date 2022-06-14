@@ -40,13 +40,13 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_valor"><span class="text-danger">*</span> Valor</label>
+                        <label for="form_valor"></span> Valor</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?>">
                     </div>
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_ativo"><span class="text-danger">*</span> Ativo</label>
+                        <label for="form_ativo"></span> Ativo</label>
                         <select class="form-control" name="form_ativo" id="form_ativo">
                             <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected';
                                                 else echo 'selected'; ?>>Sim</option>
@@ -57,12 +57,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_mes_referencia"><span class="text-danger">*</span> Mês Referencia</label>
+                        <label for="form_mes_referencia"></span> Mês Referencia</label>
                         <input type="text" class="form-control" name="form_mes_referencia" id="form_mes_referencia" maxlength="100" value="<? if ($erro) echo $form_mes_referencia; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_ano_referencia"><span class="text-danger">*</span> Ano Referencia</label>
+                        <label for="form_ano_referencia"></span> Ano Referencia</label>
                         <input type="text" class="form-control" name="form_ano_referencia" id="form_ano_referencia" maxlength="100" value="<? if ($erro) echo $form_ano_referencia; ?>">
                     </div>
 

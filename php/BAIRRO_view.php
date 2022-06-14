@@ -38,10 +38,19 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 <div class="form-row">
 
+                  
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_descricao">Descrição Bairro</label>
-                        <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if ($erro) echo $form_descricao; ?>">
+                        <label for="form_bairro"></span> Descrição Bairro</label>
+                        <select name="form_bairro" id="form_bairro" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_bairro : "";
+                            include("../includes/inc_select_bairro.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o bairro.
+                        </div>
                     </div>
+
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>

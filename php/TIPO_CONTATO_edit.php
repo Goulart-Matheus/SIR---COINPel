@@ -115,7 +115,7 @@ $n =$paging->query->rows();
                     </tbody>
                     <tfoot>
                     <tr>
-                        <td colspan="9">
+                        <td colspan="11">
                             <div class="text-center pt-2">
                                 <? echo $paging->viewTableSlice(); ?>
                             </div>

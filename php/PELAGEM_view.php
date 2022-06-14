@@ -44,7 +44,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
+                        <label for="form_nome"></span> Habilitado</label>
                         <select class="form-control" name="form_habilitado" id="form_habilitado">
                             <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected';
                                                 else echo 'selected'; ?>>Sim</option>
