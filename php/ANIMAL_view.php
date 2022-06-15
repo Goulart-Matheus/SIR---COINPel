@@ -35,69 +35,74 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
             <div class="card-body pt-0">
 
-                <div class="form-row">
+                <div class="card-body pt-0">
 
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_numero_ficha"></span> Nunero Ficha</label>
-                        <input type="text" class="form-control" name="form_numero_ficha" id="form_numero_ficha" maxlength="100" value="<? if ($erro) echo $form_numero_ficha; ?>">
-                    </div>
+                    <div class="form-row">
 
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_numero_chip"></span> Nunero Chip</label>
-                        <input type="text" class="form-control" name="form_numero_chip" id="form_numero_chip" maxlength="100" value="<? if ($erro) echo $form_numero_chip; ?>">
-                    </div>
-
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_sexo">Sexo</label>
-                        <select name="form_sexo" required id="form_sexo" class="form-control">
-                            <option value="" selected>Selecione o sexo:</option>
-                            <option value="M">Macho</option>
-                            <option value="F">Fêmia</option>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha o sexo do animal.
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_numero_ficha"></span> Nunero Ficha</label>
+                            <input type="text" class="form-control" name="form_numero_ficha" id="form_numero_ficha" maxlength="100" value="<? if ($erro) echo $form_numero_ficha; ?>">
                         </div>
+
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_numero_chip"></span> Nunero Chip</label>
+                            <input type="text" class="form-control" name="form_numero_chip" id="form_numero_chip" maxlength="100" value="<? if ($erro) echo $form_numero_chip; ?>">
+                        </div>
+
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_sexo"></span> Sexo</label>
+                            <select name="form_sexo" required id="form_sexo" class="form-control">
+                                <option value="">Selecione o sexo:</option>
+                                <option value="M">Macho</option>
+                                <option value="F">Fêmea</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha o sexo do animal.
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-12 col-md-6">
+                            <label for="form_pelagem"></span>Pelagem</label>
+                            <select name="form_pelagem" id="form_pelagem" class="form-control" required>
+                                <?
+                                $form_elemento = $erro ? $form_pelagem : "";
+                                include("../includes/inc_select_pelagem.php"); ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha a Pelagem
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-12 col-md-6">
+                            <label for="form_especie"></span>Espécie</label>
+                            <select name="form_especie" id="form_especie" class="form-control" required>
+                                <?
+                                $form_elemento = $erro ? $form_especie : "";
+                                include("../includes/inc_select_especie.php"); ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha Especie
+                            </div>
+                        </div>
+
                     </div>
 
+                </div>
 
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_pelagem">Pelagem</label>
-                        <select name="form_pelagem" id="form_pelagem" class="form-control">
-                            <? include("../includes/inc_select_pelagem.php"); ?>
-                        </select>
+                <div class="card-footer border-top-0 bg-transparent">
+
+                    <div class="text-center">
+                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
+                        <input class="btn btn-info" type="submit" name="add" value="Buscar">
                     </div>
-
-
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_especie">Especie</label>
-                        <select name="form_especie" id="form_especie" class="form-control">
-                            <? include("../includes/inc_select_especie.php"); ?>
-                        </select>
-                    </div>
-
-
-                    <div class="form-group col-12">
-                        <label for="form_observacao">Observação</label>
-                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($erro) echo $form_observacao; ?>">
-                    </div>
-
 
                 </div>
 
             </div>
-
-            <div class="card-footer border-top-0 bg-transparent">
-
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Buscar">
-                </div>
-
-            </div>
-
-        </div>
 
     </form>
 

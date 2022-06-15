@@ -126,27 +126,6 @@ include_once('../includes/dashboard/footer.php');
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.mask.js"></script>
 
-
-
-<script type="text/javascript">
-    //  $('#form_mascara').mask('000.000.000-00', {
-    // reverse: false}).on("keyup", function(e)) 
-    // {
-
-    // if ($(this).val().length == 11) {
-    // $(this).mask('000.000.000-00');
-    //} else {
-
-    // if ($(this).val().length == 10) {
-    // $(this).mask('0000000000');
-    // }
-    //}
-    //}
-
-    //$("#cpf").mask("000.000.000-00");
-    //$("#cpf").mask("000.000.000-00");
-</script>
-
 <script type="text/javascript">
 
     $("#form_mascara").mask("0000000000");
