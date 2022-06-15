@@ -52,7 +52,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_id_pelagem, 'id_pelagem');
-                            $valida->TamMinimo(1);
+                            $valida->TamMinimo(1 );
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_id_especie, 'id_especie');
@@ -69,10 +69,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 array(
                                     trim($form_numero_ficha),
                                     $form_numero_chip,
-                                    $form_sexo,
-                                    $form_observacao,
                                     $form_id_pelagem,
                                     $form_id_especie,
+                                    $form_sexo,
+                                    $form_observacao,
                                     $_login,
                                     $_ip,
                                     $_data,
@@ -112,19 +112,20 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
 
-
                     <div class="form-group col-12 col-md-4">
                         <label for="form_sexo"><span class="text-danger">*</span> Sexo</label>
                         <select name="form_sexo" required id="form_sexo" class="form-control">
                             <option value="" selected>Selecione o sexo:</option>
                             <option value="M">Macho</option>
-                            <option value="F">Femia</option>
+                            <option value="F">Fêmea</option>
                         </select>
                         <div class="invalid-feedback">
                             Escolha o sexo do animal.
                         </div>
                     </div>
 
+
+                    
                     <div class="form-group col-12 col-md-6">
                         <label for="form_pelagem"><span class="text-danger">*</span>Pelagem</label>
                         <select name="form_pelagem" id="form_pelagem" class="form-control" required>
@@ -136,7 +137,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             Escolha a Pelagem
                         </div>
                     </div>
-
 
 
                     <div class="form-group col-12 col-md-6">
