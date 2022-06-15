@@ -38,7 +38,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_mascara, 'CPF');
-                            $valida->TamMinimo(1);
+                            $valida->TamMinimo(11);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_rg, 'RG');
