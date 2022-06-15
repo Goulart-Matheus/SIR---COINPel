@@ -45,7 +45,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 'tipo_contato',
                                 array(
                                     trim($form_descricao),
-                                    $form_mascara,
+                                    $form_mascara, 
                                     $form_habilitado,
                                     $_login,
                                     $_ip,

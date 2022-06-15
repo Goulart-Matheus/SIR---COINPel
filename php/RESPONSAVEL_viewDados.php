@@ -4,8 +4,8 @@
     include('../includes/variaveisAmbiente.php');
 
         $where  = "";
-        if($form_cpf!=""){
-            $where.=" and r.cpf ilike '{$form_cpf}' ";
+        if($form_mascara!=""){
+            $where.=" and r.cpf ilike '{$form_mascara}' ";
         }
         elseif($form_rg!=""){
             $where.= " and r.rg ilike '{$form_rg}'";

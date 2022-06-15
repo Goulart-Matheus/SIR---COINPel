@@ -47,7 +47,7 @@ $query->result($query->linha);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_cpf, 'CPF');
+                            $valida = new Valida($form_mascara, 'CPF');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
@@ -71,7 +71,7 @@ $query->result($query->linha);
                             $itens = array(
                                 $id_responsavel,
                                 trim($form_responsavel),
-                                    $form_cpf,
+                                    $form_mascara, //CPF
                                     $form_rg,
                                     $form_dt_nascimento,
                                     $form_endereco,
@@ -111,8 +111,8 @@ $query->result($query->linha);
                 </div> 
                 <div class="form-row">
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_cpf"><span class="text-danger">*</span> CPF :</label>
-                        <input required autocomplete="off" type="text" class="form-control" name="form_cpf" id="form_cpf" maxlength="100" value="<? if ($edit) echo trim($form_cpf);
+                    <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
+                    <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($edit) echo trim($form_mascara);
                                                                                                                                                     else echo trim($query->record[2]); ?>">
                     </div>
                     <div class="form-group col-12 col-md-4">
@@ -172,3 +172,18 @@ $query->result($query->linha);
 <?
 include_once('../includes/dashboard/footer.php');
 ?>
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.mask.js"></script>
+<script type="text/javascript">
+
+    $('#form_mascara').mask('000.000.000-00', {
+        reverse: false
+    }).on("keyup", function(e) {
+
+        if ($(this).val().length == 11
+        ) {
+            $(this).mask('000.000.000-00');
+        } 
+
+    });
+</script>

@@ -54,9 +54,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 <div class="form-row">
 
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_cpf">CPF: </label>
-                        <input type="text" class="form-control" name="form_cpf" id="form_cpf" value="<? if ($erro) echo $form_cpf; ?>">
+                <div class="form-group col-12 col-md-6">
+                        <label for="form_mascara">CPF: </label>
+                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
+                        <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                     </div>
                     <div class="form-group col-12 col-md-6">
                         <label for="form_rg">RG: </label>
@@ -86,3 +87,21 @@ $tab->printTab($_SERVER['PHP_SELF']);
 <?
 include_once('../includes/dashboard/footer.php');
 ?>
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.mask.js"></script>
+<script type="text/javascript">
+
+    $('#form_mascara').mask('000.000.000-00', {
+        reverse: false
+    }).on("keyup", function(e) {
+
+        if ($(this).val().length == 11
+        ) {                                   // IMPORTANTE NÃO ESQUECER
+            $(this).mask('000.000.000-00');   // verificar mais tarde a escolha tem que ser dinamica
+        } 
+
+    });
+</script>
+
+
+
