@@ -3,7 +3,8 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_motivo , descricao
+
+$query->exec("SELECT id_motivo , descricao , habilitado
                     FROM motivo
                    WHERE descricao ilike '%" . $form_descricao . "%'
                    
@@ -25,8 +26,10 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código',     10, 0),
-        array('Descricao',     190, 1)
+        array('Código'        ,      10, 0),
+        array('Descricao'     ,     190, 1),
+        array('Habilitado'    ,      10, 3)
+
     );
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -146,8 +149,8 @@ $n = $paging->query->rows();
                         <tr>
 
                             <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição'); ?> </td>
-
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição Motivo'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Habilitado'); ?> </td>
                         </tr>
 
                         <?
@@ -157,11 +160,13 @@ $n = $paging->query->rows();
                             $paging->query->proximo();
 
                             $js_onclick = "OnClick=javascript:window.location=('MOTIVO_edit.php?id_motivo=" . $paging->query->record[0] . "')";
-
+                           
                             echo "<tr>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_motivo[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                            
 
                             echo "</tr>";
                         }
@@ -172,27 +177,27 @@ $n = $paging->query->rows();
 
                     <tfoot>
 
-                        <tr>
-                            <td colspan="2">
+                            <tr>
+                                <td colspan="7">
 
-                                <div class="text-center pt-2">
-                                    <? echo $paging->viewTableSlice(); ?>
-                                </div>
-
-                                <? if ($paging->query->rows()) { ?>
-
-                                    <div class="text-right pt-2">
-                                        <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
-                                        <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
+                                    <div class="text-center pt-2">
+                                        <? echo $paging->viewTableSlice(); ?>
                                     </div>
 
-                                <? } ?>
+                                    <? if($paging->query->rows()) { ?>
 
-                            </td>
+                                        <div class="text-right pt-2">
+                                            <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
+                                            <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
+                                        </div>
 
-                        </tr>
+                                    <? } ?>
 
-                    </tfoot>
+                                </td>
+
+                            </tr>
+
+                        </tfoot>
 
                 </table>
 

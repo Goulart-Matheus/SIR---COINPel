@@ -3,7 +3,8 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_tipo_contato , descricao , habilitado
+
+$query->exec("SELECT id_tipo_contato , descricao , mascara , habilitado
                     FROM tipo_contato
                    WHERE descricao ilike '%" . $form_descricao . "%'
                    
@@ -25,9 +26,10 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'        ,     10, 0),
+        array('Código'        ,      10, 0),
         array('Descricao'     ,     190, 1),
-        array('Habilitado'    ,     10, 2)
+        array('Documento'     ,      13, 2),
+        array('Habilitado'    ,      10, 3)
 
     );
 
@@ -50,7 +52,7 @@ if ($print) {
 
             for ($c = 0; $c < sizeof($id_tipo_contato); $c++) {
 
-                $where = array(0 => array('id_tipo_contato', $id_tipo_tipo_contato[$c]));
+                $where = array(0 => array('id_tipo_contato', $id_tipo_contato[$c]));
                 $querydel->deleteTupla('tipo_contato', $where);
             }
 
@@ -148,8 +150,9 @@ $n = $paging->query->rows();
                         <tr>
 
                             <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição '); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Habilitado '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição Contato'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Documento'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Habilitado'); ?> </td>
                         </tr>
 
                         <?
@@ -159,13 +162,13 @@ $n = $paging->query->rows();
                             $paging->query->proximo();
 
                             $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
-                            $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[1] . "')";
-
+                           
                             echo "<tr>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
 
                             echo "</tr>";
                         }
@@ -176,27 +179,27 @@ $n = $paging->query->rows();
 
                     <tfoot>
 
-                        <tr>
-                            <td colspan="2">
+                            <tr>
+                                <td colspan="7">
 
-                                <div class="text-center pt-2">
-                                    <? echo $paging->viewTableSlice(); ?>
-                                </div>
-
-                                <? if ($paging->query->rows()) { ?>
-
-                                    <div class="text-right pt-2">
-                                        <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
-                                        <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
+                                    <div class="text-center pt-2">
+                                        <? echo $paging->viewTableSlice(); ?>
                                     </div>
 
-                                <? } ?>
+                                    <? if($paging->query->rows()) { ?>
 
-                            </td>
+                                        <div class="text-right pt-2">
+                                            <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
+                                            <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
+                                        </div>
 
-                        </tr>
+                                    <? } ?>
 
-                    </tfoot>
+                                </td>
+
+                            </tr>
+
+                        </tfoot>
 
                 </table>
 

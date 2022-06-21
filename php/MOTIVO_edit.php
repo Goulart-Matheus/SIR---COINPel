@@ -12,7 +12,10 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$query->exec("SELECT id_motivo , descricao  FROM motivo WHERE id_motivo = " . $id_motivo);
+$query->exec("SELECT id_motivo , descricao  
+
+FROM motivo WHERE id_motivo = " . $id_motivo);
+
 $query->result($query->linha);
 
 ?>
@@ -84,12 +87,12 @@ $query->result($query->linha);
                     <div class="form-group col-12 col-md-6">
                         <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if ($edit) echo trim($form_descricao);
-                                                                                                                    else echo trim($query->record[1]); ?>">
+                        else echo trim($query->record[1]); ?>">
                     </div>
 
 
                     <div class="form-group col-12 col-md-6">
-                    <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
+                    <label for="form_habilitado"></span> Habilitado</label>
                     <select class="form-control" name="form_habilitado">
                         <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected';
                                             else echo 'selected'; ?>>Sim</option>

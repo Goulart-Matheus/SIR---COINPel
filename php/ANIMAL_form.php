@@ -127,8 +127,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_pelagem"><span class="text-danger">*</span>Pelagem</label>
-                        <select name="form_pelagem" id="form_pelagem" class="form-control" required>
+                        <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
+                        <select name="form_id_pelagem" id="form_id_pelagem" class="form-control" required>
                             <?
                             $form_elemento = $erro ? $form_pelagem : "";
                             include("../includes/inc_select_pelagem.php"); ?>
@@ -140,8 +140,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_especie"><span class="text-danger">*</span>Espécie</label>
-                        <select name="form_especie" id="form_especie" class="form-control" required>
+                        <label for="form_id_especie"><span class="text-danger">*</span>Espécie</label>
+                        <select name="form_id_especie" id="form_id_especie" class="form-control" required>
                             <?
                             $form_elemento = $erro ? $form_especie : "";
                             include("../includes/inc_select_especie.php"); ?>

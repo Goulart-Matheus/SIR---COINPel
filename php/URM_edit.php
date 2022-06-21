@@ -55,6 +55,11 @@ $query->result($query->linha);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
+
+                            $valida = new Valida($form_ativo, 'Ativo');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
                         }
 
                         if (!$erro && isset($edit)) {
@@ -64,9 +69,9 @@ $query->result($query->linha);
                             $itens = array(
                                 $id_urm,
                                 trim($form_valor),
-                                $_ativo,
-                                $_mes_referencia,
-                                $_ano_referencia,
+                                $form_ativo,
+                                $mes_referencia,
+                                $ano_referencia,
                                 $_login,
                                 $_ip,
                                 $_data,
@@ -96,13 +101,13 @@ $query->result($query->linha);
 
 
                     <div class="form-group col-6 col-md-6">
-                        <label for="form_valor"><span class="text-danger">*</span> Valor</label>
+                        <label for="form_valor"></span> Valor</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" value="<? 
                         if ($edit) echo trim($form_valor);else echo trim($query->record[1]); ?>">
                     </div>
 
                     <div class="form-group col-6 col-md-6">
-                        <label for="form_ativo"><span class="text-danger">*</span> Ativo</label>
+                        <label for="form_ativo"></span> Ativo</label>
                         <select class="form-control" name="form_ativo">
                             <option value="S" <? if ($erro && $form_ativo == "S") echo 'selected';
                                                 else echo 'selected'; ?>>Sim</option>
@@ -111,22 +116,20 @@ $query->result($query->linha);
                     </div>
 
                     <div class="form-group col-6 col-md-6">
-                        <label for="form_mes_referencia"><span class="text-danger">*</span> Mes Referencia</label>
+                        <label for="form_mes_referencia"></span> Mes Referencia</label>
                         <input type="text" class="form-control" name="form_mes_referencia" id="form_mes_referencia" value="<? 
                         if ($edit) echo trim($form_valor);else echo trim($query->record[1]); ?>">
                     </div>
 
                     <div class="form-group col-6 col-md-6">
-                        <label for="form_ano_referencia"><span class="text-danger">*</span> Ano Referencia</label>
+                        <label for="form_ano_referencia"></span> Ano Referencia</label>
                         <input type="text" class="form-control" name="form_ano_referencia" id="form_ano_referencia" value="<? 
                         if ($edit) echo trim($form_valor);else echo trim($query->record[1]); ?>">
                     </div>
 
-
-
                 </div>
 
-                
+              
             </div>
 
             <div class="card-footer border-top-0 bg-transparent">

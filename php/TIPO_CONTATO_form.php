@@ -126,9 +126,10 @@ include_once('../includes/dashboard/footer.php');
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.mask.js"></script>
 
+
 <script type="text/javascript">
 
-    $("#form_mascara").mask("0000000000");
+      $("#form_mascara").mask("0000000000");
     $('#form_mascara').mask('000.000.000-00', {
         reverse: false
     }).on("keyup", function(e) {
@@ -144,4 +145,4 @@ include_once('../includes/dashboard/footer.php');
         }
 
     });
-</script>
+</script>-->
