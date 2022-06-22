@@ -50,7 +50,7 @@ if ($print) {
 
             for ($c = 0; $c < sizeof($id_tipo_contato); $c++) {
 
-                $where = array(0 => array('id_tipo_contato', $id_tipo_tipo_contato[$c]));
+                $where = array(0 => array('id_tipo_contato', $id_tipo_contato[$c]));
                 $querydel->deleteTupla('tipo_contato', $where);
             }
 
@@ -177,7 +177,7 @@ $n = $paging->query->rows();
                     <tfoot>
 
                         <tr>
-                            <td colspan="2">
+                            <td colspan="4">
 
                                 <div class="text-center pt-2">
                                     <? echo $paging->viewTableSlice(); ?>

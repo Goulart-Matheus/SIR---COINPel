@@ -10,18 +10,39 @@
         elseif($form_rg!=""){
             $where.= " and r.rg ilike '{$form_rg}'";
         }
+       
+         
 
-    $query->exec("      SELECT 
-                                r.id_resposnavel, r.nome , r.cpf , r.rg , r.dt_nascimento ,
-                                r.endereco,  b.descricao 
-                        FROM 
-                                responsavel r , bairro b
-                        WHERE 
-                                r.nome ilike '%" . $form_responsavel . "%'
-                        and     
-                                b.id_bairro = r.id_bairro
-                    
-                    ".$where);
+
+    $query->exec("SELECT
+                        r.id_responsavel,
+                        r.nome,
+                        r.cpf,
+                        r.rg,
+                        r.dt_nascimento,
+                        r.endereco,
+                        b.descricao,
+                        rc.valor_contato,
+                        tc.habilitado
+                FROM
+                        responsavel r,
+                        bairro b,
+                        tipo_contato tc,
+                        responsavel_contato rc
+                WHERE
+                    r.nome ilike '%" . $form_responsavel . "%'
+                and
+                    b.descricao ilike '%".$form_bairro."%'    
+                and 
+                    b.id_bairro =r.id_bairro 
+                and
+                    rc.id_responsavel = r.id_responsavel
+                and 
+                    rc.id_tipo_contato = tc.id_tipo_contato                
+
+                ".$where
+      
+    );
 
     $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -165,7 +186,9 @@
                                 <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'RG: '); ?> </td>
                                 <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Data de nascimento: '); ?> </td>
                                 <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Endereço: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Bairro: '); ?> </td>
+                                <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Bairro: '); ?> </td>
+                                <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Contato '); ?> </td>
+                                <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Habilitado: '); ?> </td>
 
                             </tr>
 
@@ -186,6 +209,8 @@
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
                                 echo "</tr>";
                             }
 
@@ -196,7 +221,7 @@
                         <tfoot>
 
                             <tr>
-                                <td colspan="7">
+                                <td colspan="9">
 
                                     <div class="text-center pt-2">
                                         <? echo $paging->viewTableSlice(); ?>

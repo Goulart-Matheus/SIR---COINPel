@@ -26,7 +26,7 @@ if (isset($nro_ficha)) { //Cadastra Animal
 
     ));
 
-    $id_escola = $query->last_insert[0];
+    $id_animal = $query->last_insert[0];
     $query->commitNotMessage();
 
     $resposta['info'] = 1;

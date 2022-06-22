@@ -29,6 +29,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     <div class="col-12 col-sm-4 offset-sm-4">
 
                         <?
+                        
+                       
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
@@ -49,6 +51,16 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
+                            $valida = new Valida($form_endereco, 'Contato');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
+                            $valida = new Valida($form_principal, 'Tipo');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
+
+
                         }
 
                         if (!$erro && isset($add)) {
@@ -56,7 +68,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->begin();
 
                             $query->insertTupla(
-                                'Responsavel',
+                                'responsavel',
                                 array(
                                     trim($form_responsavel),
                                     $form_mascara, // CPF
@@ -70,10 +82,38 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                     $_hora,
                                     
                                 )
+                                );
+                            
+                            $id_responsavel = $query->last_insert[0];
+                            
+                                                      
+
+                            $query->insertTupla(
+                                'responsavel_contato',
+                                array(
+                                    $id_responsavel,
+                                    $form_tipo_contato,
+                                    trim($form_tipo_mascara),
+                                    $form_principal, 
+                                    $_login,
+                                    $_ip,
+                                    $_data,
+                                    $_hora,
+                                    
+                                )
                             );
 
+
+
+
+
+                            
                             $query->commit();
+
+                                   
                         }
+                        
+                       
 
                         if ($erro)
 
@@ -91,40 +131,31 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 <div class="form-row">
                 
-                    <div class="form-group col-12 ">
+                    <div class="form-group col-6 ">
                         <label for="form_responsavel"><span class="text-danger">*</span> Nome :</label>
                         <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100" value="<? if ($erro) echo $form_responsavel; ?>">
                     </div>
-                    
-            
-                </div>
-
-                <div class="form-row">
-
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
                         <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                     </div>
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_rg"><span class="text-danger">*</span> RG :</label>
                         <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($erro) echo $form_rg; ?>">
-                    </div>
-                    <div class="form-group col-12 col-md-4">
+                    </div>    
+                </div>
+
+                <div class="form-row">                                        
+                    <div class="form-group col-12 col-md-2">
                         <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
                         <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="100" value="<? if ($erro) echo $form_dt_nascimento; ?>">
                     </div>
-                
-                </div>
-
-
-
-                <div class="form-row">
-                    <div class="form-group col-12 col-md-8">
+                    
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
                         <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="100" value="<? if ($erro) echo $form_endereco; ?>">
                     </div>
-
                     <div class="form-group col-12 col-md-4">
                         <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
                         <select name="form_bairro" id="form_bairro" class="form-control" required>
@@ -136,133 +167,51 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             Escolha o bairro.
                         </div>
                         </div>
+                   
+                </div>
 
+                
+
+                <div class="form-row">
+                
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_tipo_contato"><span class="text-danger">*</span> Tipo contato :</label>
+                        <select name="form_tipo_contato" id="form_tipo_contato" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_bairro : "";
+                            include("../includes/inc_select_tipo_contato.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o tipo de contato.
+                        </div>
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_tipo_mascara"><span class="text-danger">*</span> Contato :</label>
+                        <input type="text" class="form-control" name="form_tipo_mascara" id="form_tipo_mascara" maxlength="100" value="<? if ($erro) echo $form_tipo_mascara; ?>">
+                    </div>
+                    
+                    <div class="form-group col-12 col-md-2">
+                            <label for="form_principal"><span class="text-danger">*</span> Contato principal:</label>
+                            <select name="form_principal" required id="form_principal" class="form-control">
+                                <option value="" selected>Principal</option>
+                                <option value="S">Sim </option>
+                                <option value="N">Não</option>
+                            </select>
+                                                
+                        
                     </div>
 
                 </div>
+                
                
-               
+                               
                 <!-- Realizando de testes ainda não funiona a modal-->
-                <!--inicio modal -->
                 
                 
-                <div class="form-row">                
-                
-                <div class="form-group col-12 ">&nbsp;&nbsp;
-                 <label for="form_animal col-12"><span class="text-danger" >*</span>  Animais :&nbsp;</label>   
+                 <!--inicio modal -->
 
-                    <button type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#modal_animal_cadastro">
-                             <i class="fas fa-plus"></i>
-                        </button>
-
-
-                        <div class="modal animal" id="modal_animal_cadastro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true">
-
-                            <div class="modal-dialog modal-xl">
-
-                                <div class="modal-content">
-
-                                    <form action="" method="post">
-
-                                        <div class="modal-header bg-gradient-info-purple">
-                                            <h5 class="modal-title"><i class="fas fa-project-diagram"></i> Adicionar Animal:</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                        </div>
-
-                                        <div class="modal-body">
-
-                                            <div class="form-group col-12">
-
-                                            <div class="form-row">
-
-                                                <div class="form-group col-12 col-md-6 ">
-                                                    <label for="form_nro_ficha"><span class="text-danger">*</span> Numero da ficha:</label>
-                                                    <input type="text" name="form_nro_ficha" id="form_nro_ficha" class="form-control">
-                                                </div>
-
-                                                <div class="form-group col-12 col-md-6 ">
-                                                    <label for="form_nro_chip"><span class="text-danger">*</span> Numero do chip:</label>
-                                                    <input type="text" name="form_nro_chip" id="form_nro_chip" class="form-control">
-                                                </div>
-
-                                            </div>
-                                            <div class="form-row">
-                    
-                                                <div class="form-group col-12 col-md-6">
-                                                    <label for="form_tipo_pelagem"><span class="text-danger">*</span> Pelagem:</label>
-                                                    <select name="form_tipo_pelagem" id="form_tipo_pelagem" class="form-control">
-                                                        <?
-                                                            $form_elemento = $erro ? $form_tipo_pelagem : "";
-                                                            include("../includes/inc_select_pelagem.php");
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                        
-                                                <div class="form-group col-12 col-md-6">
-                                                    <label for="form_tipo_especie"><span class="text-danger">*</span> Espécie:</label>
-                                                    <select name="form_tipo_especie" id="form_tipo_especie" class="form-control">
-                                                        <?
-                                                            $form_elemento = $erro ? $form_tipo_especie : "";
-                                                            include("../includes/inc_select_especie.php");
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </div>        
-
-
-                                            <div class="form-row">
-                    
-                                                    <div class="form-group col-12 col-md-6">
-                                                        <label for="form_sexo"><span class="text-danger">*</span> Sexo</label>
-                                                        <select name="form_sexo" required id="form_sexo" class="form-control">
-                                                            <option value="" selected>Selecione o sexo:</option>
-                                                            <option value="M">Macho</option>
-                                                            <option value="F">Fêmea</option>
-                                                        </select>
-                                                        <div class="invalid-feedback">
-                                                            Escolha o sexo do animal.
-                                                        </div>                    
-
-                                                    </div>
-            
-                                            </div>                  
-
-                                            </div>
-
-                                        </div>
-
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                                <button type="submit" name="add_animal_modal" class="btn btn-info">
-                                                    <i class="fas fa-check"></i>&nbsp;
-                                                        Salvar
-                                                </button>
-                                            </div>
-
-                                    </form>
-
-                                    </div>
-
-                            </div>
-
-                        </div>
-                        <button type="submit" name="add_animal_modal" class="btn btn-info">
-                            <i class="fas fa-check"></i>&nbsp;
-                                Salvar
-                        </button>
-                </div>
-
-                                                
-
-                
-                
-                <!--final  modal -->
-
-
-            </div>   
-
+               
+            <!--final  modal -->
             <div class="card-footer border-top-0 bg-transparent">
                 <div class="text-center">
                     <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
@@ -293,42 +242,4 @@ include_once('../includes/dashboard/footer.php');
         } 
 
     });
-</script>
-<script>
-$("#modal_animal_cadastro").on('click', function() {
-
-var nro_ficha   = $("#nro_ficha").val();
-var nro_chip    = $("#nro_chip").val();
-var id_pelagem  = $("#id_pelagem").val();
-var id_especie  = $("#id_especie").val();
-var sexo        = $("#sexo").val();
-
-$.ajax({
-    type: "post",
-    url: "../includes/ajax_add_animal.php",
-    data: {
-        "nro_ficha" : nro_ficha,
-        "nro_chip"  : nro_chip,
-        "id_pelagem": id_pelagem,
-        "id_especie": id_especie,
-        "sexo"      : sexo
-        },
-    dataType: "json",
-    beforeSend: function() {
-
-        $("#modal_animal_cadastro").modal('hide');
-    },
-    success: function(response) {
-
-        var option = "<option value='" + response['id_animal'] + "' selected>" + response['nro_ficha'] + "</option>";
-
-        $("#form_animal").append(option)
-
-    },
-    error: function(response) {
-
-    }
-});
-
-});
 </script>

@@ -38,14 +38,19 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 <div class="form-row">
 
-                    <div class="form-group col-12 ">
+                    <div class="form-group col-12 col-md-6 ">
                         <label for="form_responsavel">Nome: </label>
                         <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" value="<? if ($erro) echo $form_responsavel; ?>">
                     </div>
-
-                   
-
-
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_mascara">CPF: </label>
+                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
+                        <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
+                    </div>
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_rg">RG: </label>
+                        <input type="text" class="form-control" name="form_rg" id="form_rg" value="<? if ($erro) echo $form_rg; ?>">
+                    </div>                
 
                 </div>
 
@@ -53,17 +58,20 @@ $tab->printTab($_SERVER['PHP_SELF']);
             <div class="card-body pt-0">
 
                 <div class="form-row">
-
-                <div class="form-group col-12 col-md-6">
-                        <label for="form_mascara">CPF: </label>
-                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
-                        <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
-                    </div>
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_rg">RG: </label>
-                        <input type="text" class="form-control" name="form_rg" id="form_rg" value="<? if ($erro) echo $form_rg; ?>">
-                    </div>                
-
+                
+                <div class="form-group col-12 col-md-4">
+                        <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
+                        <select name="form_bairro" id="form_bairro" class="form-control" >
+                            <?
+                            $form_elemento = $erro ? $form_bairro : "";
+                            include("../includes/inc_select_bairro.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o bairro.
+                        </div>
+                        </div>
+                      
+                
 
                 </div>
 
