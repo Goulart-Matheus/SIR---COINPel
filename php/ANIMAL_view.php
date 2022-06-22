@@ -53,7 +53,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_sexo"></span> Sexo</label>
-                            <select name="form_sexo" required id="form_sexo" class="form-control">
+                            <select name="form_sexo" id="form_sexo" class="form-control">
                                 <option value="">Selecione o sexo:</option>
                                 <option value="M">Macho</option>
                                 <option value="F">Fêmea</option>
@@ -66,7 +66,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         <div class="form-group col-12 col-md-6">
                             <label for="form_pelagem"></span>Pelagem</label>
-                            <select name="form_pelagem" id="form_pelagem" class="form-control" required>
+                            <select name="form_pelagem" id="form_pelagem" class="form-control" >
                                 <?
                                 $form_elemento = $erro ? $form_pelagem : "";
                                 include("../includes/inc_select_pelagem.php"); ?>
@@ -79,7 +79,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         <div class="form-group col-12 col-md-6">
                             <label for="form_especie"></span>Espécie</label>
-                            <select name="form_especie" id="form_especie" class="form-control" required>
+                            <select name="form_especie" id="form_especie" class="form-control">
                                 <?
                                 $form_elemento = $erro ? $form_especie : "";
                                 include("../includes/inc_select_especie.php"); ?>

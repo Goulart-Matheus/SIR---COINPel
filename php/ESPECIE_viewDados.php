@@ -1,183 +1,184 @@
 <?
 
-    include('../includes/session.php'               );
-    include('../includes/variaveisAmbiente.php'     );
+include('../includes/session.php');
+include('../includes/variaveisAmbiente.php');
 
-    $query->exec("SELECT id_especie , descricao
+
+$query->exec("SELECT id_especie , descricao , habilitado
                     FROM especie
-                   WHERE descricao ilike '%".$form_descricao."%'
+                   WHERE descricao ilike '%" . $form_descricao . "%'
+                   
                 ");
 
-    $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
+$sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
-    if(!$sort_by )   $sort_by  = 1;
-    if(!$sort_dir)   $sort_dir = 0;
+if (!$sort_by)   $sort_by  = 1;
+if (!$sort_dir)   $sort_dir = 0;
 
-    $sort->sortItem($sort_by, $sort_dir);
+$sort->sortItem($sort_by, $sort_dir);
 
-    $report_subtitulo   = "Descrição";
-    $report_periodo     = date('d/m/Y');
+$report_subtitulo   = "Descrição";
+$report_periodo     = date('d/m/Y');
 
-    if ($print)
-    {
-        include('../class/class.report.php');
+if ($print) {
+    include('../class/class.report.php');
 
-        unset($_GET['print']);
+    unset($_GET['print']);
 
-        $report_cabecalho =array(
-           array('Código'   ,     10 , 0),
-           array('Descricao',     190, 1)
-        );
+    $report_cabecalho = array(
+        array('Código'        ,      10, 0),
+        array('Descricao'     ,     190, 1),
+        array('Habilitado'    ,      10, 3)
 
-        $query->exec($query->sql . $sort->sort_sql);
+    );
 
-        $report = new PDF($query, $report_titulo, $report_subtitulo, $report_periodo, $report_cabecalho, $report_orientation, $report_unit, $report_format, $report_flag);
-        
-        exit;
-    } 
-    else 
-    {
-        $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
+    $query->exec($query->sql . $sort->sort_sql);
 
-        if (isset($remove))
-        {
+    $report = new PDF($query, $report_titulo, $report_subtitulo, $report_periodo, $report_cabecalho, $report_orientation, $report_unit, $report_format, $report_flag);
 
-            if (!isset($id_especie))
-            {
-                
-                $erro = 'Nenhum item selecionado!';
+    exit;
+} else {
+    $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
+
+    if (isset($remove)) {
+
+        if (!isset($id_especie)) {
+
+            $erro = 'Nenhum item selecionado!';
+        } else {
+
+            $querydel = new Query($bd);
+
+            for ($c = 0; $c < sizeof($id_especie); $c++) {
+
+                $where = array(0 => array('id_especie', $id_especie[$c]));
+                $querydel->deleteTupla('especie', $where);
             }
-            else
-            {
 
-                $querydel = new Query($bd);
-
-                for ($c = 0; $c < sizeof($id_especie); $c++)
-                {
-
-                    $where = array(0 => array('id_especie', $id_especie[$c]));
-                    $querydel->deleteTupla('especie', $where);
-
-                }
-
-                unset($_POST['id_especie']);
-            }
+            unset($_POST['id_especie']);
         }
-
-        $paging->exec($query->sql . $sort->sort_sql);
     }
 
-    include_once('../includes/dashboard/header.php');
-    include('../class/class.tab.php');
+    $paging->exec($query->sql . $sort->sort_sql);
+}
 
-    $tab = new Tab();
+include_once('../includes/dashboard/header.php');
+include('../class/class.tab.php');
 
-    $tab->setTab('Adicionar','fas fa-plus'  , 'ESPECIE_form.php'   );
-    $tab->setTab('Pesquisar','fas fa-search', 'ESPECIE_view.php'   );
-    $tab->setTab('Gerenciar','fas fa-cog'   , $_SERVER['PHP_SELF'] );
+$tab = new Tab();
 
-    $tab->printTab($_SERVER['PHP_SELF']);
+$tab->setTab('Adicionar', 'fas fa-plus', 'ESPECIE_form.php');
+$tab->setTab('Pesquisar', 'fas fa-search', 'ESPECIE_view.php');
+$tab->setTab('Gerenciar', 'fas fa-cog', $_SERVER['PHP_SELF']);
 
-    $n =$paging->query->rows();
+$tab->printTab($_SERVER['PHP_SELF']);
+
+$n = $paging->query->rows();
 
 ?>
 
-    <section class="content">
+<section class="content">
 
-        <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
+    <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
 
-            <div class="card p-0">
+        <div class="card p-0">
 
-                <div class="card-header border-bottom-1 mb-3 bg-light-2">
+            <div class="card-header border-bottom-1 mb-3 bg-light-2">
 
-                    <div class="text-center">
-                        <h4><?=$auth->getApplicationDescription($_SERVER['PHP_SELF'])?></h4>
-                    </div>
+                <div class="text-center">
+                    <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
+                </div>
 
-                    <div class="row text-center">
+                <div class="row text-center">
 
-                        <div class="col-12 col-sm-4 offset-sm-4">
-                            <?
-                                if(!$n)   { echo callException('Nenhum registro encontrado!', 2); }
-                                
-                                if($erro) { echo callException($erro, 1); }
+                    <div class="col-12 col-sm-4 offset-sm-4">
+                        <?
+                        if (!$n) {
+                            echo callException('Nenhum registro encontrado!', 2);
+                        }
 
-                                if ($remove) {
-                                    $querydel->commit();
-                                    unset($_POST['remove']);
-                                }
-                                
-                            ?>
+                        if ($erro) {
+                            echo callException($erro, 1);
+                        }
 
-                        </div>
+                        if ($remove) {
+                            $querydel->commit();
+                            unset($_POST['remove']);
+                        }
+
+                        ?>
 
                     </div>
 
                 </div>
 
-                <div class="card-body pt-0">
+            </div>
 
-                    <table class="table table-striped responsive">
+            <div class="card-body pt-0">
 
-                        <thead>
+                <table class="table table-striped responsive">
 
-                            <tr>
-                                <th colspan="2">
+                    <thead>
 
-                                    Resultados de
+                        <tr>
+                            <th colspan="2">
 
-                                    <span class="range-resultados"> 
-                                        <? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal(); ?>
-                                    </span>
+                                Resultados de
 
-                                    sobre
+                                <span class="range-resultados">
+                                    <? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal(); ?>
+                                </span>
 
-                                    <span class='numero-paginas'> 
-                                        <? echo $paging->getRows(); ?>
-                                    </span>
+                                sobre
 
-                                    <a href="<?echo $_SERVER['PHP_SELF'];?>?print=1<?echo $paging->verificaVariaveis();?>" target="_new">
-                                        <i class="fas fa-print"></i>
-                                    </a>
+                                <span class='numero-paginas'>
+                                    <? echo $paging->getRows(); ?>
+                                </span>
 
-                                </th>
-                            </tr>
+                                <a href="<? echo $_SERVER['PHP_SELF']; ?>?print=1<? echo $paging->verificaVariaveis(); ?>" target="_new">
+                                    <i class="fas fa-print"></i>
+                                </a>
 
-                        </thead>
+                            </th>
+                        </tr>
 
-                        <tbody>
+                    </thead>
 
-                            <tr>
+                    <tbody>
 
-                                <td width="5px"></td>
-                                <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição'    ); ?> </td>
+                        <tr>
 
-                            </tr>
+                            <td width="5px"></td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição Espécie'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Habilitado'); ?> </td>
+                        </tr>
 
-                            <?
+                        <?
+
+                        while ($n--) {
+
+                            $paging->query->proximo();
+
+                            $js_onclick = "OnClick=javascript:window.location=('ESPECIE_edit.php?id_especie=" . $paging->query->record[0] . "')";
+                           
+                            echo "<tr>";
+
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_especie[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                             
-                                while ($n--) {
 
-                                    $paging->query->proximo();
+                            echo "</tr>";
+                        }
 
-                                    $js_onclick = "OnClick=javascript:window.location=('ESPECIE_edit.php?id_especie=" . $paging->query->record[0] . "')";
-                                    
-                                    echo "<tr>";
+                        ?>
 
-                                        echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_especie[]' value=" . $paging->query->record[0] ."></td>";
-                                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                                    
-                                    echo "</tr>";
-                                }
+                    </tbody>
 
-                            ?>
-
-                        </tbody>
-
-                        <tfoot>
+                    <tfoot>
 
                             <tr>
-                                <td colspan="2">
+                                <td colspan="7">
 
                                     <div class="text-center pt-2">
                                         <? echo $paging->viewTableSlice(); ?>
@@ -198,16 +199,16 @@
 
                         </tfoot>
 
-                    </table>
-
-                </div>
+                </table>
 
             </div>
 
-        </form>
+        </div>
 
-    </section>
+    </form>
 
-<? 
-    include_once('../includes/dashboard/footer.php');
+</section>
+
+<?
+include_once('../includes/dashboard/footer.php');
 ?>

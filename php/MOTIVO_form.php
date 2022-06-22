@@ -45,7 +45,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 'motivo',
                                 array(
                                     trim($form_descricao),
-                                    $_habilitado,
+                                    $form_habilitado,
                                     $_login,
                                     $_ip,
                                     $_data,
@@ -80,13 +80,16 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
 
+                    
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_dt_solicitacao"><span class="text-danger">*</span> Data da Solicitação</label>
-                        <input type="date" class="form-control" name="form_dt_solicitacao" id="form_dt_solicitacao" required value="<? if ($erro) echo $form_dt_solitacao; ?>" />
-                        <div class="invalid-feedback">
-                            Preencha a data da Solicitação.
-                        </div>
+                        <label for="form_habilitado"><span class="text-danger">*</span> Habilitado</label>
+                        <select class="form-control" name="form_habilitado" id="form_habilitado">
+                            <option value="S" selected>Sim</option>
+                            <option value="N">Não</option>
+
+                        </select>
                     </div>
+
 
                 </div>
 
@@ -108,4 +111,3 @@ $tab->printTab($_SERVER['PHP_SELF']);
 <?
 include_once('../includes/dashboard/footer.php');
 ?>
-

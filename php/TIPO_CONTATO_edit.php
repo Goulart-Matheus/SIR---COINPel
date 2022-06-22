@@ -1,12 +1,16 @@
 <?
 include('../includes/session.php');
 
-$query->exec(
-    "SELECT *
-    FROM tipo_contato
-    WHERE
-        mascara  ilike '%{$form_mascara}%' AND
-        descricao ilike '%{$form_descricao}%'");
+
+
+
+$query->exec("SELECT id_tipo_contato, descricao , mascara, habilitado 
+              FROM tipo_contato 
+              WHERE id_tipo_contato = " . $id_tipo_contato);
+
+$query->result($query->linha);
+
+
 $sort =new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 if(!$sort_by)  $sort_by  = 1;
 if(!$sort_dir) $sort_dir = 0;
@@ -19,12 +23,12 @@ if ($print){
     include('../class/class.report.php');
     unset($_GET['print']);
     $report_cabecalho =array(
-        array('Código',        10, 0),
-        array('Descrição',     50, 1),
-        array('Habilitado'    , 10, 2));
+        array('Código'     ,   10, 0),
+        array('Descrição'  ,   50, 1),
+        array('Mascara'    ,   50, 1),
+        array('Habilitado' ,   10, 2));
 
         
-
     $query->exec($query->sql . $sort->sort_sql);
     $report=new PDF($query, $report_titulo, $report_subtitulo, $report_periodo, $report_cabecalho, $report_orientation, $report_unit, $report_format, $report_flag);
     exit;
@@ -92,8 +96,8 @@ $n =$paging->query->rows();
                     <tr>
                         <td width="5px"></td>
                         <td style='<?=$sort->verifyItem(1);?>'><?=$sort->printItem(1, $sort->sort_dir, 'Descricao')              ?></td>
-                        <td style='<?=$sort->verifyItem(2);?>'><?=$sort->printItem(2, $sort->sort_dir, 'Documento')               ?></td>
-                        
+                        <td style='<?=$sort->verifyItem(2);?>'><?=$sort->printItem(2, $sort->sort_dir, 'Documento')              ?></td>
+                        <td style='<?=$sort->verifyItem(2);?>'><?=$sort->printItem(2, $sort->sort_dir, 'Habilitado')             ?></td>
                     </tr>
                     <?
                    while ($n--) {
@@ -102,12 +106,13 @@ $n =$paging->query->rows();
 
                     $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
                     $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[1] . "')";
-
+                    $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[2] . "')";
                     echo "<tr>";
 
                     echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
                     echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                     echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                    echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
 
                     echo "</tr>";
                 }
