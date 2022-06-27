@@ -12,8 +12,14 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$query->exec("SELECT id_urm , valor , ativo , mes_referencia , ano_referencia  FROM urm WHERE id_urm = " . $id_urm);
-$query->result($query->linha);
+
+$query->exec("SELECT id_urm, valor, ativo, mes_referencia, ano_referencia
+              FROM urm  WHERE id_urm = $id_urm");
+
+
+
+$query -> proximo();
+
 
 
 ?>
@@ -59,7 +65,6 @@ $query->result($query->linha);
                             $valida = new Valida($form_ativo, 'Ativo');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
-
                         }
 
                         if (!$erro && isset($edit)) {
@@ -70,8 +75,8 @@ $query->result($query->linha);
                                 $id_urm,
                                 trim($form_valor),
                                 $form_ativo,
-                                $mes_referencia,
-                                $ano_referencia,
+                                $form_mes_referencia,
+                                $form_ano_referencia,
                                 $_login,
                                 $_ip,
                                 $_data,
@@ -103,7 +108,9 @@ $query->result($query->linha);
                     <div class="form-group col-6 col-md-6">
                         <label for="form_valor"></span> Valor</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" value="<? 
-                        if ($edit) echo trim($form_valor);else echo trim($query->record[1]); ?>">
+                       
+                   echo ($query->record[1]); ?>">                                                                                 
+                    
                     </div>
 
                     <div class="form-group col-6 col-md-6">
@@ -117,19 +124,20 @@ $query->result($query->linha);
 
                     <div class="form-group col-6 col-md-6">
                         <label for="form_mes_referencia"></span> Mes Referencia</label>
-                        <input type="text" class="form-control" name="form_mes_referencia" id="form_mes_referencia" value="<? 
-                        if ($edit) echo trim($form_valor);else echo trim($query->record[1]); ?>">
+                        <input type="text" class="form-control" name="form_mes_referencia" id="form_mes_referencia" value="<?
+                    echo ($query->record[3]); ?>">
                     </div>
 
                     <div class="form-group col-6 col-md-6">
                         <label for="form_ano_referencia"></span> Ano Referencia</label>
-                        <input type="text" class="form-control" name="form_ano_referencia" id="form_ano_referencia" value="<? 
-                        if ($edit) echo trim($form_valor);else echo trim($query->record[1]); ?>">
+                        <input type="text" class="form-control" name="form_ano_referencia" id="form_ano_referencia" value="<?
+                     if ($edit) echo trim($form_ano_referencia);
+                     else echo trim($query->record[4]); ?>">
                     </div>
 
                 </div>
 
-              
+
             </div>
 
             <div class="card-footer border-top-0 bg-transparent">

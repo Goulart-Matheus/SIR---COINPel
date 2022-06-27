@@ -52,7 +52,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_id_pelagem, 'id_pelagem');
-                            $valida->TamMinimo(1 );
+                            $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_id_especie, 'id_especie');
@@ -81,7 +81,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 )
                             );
 
-                            $query->commit();
+
+                           $query->commit();
                         }
 
                         if ($erro)
@@ -125,7 +126,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
 
-                    
+
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
                         <select name="form_id_pelagem" id="form_id_pelagem" class="form-control" required>
@@ -161,16 +162,14 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 </div>
 
-            </div>
-
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
+                <div class="card-footer border-top-0 bg-transparent">
+                    <div class="text-center">
+                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
+                        <input class="btn btn-info" type="submit" name="add" value="Salvar">
+                    </div>
                 </div>
-            </div>
 
-        </div>
+            </div>
 
     </form>
 

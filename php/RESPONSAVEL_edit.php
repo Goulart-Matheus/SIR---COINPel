@@ -83,7 +83,7 @@ $query->result($query->linha);
 
                             );
 
-                            $where = array(0 => array('id_resposnavel', $id_responsavel));
+                            $where = array(0 => array('id_responsavel', $id_responsavel));
                             $query->updateTupla('responsavel', $itens, $where);
 
                             $query->commit();
