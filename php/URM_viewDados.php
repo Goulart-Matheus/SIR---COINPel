@@ -5,10 +5,10 @@ include('../includes/variaveisAmbiente.php');
 
 $where = "";
 
-$where .= $form_valor           != ""  ? " AND  valor        = $form_valor        "   : "";
+//$where .= $form_valor           != ""  ? " AND  valor        = $form_valor        "   : "";
 // $where .= $form_ativo   == "S"         ? " AND ativo = $form_ativo "   : "N";
-$where .= $form_mes_referencia   != ""  ? " AND mes_referencia = $form_mes_referencia" : "";
-$where .= $form_ano_referencia   != ""  ? " AND ano_referencia = $form_ano_referencia" : "";
+//$where .= $form_mes_referencia   != ""  ? " AND mes_referencia = $form_mes_referencia" : "";
+//$where .= $form_ano_referencia   != ""  ? " AND ano_referencia = $form_ano_referencia" : "";
 
 
 
@@ -26,7 +26,7 @@ if (!$sort_dir)   $sort_dir = 0;
 
 $sort->sortItem($sort_by, $sort_dir);
 
-$report_subtitulo   = "Valor";
+$report_subtitulo   = "Ativo";
 $report_periodo     = date('d/m/Y');
 
 if ($print) {
@@ -179,7 +179,7 @@ $n = $paging->query->rows();
 
                             echo "<tr>";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' valor='id_urm[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_urm[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";

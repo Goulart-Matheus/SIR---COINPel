@@ -3,6 +3,7 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
+<<<<<<< HEAD
 $where  = "";
 //$where .= $form_numero_ficha != "" ? " AND nro_ficha     ilike '%{$form_numero_ficha}%' " : "";
 
@@ -18,6 +19,39 @@ $query->exec("SELECT id_animal , nro_ficha , nro_chip , id_pelagem , id_especie 
                    
                    
                 ".$where);
+=======
+$where = "";
+
+$query->exec(
+    "SELECT
+id_animal,
+a.nro_ficha,
+a.nro_chip,
+a.sexo,
+p.id_pelagem,
+e.id_especie,
+FROM
+animal a,
+pelagem p,
+especie e
+
+WHERE
+a.nro_ficha ilike '%" . $form_nro_ficha . "%'
+and
+a.nro_chip ilike '%" . $form_nro_chip . "%'    
+and 
+a.sexo ilike '%" . $form_sexo . "%'    
+a.id_pelagem =p.id_pelagem 
+and
+a.id_especie = e.id_especie
+         
+
+" . $where
+
+);
+
+echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+>>>>>>> 6510e88282e484c5ab043d5a013310d04635eeaa
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -26,7 +60,7 @@ if (!$sort_dir)   $sort_dir = 0;
 
 $sort->sortItem($sort_by, $sort_dir);
 
-$report_subtitulo   = "Nro_Ficha";
+$report_subtitulo   = "Nro_ficha";
 $report_periodo     = date('d/m/Y');
 
 if ($print) {
@@ -35,14 +69,12 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'           ,     10, 0),
-        array('Nro_Ficha'        ,     19, 1),
-        array('Nro_Chip'         ,     10, 2),
-        array('Id_Pelagem'       ,     10, 3),
-        array('Id_Especie'       ,     10, 4),
-        array('Sexo'             ,     10, 5),
-        array('Observacao'       ,     10, 6),
-
+        array('Código'     ,     10, 0),
+        array('Nro_ficha'  ,     19, 1),
+        array('Nro_chip'   ,     19, 2),
+        array('Sexo'       ,     19, 3),
+        array('Id_pelagem' ,     10, 4),
+        array('Id_especie' ,     10, 5)
     );
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -162,10 +194,12 @@ $n = $paging->query->rows();
                         <tr>
 
                             <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_Ficha '); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_Chip '); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Sexo '); ?> </td>
-                            
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_ficha'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_chip'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Sexo'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Pelagem'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Especie'); ?> </td>
+
                         </tr>
 
                         <?
@@ -175,16 +209,21 @@ $n = $paging->query->rows();
                             $paging->query->proximo();
 
                             $js_onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?id_animal=" . $paging->query->record[0] . "')";
-                            $js_onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?id_animal=" . $paging->query->record[1] . "')";
-                            $js_onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?id_animal=" . $paging->query->record[2] . "')";
-                           
 
                             echo "<tr>";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_animal[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_ANIMAL[]' value=" . $paging->query->record[0] . "></td>";
+
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+<<<<<<< HEAD
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
+=======
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
+
+>>>>>>> 6510e88282e484c5ab043d5a013310d04635eeaa
                             echo "</tr>";
                         }
 
