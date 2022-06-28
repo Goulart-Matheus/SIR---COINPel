@@ -3,11 +3,21 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
+$where  = "";
+//$where .= $form_numero_ficha != "" ? " AND nro_ficha     ilike '%{$form_numero_ficha}%' " : "";
+
+if($form_numero_chip!=""){
+    $where.= " and nro_chip ilike '{$form_numero_chip}'";
+}
+
+
+
 $query->exec("SELECT id_animal , nro_ficha , nro_chip , id_pelagem , id_especie , sexo , observacao
-                    FROM animal
-                   WHERE nro_ficha ilike '%" . $form_form_nro_ficha . "%'
+              FROM animal
+              WHERE nro_ficha ilike '%".$form_numero_ficha."%'
                    
-                ");
+                   
+                ".$where);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -174,7 +184,7 @@ $n = $paging->query->rows();
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_animal[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                             echo "</tr>";
                         }
 

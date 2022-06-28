@@ -55,27 +55,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 </div>
 
             </div>
-            <div class="card-body pt-0">
-
-                <div class="form-row">
-                
-                <div class="form-group col-12 col-md-4">
-                        <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control" >
-                            <?
-                            $form_elemento = $erro ? $form_bairro : "";
-                            include("../includes/inc_select_bairro.php"); ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha o bairro.
-                        </div>
-                        </div>
-                      
-                
-
-                </div>
-
-            </div>
+           
 
             <div class="card-footer border-top-0 bg-transparent">
 
