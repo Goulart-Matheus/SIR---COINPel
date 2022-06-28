@@ -3,55 +3,39 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-<<<<<<< HEAD
-$where  = "";
-//$where .= $form_numero_ficha != "" ? " AND nro_ficha     ilike '%{$form_numero_ficha}%' " : "";
-
-if($form_numero_chip!=""){
-    $where.= " and nro_chip ilike '{$form_numero_chip}'";
-}
-
-
-
-$query->exec("SELECT id_animal , nro_ficha , nro_chip , id_pelagem , id_especie , sexo , observacao
-              FROM animal
-              WHERE nro_ficha ilike '%".$form_numero_ficha."%'
-                   
-                   
-                ".$where);
-=======
 $where = "";
+
+        if($form_nro_ficha!=""){
+            $where.=" and  a.nro_ficha ilike '{$form_nro_ficha}' ";
+        }
+        if($form_nro_chip!=""){
+            $where.= " and  a.nro_chip ilike '{$form_nro_chip}'";
+        }
+        if($form_sexo!=""){
+            $where.= " and  a.sexo ilike '{$form_sexo}'";
+        }
 
 $query->exec(
     "SELECT
-id_animal,
-a.nro_ficha,
-a.nro_chip,
-a.sexo,
-p.id_pelagem,
-e.id_especie,
-FROM
-animal a,
-pelagem p,
-especie e
+        a.id_animal,
+        a.nro_ficha,
+        a.nro_chip,
+        a.sexo,
+        p.descricao,
+        e.descricao,
+    FROM
+        animal a,
+        pelagem p,
+        especie e
 
-WHERE
-a.nro_ficha ilike '%" . $form_nro_ficha . "%'
-and
-a.nro_chip ilike '%" . $form_nro_chip . "%'    
-and 
-a.sexo ilike '%" . $form_sexo . "%'    
-a.id_pelagem =p.id_pelagem 
-and
-a.id_especie = e.id_especie
-         
+    WHERE p.id_pelagem = a.id_pelagem
+    AND   e.id_especie = a.id_especie      
 
-" . $where
+        " . $where
 
 );
 
 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
->>>>>>> 6510e88282e484c5ab043d5a013310d04635eeaa
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -216,14 +200,10 @@ $n = $paging->query->rows();
 
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-<<<<<<< HEAD
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
-=======
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
 
->>>>>>> 6510e88282e484c5ab043d5a013310d04635eeaa
                             echo "</tr>";
                         }
 
