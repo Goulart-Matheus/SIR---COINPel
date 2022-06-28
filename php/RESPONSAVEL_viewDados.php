@@ -12,8 +12,6 @@
         }
        
          
-
-
     $query->exec("SELECT
                         r.id_responsavel,
                         r.nome,

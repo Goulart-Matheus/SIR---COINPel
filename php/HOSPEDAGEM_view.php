@@ -43,7 +43,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <input type="text" class="form-control" name="form_id_hospedagem" id="form_id_hospedagem" maxlength="100" value="<? if ($erro) echo $form_id_hospedagem; ?>">
                     </div>
 
-
                     <div class="form-group col-12 col-md-3">
                         <label for="form_id_animal"></span>Animal</label>
                         <input type="text" class="form-control" name="form_id_animal" id="form_id_animal" maxlength="100" value="<? if ($erro) echo $form_id_animal; ?>">
@@ -51,7 +50,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-3">
                         <label for="form_id_urm"></span>Urm</label>
-                        <input type="text" class="form-control" name="form_urm" id="form_urml" maxlength="100" value="<? if ($erro) echo $form_urm; ?>">
+                        <input type="text" class="form-control" name="form_id_urm" id="form_id_urm" maxlength="100" value="<? if ($erro) echo $form_id_urm; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-3">
@@ -59,22 +58,20 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?>">
                     </div>
 
-
                     <div class="form-group col-12 col-md-4">
                         <label for="form_endereco_recolhimento"></span> Endereço de Recolhimento</label>
                         <input type="text" class="form-control" name="form_endereco_recolhimento" id="form_endereco_recolhimento" maxlength="100" value="<? if ($erro) echo $form_endereco_recolhimento; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_bairro"></span> Bairro</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control">
+                        <label for="form_id_bairro"></span> Bairro</label>
+                        <select name="form_id_bairro" id="form_id_bairro" class="form-control">
                             <?
                             $form_elemento = $erro ? $form_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
                         
                     </div>
-
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_id_responsavel"></span> Responsável</label>
@@ -84,7 +81,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_dt_entrada"></span>Data Entrada</label>
-                        <input type="date" class="form-control" name="form_id_dt_entrada" id="form_id_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_id_dt_entrada; ?>">
+                        <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">

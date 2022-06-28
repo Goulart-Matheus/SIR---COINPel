@@ -40,14 +40,14 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     <div class="form-row">
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_numero_ficha"></span> Nunero Ficha</label>
-                            <input type="text" class="form-control" name="form_numero_ficha" id="form_numero_ficha" maxlength="100" value="<? if ($erro) echo $form_numero_ficha; ?>">
+                            <label for="form_nro_ficha"></span> Nunero Ficha</label>
+                            <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
                         </div>
 
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_numero_chip"></span> Nunero Chip</label>
-                            <input type="text" class="form-control" name="form_numero_chip" id="form_numero_chip" maxlength="100" value="<? if ($erro) echo $form_numero_chip; ?>">
+                            <label for="form_nro_chip"></span> Nunero Chip</label>
+                            <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
                         </div>
 
 
@@ -65,10 +65,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                         <div class="form-group col-12 col-md-6">
-                            <label for="form_pelagem"></span>Pelagem</label>
-                            <select name="form_pelagem" id="form_pelagem" class="form-control" >
+                            <label for="form_id_pelagem"></span>Pelagem</label>
+                            <select name="form_id_pelagem" id="form_id_pelagem" class="form-control" >
                                 <?
-                                $form_elemento = $erro ? $form_pelagem : "";
+                                $form_elemento = $erro ? $form_id_pelagem : "";
                                 include("../includes/inc_select_pelagem.php"); ?>
                             </select>
                             <div class="invalid-feedback">
@@ -78,10 +78,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                         <div class="form-group col-12 col-md-6">
-                            <label for="form_especie"></span>Espécie</label>
-                            <select name="form_especie" id="form_especie" class="form-control">
+                            <label for="form_id_especie"></span>Espécie</label>
+                            <select name="form_id_especie" id="form_id_especie" class="form-control">
                                 <?
-                                $form_elemento = $erro ? $form_especie : "";
+                                $form_elemento = $erro ? $form_id_especie : "";
                                 include("../includes/inc_select_especie.php"); ?>
                             </select>
                             <div class="invalid-feedback">

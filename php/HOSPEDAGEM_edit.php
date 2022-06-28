@@ -140,11 +140,11 @@ $query->result($query->linha);
 
                     <div class="form-group col-12 col-md-3">
                         <label for="form_id_urm"></span>Urm</label>
-                        <input type="text" class="form-control" name="form_urm" id="form_urml" maxlength="100" value="<? if ($erro) echo $form_urm; ?>">
+                        <input type="text" class="form-control" name="form_id_urm" id="form_id_urm" maxlength="100" value="<? if ($erro) echo $form_id_urm; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_id_valor"></span>Valor</label>
+                        <label for="form_valor"></span>Valor</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?>">
                     </div>
 
@@ -155,10 +155,10 @@ $query->result($query->linha);
                     </div>
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_bairro"></span> Bairro</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control">
+                        <label for="form_id_bairro"></span> Bairro</label>
+                        <select name="form_id_bairro" id="form_id_bairro" class="form-control">
                             <?
-                            $form_elemento = $erro ? $form_bairro : "";
+                            $form_elemento = $erro ? $form_id_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
 
@@ -173,7 +173,7 @@ $query->result($query->linha);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_dt_entrada"></span>Data Entrada</label>
-                        <input type="date" class="form-control" name="form_id_dt_entrada" id="form_id_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_id_dt_entrada; ?>">
+                        <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">

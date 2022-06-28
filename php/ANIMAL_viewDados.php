@@ -3,11 +3,37 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_animal , nro_ficha , nro_chip , sexo , pelagem , especie
-                    FROM animal
-                   WHERE nro_ficha ilike . $form_nro_ficha 
-                   
-                ");
+$where = "";
+
+$query->exec(
+    "SELECT
+id_animal,
+a.nro_ficha,
+a.nro_chip,
+a.sexo,
+p.id_pelagem,
+e.id_especie,
+FROM
+animal a,
+pelagem p,
+especie e
+
+WHERE
+a.nro_ficha ilike '%" . $form_nro_ficha . "%'
+and
+a.nro_chip ilike '%" . $form_nro_chip . "%'    
+and 
+a.sexo ilike '%" . $form_sexo . "%'    
+a.id_pelagem =p.id_pelagem 
+and
+a.id_especie = e.id_especie
+         
+
+" . $where
+
+);
+
+echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -25,12 +51,12 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código',     10, 0),
-        array('Nro_ficha',     19, 1),
-        array('Nro_chip',     19, 2),
-        array('Sexo',     19, 3),
-        array('Pelagem',     100, 4),
-        array('Especie',     100, 5)
+        array('Código'     ,     10, 0),
+        array('Nro_ficha'  ,     19, 1),
+        array('Nro_chip'   ,     19, 2),
+        array('Sexo'       ,     19, 3),
+        array('Id_pelagem' ,     10, 4),
+        array('Id_especie' ,     10, 5)
     );
 
     $query->exec($query->sql . $sort->sort_sql);

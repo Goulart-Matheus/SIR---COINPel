@@ -3,11 +3,11 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_hospedagem , id_animal , endereco_recolhimento , id_bairro , observacao , dt_retirada , id_responsavel , id_ motivo , id_urm , valor , nro_boleto , situacao
-                    FROM hospedaem
-                    WHERE    WHERE id_hospedagem = " . $id_hospedagem);
-                   
-                
+$query->exec("SELECT id_hospedagem , id_animal , endereco_recolhimento , id_bairro , observacao , dt_entrada , dt_retirada , id_responsavel , id_ motivo , id_urm , valor , nro_boleto , situacao
+                    FROM hospedagem
+                      WHERE id_hospedagem = " . $id_hospedagem);
+
+
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -25,20 +25,20 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'                  ,     10, 0),
-        array('Id_animal'               ,     10, 1),
-        array('Dt_entrada'              ,     19, 1),
-        array('Endereco_recolhimento'   ,    190, 1),
-        array('Id_bairro'               ,     19, 1),
-        array('Observacao'              ,    190, 1),
-        array('Dt_retirada'             ,     19, 1),
-        array('Id_responsavel'          ,     19, 1),
-        array('Id_motivo'               ,     19, 1),
-        array('Id_urm'                  ,     19, 1),
-        array('Id_valor'                ,     19, 1),
-        array('Id_nro_boleto'           ,    190, 1),
-        array('Id_situacao'             ,     19, 1)
-       
+        array('Código'               ,     10, 0),
+        array('Id_animal'            ,     10, 1),
+        array('Dt_entrada'           ,     19, 1),
+        array('Endereco_recolhimento',    190, 1),
+        array('Id_airro'             ,     19, 1),
+        array('Observacao'           ,    190, 1),
+        array('Dt_retirada'          ,     19, 1),
+        array('Id_responsavel'       ,     19, 1),
+        array('Id_motivo'            ,     19, 1),
+        array('Id_urm'               ,     19, 1),
+        array('Valor'             ,     19, 1),
+        array('Nro_boleto'        ,    190, 1),
+        array('Situacao'          ,     19, 1)
+
     );
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -158,20 +158,17 @@ $n = $paging->query->rows();
                         <tr>
 
                             <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Id_animal'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Valor'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Endereco_recolhimento'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Id_bairro'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Bairro'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Responsavel'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Dt_entrada'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Dt_retirada'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Situacao'); ?> </td>
-                            
 
                         </tr>
 
                         <?
-
                         while ($n--) {
 
                             $paging->query->proximo();
@@ -181,9 +178,7 @@ $n = $paging->query->rows();
                             echo "<tr>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0] . "></td>";
-                            
-                                                       
-                            
+
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
@@ -191,8 +186,8 @@ $n = $paging->query->rows();
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
-                           
+
+
                             echo "</tr>";
                         }
 

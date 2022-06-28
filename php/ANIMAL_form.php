@@ -32,12 +32,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
-                            $valida = new Valida($form_numero_ficha, 'Numero_ficha');
+                            $valida = new Valida($form_nro_ficha, 'Nro_ficha');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
 
-                            $valida = new Valida($form_numero_chip, 'Numero_chip');
+                            $valida = new Valida($form_nro_chip, 'Nro_chip');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
@@ -51,11 +51,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_id_pelagem, 'id_pelagem');
+                            $valida = new Valida($form_id_pelagem, 'Id_pelagem');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_id_especie, 'id_especie');
+                            $valida = new Valida($form_id_especie, 'Id_especie');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
                         }
@@ -67,8 +67,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->insertTupla(
                                 'animal',
                                 array(
-                                    trim($form_numero_ficha),
-                                    $form_numero_chip,
+                                    trim($form_nro_ficha),
+                                    $form_nro_chip,
                                     $form_id_pelagem,
                                     $form_id_especie,
                                     $form_sexo,
@@ -102,14 +102,14 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_numero_ficha"><span class="text-danger">*</span> Nunero Ficha</label>
-                        <input type="text" class="form-control" name="form_numero_ficha" id="form_numero_ficha" maxlength="100" value="<? if ($erro) echo $form_numero_ficha; ?>">
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Nunero Ficha</label>
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
                     </div>
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_numero_chip"><span class="text-danger">*</span> Nunero Chip</label>
-                        <input type="text" class="form-control" name="form_numero_chip" id="form_numero_chip" maxlength="100" value="<? if ($erro) echo $form_numero_chip; ?>">
+                        <label for="form_nro_chip"><span class="text-danger">*</span> Nunero Chip</label>
+                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
                     </div>
 
 
@@ -131,7 +131,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
                         <select name="form_id_pelagem" id="form_id_pelagem" class="form-control" required>
                             <?
-                            $form_elemento = $erro ? $form_pelagem : "";
+                            $form_elemento = $erro ? $form_id_pelagem : "";
                             include("../includes/inc_select_pelagem.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -151,7 +151,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             Escolha Especie
                         </div>
                     </div>
-
 
 
                     <div class="form-group col-12">

@@ -108,14 +108,28 @@ $query->result($query->linha);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_numero_ficha"></span> Nunero Ficha</label>
-                        <input type="text" class="form-control" name="form_numero_ficha" id="form_numero_ficha" maxlength="100" value="<? if ($erro) echo $form_numero_ficha; ?>">
+                        <label for="form_nro_ficha"></span> Nunero Ficha</label>
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
                     </div>
 
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_nro_chip"></span> Nunero Chip</label>
+                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
+                    </div>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_numero_chip"></span> Nunero Chip</label>
-                        <input type="text" class="form-control" name="form_numero_chip" id="form_numero_chip" maxlength="100" value="<? if ($erro) echo $form_numero_chip; ?>">
+                        <label for="form_sexo"></span>Sexo</label>
+                        <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="100" value="<? if ($erro) echo $form_sexo; ?>">
+                    </div>
+
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_id_pelagem"></span> Pelagem</label>
+                        <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100" value="<? if ($erro) echo $form_id_pelagem; ?>">
+                    </div>
+
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_id_especie"></span>Especie</label>
+                        <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($erro) echo $form_id_especie; ?>">
                     </div>
 
 
