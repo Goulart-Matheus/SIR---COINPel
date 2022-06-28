@@ -73,7 +73,6 @@ $query->result($query->linha);
                             $query->begin();
 
                             $itens = array(
-                                $id_animal,
                                 trim($form_nro_ficha),
                                 $nro_chip,
                                 $id_pelagem,
@@ -131,6 +130,12 @@ $query->result($query->linha);
                         <label for="form_id_especie"></span>Especie</label>
                         <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($erro) echo $form_id_especie; ?>">
                     </div>
+
+                    <div class="form-group col-12">
+                        <label for="form_observacao">Observação</label>
+                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($erro) echo $form_observacao; ?>">
+                    </div>
+
 
 
                 </div>

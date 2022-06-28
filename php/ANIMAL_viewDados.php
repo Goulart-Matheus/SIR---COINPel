@@ -5,34 +5,12 @@ include('../includes/variaveisAmbiente.php');
 
 $where = "";
 
-$query->exec(
-    "SELECT
-id_animal,
-a.nro_ficha,
-a.nro_chip,
-a.sexo,
-p.id_pelagem,
-e.id_especie,
-FROM
-animal a,
-pelagem p,
-especie e
 
-WHERE
-a.nro_ficha ilike '%" . $form_nro_ficha . "%'
-and
-a.nro_chip ilike '%" . $form_nro_chip . "%'    
-and 
-a.sexo ilike '%" . $form_sexo . "%'    
-a.id_pelagem =p.id_pelagem 
-and
-a.id_especie = e.id_especie
-         
-
-" . $where
-
-);
-
+$query->exec("SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
+                    FROM animal
+                   WHERE nro_ficha ilike '%" . $form_nro_ficha . "%'
+                   
+                ");
 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
@@ -181,7 +159,7 @@ $n = $paging->query->rows();
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Sexo'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Pelagem'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Especie'); ?> </td>
-
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Observacao'); ?> </td>
                         </tr>
 
                         <?
@@ -201,6 +179,7 @@ $n = $paging->query->rows();
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
 
                             echo "</tr>";
                         }

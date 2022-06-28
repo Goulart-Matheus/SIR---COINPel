@@ -47,10 +47,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $erro .= $valida->PegaErros();
 
 
-                            $valida = new Valida($form_observacao, 'Observacao');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
                             $valida = new Valida($form_id_pelagem, 'Id_pelagem');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();

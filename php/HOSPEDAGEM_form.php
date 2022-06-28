@@ -32,6 +32,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
+                            $valida = new Valida($form_id_hospedagem, 'Id_hospedagem');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
+
                             $valida = new Valida($form_id_animal, 'Id_animal');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
@@ -89,13 +94,14 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->insertTupla(
                                 'hospedagem',
                                 array(
+                                    trim($form_id_hospedagem),
                                     $form_id_animal,
                                     $form_dt_entrada,
                                     $form_endereco_recolhimento,
                                     $form_id_bairro,
                                     $form_observacao,
                                     $form_dt_retirada,
-                                    trim($form_id_responsavel),
+                                    $form_id_responsavel,
                                     $form_id_motivo,
                                     $form_id_urm,
                                     $form_valor,
@@ -129,11 +135,18 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 <div class="form-row">
 
-                    
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_id_hospedagem"><span class="text-danger">*</span> Hospedagem</label>
+                        <input type="text" class="form-control" name="form_id_hospedagem" id="form_id_hospedagem" maxlength="100" value="<? if ($erro) echo $form_id_hospedagem; ?>">
+                    </div>
+
+
+
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_animal"><span class="text-danger">*</span>Animal</label>
                         <input type="text" class="form-control" name="form_id_animal" id="form_id_animal" maxlength="100" value="<? if ($erro) echo $form_id_animal; ?>">
                     </div>
+
 
 
                     <div class="form-group col-12 col-md-4">
@@ -142,10 +155,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_id_bairro"><span class="text-danger">*</span> Bairro</label>
-                        <select name="form_id_bairro" id="form_id_bairro" class="form-control" required>
+                        <label for="form_bairro"><span class="text-danger">*</span> Bairro</label>
+                        <select name="form_bairro" id="form_bairro" class="form-control" required>
                             <?
-                            $form_elemento = $erro ? $form_id_bairro : "";
+                            $form_elemento = $erro ? $form_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -162,7 +175,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_dt_entrada"><span class="text-danger">*</span>Data Entrada</label>
-                        <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada; ?>">
+                        <input type="date" class="form-control" name="form_id_dt_entrada" id="form_id_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_id_dt_entrada; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">

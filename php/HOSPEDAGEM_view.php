@@ -64,7 +64,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_id_bairro"></span> Bairro</label>
+                        <label for="form_bairro"></span> Bairro</label>
                         <select name="form_id_bairro" id="form_id_bairro" class="form-control">
                             <?
                             $form_elemento = $erro ? $form_bairro : "";
