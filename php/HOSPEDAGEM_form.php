@@ -141,13 +141,19 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
 
-
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_id_animal"><span class="text-danger">*</span>Animal</label>
-                        <input type="text" class="form-control" name="form_id_animal" id="form_id_animal" maxlength="100" value="<? if ($erro) echo $form_id_animal; ?>">
+                        <label for="form_id_animal"><span class="text-danger">*</span> Animal</label>
+                        <select name="form_id_animal" id="form_id_animal" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_id_animal : "";
+                            include("../includes/inc_select_animal.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha um Animal.
+                        </div>
+
+
                     </div>
-
-
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_endereco_recolhimento"><span class="text-danger">*</span> Endereço de Recolhimento</label>

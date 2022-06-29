@@ -12,9 +12,9 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$query->exec("SELECT id_resposnavel, nome , cpf, rg , dt_nascimento, endereco , id_bairro  
+$query->exec("SELECT id_responsavel, nome , cpf, rg , dt_nascimento, endereco , id_bairro  
               FROM responsavel 
-              WHERE id_resposnavel = " . $id_responsavel);
+              WHERE id_responsavel = " . $id_responsavel);
 
 $query->result($query->linha);
 
@@ -85,6 +85,25 @@ $query->result($query->linha);
 
                             $where = array(0 => array('id_responsavel', $id_responsavel));
                             $query->updateTupla('responsavel', $itens, $where);
+                            
+                            $itens = array(
+                                    $id_responsavel,
+                                    $form_tipo_contato,
+                                    trim($form_tipo_mascara),
+                                    $form_principal, 
+                                    $_login,
+                                    $_ip,
+                                    $_data,
+                                    $_hora,
+                                    
+                            );
+                            $where = array(0 => array('id_responsavel', $id_responsavel));
+                            $query->updateTupla('responsavel_contato', $itens, $where);
+
+
+
+
+
 
                             $query->commit();
                         }
@@ -102,39 +121,33 @@ $query->result($query->linha);
             <div class="card-body pt-0">
 
                 <div class="form-row">
-                    <div class="form-group col-12 ">
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_responsavel"><span class="text-danger">*</span> Nome :</label>
                         <input required autocomplete="off" type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100" value="<? if ($edit) echo trim($form_responsavel);
                                                                                                                                         else echo trim($query->record[1]); ?>">
                     </div>
-            
+                <div class="form-group col-12 col-md-3">
+                    <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
+                    <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($edit) echo trim($form_mascara);                                                                                                                                                    else echo trim($query->record[2]); ?>">
+                </div>
+                <div class="form-group col-12 col-md-3">
+                    <label for="form_rg"><span class="text-danger">*</span> RG :</label>
+                    <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);                                                                                                                                  else echo trim($query->record[3]); ?>">
+                </div>
                 </div> 
                 <div class="form-row">
-                    <div class="form-group col-12 col-md-4">
-                    <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
-                    <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($edit) echo trim($form_mascara);
-                                                                                                                                                    else echo trim($query->record[2]); ?>">
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_rg"><span class="text-danger">*</span> RG :</label>
-                        <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);
-                                                                                                                                                   else echo trim($query->record[3]); ?>">
-                    </div>
-                    <div class="form-group col-12 col-md-4">
+                    
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
                         <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="100" value="<? if ($edit) echo trim($form_dt_nascimento);
                                                                                                                                             else echo trim($query->record[4]); ?>">
                     </div>
-            
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-12 col-md-8">
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
                         <input required autocomplete="off" type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="100" value="<? if ($edit) echo trim($form_endereco);
                                                                                                                                   else echo trim($query->record[5]); ?>">
                     </div>
-
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
                         <select name="form_bairro" id="form_bairro" class="form-control" required>
                             <?
@@ -148,9 +161,76 @@ $query->result($query->linha);
 
                     </div>
 
+
+                    <div class="form-row ">
+
+                    <div class="form-group col-12 ">
+
+                        <p class="text-center py-2 bg-dark">
+                            Contatos :
+                        </p>
+
                     </div>
+
+                </div>
+
+                <div class="form-row">
+                   
+
+                    <div class="form-group col-12" id="container_dinamico">
+
+                        <?
+                        $qnt = 1;
+
+                        if ($erro) {
+                            $qnt = count($form_tipo_mascara);
+                        }
+
+                        for ($c = 0; $c < $qnt; $c++) {
+
+                        ?>
+
+                            <div class="input-group ml-0 mb-2" id="campo_dinamico">
+
+                           
+                                <select name="form_tipo_contato" id="form_tipo_contato" class="form-control" required>
+                                    <? $form_elemento = $erro ? $form_tipo_contato : ""; include("../includes/inc_select_tipo_contato.php"); ?>
+                                </select>
+                                <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
+                                <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Habilitado"/>
+                                <select name="form_principal[]" id="form_principal" class="form-control col-md-1">
+                                    <option value='S'>Sim</option>
+                                    <option value='N'>Não</option>
+                                </select>
+
+
+
+                                <div class="input-group-append">
+
+                                    <? if ($c == $qnt - 1) { ?>
+
+                                        <a class="btn btn-success" id="novo_campo_dinamico" href="#form_tipo_mascara">+</a>
+
+                                    <? } else { ?>
+
+                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#form_tipo_mascara">x</a>
+
+                                    <? } ?>
+
+                                </div>
+
+                            </div>
+
+                        <?
+
+                        }
+
+                        ?>
+                   
+                </div>
+                
             
-                </div>   
+                  
                                
             </div>
 

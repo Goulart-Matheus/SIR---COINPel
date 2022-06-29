@@ -7,7 +7,7 @@
         if($form_mascara!=""){
             $where.=" and r.cpf ilike '{$form_mascara}' ";
         }
-        elseif($form_rg!=""){
+        if($form_rg!=""){
             $where.= " and r.rg ilike '{$form_rg}'";
         }
        
@@ -21,7 +21,7 @@
                         r.endereco,
                         b.descricao,
                         rc.valor_contato,
-                        tc.habilitado
+                        rc.principal
                 FROM
                         responsavel r,
                         bairro b,
@@ -29,8 +29,7 @@
                         responsavel_contato rc
                 WHERE
                     r.nome ilike '%" . $form_responsavel . "%'
-                and
-                    b.descricao ilike '%".$form_bairro."%'    
+                   
                 and 
                     b.id_bairro =r.id_bairro 
                 and
@@ -80,12 +79,55 @@
                 $querydel = new Query($bd);
 
                 for ($c = 0; $c < sizeof($id_responsavel); $c++) {
+                    
+                    $query->exec ("SELECT 
+                                        r.id_responsavel,
+                                        r.nome,
+                                        r.cpf,
+                                        r.rg,
+                                        r.dt_nascimento,
+                                        r.endereco,
+                                        b.descricao,
+                                        rc.valor_contato,
+                                        rc.principal
+                                  FROM 
 
-                    $where = array(0 => array('id_resposnavel', $id_responsavel[$c]));
+                                        responsavel r,
+                                        bairro b,
+                                        tipo_contato tc,
+                                        responsavel_contato rc
+                                  WHERE rc.id_responsavel =".  $id_responsavel[$c],
+                                  "AND  r.id_responsavel = ".  $id_responsavel[$c] 
+                                      
+                                
+                                 ); 
+
+                        
+                    if($query->rows() > 0)
+                    {
+                        $n = $query->rows();
+
+                        while($n --)
+                        {
+
+                                                       
+                            $where = array(0 => array('rc.id_responsavel', $id_responsavel[$c]));
+                            $querydel->deleteTupla('responsavel_contato', $where);
+
+                            
+                        };    
+                            
+                        
+                    };
+                    // fim do laço
+
+                    $where = array(0 => array('r.id_responsavel', $id_responsavel[$c]));
                     $querydel->deleteTupla('responsavel', $where);
+
+                    
                 }
 
-                unset($_POST['id_resposnavel']);
+                unset($_POST['id_responsavel']);
             }
         }
 
@@ -186,7 +228,7 @@
                                 <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Endereço: '); ?> </td>
                                 <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Bairro: '); ?> </td>
                                 <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Contato '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Habilitado: '); ?> </td>
+                                <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Principal: '); ?> </td>
 
                             </tr>
 
