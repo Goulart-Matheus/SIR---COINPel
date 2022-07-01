@@ -34,28 +34,29 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
             </div>
 
+
             <div class="card-body pt-0">
 
                 <div class="form-row">
 
-                    <div class="form-group col-12 col-md-3">
+                    <div class="form-group col-12 col-md-4">
                         <label for="form_id_hospedagem"></span> Hospedagem</label>
                         <input type="text" class="form-control" name="form_id_hospedagem" id="form_id_hospedagem" maxlength="100" value="<? if ($erro) echo $form_id_hospedagem; ?>">
                     </div>
 
-                    <div class="form-group col-12 col-md-3">
-                        <label for="form_id_animal"></span>Animal</label>
-                        <input type="text" class="form-control" name="form_id_animal" id="form_id_animal" maxlength="100" value="<? if ($erro) echo $form_id_animal; ?>">
-                    </div>
 
-                    <div class="form-group col-12 col-md-3">
-                        <label for="form_id_urm"></span>Urm</label>
-                        <input type="text" class="form-control" name="form_id_urm" id="form_id_urm" maxlength="100" value="<? if ($erro) echo $form_id_urm; ?>">
-                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_id_animal"></span> Animal</label>
+                        <select name="form_id_animal" id="form_id_animal" class="form-control">
+                            <?
+                            $form_elemento = $erro ? $form_id_animal : "";
+                            include("../includes/inc_select_animal.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha um Animal.
+                        </div>
 
-                    <div class="form-group col-12 col-md-3">
-                        <label for="form_id_valor"></span>Valor</label>
-                        <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?>">
+
                     </div>
 
                     <div class="form-group col-12 col-md-4">
@@ -64,18 +65,28 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_bairro"></span> Bairro</label>
+                        <label for="form_id_bairro"></span> Bairro</label>
                         <select name="form_id_bairro" id="form_id_bairro" class="form-control">
                             <?
-                            $form_elemento = $erro ? $form_bairro : "";
+                            $form_elemento = $erro ? $form_id_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
-                        
+                        <div class="invalid-feedback">
+                            Escolha o bairro.
+                        </div>
                     </div>
 
+
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_id_responsavel"></span> Responsável</label>
-                        <input type="text" class="form-control" name="form_id_responsavel" id="form_id_responsavel" maxlength="100" value="<? if ($erro) echo $form_id_responsavel; ?>">
+                        <label for="form_id_responsavel"></span> Responsavel</label>
+                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control" >
+                            <?
+                            $form_elemento = $erro ? $form_id_responsavel : "";
+                            include("../includes/inc_select_responsavel.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o Responsavel.
+                        </div>
                     </div>
 
 
@@ -88,9 +99,23 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <label for="form_dt_retirada"></span> Data Retirada</label>
                         <input type="date" class="form-control" name="form_dt_retirada" id="form_dt_retirada" maxlength="100" value="<? if ($erro) echo $form_dt_retirada; ?>">
                     </div>
-               
+
+
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_situacao"></span> Situação</label>
+                        <label for="form_id_motivo"></span> Motivo</label>
+                        <select name="form_id_motivo" id="form_id_motivo" class="form-control">
+                            <?
+                            $form_elemento = $erro ? $form_id_motivo : "";
+                            include("../includes/inc_select_motivo.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o Motivo
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_situacao"><span class="text-danger">*</span> Situação</label>
                         <select class="form-control" name="form_situacao" id="form_situacao">
                             <option value="S" selected>Ativo</option>
                             <option value="N">Não Ativo</option>
@@ -98,7 +123,9 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         </select>
                     </div>
 
+
                 </div>
+
 
                 <div class="card-footer border-top-0 bg-transparent">
 
@@ -109,7 +136,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 </div>
 
+
+
             </div>
+
+        </div>
 
     </form>
 

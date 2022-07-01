@@ -3,38 +3,57 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-<<<<<<< HEAD
-$where  = "";
-//$where .= $form_numero_ficha != "" ? " AND nro_ficha     ilike '%{$form_numero_ficha}%' " : "";
 
-if($form_numero_chip!=""){
-    $where.= " and nro_chip ilike '{$form_numero_chip}'";
-}
-
-
-
-$query->exec("SELECT id_animal , nro_ficha , nro_chip , id_pelagem , id_especie , sexo , observacao
-              FROM animal
-              WHERE nro_ficha ilike '%".$form_numero_ficha."%'
-                   
-                   
-                ".$where);
-=======
 $where = "";
 
+//$where .= $form_valor           != ""  ? " AND  valor        = $form_valor        "   : "";
+// $where .= $form_ativo   == "S"         ? " AND ativo = $form_ativo "   : "N";
+//$where .= $form_mes_referencia   != ""  ? " AND mes_referencia = $form_mes_referencia" : "";
+//$where .= $form_ano_referencia   != ""  ? " AND ano_referencia = $form_ano_referencia" : "";
 
-$query->exec("SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
-                    FROM animal
-                   WHERE nro_ficha ilike '%" . $form_nro_ficha . "%'
-                   
-                ");
+
+//$query->exec("SELECT  
+//a.id_animal , a.nro_ficha , a.nro_chip , a.sexo , 
+//p.id_pelagem , 
+//e.id_especie
+
+//(SELECT  a.id_animal
+// FROM animal a , pelagem p , especie e
+// WHERE  a.id_pelagem  = p. id_pelagem
+//AND    a.id_especie = e.id_especie    ORDER BY a.id_animal DESC LIMIT 1 )
+
+
+//FROM animal a , pelagem p , especie e
+
+//WHERE a.id_pelagem = p.id_pelagem
+
+
+$where = "";
+$where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
+$query->exec(
+    "SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
+              FROM animal
+              WHERE id_animal>=1" . $where
+);
 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
->>>>>>> 6510e88282e484c5ab043d5a013310d04635eeaa
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
 if (!$sort_by)   $sort_by  = 1;
 if (!$sort_dir)   $sort_dir = 0;
+
+
+
+//$query->exec("SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
+//FROM animal
+// WHERE nro_ficha ilike '%" . $form_nro_ficha . "%'
+
+//");
+
+//$sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
+
+//if (!$sort_by)   $sort_by  = 1;
+//if (!$sort_dir)   $sort_dir = 0;
 
 $sort->sortItem($sort_by, $sort_dir);
 
@@ -47,12 +66,13 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'     ,     10, 0),
-        array('Nro_ficha'  ,     19, 1),
-        array('Nro_chip'   ,     19, 2),
-        array('Sexo'       ,     19, 3),
-        array('Id_pelagem' ,     10, 4),
-        array('Id_especie' ,     10, 5)
+        array('Código'    ,     10, 0),
+        array('Nro_ficha' ,     19, 1),
+        array('Nro_chip'  ,     19, 2),
+        array('Sexo'      ,     19, 3),
+        array('Id_pelagem',     10, 4),
+        array('Id_especie',     10, 5),
+        array('Observacao',    190, 5)
     );
 
     $query->exec($query->sql . $sort->sort_sql);
@@ -194,15 +214,10 @@ $n = $paging->query->rows();
 
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-<<<<<<< HEAD
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
-=======
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
-
->>>>>>> 6510e88282e484c5ab043d5a013310d04635eeaa
                             echo "</tr>";
                         }
 

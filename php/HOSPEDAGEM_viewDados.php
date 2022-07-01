@@ -3,10 +3,12 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_hospedagem , id_animal , endereco_recolhimento , id_bairro , observacao , dt_entrada , dt_retirada , id_responsavel , id_ motivo , id_urm , valor , nro_boleto , situacao
-                    FROM hospedagem
-                      WHERE id_hospedagem = " . $id_hospedagem);
+$query->exec("SELECT id_hospedagem , id_animal , valor , endereco_recolhimento , id_bairro , id_responsavel , dt_entreda , dt_retirada , situacao
 
+FROM hospedagem
+
+
+WHERE endereco_recolhimento= " . $endereco_recolhimento);
 
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
@@ -16,7 +18,7 @@ if (!$sort_dir)   $sort_dir = 0;
 
 $sort->sortItem($sort_by, $sort_dir);
 
-$report_subtitulo   = "Hospedagem";
+$report_subtitulo   = "Id_animal";
 $report_periodo     = date('d/m/Y');
 
 if ($print) {
@@ -25,19 +27,19 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'               ,     10, 0),
-        array('Id_animal'            ,     10, 1),
-        array('Dt_entrada'           ,     19, 1),
-        array('Endereco_recolhimento',    190, 1),
-        array('Id_airro'             ,     19, 1),
-        array('Observacao'           ,    190, 1),
-        array('Dt_retirada'          ,     19, 1),
-        array('Id_responsavel'       ,     19, 1),
-        array('Id_motivo'            ,     19, 1),
-        array('Id_urm'               ,     19, 1),
-        array('Valor'             ,     19, 1),
-        array('Nro_boleto'        ,    190, 1),
-        array('Situacao'          ,     19, 1)
+        array('Código'                   ,     10, 0),
+        array('Id_animal'                ,     10, 1),
+        array('Endereco_recolhimento'    ,    190, 1),
+        array('Id_airro'                 ,     19, 1),
+        array('Observacao'               ,    190, 1),
+        array('Dt_entrada'               ,     19, 1),
+        array('Dt_retirada'              ,     19, 1),
+        array('Id_responsavel'           ,     19, 1),
+        array('Id_motivo'                ,     19, 1),
+        array('Id_urm'                   ,     19, 1),
+        array('Valor'                    ,     19, 1),
+        array('Nro_boleto'               ,     19, 1),
+        array('Situacao'                 ,     19, 1)
 
     );
 
@@ -158,12 +160,16 @@ $n = $paging->query->rows();
                         <tr>
 
                             <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Valor'); ?> </td>
+
+
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Hospedagem'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Animal'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Endereco_recolhimento'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Bairro'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Responsavel'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Dt_entrada'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Dt_retirada'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Motivo'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Situacao'); ?> </td>
 
                         </tr>
@@ -186,6 +192,8 @@ $n = $paging->query->rows();
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[9] . "</td>";
 
 
                             echo "</tr>";
@@ -198,7 +206,7 @@ $n = $paging->query->rows();
                     <tfoot>
 
                         <tr>
-                            <td colspan="2">
+                            <td colspan="7">
 
                                 <div class="text-center pt-2">
                                     <? echo $paging->viewTableSlice(); ?>
@@ -210,6 +218,8 @@ $n = $paging->query->rows();
                                         <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
                                         <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
                                     </div>
+
+                                    
 
                                 <? } ?>
 

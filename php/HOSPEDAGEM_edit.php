@@ -12,11 +12,11 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$query->exec("SELECT id_hospedagem , id_animal , valor , endereco_recolhimento , id_bairro , responsavel , dt_entreda , dt_retirada , situacao
+$query->exec("SELECT id_hospedagem , id_animal , valor , endereco_recolhimento , id_bairro , id_responsavel , dt_entreda , dt_retirada , situacao
 
 FROM hospedagem
 
-WHERE id_hospedagem = " . $id_hospedagem);
+WHERE endereco_recolhimento= " . $endereco_recolhimento);
 
 $query->result($query->linha);
 
@@ -84,7 +84,6 @@ $query->result($query->linha);
                             $query->begin();
 
                             $itens = array(
-                                $id_hospedagem,
                                 $id_animal,
                                 $dta_entrada,
                                 $form_endereco_recolhimento,

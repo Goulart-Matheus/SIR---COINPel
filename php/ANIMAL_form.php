@@ -98,13 +98,13 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_nro_ficha"><span class="text-danger">*</span> Nunero Ficha</label>
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Numero Ficha</label>
                         <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
                     </div>
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_nro_chip"><span class="text-danger">*</span> Nunero Chip</label>
+                        <label for="form_nro_chip"><span class="text-danger">*</span> Numero Chip</label>
                         <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
                     </div>
 

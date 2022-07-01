@@ -12,9 +12,16 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$query->exec("SELECT id_animal , nro_ficha , nro_chip , id_pelagem , id_especie , sexo , observacao  FROM animal WHERE id_animal = " . $id_animal);
-$query->result($query->linha);
+$where = "";
+$where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
+$query->exec(
+    "SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
+              FROM animal
+              WHERE id_animal>=1" . $where
+);
 
+
+$query->result($query->linha);
 
 ?>
 
@@ -45,11 +52,9 @@ $query->result($query->linha);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-
                             $valida = new Valida($form_nro_chip, 'Nro_chip');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
-
 
                             $valida = new Valida($form_id_pelagem, 'id_pelagem ');
                             $valida->TamMinimo(1);
@@ -73,7 +78,7 @@ $query->result($query->linha);
                             $query->begin();
 
                             $itens = array(
-                                trim($form_nro_ficha),
+                                $form_nro_ficha,
                                 $nro_chip,
                                 $id_pelagem,
                                 $id_especie,
@@ -106,20 +111,21 @@ $query->result($query->linha);
 
                 <div class="form-row">
 
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"></span> Nunero Ficha</label>
                         <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
                     </div>
 
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-4">
                         <label for="form_nro_chip"></span> Nunero Chip</label>
                         <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
                     </div>
 
-                    <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-4">
                         <label for="form_sexo"></span>Sexo</label>
                         <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="100" value="<? if ($erro) echo $form_sexo; ?>">
                     </div>
+
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_pelagem"></span> Pelagem</label>
@@ -131,15 +137,13 @@ $query->result($query->linha);
                         <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($erro) echo $form_id_especie; ?>">
                     </div>
 
-                    <div class="form-group col-12">
+
+                    <div class="form-group col-12 ">
                         <label for="form_observacao">Observação</label>
                         <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($erro) echo $form_observacao; ?>">
                     </div>
 
-
-
                 </div>
-
 
             </div>
 

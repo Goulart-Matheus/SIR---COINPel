@@ -161,10 +161,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_bairro"><span class="text-danger">*</span> Bairro</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control" required>
+                        <label for="form_id_bairro"><span class="text-danger">*</span> Bairro</label>
+                        <select name="form_id_bairro" id="form_id_bairro" class="form-control" required>
                             <?
-                            $form_elemento = $erro ? $form_bairro : "";
+                            $form_elemento = $erro ? $form_id_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -174,14 +174,21 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_id_responsavel"><span class="text-danger">*</span> Responsável</label>
-                        <input type="text" class="form-control" name="form_id_responsavel" id="form_id_responsavel" maxlength="100" value="<? if ($erro) echo $form_id_responsavel; ?>">
+                        <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
+                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_id_responsavel : "";
+                            include("../includes/inc_select_responsavel.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o Responsavel.
+                        </div>
                     </div>
 
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_dt_entrada"><span class="text-danger">*</span>Data Entrada</label>
-                        <input type="date" class="form-control" name="form_id_dt_entrada" id="form_id_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_id_dt_entrada; ?>">
+                        <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
@@ -192,13 +199,27 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_id_motivo"><span class="text-danger">*</span> Motivo</label>
-                        <input type="texte" class="form-control" name="form_id_motivo" id="form_id_motivo" maxlength="100" value="<? if ($erro) echo $form_id_motivo; ?>">
+                        <select name="form_id_motivo" id="form_id_motivo" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_id_motivo : "";
+                            include("../includes/inc_select_motivo.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o Motivo.
+                        </div>
                     </div>
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_id_urm"><span class="text-danger">*</span> URM</label>
-                        <input type="text" class="form-control" name="form_id_urm" id="form_id_urm" maxlength="100" value="<? if ($erro) echo $form_id_urm; ?>">
+                        <label for="form_id_urm"><span class="text-danger">*</span>URM</label>
+                        <select name="form_id_urm" id="form_id_urm" class="form-control" required>
+                            <?
+                            $form_elemento = $erro ? $form_id_urm : "";
+                            include("../includes/inc_select_urm.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha a URM.
+                        </div>
                     </div>
 
 
