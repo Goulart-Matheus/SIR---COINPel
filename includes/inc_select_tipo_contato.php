@@ -34,4 +34,3 @@ while ($n--) {
 $option_place = $where = $form_elemento = "";
 ?>
 
-//puxar a mascara

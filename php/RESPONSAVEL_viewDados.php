@@ -96,8 +96,8 @@
                                         bairro b,
                                         tipo_contato tc,
                                         responsavel_contato rc
-                                  WHERE rc.id_responsavel =".  $id_responsavel[$c],
-                                  "AND  r.id_responsavel = ".  $id_responsavel[$c] 
+                                  WHERE rc.id_responsavel =r.id_responsavel,
+                                  AND  r.id_responsavel = ".  $id_responsavel[$c] 
                                       
                                 
                                  ); 

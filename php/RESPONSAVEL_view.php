@@ -79,16 +79,18 @@ include_once('../includes/dashboard/footer.php');
 <script src="../assets/js/jquery.mask.js"></script>
 <script type="text/javascript">
 
-    $('#form_mascara').mask('000.000.000-00', {
-        reverse: false
-    }).on("keyup", function(e) {
-
-        if ($(this).val().length == 11
-        ) {                                   // IMPORTANTE NÃO ESQUECER
-            $(this).mask('000.000.000-00');   // verificar mais tarde a escolha tem que ser dinamica
-        } 
-
+    $('#form_mascara').mask('000.000.000-00');
+    $('#form_rg').mask('00000000000000');
+    $(document).on('change','.form_tipo_contato',function(){
+       var mascara = $(this).find(':selected').data('mascara');
+       if(mascara == 'email'){
+        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','email');
+       }
+       else {
+        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','text').mask(mascara);
+       }
     });
+
 </script>
 
 

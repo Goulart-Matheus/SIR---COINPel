@@ -50,17 +50,13 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $valida = new Valida($form_endereco, 'Endereço');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
-
-                            // $valida = new Valida($form_valor_contato, 'Contato');
-                            // $valida->TamMinimo(1);
-                            // $erro .= $valida->PegaErros();
-
-                            foreach ($form_valor_contato as $c => $val) {
-                                $valida = new Valida($form_valor_contato[$c], 'Contato');
-                                $valida->TamMinimo(1);
+                            
+                            foreach ($form_valor_contato as $val) {
+                                $valida = new Valida($val[0], 'Contato');
+                                $valida->TamMinimo(10);
                                 $erro .= $valida->PegaErros();
                             }
-                           
+                            
 
 
 
@@ -89,23 +85,26 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             
                             $id_responsavel = $query->last_insert[0];
                             
-                                                      
-                            foreach($form_valor_contato as $c =>$val){
+                                              
+                            foreach($form_valor_contato as $val){
                             $query->insertTupla(
                                 'responsavel_contato',
                                 array(
                                     $id_responsavel,
-                                    $form_tipo_contato,
+                                    $form_tipo_contato[0],
                                     $val,
                                     $form_principal, 
-                                    $_login,
+                                    $auth->getUser(),
                                     $_ip,
                                     $_data,
                                     $_hora,
                                     
                                 )
+                               
                             );
+                              
                         }
+
 
 
 
@@ -178,7 +177,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 ">
 
-                        <p class="text-center py-2 bg-dark">
+                        <p class="text-center py-2 bg-dark" >
                             Contatos :
                         </p>
 
@@ -206,10 +205,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                            
                                 <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
-                                    <? $form_elemento = $erro ? $form_tipo_contato : ""; include("../includes/inc_select_tipo_contato.php"); ?>
+                                    <? $form_elemento = $erro ? $form_tipo_contato :  include("../includes/inc_select_tipo_contato.php"); ?>
                                 </select>
                               
-                                <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>"" /> 
+                                <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
 
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
                                 <select name="form_principal" id="form_principal" class="form-control col-md-1">

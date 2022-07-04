@@ -183,7 +183,7 @@ $query->result($query->linha);
                         $qnt = 1;
 
                         if ($erro) {
-                            $qnt = count($form_tipo_mascara);
+                            $qnt = count($form_valor_contato);
                         }
 
                         for ($c = 0; $c < $qnt; $c++) {
@@ -193,10 +193,10 @@ $query->result($query->linha);
                             <div class="input-group ml-0 mb-2" id="campo_dinamico">
 
                            
-                                <select name="form_tipo_contato" id="form_tipo_contato" class="form-control" required>
+                                <select name="form_tipo_contato" id="form_tipo_contato" class="form-control  form_tipo_contato" required>
                                     <? $form_elemento = $erro ? $form_tipo_contato : ""; include("../includes/inc_select_tipo_contato.php"); ?>
                                 </select>
-                                <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
+                                <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7  form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Habilitado"/>
                                 <select name="form_principal[]" id="form_principal" class="form-control col-md-1">
                                     <option value='S'>Sim</option>
@@ -209,11 +209,11 @@ $query->result($query->linha);
 
                                     <? if ($c == $qnt - 1) { ?>
 
-                                        <a class="btn btn-success" id="novo_campo_dinamico" href="#form_tipo_mascara">+</a>
+                                        <a class="btn btn-success" id="novo_campo_dinamico" href="#id_mult">+</a>
 
                                     <? } else { ?>
 
-                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#form_tipo_mascara">x</a>
+                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#id_mult">x</a>
 
                                     <? } ?>
 
@@ -256,14 +256,16 @@ include_once('../includes/dashboard/footer.php');
 <script src="../assets/js/jquery.mask.js"></script>
 <script type="text/javascript">
 
-    $('#form_mascara').mask('000.000.000-00', {
-        reverse: false
-    }).on("keyup", function(e) {
-
-        if ($(this).val().length == 11
-        ) {
-            $(this).mask('000.000.000-00');
-        } 
-
+    $('#form_mascara').mask('000.000.000-00');
+    $('#form_rg').mask('00000000000000');
+    $(document).on('change','.form_tipo_contato',function(){
+       var mascara = $(this).find(':selected').data('mascara');
+       if(mascara == 'email'){
+        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','email');
+       }
+       else {
+        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','text').mask(mascara);
+       }
     });
+
 </script>
