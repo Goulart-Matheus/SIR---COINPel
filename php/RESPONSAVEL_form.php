@@ -53,7 +53,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             
                             foreach ($form_valor_contato as $val) {
                                 $valida = new Valida($val[0], 'Contato');
-                                $valida->TamMinimo(10);
+                                $valida->TamMinimo(1);
                                 $erro .= $valida->PegaErros();
                             }
                             

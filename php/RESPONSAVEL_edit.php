@@ -148,7 +148,7 @@ $query->result($query->linha);
                                                                                                                                   else echo trim($query->record[5]); ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
+                        <label for="form_bairro"><span class="text-danger" >*</span> Bairro :</label>
                         <select name="form_bairro" id="form_bairro" class="form-control" required>
                             <?
                             $form_elemento = $erro ? $form_bairro : "";

@@ -81,23 +81,11 @@
                 for ($c = 0; $c < sizeof($id_responsavel); $c++) {
                     
                     $query->exec ("SELECT 
-                                        r.id_responsavel,
-                                        r.nome,
-                                        r.cpf,
-                                        r.rg,
-                                        r.dt_nascimento,
-                                        r.endereco,
-                                        b.descricao,
-                                        rc.valor_contato,
-                                        rc.principal
+                                        id_responsavel_contato, id_responsavel,id_tipo_contato,valor_contato,principal
                                   FROM 
-
-                                        responsavel r,
-                                        bairro b,
-                                        tipo_contato tc,
-                                        responsavel_contato rc
-                                  WHERE rc.id_responsavel =r.id_responsavel,
-                                  AND  r.id_responsavel = ".  $id_responsavel[$c] 
+                                        responsavel_contato
+                                  WHERE id_responsavel =".  $id_responsavel[$c]
+                                
                                       
                                 
                                  ); 
@@ -111,7 +99,7 @@
                         {
 
                                                        
-                            $where = array(0 => array('rc.id_responsavel', $id_responsavel[$c]));
+                            $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
                             $querydel->deleteTupla('responsavel_contato', $where);
 
                             
@@ -121,7 +109,7 @@
                     };
                     // fim do laço
 
-                    $where = array(0 => array('r.id_responsavel', $id_responsavel[$c]));
+                    $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
                     $querydel->deleteTupla('responsavel', $where);
 
                     
