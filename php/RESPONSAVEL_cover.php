@@ -58,9 +58,9 @@
                                 <div class="col-12 col-md-6">
 
                                     <div class="row">
-                                        <div class="col-12">
+                                        <div class="col-12" >
                                             <h5>Nome:
-                                                <?= $query->record[1] ?><br><br>
+                                                <?= $query->record[1] ?><br>
                                                 <small>CPF:                 <?= $query->record[2] ?></small><br>
                                                 <small>RG:                  <?= $query->record[3] ?></small><br>
                                                 <small>Data de nascimeto:   <?= $query->record[4] ?></small><br>
@@ -120,13 +120,13 @@
 
                      <div class="row">
 
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-4">
                     
                             <? include("../includes/cards/dashboard_RESPONSAVEL/card_dashboard_RESPONSAVEL_INFO.php"); ?>
 
                         </div>
 
-                         <div class="col-12 col-md-6">
+                         <div class="col-12 col-md-8">
                     
                             <? include("../includes/cards/dashboard_RESPONSAVEL/card_dashboard_RESPONSAVEL_ANIMAL.php"); ?>
 

@@ -47,7 +47,7 @@
 
         </div>
 
-        <div class="card-body p-0 m-0" style="height: 405px;">
+        <div class="card-body p-0 m-0" style="height: 175px;">
 
             <div class="col-12 p-0 m-0" id="chart_info"></div>
 <!-- Inicio -->
