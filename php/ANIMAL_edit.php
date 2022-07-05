@@ -15,7 +15,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 $where = "";
 $where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
 $query->exec(
-    "SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
+    "SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie , observacao
               FROM animal
               WHERE id_animal>=1" . $where
 );
@@ -29,7 +29,7 @@ $query->result($query->linha);
 
     <form method="post" action="<? echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
 
-        <input type="hidden" name="id_urm" value="<? echo $query->record[0]; ?>">
+        <input type="hidden" name="id_animal" value="<? echo $query->record[0]; ?>">
 
         <div class="card p-0">
 
