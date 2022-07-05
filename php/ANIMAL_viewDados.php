@@ -3,31 +3,6 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-
-$where = "";
-
-//$where .= $form_valor           != ""  ? " AND  valor        = $form_valor        "   : "";
-// $where .= $form_ativo   == "S"         ? " AND ativo = $form_ativo "   : "N";
-//$where .= $form_mes_referencia   != ""  ? " AND mes_referencia = $form_mes_referencia" : "";
-//$where .= $form_ano_referencia   != ""  ? " AND ano_referencia = $form_ano_referencia" : "";
-
-
-//$query->exec("SELECT  
-//a.id_animal , a.nro_ficha , a.nro_chip , a.sexo , 
-//p.id_pelagem , 
-//e.id_especie
-
-//(SELECT  a.id_animal
-// FROM animal a , pelagem p , especie e
-// WHERE  a.id_pelagem  = p. id_pelagem
-//AND    a.id_especie = e.id_especie    ORDER BY a.id_animal DESC LIMIT 1 )
-
-
-//FROM animal a , pelagem p , especie e
-
-//WHERE a.id_pelagem = p.id_pelagem
-
-
 $where = "";
 $where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
 $query->exec(
@@ -43,18 +18,6 @@ if (!$sort_by)   $sort_by  = 1;
 if (!$sort_dir)   $sort_dir = 0;
 
 
-
-//$query->exec("SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie
-//FROM animal
-// WHERE nro_ficha ilike '%" . $form_nro_ficha . "%'
-
-//");
-
-//$sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
-
-//if (!$sort_by)   $sort_by  = 1;
-//if (!$sort_dir)   $sort_dir = 0;
-
 $sort->sortItem($sort_by, $sort_dir);
 
 $report_subtitulo   = "Nro_ficha";
@@ -66,12 +29,12 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'    ,     10, 0),
-        array('Nro_ficha' ,     19, 1),
-        array('Nro_chip'  ,     19, 2),
-        array('Sexo'      ,     19, 3),
+        array('Código',     10, 0),
+        array('Nro_ficha',     19, 1),
+        array('Nro_chip',     19, 2),
         array('Id_pelagem',     10, 4),
         array('Id_especie',     10, 5),
+        array('Sexo',     19, 3),
         array('Observacao',    190, 5)
     );
 
@@ -157,75 +120,77 @@ $n = $paging->query->rows();
 
             </div>
 
-            <div class="card-body pt-0">
+        </div>
 
-                <table class="table table-striped responsive">
+        <div class="card-body pt-0">
 
-                    <thead>
+            <table class="table table-striped responsive">
 
-                        <tr>
-                            <th colspan="2">
+                <thead>
 
-                                Resultados de
+                    <tr>
+                        <th colspan="2">
 
-                                <span class="range-resultados">
-                                    <? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal(); ?>
-                                </span>
+                            Resultados de
 
-                                sobre
+                            <span class="range-resultados">
+                                <? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal(); ?>
+                            </span>
 
-                                <span class='numero-paginas'>
-                                    <? echo $paging->getRows(); ?>
-                                </span>
+                            sobre
 
-                                <a href="<? echo $_SERVER['PHP_SELF']; ?>?print=1<? echo $paging->verificaVariaveis(); ?>" target="_new">
-                                    <i class="fas fa-print"></i>
-                                </a>
+                            <span class='numero-paginas'>
+                                <? echo $paging->getRows(); ?>
+                            </span>
 
-                            </th>
-                        </tr>
+                            <a href="<? echo $_SERVER['PHP_SELF']; ?>?print=1<? echo $paging->verificaVariaveis(); ?>" target="_new">
+                                <i class="fas fa-print"></i>
+                            </a>
 
-                    </thead>
+                        </th>
+                    </tr>
 
-                    <tbody>
+                </thead>
 
-                        <tr>
+                <tbody>
 
-                            <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_ficha'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_chip'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Sexo'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Pelagem'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Especie'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Observacao'); ?> </td>
-                        </tr>
+                    <tr>
 
-                        <?
+                        <td width="5px"></td>
+                        <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_ficha'); ?> </td>
+                        <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_chip'); ?> </td>
+                        <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Sexo'); ?> </td>
+                        <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Pelagem'); ?> </td>
+                        <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Especie'); ?> </td>
+                        <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Observacao'); ?> </td>
+                    </tr>
 
-                        while ($n--) {
+                    <?
 
-                            $paging->query->proximo();
+                    while ($n--) {
 
-                            $js_onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?id_animal=" . $paging->query->record[0] . "')";
+                        $paging->query->proximo();
 
-                            echo "<tr>";
+                        $js_onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?id_animal=" . $paging->query->record[0] . "')";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_ANIMAL[]' value=" . $paging->query->record[0] . "></td>";
+                        echo "<tr>";
 
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
-                            echo "</tr>";
-                        }
+                        echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_ANIMAL[]' value=" . $paging->query->record[0] . "></td>";
 
-                        ?>
+                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
+                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
+                        echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
+                        echo "</tr>";
+                    }
 
-                    </tbody>
+                    ?>
 
-                    <tfoot>
+                </tbody>
+
+                <tfoot>
 
                         <tr>
                             <td colspan="2">
@@ -236,7 +201,7 @@ $n = $paging->query->rows();
 
                                 <? if ($paging->query->rows()) { ?>
 
-                                    <div class="text-right pt-2">
+                                    <div class="text-right pt-27">
                                         <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
                                         <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
                                     </div>
@@ -249,9 +214,9 @@ $n = $paging->query->rows();
 
                     </tfoot>
 
-                </table>
+            </table>
 
-            </div>
+        </div>
 
         </div>
 
