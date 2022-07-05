@@ -226,7 +226,7 @@
 
                                 $paging->query->proximo();
 
-                                $js_onclick = "OnClick=javascript:window.location=('RESPONSAVEL_edit.php?id_responsavel=" . $paging->query->record[0] . "')";
+                                $js_onclick = "OnClick=javascript:window.location=('RESPONSAVEL_cover.php?id_responsavel=" . $paging->query->record[0] . "')";
 
                                 echo "<tr>";
 

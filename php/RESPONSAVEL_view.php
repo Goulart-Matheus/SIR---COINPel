@@ -16,6 +16,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 <section class="content">
 
+                                <!-- Depois criar um botão no Responsavel_cover para realizar a edição "RESPONSAVEL_viewDados.php" -->
     <form method="POST" action="RESPONSAVEL_viewDados.php">
 
         <div class="card p-0">
