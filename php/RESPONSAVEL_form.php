@@ -212,6 +212,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
                                 <select name="form_principal" id="form_principal" class="form-control col-md-1">
+                                    <option value=" ">Selecione</option>
                                     <option value="S">Sim</option>
                                     <option value="N">Não</option>
                                 </select>
@@ -220,7 +221,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                                     <? if ($c == $qnt - 1) { ?>
 
-                                        <a class="btn btn-success " id="novo_campo_dinamico" href="#id_mult">+</a>
+                                        <a class="btn btn-success add_responsavel" id="novo_campo_dinamico" href="#id_mult">+</a>
 
                                     <? } else { ?>
 

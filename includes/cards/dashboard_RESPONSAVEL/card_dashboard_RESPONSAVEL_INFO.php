@@ -1,5 +1,7 @@
+
 <?
-    // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
+   
+     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
     $query->exec("SELECT
                         r.id_responsavel,
@@ -7,28 +9,33 @@
                         rc.principal
                 FROM
                         responsavel r,
-                        bairro b,
-                        tipo_contato tc,
                         responsavel_contato rc
                 WHERE
-                    r.nome ilike '%" . $form_responsavel . "%'
-                   
-                and 
-                    b.id_bairro =r.id_bairro 
-                and
-                    rc.id_responsavel = r.id_responsavel
-                and 
-                    rc.id_tipo_contato = tc.id_tipo_contato                
-
+                    r.id_responsavel = $id_responsavel
+                AND                                               
+                    r.id_responsavel = rc.id_responsavel
                 "
       
     );
-    //$total_contato = $query->record[0];
-
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    $n = $query->rows();
 
-   
 
+
+
+
+
+
+    //$total_contato = $query->record[0];
    //$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
 
     ?>
@@ -46,18 +53,38 @@
             </div>
 
         </div>
+<!-- inicio -->
+        <div class="card-body overflow-auto p-0 m-0 table-responsive" style="height: 175px;">
 
-        <div class="card-body p-0 m-0" style="height: 405px;">
-
-            <div class="col-12 p-0 m-0" id="chart_info"></div>
-<!-- Inicio -->
-
-
-
-<!-- Fim-->
+        <table class="table">
             
-        </div>
+            <tbody>
+                <tr>
+                    <td>Contato(s)</td>
+                    <td>Principal</td>
+                </tr>
+                <?
+                    while($n--)
+                    {
+                        $query->proximo();
 
+                        ?>
+                            <tr>
+                                
+                                <td><?= $query->record[1]; ?></td>
+                                <td><?= $query->record[2]; ?></td>
+                            </tr>
+                        <?
+
+                    }
+                ?>
+
+            </tbody>
+
+        </table>
+
+    </div>
+<!-- fim -->
         <div class="card-footer">
 
             <div class="row">
