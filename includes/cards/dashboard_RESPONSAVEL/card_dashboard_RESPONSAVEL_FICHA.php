@@ -34,26 +34,27 @@
 
         
 
-    <div class="col-12 text-center rounded">
+<div class="col-12 col-md-12 text-center rounded">
 
+<div class="info-box shadow">
 
-            <div class="info-box bg-green">
+     <span class="info-box-icon  bg-green"><i class="fas fas fa-portrait"></i></span>
 
-                <span class="info-box-icon"><i class="fas fa-portrait"></i></span>
+    <div class="info-box-content">
 
-                <div class="info-box-content">
+        <h4><span class="info-box-text text-green"  >Nome:</span></h4>
 
-                    <span class="info-box-text text-center py-3">
-                    <?= $query->record[1] ?>
-                    </span>
+        
+            <h4> <?= $query->record[1] ?></h4>
+        
 
-                </div>
-
-            </div>
-
-        </a>
+        
 
     </div>
+
+</div>
+
+</div>
 
     <div class="col-12 col-md-4 text-center rounded">
 
@@ -63,15 +64,13 @@
 
             <div class="info-box-content">
 
-                <span class="info-box-text">CPF:</span>
+                <span class="info-box-text text-green">CPF:</span>
 
                 
                      <?= $query->record[2] ?>
                 
 
-                <span class="info-box-number text-center">
-                    <h2  class="p-0 m-0"><?= $c ?></h2>
-                </span> 
+                
 
             </div>
 
@@ -86,13 +85,11 @@
 
             <div class="info-box-content">
 
-                <span class="info-box-text">RG:</span>
+                <span class="info-box-text text-green">RG:</span>
 
                 <?= $query->record[3] ?>
 
-                <span class="info-box-number text-center">
-                    <h2  class="p-0 m-0"><?= $c ?></h2>
-                </span> 
+                
 
             </div>
 
@@ -107,13 +104,11 @@
 
             <div class="info-box-content">
             
-                <span class="info-box-text">Endereço:</span>
+                <span class="info-box-text text-green">Endereço:</span>
 
-                <?= $query->record[5] ?>
+                </h2><?= $query->record[5] ?> / Bairro:  <?= $query->record[6] ?> </h2>
 
-                <span class="info-box-number text-center">
-                    <h2  class="p-0 m-0"><?= $c ?></h2>
-                </span> 
+                
 
             </div>
 

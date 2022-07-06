@@ -194,7 +194,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         $qnt = 1;
 
                         if ($erro) {
-                            $qnt = count($form_valor_contato);
+                            $qnt = count($form_principal);
                         }
 
                         for ($c = 0; $c < $qnt; $c++) {
@@ -209,10 +209,9 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 </select>
                               
                                 <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
-
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
-                                <select name="form_principal" id="form_principal" class="form-control col-md-1">
-                                    <option value=" ">Selecione</option>
+                                <select name="form_principal"  required id="form_principal" required  class="form-control col-md-1">
+                                <option value="" selected>Selecione</option>
                                     <option value="S">Sim</option>
                                     <option value="N">Não</option>
                                 </select>
@@ -221,11 +220,11 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                                     <? if ($c == $qnt - 1) { ?>
 
-                                        <a class="btn btn-success add_responsavel" id="novo_campo_dinamico" href="#id_mult">+</a>
+                                        <a class="btn btn-success " id="novo_campo_dinamico" href="#form_principal">+</a>
 
                                     <? } else { ?>
 
-                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#id_mult">x</a>
+                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#form_principal">x</a>
 
                                     <? } ?>
 

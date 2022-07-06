@@ -40,7 +40,7 @@
             <div class="row">
 
                 <div class="col-12">
-                    <i class="fas fa-list"></i> Animais vinculados - Listagem
+                    <i class="fas fa-list"></i> Animais vinculados 
                 </div>
 
             </div>

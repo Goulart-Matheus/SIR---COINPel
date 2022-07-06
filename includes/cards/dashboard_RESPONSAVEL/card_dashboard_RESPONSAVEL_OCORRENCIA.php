@@ -40,7 +40,7 @@
             <div class="row">
 
                 <div class="col-12">
-                    <i class="fas fa-hand-paper"></i> Ocorrências - Listagem
+                    <i class="fas fa-hand-paper"></i> Ocorrências 
                 </div>
 
             </div>
