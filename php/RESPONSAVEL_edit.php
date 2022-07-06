@@ -18,11 +18,13 @@ $query->exec("SELECT id_responsavel, nome , cpf, rg , dt_nascimento, endereco , 
 
 $query->result($query->linha);
 
+$link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
+
 ?>
 
 <section class="content">
 
-    <form method="post" action="<? echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
+    <form method="post" action="<? echo $_SERVER['PHP_SELF'] . $link ?>" enctype="multipart/form-data">
 
         <input type="hidden" name="id_responsavel" value="<? echo $query->record[0]; ?>">
 

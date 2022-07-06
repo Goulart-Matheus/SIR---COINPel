@@ -179,13 +179,8 @@ $n = $paging->query->rows();
 
                     <tfoot>
 
-<<<<<<< HEAD
-                        <tr>
-                            <td colspan="4">
-=======
                             <tr>
                                 <td colspan="7">
->>>>>>> 0e9e470c60e9a4b6392ec3a8d8bef91d98653dde
 
                                     <div class="text-center pt-2">
                                         <? echo $paging->viewTableSlice(); ?>
