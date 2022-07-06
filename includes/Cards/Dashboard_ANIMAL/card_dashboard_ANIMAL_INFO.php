@@ -1,13 +1,16 @@
 <?
-    // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
+    // preparando a listagem dos animal Responsavel com o contato principal
 
     $query->exec("SELECT
-                        r.id_responsavel,
-                        rc.valor_contato,
-                        rc.principal
+                         ar.id_animal_responsavel,
+                         ar.id_animal,
+                         r.id_responsavel,
+                         rc.id_responsavel_contato,
+                         tc.id_tipo_contato,
+                         rc.valor_contato,
+
                 FROM
                         responsavel r,
-                        bairro b,
                         tipo_contato tc,
                         responsavel_contato rc
                 WHERE
@@ -40,7 +43,7 @@
             <div class="row">
 
                 <div class="col-12">
-                    <i class="fas fa-info-circle"></i> Contatos do  Responsável
+                    <i class="fas fa-info-circle"></i> Animal Informações
                 </div>
 
             </div>

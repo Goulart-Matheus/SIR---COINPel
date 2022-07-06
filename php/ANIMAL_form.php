@@ -10,11 +10,13 @@ $tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->setTab('Pesquisar', 'fas fa-search', 'ANIMAL_view.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
+$link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
 ?>
 <section class="content">
 
-    <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
+    
+    <form method="post" action="<? echo $_SERVER['PHP_SELF'] . $link ?>" enctype="multipart/form-data">
 
         <div class="card p-0">
 

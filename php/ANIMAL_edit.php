@@ -12,12 +12,13 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$where = "";
-$where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
+
+//$where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
 $query->exec(
     "SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie , observacao
               FROM animal
-              WHERE id_animal>=1" . $where
+              WHERE id_animal= $id_animal " 
+              
 );
 
 
@@ -113,34 +114,34 @@ $query->result($query->linha);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"></span> Nunero Ficha</label>
-                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($edit) echo $form_nro_ficha;else echo trim($query->record[1]) ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_chip"></span> Nunero Chip</label>
-                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
+                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($edit) echo $form_nro_chip; else echo trim($query->record[2])?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_sexo"></span>Sexo</label>
-                        <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="100" value="<? if ($erro) echo $form_sexo; ?>">
+                        <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="100" value="<? if ($edit) echo $form_sexo;else echo trim($query->record[3]) ?>">
                     </div>
 
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_pelagem"></span> Pelagem</label>
-                        <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100" value="<? if ($erro) echo $form_id_pelagem; ?>">
+                        <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100" value="<? if ($edit) echo $form_id_pelagem;else echo trim($query->record[4]) ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_especie"></span>Especie</label>
-                        <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($erro) echo $form_id_especie; ?>">
+                        <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($edit) echo $form_id_especie; else echo trim($query->record[5])?>">
                     </div>
 
 
                     <div class="form-group col-12 ">
                         <label for="form_observacao">Observação</label>
-                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($erro) echo $form_observacao; ?>">
+                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($edit) echo $form_observacao; else echo trim($query->record[6])?>">
                     </div>
 
                 </div>

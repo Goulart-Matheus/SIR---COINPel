@@ -169,13 +169,13 @@ $n = $paging->query->rows();
 
                             $paging->query->proximo();
 
-                            $js_onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?id_animal=" . $paging->query->record[0] . "')";
+                            $js_onclick = "OnClick=javascript:window.location=('ANIMAL_cover.php?id_animal=" . $paging->query->record[0] . "')";
 
 
 
                             echo "<tr>";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_urm[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_animal[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";

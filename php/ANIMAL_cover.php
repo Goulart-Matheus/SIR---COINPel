@@ -7,7 +7,7 @@ include('../class/class.tab.php');
 include('../function/function.date.php');
 
 $query->exec("SELECT 
-                    a.id_animal , a.nro_ficha , a.nro_chip , a.sexo , a.observacao, p. descricao , e.especie
+                    a.id_animal , a.nro_ficha , a.nro_chip , a.sexo , a.observacao, p. descricao , e.descricao
                     FROM 
                         animal a, pelagem p , especie e
                     WHERE 
@@ -63,13 +63,12 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
                             <div class="row">
                                 <div class="col-12">
                                     <h5>Nro_ficha:
-                                        <?= $query->record[1] ?><br><br>
-                                        <small>Nro_chip: <?= $query->record[2] ?></small><br>
-                                        <small>Id_pelagem: <?= $query->record[3] ?></small><br>
-                                        <small>Id_especie: <?= $query->record[4] ?></small><br>
-                                        <small>Sexo: <?= $query->record[5] ?></small><br>
-                                        <small>Observacao: <?= $query->record[6] ?></small>
-
+                                        <?= $query->record[1]                           ?><br><br>
+                                        <small>Nro_chip:       <?= $query->record[2] ?></small><br>
+                                        <small>Sexo:           <?= $query->record[3] ?></small><br>
+                                        <small>Id_pelagem:     <?= $query->record[5] ?></small><br>
+                                        <small>Especie:        <?= $query->record[6] ?></small><br>
+                                        <small>Observacao:     <?= $query->record[4] ?></small><br>
                                     </h5>
 
                                 </div>
