@@ -1,77 +1,98 @@
 <?
-    // preparando a listagem dos animal Responsavel com o contato principal
 
-    $query->exec("SELECT
-                         ar.id_animal_responsavel,
-                         ar.id_animal,
-                         r.id_responsavel,
-                         rc.id_responsavel_contato,
-                         tc.id_tipo_contato,
-                         rc.valor_contato,
+// preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
+$query->exec(
+    "SELECT
+                        a.id_animal,
+                        r.id_responsavel, 
+                        rc.id_responsavel_contato,
+                        rc.valor_contato,
+                        rc.principal,
+                        e. especie
                 FROM
                         responsavel r,
-                        tipo_contato tc,
-                        responsavel_contato rc
+                        responsavel_contato rc,
+                        especie e,
+                        animal a, 
                 WHERE
-                    r.nome ilike '%" . $form_responsavel . "%'
-                   
-                and 
-                    b.id_bairro =r.id_bairro 
-                and
-                    rc.id_responsavel = r.id_responsavel
-                and 
-                    rc.id_tipo_contato = tc.id_tipo_contato                
+                    r.id_responsavel = $id_responsavel and a.id_animal = $id_animal and 
+                    
+                AND                                               
+                    r.id_responsavel = rc.id_responsavel
+                AND  
+
+                    e.id_especie = a.id_especie
+
 
                 "
-      
-    );
-    //$total_contato = $query->record[0];
 
-    
-
-   
-
-   //$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
-
-    ?>
-
-    <div class="card border">
-
-        <div class="card-header bg-green">
-
-            <div class="row">
-
-                <div class="col-12">
-                    <i class="fas fa-info-circle"></i> Animal Informações
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="card-body p-0 m-0" style="height: 405px;">
-
-            <div class="col-12 p-0 m-0" id="chart_info"></div>
-<!-- Inicio -->
+);
 
 
 
-<!-- Fim-->
-            
-        </div>
+$n = $query->rows();
 
-        <div class="card-footer">
 
-            <div class="row">
+//$total_contato = $query->record[0];
+//$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
 
-                <div class="col-6"><a href='RESPONSAVEL_form.php'><i class="fa fa-plus"></i> Novo</a></div>
+?>
 
-               <!-- <div class="col-6 text-right"><a href='RESPONSAVEL_viewDados.php?id_responsavel=<?= $id_responsavel ?>'>Editar informações</a></div> -->
+<div class="card border">
 
+    <div class="card-header bg-green">
+
+        <div class="row">
+
+            <div class="col-12">
+                <i class="fas fa-info-circle"></i> Responsável Animal
             </div>
 
         </div>
 
     </div>
-    
+    <!-- inicio -->
+    <div class="card-body overflow-auto p-0 m-0 table-responsive" style="height: 175px;">
+
+        <table class="table">
+
+            <tbody>
+                <tr>
+                    <td>Contato(s)</td>
+                    <td>Principal</td>
+                </tr>
+                <?
+                while ($n--) {
+                    $query->proximo();
+
+                ?>
+                    <tr>
+
+                        <td><?= $query->record[1]; ?></td>
+                        <td><?= $query->record[2]; ?></td>
+                    </tr>
+                <?
+
+                }
+                ?>
+
+            </tbody>
+
+        </table>
+
+    </div>
+    <!-- fim -->
+    <div class="card-footer">
+
+        <div class="row">
+
+            <div class="col-6"><a href='ANIMAL_form.php'><i class="fa fa-plus"></i> Novo</a></div>
+
+            <!-- <div class="col-6 text-right"><a href='ANIMAL_viewDados.php?id_animal=<?= $id_animal ?>'>Editar informações</a></div> -->
+
+        </div>
+
+    </div>
+
+</div>
