@@ -2,23 +2,30 @@
     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
     $query->exec("SELECT
-                        r.id_responsavel,
-                        rc.valor_contato,
-                        rc.principal
+                        ar.id_responsavel,
+                        ar.id_animal,
+                        a.nro_ficha,
+                        a.nro_chip,
+                        p.descricao,
+                        e.descricao
+
                 FROM
                         responsavel r,
-                        bairro b,
-                        tipo_contato tc,
-                        responsavel_contato rc
+                        animal_responsavel ar,
+                        animal a,
+                        pelagem p,
+                        especie e
                 WHERE
-                    r.nome ilike '%" . $form_responsavel . "%'
-                   
-                and 
-                    b.id_bairro =r.id_bairro 
-                and
-                    rc.id_responsavel = r.id_responsavel
-                and 
-                    rc.id_tipo_contato = tc.id_tipo_contato                
+                    r.id_responsavel = $id_responsavel
+                AND
+                    ar.id_responsavel = r.id_responsavel
+                AND
+                    ar.id_animal = a.id_animal
+                AND
+                    p.id_pelagem = a.id_pelagem
+                AND
+                    e.id_especie = a.id_especie
+                              
 
                 "
       
@@ -62,9 +69,9 @@
 
             <div class="row">
 
-                <div class="col-9"><a href='RESPONSAVEL_form.php'><i class="fa fa-plus"></i> Novo</a></div>
+                <div class="col-9"><a href='ANIMAL_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
 
-               <!-- <div class="col-6 text-right"><a href='RESPONSAVEL_viewDados.php?id_responsavel=<?= $id_responsavel ?>'>Editar informações</a></div> -->
+                <!-- <div class="col-6 text-right"><a href='RESPONSAVEL_viewDados.php?id_responsavel=<?= $id_responsavel ?>'>Editar informações</a></div>  -->
 
             </div>
 

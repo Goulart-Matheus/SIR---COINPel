@@ -60,8 +60,9 @@
             
             <tbody>
                 <tr>
-                    <td>Contato(s)</td>
-                    <td>Principal</td>
+                <td></td>    
+                <td>Contato(s)</td>
+                   
                 </tr>
                 <?
                     while($n--)
@@ -70,9 +71,9 @@
 
                         ?>
                             <tr>
-                                
-                                <td><?= $query->record[1]; ?></td>
                                 <td><?= $query->record[2]; ?></td>
+                                <td><?= $query->record[1]; ?></td>
+                                
                             </tr>
                         <?
 

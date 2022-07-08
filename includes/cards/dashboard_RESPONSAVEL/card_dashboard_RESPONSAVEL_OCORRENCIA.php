@@ -1,26 +1,42 @@
 <?
     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
-    $query->exec("SELECT
-                        r.id_responsavel,
-                        rc.valor_contato,
-                        rc.principal
-                FROM
-                        responsavel r,
-                        bairro b,
-                        tipo_contato tc,
-                        responsavel_contato rc
-                WHERE
-                    r.nome ilike '%" . $form_responsavel . "%'
-                   
-                and 
-                    b.id_bairro =r.id_bairro 
-                and
-                    rc.id_responsavel = r.id_responsavel
-                and 
-                    rc.id_tipo_contato = tc.id_tipo_contato                
+$query->exec("SELECT
+                a.nro_ficha,
+                a.nro_chip,
+                h.endereco_recolhimento,
+                b.descricao,
+                r.nome,
+                h.dt_entrada,
+                h.dt_retirada,
+                m.descricao,
+                h.valor
 
-                "
+            FROM
+                hospedagem h,
+                responsavel r,
+                animal a,
+                pelagem p,
+                especie e,
+                bairro b,
+                motivo m
+            WHERE
+                r.id_responsavel = $id_responsavel
+            AND
+                h.id_responsavel = r.id_responsavel
+            AND
+                h.id_animal = a.id_animal
+            AND
+                p.id_pelagem = a.id_pelagem
+            AND
+                e.id_especie = a.id_especie
+            AND 
+                h.id_bairro = b.id_bairro
+            AND
+                m.id_motivo = h.id_motivo
+          
+
+"
       
     );
     //$total_contato = $query->record[0];
@@ -62,7 +78,7 @@
 
             <div class="row">
 
-                <div class="col-6"><a href='RESPONSAVEL_form.php'><i class="fa fa-plus"></i> Novo</a></div>
+                <div class="col-6"><a href='HOSPEDAGEM_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
 
                <!-- <div class="col-6 text-right"><a href='RESPONSAVEL_viewDados.php?id_responsavel=<?= $id_responsavel ?>'>Editar informações</a></div> -->
 
