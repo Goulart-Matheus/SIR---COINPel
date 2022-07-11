@@ -30,6 +30,17 @@
                 "
       
     );
+    $query->result($query->linha);
+         
+     $id_responsavel                 = $query->record[0];
+     $id_animal                      = $query->record[1];
+     $nro_ficha                      = $query->record[2];
+     $nro_chip                       = $query->record[3];
+     $pelagem                        = $query->record[4];
+     $especie                        = $query->record[5];
+     
+     $n = $query->rows();
+    
     //$total_contato = $query->record[0];
 
     
@@ -58,9 +69,69 @@
 
             <div class="col-12 p-0 m-0" id="chart_info"></div>
 <!-- Inicio -->
+<?
+                if($n == 0)
+                {
+                    ?>
 
+                        <div class="col-12 text-center pt-5 text-light">
 
+                            <h5 class="mb-5">Este Responsável ainda não possue nenhum animal vinculado</h5>
 
+                            <a href="ANIMAL_cover.php?id_responsavel=<?= $id_responsavel ?>" class="btn btn-light gray text-green">Vincule um ainimal para este responsável</a>
+
+                        </div>
+                    <?
+                }
+                else
+                {
+                    ?>
+
+                        <table class="table p-0 m-0">
+                                    
+                            <thead class="bg-#A9F5BC">
+                            
+                                <tr>
+                                    <th style="width: 5px;" >ID</th>                                
+                                    <th style="width: 25px;" class="px-1" >Nro Ficha</th>
+                                    <th style="width: 25px;" class="px-1" >Nro Chip</th>
+                                    <th style="width: 25px;" class="px-1" >Pelagem</th>
+                                    <th style="width: 25px;" class="px-1" >Especie</th>
+                                    
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                            
+                                <?
+                                    while($n--)
+                                    {
+                                        $query->proximo();
+                                       
+                                        ?>
+                                            <tr>
+                                                <td><?= $query->record[1]; ?></td>
+                                                <td><?= $query->record[2]; ?></td>
+                                                <td><?= $query->record[3]; ?></td>
+                                                <td><?= $query->record[4]; ?></td>
+                                                <td><?= $query->record[5]; ?></td>
+                                               
+                                            </tr>
+                                        <?
+
+                                    }
+                                ?>
+
+                            </tbody>
+
+                        </table>
+
+                    <?
+                }
+
+            ?>
 <!-- Fim-->
             
         </div>
@@ -69,10 +140,9 @@
 
             <div class="row">
 
-                <div class="col-9"><a href='ANIMAL_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
+                <div class="col-9"><a href='ANIMAL_cover.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
 
-                <!-- <div class="col-6 text-right"><a href='RESPONSAVEL_viewDados.php?id_responsavel=<?= $id_responsavel ?>'>Editar informações</a></div>  -->
-
+               
             </div>
 
         </div>
