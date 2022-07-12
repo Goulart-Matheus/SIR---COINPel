@@ -1,6 +1,6 @@
 <?
     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
-
+    
     $query->exec("SELECT
                         a.id_animal,
                         r.id_responsavel,
