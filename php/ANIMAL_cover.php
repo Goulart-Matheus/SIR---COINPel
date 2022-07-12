@@ -73,7 +73,7 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
 
             <div class="row">
 
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-12">
 
                     <? include("../includes/Cards/Dashboard_ANIMAL/card_dashboard_ANIMAL_RESPONSAVEL.php"); ?>
 
@@ -112,107 +112,14 @@ function isNum($val)
 ?>
 
 
+
+<script src="../assets/js/jquery.js"></script>
+
+
 <script>
-    $(document).on('click', '.ad_duplicidade', function() {
-
-        $.ajax({
-            type: "GET",
-            url: "../includes/ajax_valida_dup_responsavel_animal.php",
-            data: {
-                'nome': nome,
-                'cpf': cpf
-            },
-            success: function(r) {
-
-                if (r[0]["status"] == 1) {
-
-                    var modal = '<div class="modal" tabindex="-1" role="dialog" id="modal_dup_responsavel_animal">';
-                    modal += '<div class="modal-dialog modal-xl" role="document">';
-                    modal += '<div class="modal-content">';
-                    modal += '<div class="modal-header">';
-                    modal += '<h5 class="modal-title"><i class="fas fa-exclamation-triangle text-warning"></i> Possível Duplicidade</h5>';
-                    modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
-                    modal += '<span aria-hidden="true">&times;</span>';
-                    modal += '</button>';
-                    modal += '</div>';
-                    modal += '<div class="modal-body">';
-                    modal += '<table class="table table-striped">';
-                    modal += '<thead>';
-                    modal += '<tr>';
-                    modal += '<th>ID</th>';
-                    modal += '<th>Nome</th>';
-                    modal += '<th class="text-center">CPF</th>';
-                    modal += '<th class="text-center">RG(a)</th>';
-                    modal += '<th class="text-center">Dt_nascimento</th>';
-                    modal += '<th class="text-center">Endereço</th>';
-                    modal += '<th class="text-center">Id_bairro</th>';
-                    modal += '<th class="text-center">Opções</th>';
-                    modal += '<tr>';
-                    modal += '<tbody>';
-
-                    r.forEach(function(valor, chave) {
-
-                        modal += '<tr>';
-                        modal += '<td><b>' + valor['id_responsavel'] + '</b></td>';
-                        modal += '<td>' + valor['nome'] + '</td>';
-                        modal += '<td class="text-center">' + valor['cpf'] + '</td>';
-                        modal += '<td class="text-center">' + valor['rg'] + '</td>';
-                        modal += '<td class="text-center">' + valor['dt_nascimento'] + '</td>';
-                        modal += '<td class="text-center">' + valor['endereco'] + '</td>';
-                        modal += '<td class="text-center">' + valor['id_bairro'] + '</td>';
 
 
-                        if (valor['duplicidade'] == "S") {
-                            modal += '<td class="text-center">';
-                            modal += '<button class="btn btn_green bg-green btn-sm ad_duplicidade" ';
-                            modal += 'data-id-resp="' + valor['id_responsavel'] + '" ';
-                            modal += 'data-id-nome="' + valor['nome'] + '" ';
-                            modal += 'data-id-cpf="' + valor['cpf'] + '" ';
-                            modal += 'data-id-rg="' + valor['rg'] + '" ';
-                            modal += 'data-id-dt_nascimento="' + valor['dt_nascimento'] + '" ';
-                            modal += 'data-id-endereco="' + valor['endereco'] + '" ';
-                            modal += 'data-id-bairro="' + valor['bairro'] + '" ';
-                            modal += '>Adicionar Duplicidade</button>';
 
-                            modal += '</td>';
-                        } else {
-                            modal += '<td class="text-center">Sem Ações</td>';
-                        }
-
-                        modal += '</tr>';
-                    });
-
-                    modal += '</tbody>';
-                    modal += '</table>';
-                    modal += '</div>';
-                    modal += '</div>';
-                    modal += '</div>';
-                    modal += '</div>';
-
-                    if ($(".modal-backdrop").length > 0) {
-                        $(".modal-backdrop").remove();
-                    }
-
-                    if ($("#modal_dup_responsavel_animal").length > 0) {
-                        $("#modal_dup_responsavel_animal").remove();
-                    }
-
-                    $('body').append(modal);
-                    $("#modal_dup_responsavel_animal").modal('show');
-                    console.log(r);
-
-                    return;
-                }
-
-            },
-            error: function(r) {
-                alert("Erro ao buscar os dados dos responsaveis");
-
-                console.log(r);
-            }
-        });
-
-    });
 
     $(document).on('click', '.ad_duplicidade', function() {
 

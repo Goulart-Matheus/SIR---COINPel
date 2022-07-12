@@ -1,41 +1,58 @@
 <?
     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
-    $query->exec("SELECT
-                        a.id_animal,
-                        r.id_responsavel,
-                        rc.valor_contato,
-                        rc.principal,
-                         m.descricao,
-                         b.descricao,
-                         tc.id_tipo_contato 
-                FROM
+$query->exec("SELECT
+                h.id_hospedagem,
+                a.nro_ficha,
+                a.nro_chip,
+                h.endereco_recolhimento,
+                b.descricao,
+                r.nome,
+                h.dt_entrada,
+                h.dt_retirada,
+                m.descricao,
+                h.valor
 
-                        animal a ,
-                        responsavel r,
-                        responsavel_contato rc,
-                        motivo m,
-                        bairro b,
-                        tipo_contato tc
+            FROM
+                hospedagem as h, 
+                responsavel as r,
+                animal as a,
+                pelagem as p,
+                especie as e,
+                bairro as b,
+                motivo as m
+            WHERE
+                r.id_responsavel = $id_responsavel
+            AND
+                h.id_responsavel = r.id_responsavel
+            AND
+                h.id_animal = a.id_animal
+            AND
+                p.id_pelagem = a.id_pelagem
+            AND
+                e.id_especie = a.id_especie
+            AND 
+                h.id_bairro = b.id_bairro
+            AND
+                m.id_motivo = h.id_motivo
+          
 
-                       
-                WHERE
-                    r.nome ilike '%" . $form_animal . "%'
-                   
-                and 
-                    b.id_bairro =r.id_bairro 
-                and
-                    rc.id_responsavel = r.id_responsavel
-                and 
-                    rc.id_tipo_contato = tc.id_tipo_contato                
-
-                "
+"
       
     );
-    //$total_contato = $query->record[0];
-
-   
-   //$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
+    $query->result($query->linha);
+    $id_hospedagem                  = $query->record[0];
+    $nro_ficha                      = $query->record[1];
+    $nro_chip                       = $query->record[2];
+    $endereco_recolhimento          = $query->record[3];
+    $bairro                         = $query->record[4];
+    $responsavel                    = $query->record[5];
+    $dt_entrada                     = $query->record[6];
+    $dt_retirada                    = $query->record[7];
+    $motivo                         = $query->record[8];
+    $valor                          = $query->record[9];
+    
+    $n = $query->rows();
 
     ?>
 
@@ -57,7 +74,79 @@
 
             <div class="col-12 p-0 m-0" id="chart_info"></div>
 <!-- Inicio -->
+<?
+                if($n == 0)
+                {
+                    ?>
 
+                        <div class="col-12 text-center pt-5 text-light">
+
+                            <h5 class="mb-5">Este Responsável ainda não possue nenhuma ocorrência</h5>
+
+                            <a href="HOSPEDAGEM_form.php?id_responsavel=<?= $id_responsavel ?>" class="btn btn-light gray text-green">Gerar ocorrência para este responsável</a>
+
+                        </div>
+                    <?
+                }
+                else
+                {
+                    ?>
+
+                        <table class="table p-0 m-0">
+                                    
+                            <thead class="bg-#A9F5BC">
+                            
+                                <tr>
+                                    <th style="width: 5px;" >ID</th>                                
+                                    <th style="width: 25px;" class="px-1" >Nro Ficha</th>
+                                    <th style="width: 25px;" class="px-1" >Nro Chip</th>
+                                    <th style="width: 25px;" class="px-1" >Endereço de recolhimento</th>
+                                    <th style="width: 25px;" class="px-1" >Bairro</th>
+                                    <th style="width: 25px;" class="px-1" >Responsável</th>
+                                    <th style="width: 25px;" class="px-1" >Data de entrada</th>
+                                    <th style="width: 25px;" class="px-1" >Data de retirada</th>
+                                    <th style="width: 25px;" class="px-1" >Motivo</th>
+                                    <th style="width: 25px;" class="px-1" >Valor</th>
+
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                            
+                                <?
+                                    while($n--)
+                                    {
+                                        $query->proximo();
+                                       
+                                        ?>
+                                            <tr>
+                                                <td><?= $query->record[0]; ?></td>
+                                                <td><?= $query->record[1]; ?></td>
+                                                <td><?= $query->record[2]; ?></td>
+                                                <td><?= $query->record[3]; ?></td>
+                                                <td><?= $query->record[4]; ?></td>
+                                                <td><?= $query->record[5]; ?></td>
+                                                <td><?= $query->record[6]; ?></td>
+                                                <td><?= $query->record[7]; ?></td>
+                                                <td><?= $query->record[8]; ?></td>
+                                                <td><?= $query->record[9]; ?></td>
+
+                                            </tr>
+                                        <?
+
+                                    }
+                                ?>
+
+                            </tbody>
+
+                        </table>
+
+                    <?
+                }
+
+            ?>
 
 
 <!-- Fim-->
@@ -68,9 +157,9 @@
 
             <div class="row">
 
-                <div class="col-6"><a href='ANIMAL_form.php'><i class="fa fa-plus"></i> Novo</a></div>
+                <div class="col-6"><a href='HOSPEDAGEM_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
 
-               <!-- <div class="col-6 text-right"><a href='ANIMAL_viewDados.php?id_animal=<?= $id_animal ?>'>Editar informações</a></div> -->
+             
 
             </div>
 
