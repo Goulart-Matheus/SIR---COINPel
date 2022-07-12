@@ -7,7 +7,7 @@
                         rc.valor_contato,
                         rc.principal,
                          m.descricao,
-                         b.descricao
+                         b.descricao,
                          tc.id_tipo_contato 
                 FROM
 

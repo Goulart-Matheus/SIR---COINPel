@@ -80,11 +80,11 @@
 
                         </div>
                        
-                        <div class="col-12 col-md-12">
+                         <div class="col-12 col-md-12">
                     
                             <? include("../includes/cards/dashboard_RESPONSAVEL/card_dashboard_RESPONSAVEL_OCORRENCIA.php"); ?>
 
-                        </div> 
+                        </div>  
 
                     </div> 
 

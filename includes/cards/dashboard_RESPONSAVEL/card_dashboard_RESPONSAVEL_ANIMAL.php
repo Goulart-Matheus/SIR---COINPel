@@ -7,7 +7,8 @@
                         a.nro_ficha,
                         a.nro_chip,
                         p.descricao,
-                        e.descricao
+                        e.descricao,
+                        a.sexo
 
                 FROM
                         responsavel r,
@@ -38,6 +39,7 @@
      $nro_chip                       = $query->record[3];
      $pelagem                        = $query->record[4];
      $especie                        = $query->record[5];
+     $sexo                           = $query->record[6];
      
      $n = $query->rows();
     
@@ -97,7 +99,7 @@
                                     <th style="width: 25px;" class="px-1" >Nro Chip</th>
                                     <th style="width: 25px;" class="px-1" >Pelagem</th>
                                     <th style="width: 25px;" class="px-1" >Especie</th>
-                                    
+                                    <th style="width: 25px;" class="px-1" >Sexo</th>
 
                                 </tr>
 
@@ -117,6 +119,7 @@
                                                 <td><?= $query->record[3]; ?></td>
                                                 <td><?= $query->record[4]; ?></td>
                                                 <td><?= $query->record[5]; ?></td>
+                                                <td><?= $query->record[6]; ?></td>
                                                
                                             </tr>
                                         <?
