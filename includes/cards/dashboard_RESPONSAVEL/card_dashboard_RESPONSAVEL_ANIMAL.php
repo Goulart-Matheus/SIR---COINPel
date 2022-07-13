@@ -63,8 +63,7 @@
 
                             <h5 class="mb-5">Este Responsável ainda não possue nenhum animal vinculado</h5>
 
-                            <a href="ANIMAL_cover.php?id_responsavel=<?= $id_responsavel ?>" class="btn btn-light gray text-green">Vincule um ainimal para este responsável</a>
-
+                            
                         </div>
                     <?
                 }
@@ -126,7 +125,7 @@
 
             <div class="row">
 
-                <div class="col-9"><a href='ANIMAL_cover.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
+                <div class="col-9"><a href='ANIMAL_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
 
                
             </div>
