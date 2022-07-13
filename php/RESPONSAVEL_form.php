@@ -264,7 +264,6 @@ include_once('../includes/dashboard/footer.php');
 </script>
 
 
-
 <script src="../assets/js/jquery.js"></script>
 
 <script>
@@ -397,11 +396,11 @@ include_once('../includes/dashboard/footer.php');
         //sexo = "Feminino";
         //}
 
-        var modal = '<div class="modal" tabindex="-1" role="dialog" id="modal_dup_responsavel_animal">';
+        var modal = '<div class="modal" tabindex="-1" role="dialog" id="modal_vincula_responsavel_animal">';
         modal += '<div class="modal-dialog modal-md" role="document">';
         modal += '<div class="modal-content">';
         modal += '<div class="modal-header bg-warning">';
-        modal += '<h5 class="modal-title"><i class="fas fa-exclamation-triangle text-danger"></i> Adicionar Duplicidade? </h5>';
+        modal += '<h5 class="modal-title"><i class="fas fa-exclamation-triangle text-danger"></i> Adicionar Vinculo? </h5>';
         modal += '<button type="button" class="close" data-dismiss="modal" aria-label="Close">';
         modal += '<span aria-hidden="true">&times;</span>';
         modal += '</button>';
@@ -410,7 +409,7 @@ include_once('../includes/dashboard/footer.php');
         modal += '<div class="row">';
 
         modal += '<div class="col-12 text-justify">';
-        modal += 'Deseja cadastrar Duplicidade para o responsavel abaixo? <br><small>Este procedimento tornará o responsavel <b>ID ' + $(this).attr('data-id-caduplicidade') + '</b> inalterável, possibilitando alterações apenas no novo registro</small>';
+        modal += 'Deseja Adicionar Vinculo para o responsavel abaixo? <br><small>Este procedimento tornará o responsavel <b>ID ' + $(this).attr('data-id-vinc') + '</b> inalterável, possibilitando alterações apenas no novo registro</small>';
         modal += '</div>';
 
         modal += '<div class="col-12 text-justify">';
@@ -418,7 +417,7 @@ include_once('../includes/dashboard/footer.php');
         modal += '<div class="row p-2">';
 
         modal += '<div class="col-4 text-justify py-1 bg-warning-secondary">ID</div>';
-        modal += '<div class="col-8 text-right py-1 bg-warning-secondary"><b>' + $(this).attr('data-id-caduplicidade') + '</b></div>';
+        modal += '<div class="col-8 text-right py-1 bg-warning-secondary"><b>' + $(this).attr('data-id-vinc') + '</b></div>';
 
         modal += '<div class="col-4 text-justify py-1">Nome</div>';
         modal += '<div class="col-8 text-right py-1"><b>' + $(this).attr('data-id-nome') + '</b></div>';
@@ -443,7 +442,7 @@ include_once('../includes/dashboard/footer.php');
         modal += '</div>';
 
         modal += '<div class="col-12 text-right">';
-        modal += '<button class="btn btn-warning" id="vincular_responsavel" data-id-caduplicidade="' + $(this).attr('data-id-caduplicidade') + '">Vincular</a>';
+        modal += '<button class="btn btn-warning" id="vincular_responsavel" data-id-vinc="' + $(this).attr('data-id-vinc') + '">Vincular</a>';
         modal += '</div>';
 
         modal += '</div>';
@@ -460,16 +459,16 @@ include_once('../includes/dashboard/footer.php');
             $(".modal-backdrop").remove();
         }
 
-        if ($("#modal_reincidencia").length > 0) {
-            $("#modal_reincidencia").remove();
+        if ($("#modal_vincula_responsavel_animal").length > 0) {
+            $("#modal_vincula_responsavel_animal").remove();
         }
 
-        if ($("#modal_dup_responsavel_animal").length > 0) {
-            $("#modal_dup_responsavel_animal").remove();
+        if ($("#modal_valida_dup_responsavel_animal").length > 0) {
+            $("#modal_valida_dup_responsavel_animal").remove();
         }
 
         $('body').append(modal);
-        $("#modal_reincidencia").modal('show');
+        $("#modal_valida").modal('show');
 
         return;
 
@@ -492,7 +491,7 @@ include_once('../includes/dashboard/footer.php');
 
                 if (r[0]["status"] == 1) {
 
-                    var modal = '<div class="modal" tabindex="-1" role="dialog" id="modal_reincidencia_vinculado">';
+                    var modal = '<div class="modal" tabindex="-1" role="dialog" id="modal_responsavel_vinculado">';
                     modal += '<div class="modal-dialog modal-md" role="document">';
                     modal += '<div class="modal-content">';
                     modal += '<div class="modal-header bg-green">';
@@ -534,14 +533,11 @@ include_once('../includes/dashboard/footer.php');
                         $("#modal_responsavel_vinculado").remove();
                     }
 
-                    if ($("#modal_reincidencia").length > 0) {
-                        $("#modal_reincidencia").remove();
+                    if ($("#modal_valida_dup_responsavel").length > 0) {
+                        $("#modal_valida_dup_responsavel").remove();
                     }
 
-                    if ($("#modal_dup_responsavel_animal").length > 0) {
-                        $("#modal_dup_responsavel_animal").remove();
-                    }
-
+                    
                     $('body').append(modal);
                     $("#modal_responsavel_vinculado").modal('show');
                     console.log(r);
