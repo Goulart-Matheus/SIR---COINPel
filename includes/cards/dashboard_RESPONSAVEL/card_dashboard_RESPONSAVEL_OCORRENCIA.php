@@ -1,7 +1,7 @@
 <?
     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
-
-$query->exec("SELECT
+$query_ocorrencia = new Query($bd);
+$query_ocorrencia->exec("SELECT
                 h.id_hospedagem,
                 a.nro_ficha,
                 a.nro_chip,
@@ -22,37 +22,37 @@ $query->exec("SELECT
                 bairro b,
                 motivo m
             WHERE
-                r.id_responsavel = $id_responsavel
+                r.id_responsavel    = $id_responsavel
             AND
-                h.id_responsavel = r.id_responsavel
+                h.id_responsavel    = r.id_responsavel
             AND
-                h.id_animal = a.id_animal
+                h.id_animal         = a.id_animal
             AND
-                p.id_pelagem = a.id_pelagem
+                p.id_pelagem        = a.id_pelagem
             AND
-                e.id_especie = a.id_especie
+                e.id_especie        = a.id_especie
             AND 
-                h.id_bairro = b.id_bairro
+                h.id_bairro         = b.id_bairro
             AND
-                m.id_motivo = h.id_motivo
+                m.id_motivo         = h.id_motivo
           
 
 "
       
     );
-    $query->result($query->linha);
-    $id_hospedagem                  = $query->record[0];
-    $nro_ficha                      = $query->record[1];
-    $nro_chip                       = $query->record[2];
-    $endereco_recolhimento          = $query->record[3];
-    $bairro                         = $query->record[4];
-    $responsavel                    = $query->record[5];
-    $dt_entrada                     = $query->record[6];
-    $dt_retirada                    = $query->record[7];
-    $motivo                         = $query->record[8];
-    $valor                          = $query->record[9];
+    $query_ocorrencia->result($query_ocorrencia->linha);
+    $id_hospedagem                  = $query_ocorrencia->record[0];
+    $nro_ficha                      = $query_ocorrencia->record[1];
+    $nro_chip                       = $query_ocorrencia->record[2];
+    $endereco_recolhimento          = $query_ocorrencia->record[3];
+    $bairro                         = $query_ocorrencia->record[4];
+    $responsavel                    = $query_ocorrencia->record[5];
+    $dt_entrada                     = $query_ocorrencia->record[6];
+    $dt_retirada                    = $query_ocorrencia->record[7];
+    $motivo                         = $query_ocorrencia->record[8];
+    $valor                          = $query_ocorrencia->record[9];
     
-    $n = $query->rows();
+    $n = $query_ocorrencia->rows();
 
     ?>
 
@@ -97,7 +97,7 @@ $query->exec("SELECT
                             <thead class="bg-#A9F5BC">
                             
                                 <tr>
-                                    <th style="width: 5px;" >ID</th>                                
+                                                               
                                     <th style="width: 25px;" class="px-1" >Nro Ficha</th>
                                     <th style="width: 25px;" class="px-1" >Nro Chip</th>
                                     <th style="width: 25px;" class="px-1" >Endereço de recolhimento</th>
@@ -118,20 +118,20 @@ $query->exec("SELECT
                                 <?
                                     while($n--)
                                     {
-                                        $query->proximo();
+                                        $query_ocorrencia->proximo();
                                        
                                         ?>
                                             <tr>
-                                                <td><?= $query->record[0]; ?></td>
-                                                <td><?= $query->record[1]; ?></td>
-                                                <td><?= $query->record[2]; ?></td>
-                                                <td><?= $query->record[3]; ?></td>
-                                                <td><?= $query->record[4]; ?></td>
-                                                <td><?= $query->record[5]; ?></td>
-                                                <td><?= $query->record[6]; ?></td>
-                                                <td><?= $query->record[7]; ?></td>
-                                                <td><?= $query->record[8]; ?></td>
-                                                <td><?= $query->record[9]; ?></td>
+                                               
+                                                <td><?= $query_ocorrencia->record[1]; ?></td>
+                                                <td><?= $query_ocorrencia->record[2]; ?></td>
+                                                <td><?= $query_ocorrencia->record[3]; ?></td>
+                                                <td><?= $query_ocorrencia->record[4]; ?></td>
+                                                <td><?= $query_ocorrencia->record[5]; ?></td>
+                                                <td><?= $query_ocorrencia->record[6]; ?></td>
+                                                <td><?= $query_ocorrencia->record[7]; ?></td>
+                                                <td><?= $query_ocorrencia->record[8]; ?></td>
+                                                <td><?= $query_ocorrencia->record[9]; ?></td>
 
                                             </tr>
                                         <?

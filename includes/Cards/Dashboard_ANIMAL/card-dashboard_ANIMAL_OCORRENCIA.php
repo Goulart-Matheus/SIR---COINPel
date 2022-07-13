@@ -34,12 +34,9 @@ $query->exec("SELECT
             AND 
                 h.id_bairro = b.id_bairro
             AND
-                m.id_motivo = h.id_motivo
-          
+                m.id_motivo = h.id_motivo ");     
 
-"
-      
-    );
+
     $query->result($query->linha);
     $id_hospedagem                  = $query->record[0];
     $nro_ficha                      = $query->record[1];
