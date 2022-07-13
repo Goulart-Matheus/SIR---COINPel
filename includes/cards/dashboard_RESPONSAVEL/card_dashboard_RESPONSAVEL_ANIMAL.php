@@ -30,27 +30,10 @@
 
                 "
       
-    );
-    $query->result($query->linha);
-         
-     $id_responsavel                 = $query->record[0];
-     $id_animal                      = $query->record[1];
-     $nro_ficha                      = $query->record[2];
-     $nro_chip                       = $query->record[3];
-     $pelagem                        = $query->record[4];
-     $especie                        = $query->record[5];
-     $sexo                           = $query->record[6];
+    ); 
      
-     $n = $query->rows();
+    $n = $query->rows();
     
-    //$total_contato = $query->record[0];
-
-    
-
-   
-
-   //$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
-
     ?>
 
     <div class="card border">
@@ -91,7 +74,7 @@
 
                         <table class="table p-0 m-0">
                                     
-                            <thead class="bg-#A9F5BC">
+                            <thead class="bg-light grey">
                             
                                 <tr>
                                     <th style="width: 5px;" >ID</th>                                

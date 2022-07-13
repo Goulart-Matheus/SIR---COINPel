@@ -1,12 +1,14 @@
 <?
-    // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
-$query_ocorrencia = new Query($bd);
-$query_ocorrencia->exec("SELECT
+    
+
+
+$query->exec("SELECT
+                h.id_responsavel,
                 h.id_hospedagem,
                 a.nro_ficha,
                 a.nro_chip,
                 h.endereco_recolhimento,
-                b.descricao,
+                b.descricao as bairro,
                 r.nome,
                 h.dt_entrada,
                 h.dt_retirada,
@@ -22,37 +24,26 @@ $query_ocorrencia->exec("SELECT
                 bairro b,
                 motivo m
             WHERE
-                r.id_responsavel    = $id_responsavel
+                r.id_responsavel    =  $id_responsavel
             AND
                 h.id_responsavel    = r.id_responsavel
             AND
                 h.id_animal         = a.id_animal
+                
             AND
                 p.id_pelagem        = a.id_pelagem
             AND
                 e.id_especie        = a.id_especie
             AND 
                 h.id_bairro         = b.id_bairro
-            AND
-                m.id_motivo         = h.id_motivo
+            AND 
+                h.id_motivo         = m.id_motivo    
+            
+            
           
-
-"
-      
-    );
-    $query_ocorrencia->result($query_ocorrencia->linha);
-    $id_hospedagem                  = $query_ocorrencia->record[0];
-    $nro_ficha                      = $query_ocorrencia->record[1];
-    $nro_chip                       = $query_ocorrencia->record[2];
-    $endereco_recolhimento          = $query_ocorrencia->record[3];
-    $bairro                         = $query_ocorrencia->record[4];
-    $responsavel                    = $query_ocorrencia->record[5];
-    $dt_entrada                     = $query_ocorrencia->record[6];
-    $dt_retirada                    = $query_ocorrencia->record[7];
-    $motivo                         = $query_ocorrencia->record[8];
-    $valor                          = $query_ocorrencia->record[9];
+");
     
-    $n = $query_ocorrencia->rows();
+   
 
     ?>
 
@@ -74,8 +65,10 @@ $query_ocorrencia->exec("SELECT
 
             <div class="col-12 p-0 m-0" id="chart_info"></div>
 <!-- Inicio -->
-<?
-                if($n == 0)
+
+
+    <?
+                if($query->rows()== 0)
                 {
                     ?>
 
@@ -94,10 +87,10 @@ $query_ocorrencia->exec("SELECT
 
                         <table class="table p-0 m-0">
                                     
-                            <thead class="bg-#A9F5BC">
+                            <thead class="bg-light grey">
                             
                                 <tr>
-                                                               
+                                                      
                                     <th style="width: 25px;" class="px-1" >Nro Ficha</th>
                                     <th style="width: 25px;" class="px-1" >Nro Chip</th>
                                     <th style="width: 25px;" class="px-1" >Endereço de recolhimento</th>
@@ -106,7 +99,7 @@ $query_ocorrencia->exec("SELECT
                                     <th style="width: 25px;" class="px-1" >Data de entrada</th>
                                     <th style="width: 25px;" class="px-1" >Data de retirada</th>
                                     <th style="width: 25px;" class="px-1" >Motivo</th>
-                                    <th style="width: 25px;" class="px-1" >Valor</th>
+                                    <th style="width: 25px;" class="px-1" >Valor(R$)</th>
 
 
                                 </tr>
@@ -116,22 +109,23 @@ $query_ocorrencia->exec("SELECT
                             <tbody>
                             
                                 <?
-                                    while($n--)
+                                    $query->all();
+                                    foreach($query->record as $animal)
                                     {
-                                        $query_ocorrencia->proximo();
+                                        
                                        
                                         ?>
                                             <tr>
-                                               
-                                                <td><?= $query_ocorrencia->record[1]; ?></td>
-                                                <td><?= $query_ocorrencia->record[2]; ?></td>
-                                                <td><?= $query_ocorrencia->record[3]; ?></td>
-                                                <td><?= $query_ocorrencia->record[4]; ?></td>
-                                                <td><?= $query_ocorrencia->record[5]; ?></td>
-                                                <td><?= $query_ocorrencia->record[6]; ?></td>
-                                                <td><?= $query_ocorrencia->record[7]; ?></td>
-                                                <td><?= $query_ocorrencia->record[8]; ?></td>
-                                                <td><?= $query_ocorrencia->record[9]; ?></td>
+                                              
+                                                <td><?= $animal['nro_ficha']; ?></td>
+                                                <td><?= $animal['nro_chip']; ?></td>
+                                                <td><?= $animal['endereco_recolhimento']; ?></td>
+                                                <td><?= $animal['bairro']; ?></td>
+                                                <td><?= $animal['nome']; ?></td>
+                                                <td><?= $animal['dt_entrada']; ?></td>
+                                                <td><?= $animal['dt_retirada']; ?></td>
+                                                <td><?= $animal['descricao']; ?></td>
+                                                <td><?= $animal['valor']; ?></td>
 
                                             </tr>
                                         <?
@@ -151,7 +145,7 @@ $query_ocorrencia->exec("SELECT
 
 <!-- Fim-->
             
-        </div>
+    </div>
 
         <div class="card-footer">
 

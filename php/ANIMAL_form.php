@@ -78,7 +78,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                                 )
                             );
-
+                            $id_animal = $query->last_insert[0];
 
                            $query->commit();
                         }

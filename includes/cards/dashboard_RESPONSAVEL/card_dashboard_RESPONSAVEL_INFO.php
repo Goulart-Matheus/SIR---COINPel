@@ -59,11 +59,13 @@
         <table class="table">
             
             <tbody>
+            <thead class="bg-light grey"> 
                 <tr>
-                <td></td>    
-                <td>Contato(s)</td>
+                   
+                <th style="width: 5px;" >Contatos(s)</th>   
                    
                 </tr>
+            </thead>
                 <?
                     while($n--)
                     {
@@ -71,7 +73,7 @@
 
                         ?>
                             <tr>
-                                <td><?= $query->record[2]; ?></td>
+                               
                                 <td><?= $query->record[1]; ?></td>
                                 
                             </tr>

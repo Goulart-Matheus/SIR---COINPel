@@ -70,6 +70,10 @@ class Query {
 	var $linha;				//linha atual
 	var $record;			//sa�da de dados
 
+	function all()     {
+		$this->record =pg_fetch_all($this->consulta);     
+	}
+
 	function query($bdInstance) {
 		$this->bd			=$bdInstance;
 	}

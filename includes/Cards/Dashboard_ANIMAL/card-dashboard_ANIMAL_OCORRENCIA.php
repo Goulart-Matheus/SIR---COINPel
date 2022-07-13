@@ -1,12 +1,12 @@
 <?
     // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
-
+    //Sandra alterei o teu where para testar pelo $id_animal esta variavel foi criada no ANIMAL_form.php
 $query->exec("SELECT
                 h.id_hospedagem,
                 a.nro_ficha,
                 a.nro_chip,
                 h.endereco_recolhimento,
-                b.descricao,
+                b.descricao as bairro,
                 r.nome,
                 h.dt_entrada,
                 h.dt_retirada,
@@ -14,15 +14,15 @@ $query->exec("SELECT
                 h.valor
 
             FROM
-                hospedagem as h, 
-                responsavel as r,
-                animal as a,
-                pelagem as p,
-                especie as e,
-                bairro as b,
-                motivo as m
+                hospedagem  h, 
+                responsavel r,
+                animal  a,
+                pelagem p,
+                especie e,
+                bairro  b,
+                motivo  m
             WHERE
-                r.id_responsavel = $id_responsavel
+                a.id_animal = $id_animal  
             AND
                 h.id_responsavel = r.id_responsavel
             AND
@@ -36,18 +36,18 @@ $query->exec("SELECT
             AND
                 m.id_motivo = h.id_motivo ");     
 
-
-    $query->result($query->linha);
-    $id_hospedagem                  = $query->record[0];
-    $nro_ficha                      = $query->record[1];
-    $nro_chip                       = $query->record[2];
-    $endereco_recolhimento          = $query->record[3];
-    $bairro                         = $query->record[4];
-    $responsavel                    = $query->record[5];
-    $dt_entrada                     = $query->record[6];
-    $dt_retirada                    = $query->record[7];
-    $motivo                         = $query->record[8];
-    $valor                          = $query->record[9];
+    //echo $query-> sql;
+    // $query->result($query->linha);
+    // $id_hospedagem                  = $query->record[0];
+    // $nro_ficha                      = $query->record[1];
+    // $nro_chip                       = $query->record[2];
+    // $endereco_recolhimento          = $query->record[3];
+    // $bairro                         = $query->record[4];
+    // $responsavel                    = $query->record[5];
+    // $dt_entrada                     = $query->record[6];
+    // $dt_retirada                    = $query->record[7];
+    // $motivo                         = $query->record[8];
+    // $valor                          = $query->record[9];
     
     $n = $query->rows();
 
@@ -91,10 +91,10 @@ $query->exec("SELECT
 
                         <table class="table p-0 m-0">
                                     
-                            <thead class="bg-#A9F5BC">
+                            <thead class="bg-light grey">
                             
                                 <tr>
-                                    <th style="width: 5px;" >ID</th>                                
+                                                                    
                                     <th style="width: 25px;" class="px-1" >Nro Ficha</th>
                                     <th style="width: 25px;" class="px-1" >Nro Chip</th>
                                     <th style="width: 25px;" class="px-1" >Endereço de recolhimento</th>
@@ -103,7 +103,7 @@ $query->exec("SELECT
                                     <th style="width: 25px;" class="px-1" >Data de entrada</th>
                                     <th style="width: 25px;" class="px-1" >Data de retirada</th>
                                     <th style="width: 25px;" class="px-1" >Motivo</th>
-                                    <th style="width: 25px;" class="px-1" >Valor</th>
+                                    <th style="width: 25px;" class="px-1" >Valor(R$)</th>
 
 
                                 </tr>
@@ -119,7 +119,7 @@ $query->exec("SELECT
                                        
                                         ?>
                                             <tr>
-                                                <td><?= $query->record[0]; ?></td>
+                                                
                                                 <td><?= $query->record[1]; ?></td>
                                                 <td><?= $query->record[2]; ?></td>
                                                 <td><?= $query->record[3]; ?></td>

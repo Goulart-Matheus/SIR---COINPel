@@ -2,34 +2,34 @@
 // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
 $query->exec(
-    "SELECT
-                 ar.id_animal_responsavel,
-                 a.id_animal,
-                 ar.id_responsavel,
-                 rc.valor_contato,
-                 rc.principal
+                "SELECT
+                ar.id_responsavel,
+                ar.id_animal,
+                r.nome,
+                r.cpf,
+                r.rg,
+                r.dt_nascimento,
+                r.endereco,
+                b.descricao
 
-                FROM
-                        
-                        animal_responsavel ar,
-                        responsavel_contato rc,
-                        animal a,
-                        responsavel r
-                WHERE
-                    r.nome ilike '%" . $form_animal . "%'
-                   
-                and 
-                  a.id_animal = ar.id_animal  
-                and
-                    rc.id_responsavel = r.id_responsavel
-                
-                                   
-
-                "
+            FROM
+                responsavel r,
+                animal_responsavel ar,
+                animal a,
+                bairro b
+            WHERE
+            a.id_animal = $id_animal
+            AND
+            ar.id_responsavel = r.id_responsavel
+            AND
+            ar.id_animal = a.id_animal
+            AND
+            b.id_bairro = r.id_bairro
+             "
 
 );
 //$total_contato = $query->record[0];
-
+$n = $query->rows();
 
 //$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
 
@@ -53,7 +53,71 @@ $query->exec(
 
         <div class="col-12 p-0 m-0" id="chart_info"></div>
         <!-- Inicio -->
+        <?
+                if($n == 0)
+                {
+                    ?>
 
+                        <div class="col-12 text-center pt-5 text-light">
+
+                            <h5 class="mb-5">Este animal ainda não possue nenhum responsável vinculado</h5>
+
+                            <a href="ANIMAL_cover.php?id_responsavel=<?= $id_animal ?>" class="btn btn-light gray text-green">Vincule um ainimal para este responsável</a>
+
+                        </div>
+                    <?
+                }
+                else
+                {
+                    ?>
+
+                        <table class="table p-0 m-0">
+                                    
+                            <thead class="bg-light grey">
+                            
+                                <tr>
+                                                                   
+                                    <th style="width: 25px;" class="px-1" >Nome</th>
+                                    <th style="width: 25px;" class="px-1" >CPF</th>
+                                    <th style="width: 25px;" class="px-1" >RG</th>
+                                    <th style="width: 25px;" class="px-1" >Data de nascimento</th>
+                                    <th style="width: 25px;" class="px-1" >Endereço</th>
+                                    <th style="width: 25px;" class="px-1" >Bairro</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+                            
+                                <?
+                                    while($n--)
+                                    {
+                                        $query->proximo();
+                                       
+                                        ?>
+                                            <tr>
+                                                <td><?= $query->record[2]; ?></td>
+                                                <td><?= $query->record[3]; ?></td>
+                                                <td><?= $query->record[4]; ?></td>
+                                                <td><?= $query->record[5]; ?></td>
+                                                <td><?= $query->record[6]; ?></td>
+                                                <td><?= $query->record[7]; ?></td>
+                                               
+                                            </tr>
+                                        <?
+
+                                    }
+                                ?>
+
+                            </tbody>
+
+                        </table>
+
+                    <?
+                }
+
+            ?>
 
 
         <!-- Fim-->
