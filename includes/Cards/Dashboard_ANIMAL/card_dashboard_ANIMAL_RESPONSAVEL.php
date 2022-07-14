@@ -62,7 +62,7 @@ $n = $query->rows();
 
                             <h5 class="mb-5">Este animal ainda não possue nenhum responsável vinculado</h5>
 
-                            <a href="ANIMAL_cover.php?id_responsavel=<?= $id_animal ?>" class="btn btn-light gray text-green">Vincule um ainimal para este responsável</a>
+                          
 
                         </div>
                     <?
@@ -128,7 +128,7 @@ $n = $query->rows();
 
         <div class="row">
 
-            <div class="col-6"><a href='RESPONSAVEL_form.php'><i class="fa fa-plus"></i> Novo</a>
+        <div class="col-9"><a href='RESPONSAVEL_form.php?id_responsavel=<?= $id_animal ?>'><i class="fa fa-plus"></i> Novo</a></div>
         
         
         

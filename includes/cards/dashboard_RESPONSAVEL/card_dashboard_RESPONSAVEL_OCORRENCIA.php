@@ -76,7 +76,7 @@ $query->exec("SELECT
 
                             <h5 class="mb-5">Este Responsável ainda não possue nenhuma ocorrência</h5>
 
-                            <a href="HOSPEDAGEM_form.php?id_responsavel=<?= $id_responsavel ?>" class="btn btn-light gray text-green">Gerar ocorrência para este responsável</a>
+                          
 
                         </div>
                     <?

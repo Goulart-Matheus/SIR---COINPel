@@ -232,7 +232,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
             <div class="card-footer border-top-0 bg-transparent">
                 <div class="text-center">
                     <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info ad_duplicidade" type="button" name="add" value="Salvar">
+                    <input class="btn btn-info " type="submit" name="add" value="Salvar">
                 </div>
             </div>
 
