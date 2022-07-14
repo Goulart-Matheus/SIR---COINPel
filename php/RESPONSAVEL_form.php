@@ -35,7 +35,10 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
+                            $query_aux  = new Query($bd);
+                            $query_aux1 = new Query($bd);
                         
+
                             $valida = new Valida($form_responsavel, 'Responsável');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
@@ -58,6 +61,25 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 $erro .= $valida->PegaErros();
                             }
                             
+                            // Validação testa se o CPF e o RG já estão cadastrados no BD
+                            // inicio
+                            $query_aux->exec("SELECT id_responsavel 
+                                                        FROM responsavel
+                                                       WHERE cpf = '$form_mascara'
+                                                    ");
+                                    if($query_aux->rows() > 0)
+                                    {
+                                        $erro .= "Já existe CPF cadastrado com este numero: $form_mascara";
+                                    }
+                            $query_aux1->exec("SELECT id_responsavel
+                                              FROM responsavel
+                                              WHERE rg = '$form_rg'
+                                ");
+                                    if($query_aux1->rows() > 0)
+                                    {
+                                        $erro .= "Já existe RG cadastrado com este numero: $form_rg";
+                                    }        
+                            //fim        
                         }
 
                         if (!$erro && isset($add)) {
@@ -229,12 +251,12 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     </div>
                 </div>
                  
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info " type="submit" name="add" value="Salvar">
+                <div class="card-footer border-top-0 bg-transparent">
+                    <div class="text-center">
+                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
+                        <input class="btn btn-info " type="submit" name="add" value="Salvar">
+                    </div>
                 </div>
-            </div>
 
         </div>
 
