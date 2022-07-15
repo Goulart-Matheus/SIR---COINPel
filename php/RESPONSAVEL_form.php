@@ -58,6 +58,40 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 $erro .= $valida->PegaErros();
                             }
                             
+
+                            if($form_responsavel != "")
+                            {
+                                $query_valida = new Query($bd);
+                                $query_valida->exec("SELECT i.id_animal , v.id.responsavel
+                                                       FROM pedido_informacao.informacao i , vereador v 
+                                                      WHERE i.id_vereador       = $form_vereador 
+                                                        AND i.id_vereador       = v.id_vereador 
+                                                        AND i.nro_processo      = " . ltrim(explode('/' , $form_processo)[0],"0") . "
+                                                        AND i.ano_referencia    = " .  date('Y')
+                                                    );
+
+                                if($query_valida->rows() > 0)
+                                {
+                                    $query_valida->result($query_valida->linha);
+                                    $erro .= "O(A) Vereador(a) {$query_valida->record[1]} já possui um Pedido de Informação com este Nro. de Processo";
+                                }
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
                         }
 
                         if (!$erro && isset($add)) {
