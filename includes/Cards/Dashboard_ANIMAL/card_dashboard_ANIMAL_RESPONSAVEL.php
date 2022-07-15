@@ -128,7 +128,7 @@ $n = $query->rows();
 
         <div class="row">
 
-        <div class="col-9"><a href='RESPONSAVEL_form.php?id_responsavel=<?= $id_animal ?>'><i class="fa fa-plus"></i> Novo</a></div>
+        <div class="col-9"><a href='RESPONSAVEL_form.php?id_animal=<?= $id_animal ?>'><i class="fa fa-plus"></i> Novo</a></div>
         
         
         

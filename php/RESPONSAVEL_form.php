@@ -63,21 +63,24 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             
                             // Validação testa se o CPF e o RG já estão cadastrados no BD
                             // inicio
-                            $query_aux->exec("SELECT id_responsavel 
+                            $query_aux->exec("SELECT id_responsavel
                                                         FROM responsavel
-                                                       WHERE cpf = '$form_mascara'
+                                                        WHERE cpf = '$form_mascara'
                                                     ");
+                                   
+                                              
                                     if($query_aux->rows() > 0)
                                     {
-                                        $erro .= "Já existe CPF cadastrado com este numero: $form_mascara";
+                                        $erro .= "CPF de numero $form_mascara, já esta cadastrado no sistema <br>";
                                     }
-                            $query_aux1->exec("SELECT id_responsavel
+                            $query_aux1->exec("SELECT id_responsavel, nome
                                               FROM responsavel
                                               WHERE rg = '$form_rg'
                                 ");
+                                    $nome1 = $query_aux1->last_insert[1];
                                     if($query_aux1->rows() > 0)
                                     {
-                                        $erro .= "Já existe RG cadastrado com este numero: $form_rg";
+                                        $erro .= "RG de numero $form_rg, já esta cadastrado no sistema ";
                                     }        
                             //fim        
                         }
@@ -121,7 +124,19 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 )
                                
                             );
-                              
+                            if ($id_animal != ""){
+                                $query->insertTupla(
+                                'animal_responsavel',
+                                array(
+                                    $id_animal,
+                                    $id_responsavel, 
+                                    $auth->getUser(),
+                                    $_ip,
+                                    $_data,
+                                    $_hora,
+                                      )    
+                                );
+                            }  
                         }
                            
                             $query->commit();
@@ -147,28 +162,28 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                 
                     <div class="form-group col-6 ">
                         <label for="form_responsavel"><span class="text-danger">*</span> Nome :</label>
-                        <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100" value="<? if ($erro) echo $form_responsavel; ?>">
+                        <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="11" required value="<? if ($erro) echo $form_responsavel; ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
                         <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
-                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
+                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" required value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
                         <label for="form_rg"><span class="text-danger">*</span> RG :</label>
-                        <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($erro) echo $form_rg; ?>">
+                        <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" required maxlength="14" value="<? if ($erro) echo $form_rg; ?>">
                     </div>    
                 </div>
 
                 <div class="form-row">                                        
                     <div class="form-group col-12 col-md-2">
                         <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
-                        <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="100" value="<? if ($erro) echo $form_dt_nascimento; ?>">
+                        <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="08" value="<? if ($erro) echo $form_dt_nascimento; ?>">
                     </div>
                     
                     <div class="form-group col-12 col-md-6">
                         <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
-                        <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="100" value="<? if ($erro) echo $form_endereco; ?>">
+                        <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="200" required value="<? if ($erro) echo $form_endereco; ?>">
                     </div>
                     <div class="form-group col-12 col-md-4">
                         <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
@@ -188,7 +203,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                     <div class="form-group col-12 ">
 
-                        <p class="text-center py-2 bg-dark" >
+                        <p class="text-center py-2 bg-green" >
                             Contatos :
                         </p>
 
