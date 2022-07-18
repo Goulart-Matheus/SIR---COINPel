@@ -211,7 +211,14 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
                         <input class="btn btn-info " type="submit" name="add" value="Salvar">                   
                     </div>
                 </div>
-
+            <script>
+                    <?
+                        if($id_responsavel != ""){
+                           link('RESPONSAVEL_cover.php?id_responsavel=',$id_responsavel);
+                            
+                        }
+                    ?>
+            </script>    
         
             </div>
         </div>    

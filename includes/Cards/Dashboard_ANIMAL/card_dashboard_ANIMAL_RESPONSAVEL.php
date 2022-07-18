@@ -31,7 +31,7 @@ $query->exec(
 //$total_contato = $query->record[0];
 $n = $query->rows();
 
-//$js_Onclick = "OnClick=javascript:window.location=('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
+//$js_Onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?search=true&id_animal=$id_animal";
 
 ?>
 
@@ -77,12 +77,12 @@ $n = $query->rows();
                             
                                 <tr>
                                                                    
-                                    <th style="width: 25px;" class="px-1" >Nome</th>
+                                    <th style="width: 150px;" class="px-1" >Nome</th>
                                     <th style="width: 25px;" class="px-1" >CPF</th>
                                     <th style="width: 25px;" class="px-1" >RG</th>
                                     <th style="width: 25px;" class="px-1" >Data de nascimento</th>
-                                    <th style="width: 25px;" class="px-1" >Endereço</th>
-                                    <th style="width: 25px;" class="px-1" >Bairro</th>
+                                    <th style="width: 150px;" class="px-1" >Endereço</th>
+                                    <th style="width: 75px;" class="px-1" >Bairro</th>
 
                                 </tr>
 
@@ -108,6 +108,7 @@ $n = $query->rows();
                                         <?
 
                                     }
+                                    
                                 ?>
 
                             </tbody>

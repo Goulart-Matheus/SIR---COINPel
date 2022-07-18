@@ -80,17 +80,14 @@
 
                 for ($c = 0; $c < sizeof($id_responsavel); $c++) {
                     
-                    // $query->exec ("SELECT 
-                    //                     id_responsavel_contato, id_responsavel,id_tipo_contato,valor_contato,principal
-                    //               FROM 
-                    //                     responsavel_contato                   
-                    //               WHERE id_responsavel =".  $id_responsavel[$c]                          
-                    //              ); 
+                   
                     $query->exec ("SELECT  rc.id_responsavel_contato, rc.id_responsavel,rc.id_tipo_contato,rc.valor_contato,rc.principal,
                                            r.nome,r.cpf,r.rg,r.dt_nascimento 
-                                  FROM   responsavel_contato rc, responsavel r
+                                  FROM   responsavel_contato rc, responsavel r ,animal_responsavel ar
                                   WHERE  rc.id_responsavel = ". $id_responsavel[$c],
-                                  "AND   r.id_responsavel =". $id_responsavel[$c]
+                                  "AND   r.id_responsavel =". $id_responsavel[$c],
+                                  "AND  ar.id_responsavel =".$id_responsavel[$c],
+
                                    
                                 
                                  ); 
@@ -104,6 +101,9 @@
                         {
 
                                                        
+                            $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
+                            $querydel->deleteTupla('animal_responsavel', $where);
+
                             $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
                             $querydel->deleteTupla('responsavel_contato', $where);
 

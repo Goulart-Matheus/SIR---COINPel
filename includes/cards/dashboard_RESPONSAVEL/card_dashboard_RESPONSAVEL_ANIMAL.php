@@ -33,7 +33,8 @@
     ); 
      
     $n = $query->rows();
-    
+    //$js_Onclick = "OnClick=javascript:window.location=
+    //('formOrgaoPedidoInformacao.php?search=true&id_orgao=$id_orgao&form_search_situacao=";
     ?>
 
     <div class="card border">
