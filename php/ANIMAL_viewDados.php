@@ -55,10 +55,48 @@ if ($print) {
 
             $querydel = new Query($bd);
 
-            for ($c = 0; $c < sizeof($id_animal); $c++) {
+            // for ($c = 0; $c < sizeof($id_animal); $c++) {
 
-                $where = array(0 => array('id_animal', $id_animal[$c]));
-                $querydel->deleteTupla('animal', $where);
+            //     $where = array(0 => array('id_animal', $id_animal[$c]));
+            //     $querydel->deleteTupla('animal', $where);
+            // }
+            for ($c = 0; $c < sizeof($id_animal); $c++) {
+                    
+                   
+                $query->exec ("SELECT  ar.id_animal, a.id_animal
+                                       
+                              FROM   animal a  ,animal_responsavel ar
+                              WHERE  a.id_animal = ". $id_animal[$c],
+                              "AND   ar.id_animal =". $id_animal[$c],
+                              "AND  ar.id_animal = a.id_animal",
+                            
+                             ); 
+
+                    
+                if($query->rows() > 0)
+                {
+                    $n = $query->rows();
+
+                    while($n --)
+                    {
+
+                                                   
+                        $where = array(0 => array('id_animal', $id_animal[$c]));
+                        $querydel->deleteTupla('animal_responsavel', $where);
+
+                        
+
+                        
+                    };    
+                        
+                    $where = array(0 => array('id_animal', $id_animal[$c]));
+                    $querydel->deleteTupla('animal', $where);
+  
+                };
+                
+
+                
+                
             }
 
             unset($_POST['id_animal']);
