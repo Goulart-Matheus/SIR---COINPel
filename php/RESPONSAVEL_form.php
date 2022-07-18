@@ -35,7 +35,10 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
+                            $query_aux  = new Query($bd);
+                            $query_aux1 = new Query($bd);
                         
+
                             $valida = new Valida($form_responsavel, 'Responsável');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
@@ -54,67 +57,13 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             
                             foreach ($form_valor_contato as $val) {
                                 $valida = new Valida($val[0], 'Contato');
+
                                 $valida->TamMinimo(1);
                                 $erro .= $valida->PegaErros();
                             }
                             
 
-                            if($form_responsavel != "")
-                            {
-                                $query_valida = new Query($bd);
-                                $query_valida->exec("SELECT i.id_animal , v.id.responsavel
-                                                       FROM pedido_informacao.informacao i , vereador v 
-                                                      WHERE i.id_vereador       = $form_vereador 
-                                                        AND i.id_vereador       = v.id_vereador 
-                                                        AND i.nro_processo      = " . ltrim(explode('/' , $form_processo)[0],"0") . "
-                                                        AND i.ano_referencia    = " .  date('Y')
-                                                    );
-
-                                if($query_valida->rows() > 0)
-                                {
-                                    $query_valida->result($query_valida->linha);
-                                    $erro .= "O(A) Vereador(a) {$query_valida->record[1]} já possui um Pedido de Informação com este Nro. de Processo";
-                                }
-                            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                            
-                        }
-
-                        if (!$erro && isset($add)) {
-
-                            $query->begin();
-
-                            $query->insertTupla(
-                                'responsavel',
-                                array(
-                                    trim($form_responsavel),
-                                    $form_mascara, // CPF
-                                    $form_rg,
-                                    $form_dt_nascimento,
-                                    $form_endereco,
-                                    $form_bairro,
-                                    $_login,
-                                    $_ip,
-                                    $_data,
-                                    $_hora,
-                                    
-                                )
-                                );
-                            
+                                                      
                             $id_responsavel = $query->last_insert[0];
                                                                           
                             foreach($form_valor_contato as $val){
@@ -263,12 +212,12 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     </div>
                 </div>
                  
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info " type="submit" name="add" value="Salvar">
+                <div class="card-footer border-top-0 bg-transparent">
+                    <div class="text-center">
+                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
+                        <input class="btn btn-info " type="submit" name="add" value="Salvar">
+                    </div>
                 </div>
-            </div>
 
         </div>
 
@@ -295,6 +244,41 @@ include_once('../includes/dashboard/footer.php');
        }
     });
 
+    $("#modal_add_responsavel").on('click', function() {
+       
+
+       var nome_responsavel = $("#form_nome_responsavel").val();
+
+
+       $.ajax({
+           type: "post",
+           url: "../includes/ajax_add_responsavel.php",
+
+           
+           data: {
+               "nome": nome,
+
+           },
+           dataType: "json",
+           beforeSend: function() {
+
+               $("#modal_add_responsavel").modal('hide');
+           },
+           success: function(response) {
+
+               var option = "<option value='" + response['id_responsavel'] + "' selected>" + response['nome'] + "</option>";
+
+               $("#RESPONSAVEL_form").append(option)
+
+           },
+           error: function(response) {
+
+           }
+       });
+
+   });
 </script>
+
+
 
 

@@ -34,6 +34,9 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
+                            $query_aux  = new Query($bd);
+                            $query_aux1 = new Query($bd);
+
                             $valida = new Valida($form_nro_ficha, 'Nro_ficha');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
@@ -56,6 +59,29 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $valida = new Valida($form_id_especie, 'Id_especie');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
+                           
+                            // Validação testa se o nro_ficha e o nro_chip já estão cadastrados no BD
+                            // inicio
+                            $query_aux->exec("SELECT id_animal 
+                                                        FROM animal
+                                                        WHERE nro_ficha = '$form_nro_ficha'
+                                                    ");
+                                    if($query_aux->rows() > 0)
+                                    {
+                                        $erro .= "Já existe uma ficha com este numero: $form_nro_ficha";
+                                    }
+                            $query_aux1->exec("SELECT id_animal
+                                              FROM animal
+                                              WHERE nro_chip = '$form_nro_chip'
+                                ");
+                                    if($query_aux1->rows() > 0)
+                                    {
+                                        $erro .= "Já existe um chip com este numero: $form_nro_chip";
+                                    }        
+                            //fim 
+
+
+
                         }
 
                         if (!$erro && isset($add)) {
@@ -162,16 +188,11 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                 <div class="card-footer border-top-0 bg-transparent">
                     <div class="text-center">
                         <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                        <button type="button" class="btn btn-md text-light ad_duplicidade btn-info"> salvar
-                        </button>
-
-                   
+                        <input class="btn btn-info " type="submit" name="add" value="Salvar">                   
                     </div>
-
-
                 </div>
 
-            </div>
+        </div>
 
     </form>
 

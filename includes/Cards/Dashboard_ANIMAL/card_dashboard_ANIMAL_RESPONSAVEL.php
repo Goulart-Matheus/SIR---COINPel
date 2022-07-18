@@ -58,7 +58,7 @@ $n = $query->rows();
                 {
                     ?>
 
-                        <div class="col-12 text-center pt-5 text-light">
+                        <div class="col-12 text-center pt-5 text-dark">
 
                             <h5 class="mb-5">Este animal ainda não possue nenhum responsável vinculado</h5>
 
