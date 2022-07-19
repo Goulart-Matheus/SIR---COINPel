@@ -62,36 +62,6 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 $erro .= $valida->PegaErros();
                             }
                             
-<<<<<<< HEAD
-=======
-                            // Validação testa se o CPF e o RG já estão cadastrados no BD
-                            // inicio
-                            $query_aux->exec("SELECT id_responsavel
-                                                        FROM responsavel
-                                                        WHERE cpf = '$form_mascara'
-                                                    ");
-                                   
-                                              
-                                    if($query_aux->rows() > 0)
-                                    {
-                                        $erro .= "CPF de numero $form_mascara, já esta cadastrado no sistema <br>";
-                                    }
-                            $query_aux1->exec("SELECT id_responsavel, nome
-                                              FROM responsavel
-                                              WHERE rg = '$form_rg'
-                                ");
-                                    $nome1 = $query_aux1->last_insert[1];
-                                    if($query_aux1->rows() > 0)
-                                    {
-                                        $erro .= "RG de numero $form_rg, já esta cadastrado no sistema ";
-                                    }        
-                            //fim        
-                        }
-
-                        if (!$erro && isset($add)) {
-
-                            $query->begin();
->>>>>>> 38771aa19636dee6a10511148bed9a2a348f3b82
 
                                                       
                             $id_responsavel = $query->last_insert[0];
