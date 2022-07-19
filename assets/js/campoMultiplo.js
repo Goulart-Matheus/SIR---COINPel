@@ -11,7 +11,7 @@ $(document).ready(function () {
             if(conteudo.indexOf("select") > -1){
 
                 $(this).parents("div#container_dinamico").append('<div class="input-group ml-0 mb-2" id="campo_dinamico">' + conteudo.replace(/selected="selected"/g," ").replace(/selected=""/g," ") + '</div>');
-                $("div#campo_dinamico").last().find('input#form_tipo_contato ,input#form_principal,').val('');
+                $("div#campo_dinamico").last().find('input#form_tipo_contato,input#form_principal,').val('');
                 $("div#campo_dinamico").last().find('label').text('Selecione um Arquivo');
 
             } else {
