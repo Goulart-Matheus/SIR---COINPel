@@ -62,8 +62,6 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 $erro .= $valida->PegaErros();
                             }
                             
-<<<<<<< HEAD
-=======
                             // Validação testa se o CPF e o RG já estão cadastrados no BD
                             // inicio
                             $query_aux->exec("SELECT id_responsavel
@@ -91,7 +89,6 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         if (!$erro && isset($add)) {
 
                             $query->begin();
->>>>>>> 38771aa19636dee6a10511148bed9a2a348f3b82
 
                                                       
                             $id_responsavel = $query->last_insert[0];
