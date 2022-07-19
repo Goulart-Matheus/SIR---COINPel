@@ -162,7 +162,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                 
                     <div class="form-group col-6 ">
                         <label for="form_responsavel"><span class="text-danger">*</span> Nome :</label>
-                        <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="11" required value="<? if ($erro) echo $form_responsavel; ?>">
+                        <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="200" required value="<? if ($erro) echo $form_responsavel; ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
                         <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
@@ -220,7 +220,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         $qnt = 1;
 
                         if ($erro) {
-                            $qnt = count($form_principal);
+                            $qnt = count($form_valor_contato);
                         }
 
                         for ($c = 0; $c < $qnt; $c++) {
@@ -236,7 +236,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                               
                                 <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
-                                <select name="form_principal"  required id="form_principal" required  class="form-control col-md-1">
+                                <select name="form_principal"  required id="form_principal" required  class="form-control col-md-1 form_principal">
                                 <option value="" selected>Selecione</option>
                                     <option value="S">Sim</option>
                                     <option value="N">Não</option>

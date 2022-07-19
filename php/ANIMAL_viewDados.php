@@ -55,11 +55,7 @@ if ($print) {
 
             $querydel = new Query($bd);
 
-            // for ($c = 0; $c < sizeof($id_animal); $c++) {
-
-            //     $where = array(0 => array('id_animal', $id_animal[$c]));
-            //     $querydel->deleteTupla('animal', $where);
-            // }
+            
             for ($c = 0; $c < sizeof($id_animal); $c++) {
                     
                    

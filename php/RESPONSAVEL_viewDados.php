@@ -11,7 +11,7 @@
             $where.= " and r.rg ilike '{$form_rg}'";
         }
        
-         
+         //incui a linha contendo and  rc.principal ='S'   para realização de testes
     $query->exec("SELECT
                         r.id_responsavel,
                         r.nome,
@@ -35,7 +35,9 @@
                 and
                     rc.id_responsavel = r.id_responsavel
                 and 
-                    rc.id_tipo_contato = tc.id_tipo_contato                
+                    rc.id_tipo_contato = tc.id_tipo_contato   
+                and 
+                    rc.principal ='S'             
 
                 ".$where
       
