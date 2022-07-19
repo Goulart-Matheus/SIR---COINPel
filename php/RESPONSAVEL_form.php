@@ -57,10 +57,13 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             
                             foreach ($form_valor_contato as $val) {
                                 $valida = new Valida($val[0], 'Contato');
+
                                 $valida->TamMinimo(1);
                                 $erro .= $valida->PegaErros();
                             }
                             
+<<<<<<< HEAD
+=======
                             // Validação testa se o CPF e o RG já estão cadastrados no BD
                             // inicio
                             $query_aux->exec("SELECT id_responsavel
@@ -88,24 +91,9 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         if (!$erro && isset($add)) {
 
                             $query->begin();
+>>>>>>> 38771aa19636dee6a10511148bed9a2a348f3b82
 
-                            $query->insertTupla(
-                                'responsavel',
-                                array(
-                                    trim($form_responsavel),
-                                    $form_mascara, // CPF
-                                    $form_rg,
-                                    $form_dt_nascimento,
-                                    $form_endereco,
-                                    $form_bairro,
-                                    $_login,
-                                    $_ip,
-                                    $_data,
-                                    $_hora,
-                                    
-                                )
-                                );
-                            
+                                                      
                             $id_responsavel = $query->last_insert[0];
                                                                           
                             foreach($form_valor_contato as $val){
@@ -298,6 +286,41 @@ include_once('../includes/dashboard/footer.php');
        }
     });
 
+    $("#modal_add_responsavel").on('click', function() {
+       
+
+       var nome_responsavel = $("#form_nome_responsavel").val();
+
+
+       $.ajax({
+           type: "post",
+           url: "../includes/ajax_add_responsavel.php",
+
+           
+           data: {
+               "nome": nome,
+
+           },
+           dataType: "json",
+           beforeSend: function() {
+
+               $("#modal_add_responsavel").modal('hide');
+           },
+           success: function(response) {
+
+               var option = "<option value='" + response['id_responsavel'] + "' selected>" + response['nome'] + "</option>";
+
+               $("#RESPONSAVEL_form").append(option)
+
+           },
+           error: function(response) {
+
+           }
+       });
+
+   });
 </script>
+
+
 
 
