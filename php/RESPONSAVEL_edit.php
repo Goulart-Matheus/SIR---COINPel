@@ -195,31 +195,31 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             <div class="input-group ml-0 mb-2" id="campo_dinamico">
 
                            
-                                <select name="form_tipo_contato" id="form_tipo_contato" class="form-control  form_tipo_contato" required>
-                                    <? $form_elemento = $erro ? $form_tipo_contato : ""; include("../includes/inc_select_tipo_contato.php"); ?>
-                                </select>
-                                <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7  form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
-                                <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Habilitado"/>
-                                <select name="form_principal[]" id="form_principal" class="form-control col-md-1">
-                                    <option value='S'>Sim</option>
-                                    <option value='N'>Não</option>
-                                </select>
+                                    <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
+                                        <? $form_elemento = $erro ? $form_tipo_contato :  include("../includes/inc_select_tipo_contato.php"); ?>
+                                    </select>
 
+                                    <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
+                                    <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
+                                    <select name="form_principal[]"  required id="form_principal" required  class="form-control col-md-1 form_principal">
+                                    <option value="" selected>Selecione</option>
+                                        <option value="S">Sim</option>
+                                        <option value="N">Não</option>
+                                    </select>
 
+                                    <div class="input-group-append">
 
-                                <div class="input-group-append">
+                                        <? if ($c == $qnt - 1) { ?>
 
-                                    <? if ($c == $qnt - 1) { ?>
+                                            <a class="btn btn-success " id="novo_campo_dinamico" href="#form_principal">+</a>
 
-                                        <a class="btn btn-success" id="novo_campo_dinamico" href="#id_mult">+</a>
+                                        <? } else { ?>
 
-                                    <? } else { ?>
+                                            <a class="btn btn-danger" id="remove_campo_dinamico" href="#form_principal">x</a>
 
-                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#id_mult">x</a>
+                                        <? } ?>
 
-                                    <? } ?>
-
-                                </div>
+                                    </div>
 
                             </div>
 
