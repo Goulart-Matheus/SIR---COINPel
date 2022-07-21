@@ -61,27 +61,78 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 $valida->TamMinimo(1);
                                 $erro .= $valida->PegaErros();
                             }
+                             // Validação testa se o CPF e o RG já estão cadastrados no BD
+                            // inicio
+                           
+                            $query_aux->exec("SELECT id_responsavel
+                                                        FROM responsavel
+                                                        WHERE cpf = '$form_mascara'
+                                                        
+                                                    ");
+                                   
+                                              
+                                    if($query_aux->rows() > 0)
+                                    {
+                                        $erro .= "Já existe CPF cadastrado com este numero: $form_mascara";
+                                        $erro .= "CPF de numero $form_mascara, já esta cadastrado no sistema <br>";
+                                    }
                             
+                            $query_aux1->exec("SELECT id_responsavel, nome
+                                              FROM responsavel
+                                              WHERE rg = '$form_rg'
+                                ");
+                                    $nome1 = $query_aux1->last_insert[1];
+                                    if($query_aux1->rows() > 0)
+                                    {
+                                        $erro .= "Já existe RG cadastrado com este numero: $form_rg";
+                                        $erro .= "RG de numero $form_rg, já esta cadastrado no sistema ";
+                                    }        
+                            //fim        
+                        }
 
-                                                      
+
+                            if (!$erro && isset($add)) {
+
+                                $query->begin();
+    
+                                $query->insertTupla(
+                                    'responsavel',
+                                    array(
+                                        trim($form_responsavel),
+                                        $form_mascara, // CPF
+                                        $form_rg,
+                                        $form_dt_nascimento,
+                                        $form_endereco,
+                                        $form_bairro,
+                                        $_login,
+                                        $_ip,
+                                        $_data,
+                                        $_hora,
+                                        
+                                    )
+                                    );
+                            
                             $id_responsavel = $query->last_insert[0];
-                                                                          
+                            $i=0;                                             
                             foreach($form_valor_contato as $val){
                             $query->insertTupla(
                                 'responsavel_contato',
                                 array(
                                     $id_responsavel,
-                                    $form_tipo_contato[0],
+                                    $form_tipo_contato[$i],
                                     $val,
-                                    $form_principal, 
+                                    $form_principal[$i], 
                                     $auth->getUser(),
                                     $_ip,
                                     $_data,
                                     $_hora,
                                     
                                 )
-                               
+                              
                             );
+                            $i++;
+                           
+                            
                             if ($id_animal != ""){
                                 $query->insertTupla(
                                 'animal_responsavel',
@@ -98,7 +149,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         }
                            
                             $query->commit();
-                                   
+                           
                         }
                         
                        
@@ -194,7 +245,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                               
                                 <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
-                                <select name="form_principal"  required id="form_principal" required  class="form-control col-md-1 form_principal">
+                                <select name="form_principal[]"  required id="form_principal" required  class="form-control col-md-1 form_principal">
                                 <option value="" selected>Selecione</option>
                                     <option value="S">Sim</option>
                                     <option value="N">Não</option>

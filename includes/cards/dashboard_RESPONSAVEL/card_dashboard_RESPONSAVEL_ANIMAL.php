@@ -43,10 +43,14 @@
 
             <div class="row">
 
-                <div class="col-12">
+                <div class="col-10">
                     <i class="fas fa-list"></i> Animais vinculados 
                 </div>
-
+                <div class="col-2 text-right">
+                            <button type="button" class="btn btn-sm btn-light" title="Adicionar Animais já cadastrados" id="lista_animal">
+                                <i class="fas fa-plus text-success"></i>
+                            </button>
+                        </div>
             </div>
 
         </div>
@@ -126,11 +130,10 @@
 
             <div class="row">
 
-                <div class="col-9"><a href='ANIMAL_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
-
-               
+                <div class="col-3"><a href='ANIMAL_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
+                <!-- <div class="col-3"><a href='includes/modal/modal_lista_animal.php'><i class="fa fa-plus"></i> Listar animais cadastrados</a></div>              -->
             </div>
-
+            
         </div>
 
     </div>
