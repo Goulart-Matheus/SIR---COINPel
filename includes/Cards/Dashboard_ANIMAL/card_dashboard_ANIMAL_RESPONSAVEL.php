@@ -206,7 +206,7 @@ $query_modal = new Query($bd);
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
                         <i class="fas fa-filter text-green"></i>
-                        Filtrar Registro de Responsaveis
+                        Filtro Registro de Responsaveis
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -217,20 +217,48 @@ $query_modal = new Query($bd);
 
                     <div class="form-row">
 
+
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_responsavel"><span class="text-danger">*</span> Responsavel </label>
+                            <label for="form_responsavel"><span class="text-danger">*</span>Nome do Responsavel</label>
+                            <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100">
+                        </div>
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_cpf"><span class="text-danger">*</span>CPF</label>
+                            <input type="text" class="form-control" name="form_cpf" id="form_cpf" maxlength="100">
+                        </div>
+
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_rg"><span class="text-danger">*</span>RG</label>
+                            <input type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100">
+                        </div>
+
+                        <div class="form-group col-12 col-md-6">
+                            <label for="form_endereço"><span class="text-danger">*</span>Endereço</label>
+                            <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="100">
+                        </div>
+
+
+                        <div class="form-group col-12 col-md-6">
+                            <label for="form_bairro"><span class="text-danger">*</span>Bairro</label>
+                            <input type="text" class="form-control" name="form_bairro" id="form_Bairro" maxlength="100">
+                        </div>
+
+
+                        <!--<label for="form_responsavel"><span class="text-danger">*</span> Nome do Responsavel </label>
                             <select class="search form-control" name="form_responsavel" id="form_responsavel">
-                                <?
-                                echo "<option value='' selected>" . "Selecione um Responsavel" . "</option>";
-                                $query_modal2->exec("SELECT id_responsavel, nome, cpf, rg, dt_nascimento, endereco, id_bairro FROM responsavel");
-                                $nmodal = $query_modal2->rows();
+                               // <?
+                                    // echo "<option value='' selected>" . "Selecione um Responsavel" . "</option>";
+                                    // $query_modal2->exec("SELECT id_responsavel, nome, cpf, rg, dt_nascimento, endereco, id_bairro FROM responsavel");
+                                    //$nmodal = $query_modal2->rows();
 
-                                while ($nmodal--) {
-                                    $query_modal2->proximo();
-                                    echo "<option value='" . $query_modal2->record[0] . "'>" . $query_modal2->record[1] . "</option>";
-                                }
+                                    // while ($nmodal--) {
+                                    //$query_modal2->proximo();
+                                    //echo "<option value='" . $query_modal2->record[0] . "'>" . $query_modal2->record[1] . "</option>";
+                                    // }
 
-                                ?>
+                                    ?>
                             </select>
                         </div>
 
@@ -238,15 +266,16 @@ $query_modal = new Query($bd);
                             <label for="form_tipo_contato"><span class="text-danger">*</span> Tipo de Contato </label>
                             <select class="search form-control" name="form_tipo_contato" id="form_tipo_contato">
                                 <?
-                                echo "<option value='' selected>" . "Selecione um Tipo de Contato" . "</option>";
-                                $query_modal->exec("SELECT id_tipo_contato, descricao, mascara FROM tipo_de_contato");
-                                $nmodal2 = $query_modal->rows();
+                                // echo "<option value='' selected>" . "Selecione um Tipo de Contato" . "</option>";
+                                // $query_modal->exec("SELECT id_tipo_contato, descricao, mascara FROM tipo_de_contato");
+                                // $nmodal2 = $query_modal->rows();
 
-                                while ($nmodal2--) {
-                                    $query_modal->proximo();
-                                    echo "<option value='" . $query_modal->record[0] . "'>" . $query_modal->record[1] . "</option>";
-                                }
+                                //while ($nmodal2--) {
+                                //$query_modal->proximo();
+                                //echo "<option value='" . $query_modal->record[0] . "'>" . $query_modal->record[1] . "</option>";
+                                //}
 
+                                //
                                 ?>
                             </select>
                         </div>
@@ -254,7 +283,7 @@ $query_modal = new Query($bd);
                         <div class="form-group col-12 col-md-4">
                             <label for="form_mascara"><span class="text-danger">*</span>Contato</label>
                             <input type="number" class="form-control" name="form_mascara" id="form_mascara" maxlength="100">
-                        </div>
+                        </div>-->
 
                     </div>
 
