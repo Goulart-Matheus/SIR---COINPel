@@ -41,52 +41,31 @@ $n = $query->rows();
 
         <div class="row">
 
-            <div class="col-12">
+            <div class="col-md-6 text-left">
+
                 <i class="fas fa-list"></i> Responsáveis Vinculados
 
             </div>
 
-            <div class="card-header">
 
-                <div class="form-row">
-                    <div class="col-md-9 text-left">
-                        <button type="button" class="fa-solid fa-car-side" data-toggle="modal" data-target="#modal_add_responsavel">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-
+            <div class="col-md-6 text-right">
+                <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsaveis" data-toggle="modal" data-target="#modal_add_responsavel" data-modal="VI">
+                    <i class="fas fa-plus"></i>
+                </button>
             </div>
-
-
-
-           <!-- <div class="card-header">
-                <div class="form-row">
-                    <div class="col-md-6 text-left"><i class="fa-solid fa-car-side"></i> RESPONSAVEIS</div>
-
-                    <div class="col-md-6 text-right">
-                        <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsaveis" data-toggle="modal" data-target="#MODAL_ADD_RESPONSAVEIS" data-modal="VI">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>-->
 
 
             <!-- <div class="card-header">
                 <div class="form-row">
-                    <div class="col-md-6 text-left"><i class="fa-solid fa-car-side"></i></div>
+                    <div class="col-md-6 text-left"><i class="fa-solid fa-car-side"></i>                                            
 
                     <div class="col-md-6 text-right">
-                        <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_veiculos" data-toggle="modal" data-target="#modal_add_responsavel">
+                        <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsavel" data-toggle="modal" data-target="#MODAL_ADD_RESPONSAVEL" data-modal="VI">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
                 </div>
             </div>-->
-
-
-
 
 
 
@@ -240,7 +219,7 @@ $query_modal_tab = new Query($bd);
                     <div class="form-row">
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_responsavel"><span class="text-danger">*</span> Respnsavel </label>
+                            <label for="form_responsavel"><span class="text-danger">*</span> Responsavel </label>
                             <select class="search form-control" name="form_responsavel" id="form_responsavel">
                                 <?
                                 echo "<option value='' selected>" . "Selecione um Responsavel" . "</option>";
