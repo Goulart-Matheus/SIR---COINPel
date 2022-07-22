@@ -215,6 +215,7 @@ $n = $query->rows();
 <?
 $query_modal2 = new Query($bd);
 $query_modal = new Query($bd);
+$query_modal_tab = new Query($bd);
 ?>
 <div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -270,8 +271,43 @@ $query_modal = new Query($bd);
 
                                 ?>
                             </select>
-                        </div>
+                        
+                        
+                            <?
+                                $query_modal_tab->exec("SELECT          
+                                                        r.id_responsavel,
+                                                        r.nome,
+                                                        r.cpf,
+                                                        r.rg,
+                                                        rc.valor_contato,
+                             
+                    
+                                                        (SELECT a.nro_chip  
+                                                                FROM 
+                                                                animal a, animal_responsavel ar
+                                                                WHERE a.id_animal = ar.id_animal 
+                                                                
+                                                                ORDER BY a.id_animal DESC LIMIT 1 )   ,
+                                                    
+                                                        (SELECT a.nro_ficha  
+                                                                FROM animal a, animal_responsavel ar
+                                                                WHERE a.id_animal = ar.id_animal 
+                                                                
+                                                                ORDER BY a.id_animal DESC LIMIT 1 )   
+                                             
+                                                    FROM responsavel r ,  animal_responsavel ar, responsavel_contato rc
+         
+                                                    WHERE r.id_responsavel =ar.id_responsavel
+                                                    AND   r.id_responsavel = rc.id_responsavel
+                                                    AND rc.responsavel = .'S'."
+                                                    );
+                            
+                            
+                            
+                            ?>
 
+
+                           
                         <div class="form-group col-12 col-md-4">
                             <label for="form_mascara"><span class="text-danger">*</span>Contato</label>
                             <input type="number" class="form-control" name="form_mascara" id="form_mascara" maxlength="100">
