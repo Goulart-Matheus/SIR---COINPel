@@ -46,13 +46,31 @@ $n = $query->rows();
 
             </div>
 
-            <div class="form-row">
-                <div class="col-md-9 text-left">
-                    <button type="button" class="btn bg-green btn-light btn-sm text-light" data-toggle="modal" data-target="#modal_add_responsavel">
-                        <i class="fas fa-plus"></i>
-                    </button>
+            <div class="card-header">
+
+                <div class="form-row">
+                    <div class="col-md-9 text-left">
+                        <button type="button" class="fa-solid fa-car-side" data-toggle="modal" data-target="#modal_add_responsavel">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
                 </div>
+
             </div>
+
+
+
+           <!-- <div class="card-header">
+                <div class="form-row">
+                    <div class="col-md-6 text-left"><i class="fa-solid fa-car-side"></i> RESPONSAVEIS</div>
+
+                    <div class="col-md-6 text-right">
+                        <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsaveis" data-toggle="modal" data-target="#MODAL_ADD_RESPONSAVEIS" data-modal="VI">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>-->
 
 
             <!-- <div class="card-header">
@@ -66,6 +84,10 @@ $n = $query->rows();
                     </div>
                 </div>
             </div>-->
+
+
+
+
 
 
         </div>
@@ -166,7 +188,7 @@ $n = $query->rows();
     $("#modal_add_responsvel").on('click', function() {
 
         var nome_responsavel = $("#form_nome_responsavel").val();
-        //var tipo_escola = $("#form_tipo_escola").val();
+        var CPF = $("#form_cpf").val();
 
         $.ajax({
             type: "post",
@@ -189,3 +211,88 @@ $n = $query->rows();
 
     });
 </script>
+
+<?
+$query_modal2 = new Query($bd);
+$query_modal = new Query($bd);
+?>
+<div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl" role="document">
+
+        <div class="modal-content">
+
+            <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
+
+                <div class="modal-header bg-light-2">
+                    <h5 class="modal-title">
+                        <i class="fas fa-filter text-green"></i>
+                        Filtrar Registro de Responsaveis
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-row">
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_responsavel"><span class="text-danger">*</span> Respnsavel </label>
+                            <select class="search form-control" name="form_responsavel" id="form_responsavel">
+                                <?
+                                echo "<option value='' selected>" . "Selecione um Responsavel" . "</option>";
+                                $query_modal2->exec("SELECT id_responsavel, nome, cpf, rg, dt_nascimento, endereco, id_bairro FROM responsavel");
+                                $nmodal = $query_modal2->rows();
+
+                                while ($nmodal--) {
+                                    $query_modal2->proximo();
+                                    echo "<option value='" . $query_modal2->record[0] . "'>" . $query_modal2->record[1] . "</option>";
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_tipo_contato"><span class="text-danger">*</span> Tipo de Contato </label>
+                            <select class="search form-control" name="form_tipo_contato" id="form_tipo_contato">
+                                <?
+                                echo "<option value='' selected>" . "Selecione um Tipo de Contato" . "</option>";
+                                $query_modal->exec("SELECT id_tipo_contato, descricao, mascara FROM tipo_de_contato");
+                                $nmodal2 = $query_modal->rows();
+
+                                while ($nmodal2--) {
+                                    $query_modal->proximo();
+                                    echo "<option value='" . $query_modal->record[0] . "'>" . $query_modal->record[1] . "</option>";
+                                }
+
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_mascara"><span class="text-danger">*</span>Contato</label>
+                            <input type="number" class="form-control" name="form_mascara" id="form_mascara" maxlength="100">
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="modal-footer bg-light-2 text-center">
+                    <button type="submit" name="filter" class="btn btn-light">
+                        <i class="fa-solid fa-filter text-green"></i>
+                        Filtrar
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
