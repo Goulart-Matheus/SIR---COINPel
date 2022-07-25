@@ -2,7 +2,7 @@
 // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
 $query->exec(
-    "SELECT
+   "SELECT
                 ar.id_responsavel,
                 ar.id_animal,
                 r.nome,
@@ -18,7 +18,7 @@ $query->exec(
                 animal a,
                 bairro b
             WHERE
-            a.id_animal = $id_animal
+               a.id_animal = $id_animal
             AND
             ar.id_responsavel = r.id_responsavel
             AND
@@ -67,8 +67,6 @@ $n = $query->rows();
                 </div>
             </div>-->
 
-
-
         </div>
 
     </div>
@@ -101,9 +99,9 @@ $n = $query->rows();
                         <th style="width: 150px;" class="px-1">Nome</th>
                         <th style="width: 25px;" class="px-1">CPF</th>
                         <th style="width: 25px;" class="px-1">RG</th>
-                        <th style="width: 25px;" class="px-1">Data de nascimento</th>
+                        <!--<th style="width: 25px;" class="px-1">Data de nascimento</th>
                         <th style="width: 150px;" class="px-1">Endereço</th>
-                        <th style="width: 75px;" class="px-1">Bairro</th>
+                        <th style="width: 75px;" class="px-1">Bairro</th>-->
 
                     </tr>
 
@@ -192,7 +190,7 @@ $n = $query->rows();
 </script>
 
 <?
-$query_modal2 = new Query($bd);
+
 $query_modal = new Query($bd);
 ?>
 <div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
@@ -238,9 +236,9 @@ $query_modal = new Query($bd);
 
                       
                                 <?
-                                $query_modal2->exec("SELECT id_responsavel, nome, cpf, rg,  FROM responsavel");
+                                $query_modal->exec("SELECT id_responsavel, nome, cpf, rg,  FROM responsavel where nome = $nome");
                                 
-                                $nmodal = $query_modal2->rows();
+                                $nmodal = $query_modal->rows();
                                    
                                 ?>
                                 
