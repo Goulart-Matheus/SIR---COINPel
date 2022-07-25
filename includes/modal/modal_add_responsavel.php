@@ -15,6 +15,8 @@ if ($form_responsavel == "") {
             b.id_bairro = r.id_bairro  
     ");
 
+
+
     $query->result($query->linha);
 
     $id_responsavel         = $query->record[0];
