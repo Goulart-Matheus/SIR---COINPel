@@ -2,7 +2,7 @@
 // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
 
 $query->exec(
-   "SELECT
+    "SELECT
                 ar.id_responsavel,
                 ar.id_animal,
                 r.nome,
@@ -204,7 +204,7 @@ $query_modal_tab = new Query($bd);
 
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
-                       
+
                         <i class="fas fa-meh text-green"></i>
 
                         Registro de Responsaveis
@@ -235,33 +235,58 @@ $query_modal_tab = new Query($bd);
                             <input type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100">
                         </div>
 
-                      
-                                <?
-                                $query_modal->exec("SELECT id_responsavel, nome, cpf, rg,  FROM responsavel where nome = $nome");
-                                
-                                $nmodal = $query_modal->rows();
-                                   
-                                ?>
-                                
-                            </select>
-                        </div>
 
+                        <?
+
+                        $query_modal_tab->exec(
+                            "SELECT r.id_responsavel, r.nome,  r.cpf, r.rg, rc.valor_contato,
+                                                 
+                                                        (SELECT a.nro_chip  
+                                                                FROM 
+                                                                animal a, animal_responsavel ar
+                                                                WHERE a.id_animal = ar.id_animal 
+                                                                
+                                                                ORDER BY a.id_animal DESC LIMIT 1 )   ,
+                                                    
+                                                        (SELECT a.nro_ficha  
+                                                                FROM animal a, animal_responsavel ar
+                                                                WHERE a.id_animal = ar.id_animal 
+                                                                
+                                                                ORDER BY a.id_animal DESC LIMIT 1 )   
+                                             
+                                                    FROM responsavel r ,  animal_responsavel ar, responsavel_contato rc
+         
+                                                    WHERE r.id_responsavel =ar.id_responsavel
+                                                    AND   r.id_responsavel = rc.id_responsavel
+                                                    AND rc.responsavel = .'S'."
+                       
+
+                       );
+
+
+                        $nmodal = $query_modal->rows();
+
+                        ?>
+
+                        </select>
                     </div>
 
-
                 </div>
 
-                <div class="modal-footer bg-light-2 text-center">
-                    <button type="submit" name="filter" class="btn btn-light">
-                        <i class="fa-solid fa-filter text-green"></i>
-                        Filtrar
-                    </button>
-                </div>
-
-            </form>
 
         </div>
 
+        <div class="modal-footer bg-light-2 text-center">
+            <button type="submit" name="filter" class="btn btn-light">
+                <i class="fa-solid fa-filter text-green"></i>
+                Filtrar
+            </button>
+        </div>
+
+        </form>
+
     </div>
+
+</div>
 
 </div>
