@@ -192,6 +192,7 @@ $n = $query->rows();
 <?
 
 $query_modal = new Query($bd);
+$query_modal_tab = new Query($bd);
 ?>
 <div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
 

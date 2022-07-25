@@ -84,13 +84,20 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                     $_hora,
 
                             );
+                            
+                            $query_aux  = new Query($bd);
+                            $query_aux->exec("SELECT rc.id_responsavel_contato, rc.id_tipo_contato FROM responsavel_contato rc, responsavel r WHERE rc.id_responsavel = r.id_responsavel AND r.id_responsavem = $id_responsavel ");
+                            $id_tipo_contato = $query_aux->last_insert[1];
+                            $id_responsavel_contato = $query_aux->last_insert[0];
 
                             $where = array(0 => array('id_responsavel', $id_responsavel));
                             $query->updateTupla('responsavel', $itens, $where);
                             
                             $itens = array(
+                                    $id_responsavel_contato,
                                     $id_responsavel,
-                                    $form_tipo_contato,
+                                    $id_tipo_contato,
+                                    $form_tipo_contato[0],
                                     trim($form_tipo_mascara),
                                     $form_principal, 
                                     $_login,
@@ -99,10 +106,13 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                     $_hora,
                                     
                             );
+                            
+
                             $where = array(0 => array('id_responsavel', $id_responsavel));
                             $query->updateTupla('responsavel_contato', $itens, $where);
-
-
+                            var_dump($id_responsavel_contato);    
+                            var_dump($id_tipo_contato);
+                            var_dump($form_tipo_contato[0]);
 
 
 
