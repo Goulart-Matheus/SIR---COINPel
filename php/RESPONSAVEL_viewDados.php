@@ -2,7 +2,8 @@
 
     include('../includes/session.php');
     include('../includes/variaveisAmbiente.php');
-
+    include('../function/function.date.php'         );
+    
         $where  = "";
         if($form_mascara!=""){
             $where.=" and r.cpf ilike '{$form_mascara}' ";
@@ -241,7 +242,7 @@
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . retornaData($paging->query->record[4]) . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
