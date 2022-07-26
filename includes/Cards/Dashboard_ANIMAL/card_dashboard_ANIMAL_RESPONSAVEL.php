@@ -55,18 +55,6 @@ $n = $query->rows();
             </div>
 
 
-            <!-- <div class="card-header">
-                <div class="form-row">
-                    <div class="col-md-6 text-left"><i class="fa-solid fa-car-side"></i>                                            
-
-                    <div class="col-md-6 text-right">
-                        <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsavel" data-toggle="modal" data-target="#MODAL_ADD_RESPONSAVEL" data-modal="VI">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>-->
-
         </div>
 
     </div>
@@ -237,27 +225,27 @@ $query_modal_tab = new Query($bd);
 
 
                         <?
-                                $where="";
-                                $where .= $form_responsavel != "" ? "   AND r.nome  = $form_responsavel " : "";
-                                $where .= $form_cpf != "" ? "           AND r.cpf   = $from_cpf " : "";
-                                $where .= $form_rg != "" ? "            AND r.rg    = $form_rg " : "";
+                        $where = "";
+                        $where .= $form_responsavel != "" ? "   AND r.nome  = $form_responsavel " : "";
+                        $where .= $form_cpf != "" ? "           AND r.cpf   = $from_cpf " : "";
+                        $where .= $form_rg != "" ? "            AND r.rg    = $form_rg " : "";
 
-                                $query_modal_tab->exec(
-                                    "SELECT id_responsavel, nome,  cpf, rg
+                        $query_modal_tab->exec(
+                            "SELECT id_responsavel, nome,  cpf, rg
                                             FROM responsavel  
-                                     ".$where
-                            );
+                                     " . $where
+                        );
 
 
-                                $nmodal = $query_modal_tab->rows();
-                        
-                               
+                        $nmodal = $query_modal_tab->rows();
+
+
 
 
                         ?>
-                        
+
                         <div class="form-group col-12 col-md-12">
-                         <!-- Inicio -->
+                            <!-- Inicio -->
                             <?
                             if ($nmodal == 0) {
                             ?>
@@ -282,7 +270,7 @@ $query_modal_tab = new Query($bd);
                                             <th style="width: 150px;" class="px-1">Nome</th>
                                             <th style="width: 25px;" class="px-1">CPF</th>
                                             <th style="width: 25px;" class="px-1">RG</th>
-                                            
+
                                         </tr>
 
                                     </thead>
@@ -298,10 +286,10 @@ $query_modal_tab = new Query($bd);
                                                 <td><?= $query_modal_tab->record[1]; ?></td>
                                                 <td><?= $query_modal_tab->record[2]; ?></td>
                                                 <td><?= $query_modal_tab->record[3]; ?></td>
-                                               
+
                                             </tr>
                                         <?
-                                            
+
                                         }
 
                                         ?>
@@ -312,7 +300,7 @@ $query_modal_tab = new Query($bd);
 
                             <?
                             }
-                            
+
                             ?>
 
 
@@ -321,14 +309,15 @@ $query_modal_tab = new Query($bd);
 
                         </div>
 
-                        
+
                     </div>
-                    
-                       
+
+
                 </div>
 
 
         </div>
+
 
         <div class="modal-footer bg-light-2 text-center">
             <button type="submit" name="filter" class="btn btn-light">
