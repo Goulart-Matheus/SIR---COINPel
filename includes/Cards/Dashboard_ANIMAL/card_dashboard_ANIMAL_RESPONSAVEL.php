@@ -49,7 +49,7 @@ $n = $query->rows();
 
 
             <div class="col-md-6 text-right">
-                <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsaveis" data-toggle="modal" data-target="#modal_add_responsavel" data-modal="VI">
+                <button type="button" class="btn bg-gray btn-light btn-sm text-light btn_modal_add_responsaveis" data-toggle="modal" data-target="#modal_add_responsavel" data-modal="VI">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -99,9 +99,9 @@ $n = $query->rows();
                         <th style="width: 150px;" class="px-1">Nome</th>
                         <th style="width: 25px;" class="px-1">CPF</th>
                         <th style="width: 25px;" class="px-1">RG</th>
-                        <!--<th style="width: 25px;" class="px-1">Data de nascimento</th>
+                        <th style="width: 25px;" class="px-1">Data de nascimento</th>
                         <th style="width: 150px;" class="px-1">Endereço</th>
-                        <th style="width: 75px;" class="px-1">Bairro</th>-->
+                        <th style="width: 75px;" class="px-1">Bairro</th>
 
                     </tr>
 
@@ -237,40 +237,94 @@ $query_modal_tab = new Query($bd);
 
 
                         <?
+                                $where="";
+                                $where .= $form_responsavel != "" ? "   AND r.nome  = $form_responsavel " : "";
+                                $where .= $form_cpf != "" ? "           AND r.cpf   = $from_cpf " : "";
+                                $where .= $form_rg != "" ? "            AND r.rg    = $form_rg " : "";
 
-                        $query_modal_tab->exec(
-                            "SELECT r.id_responsavel, r.nome,  r.cpf, r.rg, rc.valor_contato,
-                                                 
-                                                        (SELECT a.nro_chip  
-                                                                FROM 
-                                                                animal a, animal_responsavel ar
-                                                                WHERE a.id_animal = ar.id_animal 
-                                                                
-                                                                ORDER BY a.id_animal DESC LIMIT 1 )   ,
-                                                    
-                                                        (SELECT a.nro_ficha  
-                                                                FROM animal a, animal_responsavel ar
-                                                                WHERE a.id_animal = ar.id_animal 
-                                                                
-                                                                ORDER BY a.id_animal DESC LIMIT 1 )   
-                                             
-                                                    FROM responsavel r ,  animal_responsavel ar, responsavel_contato rc
-         
-                                                    WHERE r.id_responsavel =ar.id_responsavel
-                                                    AND   r.id_responsavel = rc.id_responsavel
-                                                    AND rc.responsavel = .'S'."
-                       
-
-                       );
+                                $query_modal_tab->exec(
+                                    "SELECT id_responsavel, nome,  cpf, rg
+                                            FROM responsavel  
+                                     ".$where
+                            );
 
 
-                        $nmodal = $query_modal->rows();
+                                $nmodal = $query_modal_tab->rows();
+                        
+                               
+
 
                         ?>
+                        
+                        <div class="form-group col-12 col-md-12">
+                         <!-- Inicio -->
+                            <?
+                            if ($nmodal == 0) {
+                            ?>
 
-                        </select>
+                                <div class="col-12 text-center pt-5 text-dark">
+
+                                    <h5 class="mb-5">Responsável não cadastrado</h5>
+
+
+
+                                </div>
+                            <?
+                            } else {
+                            ?>
+
+                                <table class="table p-0 m-0">
+
+                                    <thead class="bg-light grey">
+
+                                        <tr>
+
+                                            <th style="width: 150px;" class="px-1">Nome</th>
+                                            <th style="width: 25px;" class="px-1">CPF</th>
+                                            <th style="width: 25px;" class="px-1">RG</th>
+                                            
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <?
+                                        while ($nmodal--) {
+                                            $query_modal_tab->proximo();
+
+                                        ?>
+                                            <tr>
+                                                <td><?= $query_modal_tab->record[1]; ?></td>
+                                                <td><?= $query_modal_tab->record[2]; ?></td>
+                                                <td><?= $query_modal_tab->record[3]; ?></td>
+                                               
+                                            </tr>
+                                        <?
+                                            
+                                        }
+
+                                        ?>
+
+                                    </tbody>
+
+                                </table>
+
+                            <?
+                            }
+                            
+                            ?>
+
+
+                            <!-- Fim-->
+
+
+                        </div>
+
+                        
                     </div>
-
+                    
+                       
                 </div>
 
 

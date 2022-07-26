@@ -10,7 +10,7 @@ header('Content-type: application/json');
 $resposta = [];
 $resposta['info'] = 1;
 
-
+//responsavel animal
 if (isset($nome_grupo)) { //Cadastra Responsável
     $query->begin();
     $query->insertTupla('responsavel', array(
