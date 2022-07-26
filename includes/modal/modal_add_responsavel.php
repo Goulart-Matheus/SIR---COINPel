@@ -106,7 +106,7 @@ if ($form_responsavel == "") {
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-    <button type="button" id="add_escola_modal" class="btn btn-info">
+    <button type="button" id="modal_add_responsavel" class="btn btn-info">
         <i class="fas fa-check"></i>&nbsp;
         Salvar
     </button>

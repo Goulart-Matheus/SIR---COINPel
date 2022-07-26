@@ -5,27 +5,24 @@ $id_animal_last = $query_animal->last_insert[0];
 
 if ($form_animal == "") {
 
-    $query->exec("SELECT id_animal, nro_ficha, nro_chip, p.descrição, e.descricao, sexo
-        
+    $query->exec("SELECT 
+          id_animal , nro_ficha , nro_chip , id_pelagem , id_especie, sexo, observacao
         FROM 
-            animal, pelagem p, especie e
+            animal
         WHERE 
             id_animal = $id_animal
-        AND 
-            p.id_pelagem = id_pelagem
-        AND
-            e.id_especie = id_especie
+        
     ");
 
     $query->result($query->linha);
 
-    $id_animal                   = $query->record[0];
-    $nro_ficha                   = $query->record[1];
-    $nro_chip                    = $query->record[2];
-    $pelagem                     = $query->record[3];
-    $esoecie                     = $query->record[4];
-    $sexo                        = $query->record[5];
-    
+    $id_animal                = $query->record[0];
+    $nro_ficha                = $query->record[1];
+    $nro_chip                 = $query->record[2];
+    $id_pelagem               = $query->record[3];
+    $id_especie               = $query->record[4];
+    $sexo                     = $query->record[5];
+    $observacao               = $query->record[6];
 }
 ?>
 
@@ -38,7 +35,7 @@ if ($form_animal == "") {
             <form action="<? echo $_SERVER['PHP_SELF'] . "?id_animal=" . $id_animal ?>" method="post">
 
                 <div class="modal-header bg-gradient-yellow-orange">
-                    <h5 class="modal-title"><i class="fas fa-project-diagram"></i> Listar Animais Cadastrados</h5>
+                    <h5 class="modal-title"><i class="fas fa-project-diagram"></i> Adicionar Animal</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -50,56 +47,51 @@ if ($form_animal == "") {
 
                         <div class="form-row">
 
+                            <div class="form-group col-6">
+                                <label for="form_animal"><span class="text-danger">*</span> Animal :</label>
+                                <select name="form_animal" id="form_animal" class="form-control" required>
+                                    <?
+                                    $form_elemento = $erro ? $form_animal : "";
+                                    include("../includes/inc_select_animal.php"); ?>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Escolha o Animal.
+                                </div>
+                            </div>
 
 
-                        <table class="table table-striped responsive">
-
-                    
-
-                    <tbody>
-
-                        <tr>
-
-                            <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_ficha'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro_chip'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Id_pelagem'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Id_especie'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Sexo'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Observacao'); ?> </td>
-                        </tr>
-
-                        <?
-
-                        while ($n--) {
-
-                            $paging->query->proximo();
-
-                            //$js_onclick = "OnClick=javascript:window.location=('ANIMAL_cover.php?id_animal=" . $paging->query->record[0] . "')";
+                            <div class="form-group col-12 col-md-3">
+                                <label for="form_nro_ficha"><span class="text-danger">*</span> Nro_Ficha:</label>
+                                <input required autocomplete="off" type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
+                            </div>
 
 
+                            <div class="form-group col-12 col-md-3">
+                                <label for="form_nro_chip"><span class="text-danger">*</span> Nro_chip :</label>
+                                <input required autocomplete="off" type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
+                            </div>
+                        </div>
 
-                            echo "<tr>";
+                        <div class="form-row">
+                            <div class="form-group col-12 col-md-2">
+                                <label for="form_id_pelagem"><span class="text-danger">*</span> Pelagem :</label>
+                                <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100" value="<? if ($erro) echo $form_id_pelagem; ?>">
+                            </div>
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_animal[]' value=" . $paging->query->record[0] . "></td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
-                           
-                            echo "</tr>";
-                        }
+                            <div class="form-group col-12 col-md-6">
+                                <label for="form_id_especie"><span class="text-danger">*</span> Especie:</label>
+                                <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($erro) echo $form_id_especie; ?>">
+                            </div>
 
-                        ?>
+                            <div class="form-group col-12 col-md-6">
+                                <label for="form_sexo"><span class="text-danger">*</span> Sexo:</label>
+                                <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="100" value="<? if ($erro) echo $form_sexo; ?>">
+                            </div>
 
-                    </tbody>
-
-                    
-
-                </table>
-                           
-                            
+                            <div class="form-group col-12 col-md-6">
+                                <label for="form_observacao"><span class="text-danger">*</span> Observacao:</label>
+                                <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="100" value="<? if ($erro) echo $form_observacao; ?>">
+                            </div>
 
                         </div>
                     </div>
@@ -111,9 +103,9 @@ if ($form_animal == "") {
 
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-    <!-- <button type="button" id="add_escola_modal" class="btn btn-info">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+    <button type="button" id="modal_add_animal" class="btn btn-info">
         <i class="fas fa-check"></i>&nbsp;
         Salvar
-    </button> -->
+    </button>
 </div>

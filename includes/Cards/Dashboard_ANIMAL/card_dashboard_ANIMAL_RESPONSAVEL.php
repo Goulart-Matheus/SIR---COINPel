@@ -172,7 +172,7 @@ $n = $query->rows();
             url: "../includes/ajax_add_responsavel.php",
             data: {
                 "nome_responsavel": nome_responsavel,
-                //"tipo_escola": tipo_escola
+                //"tipo_": tipo
             },
             beforeSend: function() {
                 $("#modal_add_responsavel").modal('hide');
