@@ -194,7 +194,7 @@ $n = $query->rows();
 $query_modal = new Query($bd);
 $query_modal_tab = new Query($bd);
 ?>
-<div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
 
     <div class="modal-dialog modal-xl" role="document">
 
@@ -205,7 +205,7 @@ $query_modal_tab = new Query($bd);
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
                         <i class="fas fa-filter text-green"></i>
-                        Filtrar Registro de Animais 
+                        Filtrar Registro de Responsavel
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -265,8 +265,160 @@ $query_modal_tab = new Query($bd);
                         FROM responsavel
                         WHERE nome ilike '%".$form_responsavel."%' " . $condicao);
                           
-    ?>
+    ?> -->
+<div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
 
+<div class="modal-dialog modal-xl" role="document">
+
+    <div class="modal-content">
+
+        <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
+
+            <div class="modal-header bg-light-2">
+                <h5 class="modal-title">
+
+                    <i class="fas fa-meh text-green"></i>
+
+                    Registro de Animais
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="form-row">
+
+
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_responsavel"><span class="text-danger">*</span>Nome</label>
+                        <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100">
+                    </div>
+
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_nro_chip"><span class="text-danger">*</span>CPF</label>
+                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100">
+                    </div>
+
+
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_especie"><span class="text-danger">*</span>RG</label>
+                        <input type="text" class="form-control" name="form_Especie" id="form_especie" maxlength="100">
+                    </div>
+
+                    
+                </div>    
+                
+                    
+                    <?
+                    $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
+                    $query_modal_tab = new Query($bd);
+
+                    $where = "";
+                    
+                    $where .= $form_mascara   != "" ? "           AND r.cpf   = $form_mascara " : "";
+                    $where .= $form_rg    != "" ? "           AND r.rg    = $form_rg " : "";
+
+                    $query_modal_tab->exec("SELECT 
+                                                     id_responsavel,nome,cpf,rg
+                                            FROM
+                                                    responsavel 
+                                " 
+                    );
+
+                    
+                    $nmodal = $query_modal_tab->rows();
+
+                    ?>
+
+                
+                <div class="form-group col-12 col-md-12">
+                     
+                        <?
+                        if ($nmodal == 0) {
+                        ?>
+
+                            <div class="col-12 text-center pt-5 text-dark">
+
+                                <h5 class="mb-5">Animal não cadastrado</h5>
+
+
+
+                            </div>
+                        <?
+                        } else {
+                        ?>
+
+                            <table class="table table-striped responsive">
+
+                                <thead class="bg-light grey">
+
+                                    <tr>
+                                        
+                                    
+                                        <td style="width: 40px;" class="px-1">Nome</td>
+                                        <td style="width: 40px;" class="px-1">CPF</td>
+                                        <td style="width: 25px;" class="px-1">RG</td>
+                                        
+                                        
+                                        
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    <?
+                                    while ($nmodal--) {
+                                        $query_modal_tab->proximo();
+
+                                    ?>
+                                        <tr>
+                                           
+                                            <td><?= $query_modal_tab->record[1]; ?></td>
+                                            <td><?= $query_modal_tab->record[2]; ?></td>
+                                            <td><?= $query_modal_tab->record[3]; ?></td>
+                                            
+                                        </tr>
+                                    <?
+                                        
+                                    }
+
+                                    ?>
+
+                                </tbody>
+
+                            </table>
+
+                        <?
+                        }
+                        
+                        ?>
+
+
+                     
+
+
+                    </div>
+
+            </div>
+
+
+    </div>
+
+    <div class="modal-footer bg-light-2 text-center">
+        <button type="submit" name="filter" class="btn btn-light">
+            <i class="fa-solid fa-filter text-green"></i>
+           Filtrar
+        </button>
+    </div>
+
+    </form>
+
+</div>
+
+</div>
 
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.mask.js"></script>
@@ -276,4 +428,4 @@ $query_modal_tab = new Query($bd);
     $('#form_rg').mask('00000000000000');
    
 
-</script>
+</script> 
