@@ -95,7 +95,7 @@ $n = $query->rows();
         ?>
             
 
-            <table class="table p-0 m-0">
+            <table class="table table-striped responsive">
 
                 <thead class="bg-light grey">
 
@@ -209,7 +209,7 @@ $query_modal = new Query($bd);
 
 
 ?>
-<!--
+
 <div class="modal fade text-left" id="modal_add_animal" tabindex="-1" role="dialog" aria-hidden="true">
 
     <div class="modal-dialog modal-xl" role="document">
@@ -255,30 +255,42 @@ $query_modal = new Query($bd);
                             <label for="form_sexo"><span class="text-danger">*</span>Sexo</label>
                             <input type="text" class="form-control" name="form_Sexo" id="form_sexo" maxlength="100">
                         </div>
-
-                        <div class="modal-footer  center bg-light-2 text-center">
-                            <button type="submit" name="filter" class="btn btn-light">
-                                <i class="fa-solid fa-filter text-green"></i>
-                                filtrar
-                            </button>
+                    </div>    
+                    <div class="form-row">
+                            <div class="form-group col-12 col-md-3">
+                                <label for="form_endereco_recolhimento"><span class="text-danger">*</span>Endereço de recolhimento</label>
+                                <input type="text" class="form-control" name="form_endereco_recolhimento" id="form_endereco_recolhimento" maxlength="100">
+                            </div>
+                            <div class="form-group col-12 col-md-3">
+                                <label for="form_bairro"><span class="text-danger">*</span>Bairro</label>
+                                <input type="text" class="form-control" name="form_bairro" id="form_bairro" maxlength="100">
+                            </div>                        
+                            
+                        
                         </div>
+                        
                         <?
                         $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
                         $query_modal_tab = new Query($bd);
 
                         $where = "";
-                        $where .= $form_animal      != "" ? "           AND r.nome  = $form_animal " : "";
+                        
                         $where .= $form_nro_ficha   != "" ? "           AND r.cpf   = $form_nro_ficha " : "";
                         $where .= $form_nro_chip    != "" ? "           AND r.rg    = $form_nro_chip " : "";
 
                         $query_modal_tab->exec(
 
                             "SELECT 
-                                            a.id_animal, a.nro_ficha, a.nro_chip,e.descricao,a.sexo
+                                            a.id_animal, a.nro_ficha, a.nro_chip,e.descricao,a.sexo, h.endereco_recolhimento,b.descricao
                                     FROM
-                                            animal a, especie e
+                                            animal a, especie e, hospedagem h, bairro b
                                     WHERE
-                                            a.id_especie = e.id_especie " 
+                                            a.id_especie = e.id_especie
+                                    AND
+                                            h.id_bairro = b.id_bairro
+                                    AND 
+                                            h.id_animal = a.id_animal
+                                    " 
                         );
 
                         
@@ -286,7 +298,7 @@ $query_modal = new Query($bd);
 
                         ?>
 
-                    </div>
+                    
                     <div class="form-group col-12 col-md-12">
                          
                             <?
@@ -315,6 +327,8 @@ $query_modal = new Query($bd);
                                             <td style="width: 40px;" class="px-1">Numero Chip</td>
                                             <td style="width: 25px;" class="px-1">Especie</td>
                                             <td style="width: 25px;" class="px-1">Sexo</td>
+                                            <td style="width: 25px;" class="px-1">Endereço de recolhimento</td>
+                                            
                                             
                                         </tr>
 
@@ -333,6 +347,7 @@ $query_modal = new Query($bd);
                                                 <td><?= $query_modal_tab->record[2]; ?></td>
                                                 <td><?= $query_modal_tab->record[3]; ?></td>
                                                 <td><?= $query_modal_tab->record[4]; ?></td>
+                                                <td><?= $query_modal_tab->record[5]."/".$query_modal_tab->record[6]; ?></td>
                                             </tr>
                                         <?
                                             
@@ -363,7 +378,7 @@ $query_modal = new Query($bd);
         <div class="modal-footer bg-light-2 text-center">
             <button type="submit" name="filter" class="btn btn-light">
                 <i class="fa-solid fa-filter text-green"></i>
-                Adicionar
+               Filtrar
             </button>
         </div>
 
@@ -372,9 +387,9 @@ $query_modal = new Query($bd);
     </div>
 
 </div>
- -->
+ 
 
- <div class="modal fade text-left" id="modal_add_animal" tabindex="-1" role="dialog" aria-hidden="true">
+ <!-- <div class="modal fade text-left" id="modal_add_animal" tabindex="-1" role="dialog" aria-hidden="true">
 
     <div class="modal-dialog modal-xl" role="document">
 
@@ -446,4 +461,4 @@ $query_modal = new Query($bd);
 
     </div>
 
-</div>
+</div> -->
