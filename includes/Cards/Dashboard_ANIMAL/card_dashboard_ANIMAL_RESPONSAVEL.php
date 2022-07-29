@@ -1,5 +1,5 @@
 <?
-// preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
+
 
 $query->exec(
     "SELECT
@@ -87,9 +87,7 @@ $n = $query->rows();
                         <th style="width: 150px;" class="px-1">Nome</th>
                         <th style="width: 25px;" class="px-1">CPF</th>
                         <th style="width: 25px;" class="px-1">RG</th>
-                        <th style="width: 25px;" class="px-1">Data de nascimento</th>
-                        <th style="width: 150px;" class="px-1">Endereço</th>
-                        <th style="width: 75px;" class="px-1">Bairro</th>
+
 
                     </tr>
 
@@ -106,9 +104,6 @@ $n = $query->rows();
                             <td><?= $query->record[2]; ?></td>
                             <td><?= $query->record[3]; ?></td>
                             <td><?= $query->record[4]; ?></td>
-                            <td><?= $query->record[5]; ?></td>
-                            <td><?= $query->record[6]; ?></td>
-                            <td><?= $query->record[7]; ?></td>
 
                         </tr>
                     <?
@@ -139,43 +134,11 @@ $n = $query->rows();
 
         </div>
 
-        <!-- <div class="col-6 text-right"><a href='ANIMAL_viewDados.php?id_animal=<?= $id_animal ?>'>Editar informações</a></div> -->
-
     </div>
 
 </div>
 
-</div>
 
-
-
-<script>
-    $("#modal_add_responsvel").on('click', function() {
-
-        var nome_responsavel = $("#form_nome_responsavel").val();
-        var CPF = $("#form_cpf").val();
-
-        $.ajax({
-            type: "post",
-            url: "../includes/ajax_add_responsavel.php",
-            data: {
-                "nome_responsavel": nome_responsavel,
-                //"tipo_": tipo
-            },
-            beforeSend: function() {
-                $("#modal_add_responsavel").modal('hide');
-            },
-            success: function(response) {
-                console.log("OI");
-                console.log(response);
-            },
-            error: function(response) {
-
-            }
-        });
-
-    });
-</script>
 
 <?
 
@@ -192,10 +155,8 @@ $query_modal_tab = new Query($bd);
 
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
-
-                        <i class="fas fa-meh text-green"></i>
-
-                        Registro de Responsaveis
+                        <i class="fas fa-filter text-green"></i>
+                        Filtrar Registro dos Responsaveis
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -206,109 +167,21 @@ $query_modal_tab = new Query($bd);
 
                     <div class="form-row">
 
-
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_responsavel"><span class="text-danger">*</span>Nome do Responsavel</label>
-                            <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100">
+                            <label for="form_responsavel"><span class="text-danger">*</span>Nome</label>
+                            <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100" value="<? if ($erro) echo $form_responsavel; ?>">
                         </div>
 
-                        <div class="form-group col-12 col-md-4">
-                            <label for="form_cpf"><span class="text-danger">*</span>CPF</label>
-                            <input type="text" class="form-control" name="form_cpf" id="form_cpf" maxlength="100">
-                        </div>
 
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_mascara"><span class="text-danger">*</span>CPF</label>
+                            <input type="text" class="form-control" name="form_mascara" id="form_mascara" maxlength="100" value="<? if ($erro) echo $form_mascara; ?>">
+                        </div>
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_rg"><span class="text-danger">*</span>RG</label>
-                            <input type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100">
+                            <input type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($erro) echo $form_rg; ?>">
                         </div>
-
-
-                        <?
-                        $where = "";
-                        $where .= $form_responsavel != "" ? "   AND r.nome  = $form_responsavel " : "";
-                        $where .= $form_cpf != "" ? "           AND r.cpf   = $from_cpf " : "";
-                        $where .= $form_rg != "" ? "            AND r.rg    = $form_rg " : "";
-
-                        $query_modal_tab->exec(
-                            "SELECT id_responsavel, nome,  cpf, rg
-                                            FROM responsavel  
-                                     " . $where
-                        );
-
-
-                        $nmodal = $query_modal_tab->rows();
-
-
-
-
-                        ?>
-
-                        <div class="form-group col-12 col-md-12">
-                            <!-- Inicio -->
-                            <?
-                            if ($nmodal == 0) {
-                            ?>
-
-                                <div class="col-12 text-center pt-5 text-dark">
-
-                                    <h5 class="mb-5">Responsável não cadastrado</h5>
-
-
-
-                                </div>
-                            <?
-                            } else {
-                            ?>
-
-                                <table class="table p-0 m-0">
-
-                                    <thead class="bg-light grey">
-
-                                        <tr>
-
-                                            <th style="width: 150px;" class="px-1">Nome</th>
-                                            <th style="width: 25px;" class="px-1">CPF</th>
-                                            <th style="width: 25px;" class="px-1">RG</th>
-
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?
-                                        while ($nmodal--) {
-                                            $query_modal_tab->proximo();
-
-                                        ?>
-                                            <tr>
-                                                <td><?= $query_modal_tab->record[1]; ?></td>
-                                                <td><?= $query_modal_tab->record[2]; ?></td>
-                                                <td><?= $query_modal_tab->record[3]; ?></td>
-
-                                            </tr>
-                                        <?
-
-                                        }
-
-                                        ?>
-
-                                    </tbody>
-
-                                </table>
-
-                            <?
-                            }
-
-                            ?>
-
-
-                            <!-- Fim-->
-
-
-                        </div>
-
 
                     </div>
 
@@ -316,20 +189,76 @@ $query_modal_tab = new Query($bd);
                 </div>
 
 
+
+                <div class="modal-footer bg-light-2 text-center">
+                    <button type="submit" name="filter" class="btn btn-light">
+                        <i class="fa-solid fa-filter text-green"></i>
+                        Filtrar
+                    </button>
+
+                </div>
+
+            </form>
+
         </div>
-
-
-        <div class="modal-footer bg-light-2 text-center">
-            <button type="submit" name="filter" class="btn btn-light">
-                <i class="fa-solid fa-filter text-green"></i>
-                Filtrar
-            </button>
-        </div>
-
-        </form>
 
     </div>
 
 </div>
 
-</div>
+<?
+$condicao  = "";
+if (isset($filter)) {
+    $condicao .= $form_responsavel != "" ? "       AND nome='" . $form_responsavel . "'" : "";
+    $condicao .= $form_mascara != "" ? "           AND cpf='" . $form_mascara . "'" : "";
+    $condicao .= $form_rg != "" ? "                AND rg='" . $form_rg . "'" : "";
+}
+
+$query->exec("SELECT id_responsavel , nome, cpf , rg 
+                        FROM responsavel
+                        WHERE nome ilike '%" . $form_responsavel . "%' " . $condicao);
+
+?>
+
+
+<script src="../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.mask.js"></script>
+<script type="text/javascript">
+    $('#form_mascara').mask('000.000.000-00');
+    $('#form_rg').mask('00000000000000');
+
+
+    $("#add_busca_dados_responsavel").on('click', function() {
+
+        var nome_responsavel = $("#form_nome_responsavel").val();
+        var cpf = $("#form_cpf").val();
+        var rg = $("#form_rg").val();
+
+        $.ajax({
+            type: "post",
+            url: "../includes/ajax_busca_dados_responsavel.php",
+            data: {
+                "nome_responsavel": nome_responsavel,
+                "cpf": cpf,
+                "rg": rg,
+
+            },
+            dataType: "json",
+            beforeSend: function() {
+
+                $("#modal_add_responsavel").modal('hide');
+            },
+            success: function(response) {
+
+                var option = "<option value='" + response['id_responsavel'] + "' selected>" + response['nome_responsavel'] + "</option>";
+
+                $("#RESPONSAVEL_form").append(option)
+
+            },
+            error: function(response) {
+
+            }
+        });
+
+    });
+</script>

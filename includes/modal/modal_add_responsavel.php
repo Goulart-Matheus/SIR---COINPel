@@ -1,21 +1,15 @@
 <?
-
 $query_responsavel->insertTupla('responsavel', $dados);
 $id_responsavel_last = $query_responsavel->last_insert[0];
 
 if ($form_responsavel == "") {
 
     $query->exec("SELECT 
-        r.id_responsavel , r.nome , r.cpf , r.rg , r.dt_nascimento, r.endereco, b.descricao 
-        FROM 
-            Responsavel r, Bairro b
-        WHERE 
-            id_responsavel = $id_responsavel
-        AND 
-            b.id_bairro = r.id_bairro  
+    id_responsavel , nome , cpf , rg 
+     FROM 
+    Responsavel 
+      
     ");
-
-
 
     $query->result($query->linha);
 
@@ -29,20 +23,25 @@ if ($form_responsavel == "") {
 }
 ?>
 
-<div class="modal fade show" id="modal_add_responsavel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-modal="true">
 
-    <div class="modal-dialog modal-xl">
+<div class="modal fade text-left" id="RESPONSAVEL_view" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <div class="modal-dialog modal-xl" role="document">
 
         <div class="modal-content">
 
-            <form action="<? echo $_SERVER['PHP_SELF'] . "?id_responsavel=" . $id_responsavel ?>" method="post">
+            <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
 
-                <div class="modal-header bg-gradient-yellow-orange">
-                    <h5 class="modal-title"><i class="fas fa-project-diagram"></i> Adicionar Responsavel</h5>
+                <div class="modal-header bg-light-2">
+                    <h5 class="modal-title">
+                        <i class="fas fa-filter text-green"></i>
+                        Filtrar Registro de Responsaveis
+                    </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
 
                 <div class="modal-body">
 
@@ -55,7 +54,8 @@ if ($form_responsavel == "") {
                                 <select name="form_responsavel" id="form_responsavel" class="form-control" required>
                                     <?
                                     $form_elemento = $erro ? $form_responsavel : "";
-                                    include("../includes/inc_select_responsavel.php"); ?>
+                                    include("../includes/inc_select_responsavel.php");
+                                    ?>
                                 </select>
                                 <div class="invalid-feedback">
                                     Escolha o responsavel.
@@ -73,41 +73,66 @@ if ($form_responsavel == "") {
                             </div>
                         </div>
 
-                        <div class="form-row">
-                            <div class="form-group col-12 col-md-2">
-                                <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
-                                <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="100" value="<? if ($erro) echo $form_dt_nascimento; ?>">
-                            </div>
 
-                            <div class="form-group col-12 col-md-6">
-                                <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
-                                <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="100" value="<? if ($erro) echo $form_endereco; ?>">
-                            </div>
-                            <div class="form-group col-12 col-md-4">
-                                <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
-                                <select name="form_bairro" id="form_bairro" class="form-control" required>
-                                    <?
-                                    $form_elemento = $erro ? $form_bairro : "";
-                                    include("../includes/inc_select_bairro.php"); ?>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Escolha o bairro.
-                                </div>
-                            </div>
+                    </div>
 
-                        </div>
+                    <div class="form-row">
+
+
+                        <table class="table p-0 m-0">
+
+                            <thead class="bg-light grey">
+
+                                <tr>
+                                    <th style="width: 25px;" class="px-1"></th>
+                                    <th style="width: 150px;" class="px-1">Nome</th>
+                                    <th style="width: 25px;" class="px-1">CPF</th>
+                                    <th style="width: 25px;" class="px-1">RG</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <?
+                                while ($n--) {
+                                    $query->proximo();
+
+                                ?>
+                                    <tr>
+                                        <td><?= $query->record[0]; ?></td>
+                                        <td><?= $query->record[1]; ?></td>
+                                        <td><?= $query->record[2]; ?></td>
+                                        <td><?= $query->record[3]; ?></td>
+
+                                    </tr>
+
+                                <?
+
+                                }
+
+                                ?>
+
+                            </tbody>
+
+                        </table>
+
                     </div>
 
                 </div>
+
+                <div class="modal-footer bg-light-2 text-center">
+                    <button type="button" name="filter" id="filtro_modal" class="btn btn-light">
+                        <i class="fa-solid fa-filter text-green"></i>
+                        Filtrar
+                    </button>
+                </div>
+
+            </form>
+
         </div>
+
     </div>
-</div>
 
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-    <button type="button" id="modal_add_responsavel" class="btn btn-info">
-        <i class="fas fa-check"></i>&nbsp;
-        Salvar
-    </button>
 </div>
