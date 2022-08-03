@@ -190,7 +190,7 @@ $n = $query->rows();
                         Filtrar
                 </button>
                    
-
+                 <div class="col 12" id= "retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
                 
                 
 
@@ -205,7 +205,7 @@ $n = $query->rows();
                         Filtrar
                 </button>
     </div>
-
+   
     </form>
 
 </div>
@@ -231,8 +231,7 @@ $n = $query->rows();
             var cpf  = $("#form_mascara").val();
             var rg   = $("#form_rg").val();
            
-            console.log('oi');
-
+           
 
             $.ajax({
                 type: 'POST',
@@ -252,6 +251,24 @@ $n = $query->rows();
                 success: function(ret) {
 
                     console.log(ret);
+                   
+                    if(ret[0].resultado ==1){
+                      var monta_linha ="<h5>"+ret[0].nome+"-"+ret[0].cpf+"-"+ret[0].rg+"-"+ret[0].endereco+"-"+ret[0].bairro+"</h5>"
+                      
+                        $("#retorna_info_responsavel_ajax").html(nonta_linha)
+                            
+                    
+                    }
+                    else{
+
+
+                        console.log('erro');
+
+
+
+                    }
+
+
 
                 },
                 error: function(erro) {
