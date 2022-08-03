@@ -8,6 +8,14 @@ extract($_GET);
 extract($_POST);
 header('Content-type: application/json');
 
+// $query_contador = new Query($bd);
+// $query_contador->exec(" SELECT COUNT(id_responsavel) as contador
+//                         FROM responsavel
+                                               
+//                        ");
+// //$c= contador;
+// var_dump($query_contador);
+        
         $_nome = $_POST['nome'];
         $_cpf  = $_POST['cpf'];
         $_rg   = $_POST['rg'];

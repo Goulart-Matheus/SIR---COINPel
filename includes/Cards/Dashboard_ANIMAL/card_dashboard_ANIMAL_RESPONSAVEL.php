@@ -185,12 +185,12 @@ $n = $query->rows();
                     
                 </div>    
                 
-                <button type="button" id= "btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn_ajax_responsavel">
+             
+                     <button type="button" id= "btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn_ajax_responsavel">
                          <i class="fa-solid fa-filter text-green"></i>
                         Filtrar
-                </button>
-                   
-                 <div class="col 12" id= "retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
+                    </button> 
+                
                 
                 
 
@@ -200,12 +200,19 @@ $n = $query->rows();
     </div>
 
     <div class="modal-footer bg-light-2 text-center ">
+            <div class="form-row">
+                <div  id= "monta_cabecalho" name="nonta_cabecalho"></div>
+                <div  id= "retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
+            </div>    
+
+
                  <button type="button" id= "btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn_ajax_responsavel">
                          <i class="fa-solid fa-filter text-green"></i>
-                        Filtrar
+                        Vincular
                 </button>
+               
     </div>
-   
+    
     </form>
 
 </div>
@@ -253,17 +260,38 @@ $n = $query->rows();
                     console.log(ret);
                    
                     if(ret[0].resultado ==1){
-                      var monta_linha ="<h5>"+ret[0].nome+"-"+ret[0].cpf+"-"+ret[0].rg+"-"+ret[0].endereco+"-"+ret[0].bairro+"</h5>"
+                                           
+                      var monta_tabela = "";
+                     
+                      monta_tabela+= " <table class='table table-striped responsive text-center'>";
+                      monta_tabela +="<tbody>";
+                      monta_tabela +="<tr>";
+                      monta_tabela += "<td style='width: 160px;'>Nome:</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>CPF:</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>RG:</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>Endereço:</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>Bairro:</td>"; 
+                      monta_tabela +="</tr>";
                       
-                        $("#retorna_info_responsavel_ajax").html(nonta_linha)
+                      
+                      monta_tabela +="<tr>";
+                      monta_tabela += "<td style='width: 160px;'>"+ret[0].nome+"</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[0].cpf+"</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[0].rg+"</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[0].endereco+":</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[0].bairro+":</td>"; 
+                      monta_tabela +="</tr>";
+                      monta_tabela +="</tbody>";
+                      monta_tabela+= " </table>";
+                       
+                       $("#retorna_info_responsavel_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
                             
-                    
+                        
                     }
                     else{
 
 
-                        console.log('erro');
-
+                        $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Responsável não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
 
 
                     }
