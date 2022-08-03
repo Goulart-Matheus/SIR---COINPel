@@ -206,7 +206,7 @@ $n = $query->rows();
             </div>    
 
 
-                 <button type="button" id= "btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn_ajax_responsavel">
+                 <button type="button" id= "btn_ajax_vincular_responsavel" name="btn_ajax_vincular_responsavel" class="btn btn-light btn_ajax_vincular_responsavel">
                          <i class="fa-solid fa-filter text-green"></i>
                         Vincular
                 </button>
@@ -251,7 +251,8 @@ $n = $query->rows();
                 },
                 beforeSend: function() {
 
-                    console.log("Enviado");
+                    console.log("Enviado ok");
+                    $("#modal_loading").modal('show');                
 
 
                 },
@@ -266,20 +267,22 @@ $n = $query->rows();
                       monta_tabela+= " <table class='table table-striped responsive text-center'>";
                       monta_tabela +="<tbody>";
                       monta_tabela +="<tr>";
-                      monta_tabela += "<td style='width: 160px;'>Nome:</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>CPF:</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>RG:</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>Endereço:</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>Bairro:</td>"; 
+                      monta_tabela += "<td style='width: 30px;'>*</td>";
+                      monta_tabela += "<td style='width: 250px;'>Nome:</td>"; 
+                      monta_tabela += "<td style='width: 180px;'>CPF:</td>"; 
+                      monta_tabela += "<td style='width: 180px;'>RG:</td>"; 
+                      monta_tabela += "<td style='width: 240px;'>Endereço:</td>"; 
+                      monta_tabela += "<td style='width: 200px;'>Bairro:</td>"; 
                       monta_tabela +="</tr>";
                      
                       $.each(ret,function(indice,nome){
                       monta_tabela +="<tr>";
-                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].nome+"</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].cpf+"</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].rg+"</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].endereco+":</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].bairro+":</td>"; 
+                      monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_responsavel[]' value=''></td>";
+                      monta_tabela += "<td style='width: 250px;'>"+ret[indice].nome+"</td>"; 
+                      monta_tabela += "<td style='width: 180px;'>"+ret[indice].cpf+"</td>"; 
+                      monta_tabela += "<td style='width: 180px;'>"+ret[indice].rg+"</td>"; 
+                      monta_tabela += "<td style='width: 240px;'>"+ret[indice].endereco+"</td>"; 
+                      monta_tabela += "<td style='width: 200px;'>"+ret[indice].bairro+"</td>"; 
                       monta_tabela +="</tr>";
                      
                        
