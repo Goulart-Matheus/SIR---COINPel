@@ -272,21 +272,23 @@ $n = $query->rows();
                       monta_tabela += "<td style='width: 160px;'>Endereço:</td>"; 
                       monta_tabela += "<td style='width: 160px;'>Bairro:</td>"; 
                       monta_tabela +="</tr>";
-                      
-                      
+                     
+                      $.each(ret,function(indice,nome){
                       monta_tabela +="<tr>";
-                      monta_tabela += "<td style='width: 160px;'>"+ret[0].nome+"</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[0].cpf+"</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[0].rg+"</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[0].endereco+":</td>"; 
-                      monta_tabela += "<td style='width: 160px;'>"+ret[0].bairro+":</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].nome+"</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].cpf+"</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].rg+"</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].endereco+":</td>"; 
+                      monta_tabela += "<td style='width: 160px;'>"+ret[indice].bairro+":</td>"; 
                       monta_tabela +="</tr>";
+                     
+                       
+                       
+                     
+                      });
                       monta_tabela +="</tbody>";
                       monta_tabela+= " </table>";
-                       
-                       $("#retorna_info_responsavel_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
-                            
-                        
+                      $("#retorna_info_responsavel_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
                     }
                     else{
 

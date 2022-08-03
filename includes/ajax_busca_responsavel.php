@@ -8,13 +8,7 @@ extract($_GET);
 extract($_POST);
 header('Content-type: application/json');
 
-// $query_contador = new Query($bd);
-// $query_contador->exec(" SELECT COUNT(id_responsavel) as contador
-//                         FROM responsavel
-                                               
-//                        ");
-// //$c= contador;
-// var_dump($query_contador);
+
         
         $_nome = $_POST['nome'];
         $_cpf  = $_POST['cpf'];
@@ -47,6 +41,8 @@ header('Content-type: application/json');
                                 
 
         if($query_valores->rows() > 0 ){
+           $n=$query_valores->rows();
+            while($n--){
             $query_valores->proximo();
             $ret[] = array( "resultado"             =>  1                                                             ,
                      
@@ -58,9 +54,10 @@ header('Content-type: application/json');
             "bairro"                           =>  trim($query_valores->record['descricao']) ,
            
             
-        );
+        );}
         }else{
             $ret[] = array("resultado" => 0 );
         }
+    
   echo json_encode($ret);
 ?>
