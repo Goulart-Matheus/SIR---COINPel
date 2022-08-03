@@ -99,6 +99,55 @@ if ($form_animal == "") {
                 </div>
         </div>
     </div>
+    <div class="form-row">
+
+
+                        <table class="table p-0 m-0">
+
+                            <thead class="bg-light grey">
+
+                                <tr>
+                                    <th style="width: 25px;" class="px-1"></th>
+                                    <th style="width: 150px;" class="px-1">Nro_ficha</th>
+                                    <th style="width: 25px;" class="px-1">Numero_chp</th>
+                                    <th style="width: 25px;" class="px-1">Especie</th>
+                                    <th style="width: 25px;" class="px-1">Sexo</th>
+
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <?
+                                while ($n--) {
+                                    $query->proximo();
+
+                                ?>
+                                    <tr>
+                                        <td><?= $query->record[0]; ?></td>
+                                        <td><?= $query->record[1]; ?></td>
+                                        <td><?= $query->record[2]; ?></td>
+                                        <td><?= $query->record[3]; ?></td>
+                                        <td><?= $query->record[4]; ?></td>
+
+                                    </tr>
+
+                                <?
+
+                                }
+
+                                ?>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+
 </div>
 
 

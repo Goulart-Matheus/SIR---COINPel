@@ -1,6 +1,10 @@
 <?
 // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
-include('../includes/variaveisAmbiente.php'     );
+include('../includes/variaveisAmbiente.php');
+
+
+
+
 
 $query->exec(
     "SELECT
@@ -91,9 +95,9 @@ $n = $query->rows();
             </div>
         <?
         } else {
-            
+
         ?>
-            
+
 
             <table class="table table-striped responsive">
 
@@ -162,53 +166,8 @@ $n = $query->rows();
 
 </div>
 
-</div>
 
 
-<script>
-    $("#modal_add_animal").on('click', function() {
-
-        var nro_ficha = $("#form_nro_ficha").val();
-        var nro_chip  = $("#form_nro_chip").val();
-        var pelagem   = $("#form_pelagem").val();
-        var especie = $("#form_especie").val();
-        var sexo = $("#form_sexo").val();
-        var observacao = $("#form_observacao").val();
-
-
-        $.ajax({
-            type: "post",
-            url: "../includes/ajax_add_animal.php",
-            data: {
-                "nro_ficha": nro_ficha,
-                "nro_chip": nro_chip,
-                "pelagem": pelagem,
-                "especie": especie,
-                "sexo": sexo,
-                "observacao": observacao,
-
-            },
-            beforeSend: function() {
-                $("#modal_add_animal").modal('hide');
-            },
-            success: function(response) {
-                console.log("OI");
-                console.log(response);
-            },
-            error: function(response) {
-
-            }
-        });
-
-    });
-</script>
-
- <?
-
-$query_modal = new Query($bd);
-
-
-?>
 
 <div class="modal fade text-left" id="modal_add_animal" tabindex="-1" role="dialog" aria-hidden="true">
 
@@ -235,230 +194,100 @@ $query_modal = new Query($bd);
                     <div class="form-row">
 
 
-                        <div class="form-group col-12 col-md-3">
+                        <div class="form-group col-12 col-md-4">
                             <label for="form_nro_ficha"><span class="text-danger">*</span>Nro Ficha</label>
                             <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100">
                         </div>
 
-                        <div class="form-group col-12 col-md-3">
+                        <div class="form-group col-12 col-md-4">
                             <label for="form_nro_chip"><span class="text-danger">*</span>Nro Chip</label>
                             <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100">
                         </div>
 
 
-                        <div class="form-group col-12 col-md-3">
-                            <label for="form_especie"><span class="text-danger">*</span>Especie</label>
-                            <input type="text" class="form-control" name="form_Especie" id="form_especie" maxlength="100">
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_id_especie"><span class="text-danger">*</span>Especie</label>
+                            <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100">
                         </div>
 
-                        <div class="form-group col-12 col-md-3">
-                            <label for="form_sexo"><span class="text-danger">*</span>Sexo</label>
-                            <input type="text" class="form-control" name="form_Sexo" id="form_sexo" maxlength="100">
-                        </div>
-                    </div>    
+
+                    </div>
                     <div class="form-row">
-                            <div class="form-group col-12 col-md-3">
-                                <label for="form_endereco_recolhimento"><span class="text-danger">*</span>Endereço de recolhimento</label>
-                                <input type="text" class="form-control" name="form_endereco_recolhimento" id="form_endereco_recolhimento" maxlength="100">
-                            </div>
-                            <div class="form-group col-12 col-md-3">
-                                <label for="form_bairro"><span class="text-danger">*</span>Bairro</label>
-                                <input type="text" class="form-control" name="form_bairro" id="form_bairro" maxlength="100">
-                            </div>                        
-                            
-                        
+                    <div class="form-group col-12 col-md-4">
+                            <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
+                            <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100">
                         </div>
-                        
-                        <?
-                        $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
-                        $query_modal_tab = new Query($bd);
-
-                        $where = "";
-                        
-                        $where .= $form_nro_ficha   != "" ? "           AND r.cpf   = $form_nro_ficha " : "";
-                        $where .= $form_nro_chip    != "" ? "           AND r.rg    = $form_nro_chip " : "";
-
-                        $query_modal_tab->exec(
-
-                            "SELECT 
-                                            a.id_animal, a.nro_ficha, a.nro_chip,e.descricao,a.sexo, h.endereco_recolhimento,b.descricao
-                                    FROM
-                                            animal a, especie e, hospedagem h, bairro b
-                                    WHERE
-                                            a.id_especie = e.id_especie
-                                    AND
-                                            h.id_bairro = b.id_bairro
-                                    AND 
-                                            h.id_animal = a.id_animal
-                                    " 
-                        );
-
-                        
-                        $nmodal = $query_modal_tab->rows();
-
-                        ?>
-
-                    
-                    <div class="form-group col-12 col-md-12">
-                         
-                            <?
-                            if ($nmodal == 0) {
-                            ?>
-
-                                <div class="col-12 text-center pt-5 text-dark">
-
-                                    <h5 class="mb-5">Animal não cadastrado</h5>
-
-
-
-                                </div>
-                            <?
-                            } else {
-                            ?>
-
-                                <table class="table table-striped responsive">
-
-                                    <thead class="bg-light grey">
-
-                                        <tr>
-                                            
-                                        
-                                            <td style="width: 40px;" class="px-1">Numero Ficha</td>
-                                            <td style="width: 40px;" class="px-1">Numero Chip</td>
-                                            <td style="width: 25px;" class="px-1">Especie</td>
-                                            <td style="width: 25px;" class="px-1">Sexo</td>
-                                            <td style="width: 25px;" class="px-1">Endereço de recolhimento</td>
-                                            
-                                            
-                                        </tr>
-
-                                    </thead>
-
-                                    <tbody>
-
-                                        <?
-                                        while ($nmodal--) {
-                                            $query_modal_tab->proximo();
-
-                                        ?>
-                                            <tr>
-                                               
-                                                <td><?= $query_modal_tab->record[1]; ?></td>
-                                                <td><?= $query_modal_tab->record[2]; ?></td>
-                                                <td><?= $query_modal_tab->record[3]; ?></td>
-                                                <td><?= $query_modal_tab->record[4]; ?></td>
-                                                <td><?= $query_modal_tab->record[5]."/".$query_modal_tab->record[6]; ?></td>
-                                            </tr>
-                                        <?
-                                            
-                                        }
-
-                                        ?>
-
-                                    </tbody>
-
-                                </table>
-
-                            <?
-                            }
-                            
-                            ?>
-
-
-                         
-
-
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_sexo"><span class="text-danger">*</span>Sexo (M/F)</label>
+                            <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="1">
                         </div>
+
+                        <button type="button" id="btn_ajax_animal" name="btn_ajax_animal" class="btn btn-light btn_ajax_animal">
+                            <i class="fa-solid fa-filter text-green"></i>
+                            Filtrar
+                        </button>
+
+                    </div>
+
+
+
 
                 </div>
 
 
         </div>
 
-        <div class="modal-footer bg-light-2 text-center">
-            <button type="submit" name="filter" class="btn btn-light">
-                <i class="fa-solid fa-filter text-green"></i>
-               Filtrar
-            </button>
-        </div>
+
 
         </form>
 
     </div>
 
 </div>
- 
+<!-- <script src="../../../assets/js/app.js"></script> -->
+<script src="../../../assets/js/jquery.js"></script>
 
- <!-- <div class="modal fade text-left" id="modal_add_animal" tabindex="-1" role="dialog" aria-hidden="true">
+<script>
+    $(document).ready(function() {
 
-    <div class="modal-dialog modal-xl" role="document">
-
-        <div class="modal-content">
-
-        <form  method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
-
-                <div class="modal-header bg-light-2">
-                    <h5 class="modal-title">
-                        <i class="fas fa-filter text-green"></i>
-                        Filtrar Registro de Animais 
-                    </h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-
-                    <div class="form-row">
-
-                        <div class="form-group col-12 col-md-3">
-                            <label for="form_nro_ficha"><span class="text-danger">*</span>Nro Ficha</label>
-                            <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
-                        </div>
-                        <div class="form-group col-12 col-md-3">
-                            <label for="form_nro_ficha"><span class="text-danger">*</span>Nro chip</label>
-                            <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
-                        </div>
-
-                        <div class="form-group col-12 col-md-3">
-                            <label for="form_id_especie"><span class="text-danger">*</span>Espécie</label>
-                            <select name="form_id_especie" id="form_id_especie" class="form-control" >
-                                <?
-                                $form_elemento = $erro ? $form_especie : "";
-                                include("../includes/inc_select_especie.php"); ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                Escolha Especie
-                            </div>
-                        </div>
-                        <div class="form-group col-12 col-md-3">
-                            <label for="form_sexo"><span class="text-danger">*</span> Sexo</label>
-                            <select name="form_sexo"  id="form_sexo" class="form-control">
-                                <option value="" selected>Selecione o sexo:</option>
-                                <option value="M">Macho</option>
-                                <option value="F">Fêmea</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                Escolha o sexo do animal.
-                            </div>
-                        </div>
-
-                    </div>
+        $(".btn_ajax_animal").on('click', function() {
 
 
-                </div>
+            var nro_ficha = $("#form_nro_ficha").val();
+            var nro_chip  = $("#form_nro_chip").val();
+            var especie   = $("#form_id_especie").val();
+            var pelagem   = $("#form_id_pelagem").val();
+            var sexo      = $("#form_sexo").val();
+            console.log('oi');
 
-                <div class="modal-footer bg-light-2 text-center">
-                    <button type="submit" name="filter" class="btn btn-light">
-                        <i class="fa-solid fa-filter text-green"></i>
-                        Filtrar
-                    </button>
-                </div>
 
-            </form>
+            $.ajax({
+                type: 'POST',
+                url: '../../../includes/ajax_busca_animal.php',
+                data: {
+                       "nro_ficha"  : nro_ficha,
+                       "nro_chip"   : nro_chip,
+                       "especie"    : especie,
+                       "pelagem"    : pelagem,
+                       "sexo"       : sexo
+                },
+                beforeSend: function() {
 
-        </div>
+                    console.log("Enviado");
 
-    </div>
 
-</div> -->
+                },
+                success: function(ret) {
+
+                    console.log($ret);
+
+                },
+                error: function(erro) {
+
+                    console.log(erro);
+
+                }
+            });
+        });
+    });
+</script>
