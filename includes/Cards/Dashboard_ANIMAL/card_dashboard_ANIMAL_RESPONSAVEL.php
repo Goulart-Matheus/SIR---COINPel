@@ -201,7 +201,7 @@ $n = $query->rows();
 
     <div class="modal-footer bg-light-2 text-center ">
             <div class="form-row">
-                <div  id= "monta_cabecalho" name="nonta_cabecalho"></div>
+               
                 <div  id= "retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
             </div>    
 

@@ -160,7 +160,7 @@ $n = $query->rows();
 
         </div>
 
-        <!-- <div class="col-6 text-right"><a href='ANIMAL_viewDados.php?id_animal=<?= $id_animal ?>'>Editar informações</a></div> -->
+
 
     </div>
 
@@ -213,7 +213,7 @@ $n = $query->rows();
 
                     </div>
                     <div class="form-row">
-                    <div class="form-group col-12 col-md-4">
+                        <div class="form-group col-12 col-md-4">
                             <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
                             <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100">
                         </div>
@@ -236,7 +236,19 @@ $n = $query->rows();
 
 
         </div>
+        <div class="modal-footer bg-light-2 text-center ">
+            <div class="form-row">
 
+                <div id="retorna_info_animal_ajax" name="retorna_info_animal_ajax"></div>
+            </div>
+
+
+            <button type="button" id="btn_ajax_vincular_animal" name="btn_ajax_vincular_animal" class="btn btn-light btn_ajax_vincular_animal">
+                <i class="fa-solid fa-filter text-green"></i>
+                Vincular
+            </button>
+
+        </div>
 
 
         </form>
@@ -254,10 +266,10 @@ $n = $query->rows();
 
 
             var nro_ficha = $("#form_nro_ficha").val();
-            var nro_chip  = $("#form_nro_chip").val();
-            var especie   = $("#form_id_especie").val();
-            var pelagem   = $("#form_id_pelagem").val();
-            var sexo      = $("#form_sexo").val();
+            var nro_chip = $("#form_nro_chip").val();
+            var especie = $("#form_id_especie").val();
+            var pelagem = $("#form_id_pelagem").val();
+            var sexo = $("#form_sexo").val();
             console.log('oi');
 
 
@@ -265,11 +277,11 @@ $n = $query->rows();
                 type: 'POST',
                 url: '../../../includes/ajax_busca_animal.php',
                 data: {
-                       "nro_ficha"  : nro_ficha,
-                       "nro_chip"   : nro_chip,
-                       "especie"    : especie,
-                       "pelagem"    : pelagem,
-                       "sexo"       : sexo
+                    "nro_ficha": nro_ficha,
+                    "nro_chip": nro_chip,
+                    "especie": especie,
+                    "pelagem": pelagem,
+                    "sexo": sexo
                 },
                 beforeSend: function() {
 
@@ -279,7 +291,49 @@ $n = $query->rows();
                 },
                 success: function(ret) {
 
-                    console.log($ret);
+                    console.log(ret);
+                    if (ret[0].resultado == 1) {
+
+                        var monta_tabela_animal = "";
+
+                        monta_tabela_animal += " <table class='table table-striped responsive text-center'>";
+                        monta_tabela_animal += "<tbody>";
+                        monta_tabela_animal += "<tr>";
+                        monta_tabela_animal += "<td style='width: 30px;'>*</td>";
+                        monta_tabela_animal += "<td style='width: 250px;'>Nro ficha:</td>";
+                        monta_tabela_animal += "<td style='width: 180px;'>Nro chip:</td>";
+                        monta_tabela_animal += "<td style='width: 180px;'>Especie:</td>";
+                        monta_tabela_animal += "<td style='width: 240px;'>Pelagem:</td>";
+                        monta_tabela_animal += "<td style='width: 200px;'>Sexo:</td>";
+                        monta_tabela_animal += "</tr>";
+
+                        $.each(ret[0], function(indice, sexo) {
+                            monta_tabela_animal += "<tr>";
+                            monta_tabela_animal += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value=''></td>";
+                            monta_tabela_animal += "<td style='width: 250px;'>" + ret[indice].nro_ficha + "</td>";
+                            monta_tabela_animal += "<td style='width: 180px;'>" + ret[indice].nro_chip + "</td>";
+                            monta_tabela_animal += "<td style='width: 180px;'>" + ret[indice].especie + "</td>";
+                            monta_tabela_animal += "<td style='width: 240px;'>" + ret[indice].pelagem + "</td>";
+                            monta_tabela_animal += "<td style='width: 200px;'>" + ret[indice].sexo + "</td>";
+                            monta_tabela_animal += "</tr>";
+
+
+
+
+                        });
+                        monta_tabela_animal += "</tbody>";
+                        monta_tabela_animal += " </table>";
+
+                        $("#retorna_info_animal_ajax").html(monta_tabela_animal).addClass('bg-ligth').removeClass('bg-danger')
+                    } else {
+
+
+                        $("#retorna_info_animal_ajax").html('<h5 class = "text-center col-12">Animal não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
+
+
+                    }
+
+
 
                 },
                 error: function(erro) {
