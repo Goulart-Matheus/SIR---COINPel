@@ -19,7 +19,7 @@
              $where = "";
             
             if($_nro_ficha!=""){
-                $where.= " and a.nro_ficha = '{$_nro_ficha}'";
+                $where.= " and a.nro_ficha = '$_nro_ficha'";
             }
             if($_nro_chip!=""){
                 $where.= " and a.nro_chip  = '$_nro_chip'";
@@ -35,15 +35,22 @@
             }
 
             $query_valores = new Query($bd);
-            $query_valores->exec("SELECT   a.nro_ficha , a.nro_chip ,e.descricao as especie ,p.descricao as pelagem ,a.sexo
-                                FROM animal a, especie e, pelagem p
-                                WHERE a.id_pelagem = p.id_pelagem
-                                AND   a.id_especie = e.id_especie     
+            $query_valores->exec("  SELECT   
+                                            a.nro_ficha , a.nro_chip ,e.descricao as especie ,p.descricao as pelagem ,a.sexo
+                                    FROM 
+                                            animal a, especie e, pelagem p
+                                    WHERE 
+                                            a.id_pelagem = p.id_pelagem
+                                    AND   
+                                            a.id_especie = e.id_especie     
                                                         
                                     ".$where);
                                     
 
             if($query_valores->rows() > 0 ){
+               
+                $n=$query_valores->rows();
+                while($n--){
                 $query_valores->proximo();
                 $ret[] = array( "resultado"             =>  1                                                             ,
             
@@ -55,6 +62,7 @@
             
                 
             );
+            }
             }else{
                 $ret[] = array("resultado" => 0 );
             }

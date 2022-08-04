@@ -35,10 +35,9 @@ $query->exec(
             "
 
 );
-//$total_contato = $query->record[0];
+
 $n = $query->rows();
 
-//$js_Onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?search=true&id_animal=$id_animal";
 
 ?>
 
@@ -62,17 +61,7 @@ $n = $query->rows();
             </div>
 
 
-            <!-- <div class="card-header">
-                <div class="form-row">
-                    <div class="col-md-6 text-left"><i class="fa-solid fa-car-side"></i>                                            
-
-                    <div class="col-md-6 text-right">
-                        <button type="button" class="btn bg-green btn-light btn-sm text-light btn_modal_add_responsavel" data-toggle="modal" data-target="#MODAL_ADD_RESPONSAVEL" data-modal="VI">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>-->
+            
 
         </div>
 
@@ -222,13 +211,13 @@ $n = $query->rows();
                             <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="1">
                         </div>
 
+                        
+
+                    </div>
                         <button type="button" id="btn_ajax_animal" name="btn_ajax_animal" class="btn btn-light btn_ajax_animal">
                             <i class="fa-solid fa-filter text-green"></i>
                             Filtrar
                         </button>
-
-                    </div>
-
 
 
 
@@ -310,7 +299,7 @@ $n = $query->rows();
                         monta_tabela += "<td style='width: 200px;'>Sexo:</td>";
                         monta_tabela += "</tr>";
 
-                        $.each(ret, function(indice, nro_ficha) {
+                        $.each(ret, function(indice,sexo) {
                             monta_tabela += "<tr>";
                             monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value=''></td>";
                             monta_tabela += "<td style='width: 250px;'>" + ret[indice].nro_ficha + "</td>";
