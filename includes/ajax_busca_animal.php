@@ -16,10 +16,10 @@
 
 
                 
-            $where = "";
+             $where = "";
             
             if($_nro_ficha!=""){
-                $where.= " and a.nro_ficha = '$_nro_ficha'";
+                $where.= " and a.nro_ficha = '{$_nro_ficha}'";
             }
             if($_nro_chip!=""){
                 $where.= " and a.nro_chip  = '$_nro_chip'";

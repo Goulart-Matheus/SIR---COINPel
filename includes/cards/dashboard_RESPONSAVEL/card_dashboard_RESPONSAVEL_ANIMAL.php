@@ -265,75 +265,71 @@ $n = $query->rows();
         $(".btn_ajax_animal").on('click', function() {
 
 
-            var nro_ficha = $("#form_nro_ficha").val();
-            var nro_chip = $("#form_nro_chip").val();
-            var especie = $("#form_id_especie").val();
-            var pelagem = $("#form_id_pelagem").val();
-            var sexo = $("#form_sexo").val();
-            console.log('oi');
-
+            var nro_ficha   = $("#form_nro_ficha").val();
+            var nro_chip    = $("#form_nro_chip").val();
+            var pelagem     = $("#form_id_pelagem").val();
+            var especie     = $("#form_id_especie").val();
+            var sexo        = $("#form_sexo").val();
+            
+            
 
             $.ajax({
                 type: 'POST',
                 url: '../../../includes/ajax_busca_animal.php',
                 data: {
-                    "nro_ficha": nro_ficha,
-                    "nro_chip": nro_chip,
-                    "especie": especie,
-                    "pelagem": pelagem,
-                    "sexo": sexo
+                    "nro_ficha" : nro_ficha,
+                    "nro_chip"  : nro_chip,
+                    "pelagem"   : pelagem,
+                    "especie"   : especie,
+                    "sexo"      : sexo,
+
                 },
                 beforeSend: function() {
 
-                    console.log("Enviado");
+                    console.log("Enviado ok");
+                    $("#modal_loading").modal('show');
 
 
                 },
                 success: function(ret) {
 
                     console.log(ret);
+
                     if (ret[0].resultado == 1) {
 
-                        var monta_tabela_animal = "";
+                        var monta_tabela = "";
 
-                        monta_tabela_animal += " <table class='table table-striped responsive text-center'>";
-                        monta_tabela_animal += "<tbody>";
-                        monta_tabela_animal += "<tr>";
-                        monta_tabela_animal += "<td style='width: 30px;'>*</td>";
-                        monta_tabela_animal += "<td style='width: 250px;'>Nro ficha:</td>";
-                        monta_tabela_animal += "<td style='width: 180px;'>Nro chip:</td>";
-                        monta_tabela_animal += "<td style='width: 180px;'>Especie:</td>";
-                        monta_tabela_animal += "<td style='width: 240px;'>Pelagem:</td>";
-                        monta_tabela_animal += "<td style='width: 200px;'>Sexo:</td>";
-                        monta_tabela_animal += "</tr>";
+                        monta_tabela += " <table class='table table-striped responsive text-center'>";
+                        monta_tabela += "<tbody>";
+                        monta_tabela += "<tr>";
+                        monta_tabela += "<td style='width: 30px;'>*</td>";
+                        monta_tabela += "<td style='width: 250px;'>Nro_ficha:</td>";
+                        monta_tabela += "<td style='width: 180px;'>Nro_chip:</td>";
+                        monta_tabela += "<td style='width: 180px;'>Pelagem:</td>";
+                        monta_tabela += "<td style='width: 240px;'>Especie:</td>";
+                        monta_tabela += "<td style='width: 200px;'>Sexo:</td>";
+                        monta_tabela += "</tr>";
 
-                        $.each(ret[0], function(indice, sexo) {
-                            monta_tabela_animal += "<tr>";
-                            monta_tabela_animal += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value=''></td>";
-                            monta_tabela_animal += "<td style='width: 250px;'>" + ret[indice].nro_ficha + "</td>";
-                            monta_tabela_animal += "<td style='width: 180px;'>" + ret[indice].nro_chip + "</td>";
-                            monta_tabela_animal += "<td style='width: 180px;'>" + ret[indice].especie + "</td>";
-                            monta_tabela_animal += "<td style='width: 240px;'>" + ret[indice].pelagem + "</td>";
-                            monta_tabela_animal += "<td style='width: 200px;'>" + ret[indice].sexo + "</td>";
-                            monta_tabela_animal += "</tr>";
-
-
+                        $.each(ret, function(indice, nro_ficha) {
+                            monta_tabela += "<tr>";
+                            monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value=''></td>";
+                            monta_tabela += "<td style='width: 250px;'>" + ret[indice].nro_ficha + "</td>";
+                            monta_tabela += "<td style='width: 180px;'>" + ret[indice].nro_chip + "</td>";
+                            monta_tabela += "<td style='width: 180px;'>" + ret[indice].pelagem + "</td>";
+                            monta_tabela += "<td style='width: 240px;'>" + ret[indice].especie + "</td>";
+                            monta_tabela += "<td style='width: 200px;'>" + ret[indice].sexo + "</td>";
+                            monta_tabela += "</tr>";
 
 
                         });
-                        monta_tabela_animal += "</tbody>";
-                        monta_tabela_animal += " </table>";
-
-                        $("#retorna_info_animal_ajax").html(monta_tabela_animal).addClass('bg-ligth').removeClass('bg-danger')
+                        monta_tabela += "</tbody>";
+                        monta_tabela += " </table>";
+                        $("#retorna_info_animal_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
                     } else {
-
 
                         $("#retorna_info_animal_ajax").html('<h5 class = "text-center col-12">Animal não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
 
-
                     }
-
-
 
                 },
                 error: function(erro) {
