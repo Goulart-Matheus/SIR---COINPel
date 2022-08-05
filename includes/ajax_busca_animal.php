@@ -36,7 +36,7 @@
 
             $query_valores = new Query($bd);
             $query_valores->exec("  SELECT   
-                                            a.nro_ficha , a.nro_chip ,e.descricao as especie ,p.descricao as pelagem ,a.sexo
+                                            a.id_animal,a.nro_ficha , a.nro_chip ,e.descricao as especie ,p.descricao as pelagem ,a.sexo
                                     FROM 
                                             animal a, especie e, pelagem p
                                     WHERE 
@@ -53,7 +53,7 @@
                 while($n--){
                 $query_valores->proximo();
                 $ret[] = array( "resultado"             =>  1                                                             ,
-            
+                "id_animal"                             =>  trim($query_valores->record['id_animal'])            ,
                 "nro_ficha"                             =>  trim($query_valores->record['nro_ficha'])            ,
                 "nro_chip"                              =>  trim($query_valores->record['nro_chip'])                  ,
                 "pelagem"                               =>  trim($query_valores->record['pelagem'])                     ,                        

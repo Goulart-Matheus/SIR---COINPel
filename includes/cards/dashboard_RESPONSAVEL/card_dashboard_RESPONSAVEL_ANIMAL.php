@@ -301,7 +301,7 @@ $n = $query->rows();
 
                         $.each(ret, function(indice,sexo) {
                             monta_tabela += "<tr>";
-                            monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value=''></td>";
+                            monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value= " +ret[indice].id_animal+ " ></td>";
                             monta_tabela += "<td style='width: 250px;'>" + ret[indice].nro_ficha + "</td>";
                             monta_tabela += "<td style='width: 180px;'>" + ret[indice].nro_chip + "</td>";
                             monta_tabela += "<td style='width: 180px;'>" + ret[indice].pelagem + "</td>";
@@ -319,6 +319,46 @@ $n = $query->rows();
                         $("#retorna_info_animal_ajax").html('<h5 class = "text-center col-12">Animal não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
 
                     }
+
+                },
+                error: function(erro) {
+
+                    console.log(erro);
+
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+
+        $(".btn_ajax_vincular_animal").on('click', function() {
+
+
+           
+            
+            
+
+            $.ajax({
+                type: 'POST',
+                url: '../../../includes/ajax_vincula_animal.php',
+                data: {
+                    
+
+                },
+                beforeSend: function() {
+
+                    console.log("Enviado ok");
+                  
+
+
+                },
+                success: function(ret) {
+
+                    console.log(ret);
+
+                   
 
                 },
                 error: function(erro) {

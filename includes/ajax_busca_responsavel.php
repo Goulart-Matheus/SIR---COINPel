@@ -45,7 +45,7 @@ header('Content-type: application/json');
             while($n--){
             $query_valores->proximo();
             $ret[] = array( "resultado"             =>  1                                                             ,
-                     
+            "id_responsavel"                   =>  trim($query_valores->record['id_responsavel'])            ,
             "nome"                             =>  trim($query_valores->record['nome'])            ,
             "cpf"                              =>  trim($query_valores->record['cpf'])                  ,
             "rg"                               =>  trim($query_valores->record['rg'])                     ,                        

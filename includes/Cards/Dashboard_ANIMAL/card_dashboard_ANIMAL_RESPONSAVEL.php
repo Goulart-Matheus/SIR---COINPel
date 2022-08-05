@@ -277,7 +277,7 @@ $n = $query->rows();
                      
                       $.each(ret,function(indice,nome){
                       monta_tabela +="<tr>";
-                      monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_responsavel[]' value=''></td>";
+                      monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_responsavel[]' value= "+ret[indice].id_responsavel+" ></td>";
                       monta_tabela += "<td style='width: 250px;'>"+ret[indice].nome+"</td>"; 
                       monta_tabela += "<td style='width: 180px;'>"+ret[indice].cpf+"</td>"; 
                       monta_tabela += "<td style='width: 180px;'>"+ret[indice].rg+"</td>"; 
@@ -300,6 +300,46 @@ $n = $query->rows();
 
 
                     }
+
+                   
+
+                },
+                error: function(erro) {
+
+                    console.log(erro);
+
+                }
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+
+        $(".btn_ajax_vincular_responsavel").on('click', function() {
+
+       
+           
+
+            $.ajax({
+                type: 'POST',
+                url: '../../../includes/ajax_vincula_responsavel.php',
+                data: {
+                       
+                       
+                },
+                beforeSend: function() {
+
+                    console.log("Enviado ok");
+                                   
+
+
+                },
+                success: function(ret) {
+
+                    console.log(ret);
+                   
+                    
 
 
 
