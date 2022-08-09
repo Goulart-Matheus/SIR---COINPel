@@ -35,7 +35,7 @@ $query->exec(
             "
 
 );
-
+// $id_responsavel = $query->last_insert[0];
 $n = $query->rows();
 
 
@@ -87,7 +87,7 @@ $n = $query->rows();
 
         ?>
 
-
+            <? ?>    
             <table class="table table-striped responsive">
 
                 <thead class="bg-light grey">
@@ -184,60 +184,93 @@ $n = $query->rows();
 
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_nro_ficha"><span class="text-danger">*</span>Nro Ficha</label>
+                            <label for="form_nro_ficha"><span class="text-danger">*</span>Nro Ficha:</label>
                             <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100">
                         </div>
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_nro_chip"><span class="text-danger">*</span>Nro Chip</label>
+                            <label for="form_nro_chip"><span class="text-danger">*</span>Nro Chip:</label>
                             <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100">
                         </div>
 
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_id_especie"><span class="text-danger">*</span>Especie</label>
-                            <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100">
+                            <label for="form_id_especie"><span class="text-danger">*</span>Espécie:</label>
+                            <select name="form_id_especie" id="form_id_especie" class="form-control">
+                                <?
+                                $form_elemento = $erro ? $form_id_especie : "";
+                                include("../includes/inc_select_especie_card.php"); ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha Especie
+                            </div>
+                        </div>
+
+
+                    </div>
+                   <div class="form-row">
+                    
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem:</label>
+                            <select name="form_id_pelagem" id="form_id_pelagem" class="form-control" >
+                                <?
+                                $form_elemento = $erro ? $form_id_pelagem : "";
+                                include("../includes/inc_select_pelagem_card.php"); ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha a Pelagem
+                            </div>
+                        </div>
+                        
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_sexo"><span class="text-danger">*</span> Sexo:</label>
+                            <select name="form_sexo" id="form_sexo" class="form-control">
+                                <option value="">Selecione o sexo:</option>
+                                <option value="M">Macho</option>
+                                <option value="F">Fêmea</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha o sexo do animal.
+                            </div>
                         </div>
 
 
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-12 col-md-4">
-                            <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
-                            <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100">
+                        <div class="form-group col-4 col-md-4">
+                            <button type="button" id="btn_ajax_animal" name="btn_ajax_animal" class="btn btn-light btn_ajax_animal">
+                                <i class="fa-solid fa-filter text-green"></i>
+                                Filtrar
+                            </button>
                         </div>
-                        <div class="form-group col-12 col-md-4">
-                            <label for="form_sexo"><span class="text-danger">*</span>Sexo (M/F)</label>
-                            <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="1">
-                        </div>
-
-                        
-
                     </div>
-                        <button type="button" id="btn_ajax_animal" name="btn_ajax_animal" class="btn btn-light btn_ajax_animal">
-                            <i class="fa-solid fa-filter text-green"></i>
-                            Filtrar
-                        </button>
-
 
 
                 </div>
 
-
-        </div>
-        <div class="modal-footer bg-light-2 text-center ">
+                <div class="modal-footer bg-light-2 text-center ">
+            
+        
+        
+            
             <div class="form-row">
-
-                <div id="retorna_info_animal_ajax" name="retorna_info_animal_ajax"></div>
+                <div class="form-group col-12 ">
+                    <div id="retorna_info_animal_ajax" name="retorna_info_animal_ajax"></div>
+                </div>    
             </div>
-
-
-            <button type="button" id="btn_ajax_vincular_animal" name="btn_ajax_vincular_animal" class="btn btn-light btn_ajax_vincular_animal">
-                <i class="fa-solid fa-filter text-green"></i>
-                Vincular
-            </button>
-
+            <div class="form-row">
+            
+            <div class="form-group col-4 col-md-4">
+                <button type="button" id="btn_ajax_vincular_animal" name="btn_ajax_vincular_animal" class="btn btn-light btn_ajax_vincular_animal" >
+                    <i class="fa-solid fa-filter text-green"></i>
+                    Vincular
+                </button>
+            </div>
+            </div>
+           
         </div>
+        </div>
+        
 
 
         </form>
@@ -292,8 +325,8 @@ $n = $query->rows();
                         monta_tabela += "<tbody>";
                         monta_tabela += "<tr>";
                         monta_tabela += "<td style='width: 30px;'>*</td>";
-                        monta_tabela += "<td style='width: 250px;'>Nro_ficha:</td>";
-                        monta_tabela += "<td style='width: 180px;'>Nro_chip:</td>";
+                        monta_tabela += "<td style='width: 250px;'>Nro. Ficha:</td>";
+                        monta_tabela += "<td style='width: 180px;'>Nro. Chip:</td>";
                         monta_tabela += "<td style='width: 180px;'>Pelagem:</td>";
                         monta_tabela += "<td style='width: 240px;'>Especie:</td>";
                         monta_tabela += "<td style='width: 200px;'>Sexo:</td>";
@@ -313,6 +346,8 @@ $n = $query->rows();
                         });
                         monta_tabela += "</tbody>";
                         monta_tabela += " </table>";
+                        
+
                         $("#retorna_info_animal_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
                     } else {
 
@@ -330,37 +365,58 @@ $n = $query->rows();
         });
     });
 </script>
+
+
 <script>
     $(document).ready(function() {
 
         $(".btn_ajax_vincular_animal").on('click', function() {
 
 
+            var id_responsavel                          = <? echo $id_responsavel?>;
+            var form_vincula_animal              = [];
+                $.each($("input[name='form_vincula_animal[]']:checked"), function(){
+                form_vincula_animal.push($(this).val());
+
+           console.log(id_responsavel);
+           console.log(form_vincula_animal);
+        });
            
-            
-            
+        console.log(form_vincula_animal);
 
             $.ajax({
                 type: 'POST',
                 url: '../../../includes/ajax_vincula_animal.php',
                 data: {
                     
-
+                    "form_vincula_animal" : form_vincula_animal,
+                   " id_responsavel":id_responsavel
+                   
                 },
                 beforeSend: function() {
 
                     console.log("Enviado ok");
-                  
-
-
+                    $("#modal_loading").modal('show');
+                    
+                    $("#modal_add_animal").modal('hide');
                 },
                 success: function(ret) {
 
-                    console.log(ret);
-
+                   // console.log(ret);
+                   window.location='RESPONSAVEL_cover.php?id_responsavel=' + id_responsavel + '';
+                     if (ret[0] == 1) {
+                  
                    
+                    console.log('RESPONSAVEL_cover.php?id_responsavel=' + id_responsavel + '');
 
-                },
+                        $("#retorna_info_animal_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
+                    } else {
+
+                        $("#retorna_info_animal_ajax").html('<h5 class = "text-center col-12">Animal não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
+
+                     }
+
+                 },
                 error: function(erro) {
 
                     console.log(erro);
@@ -370,3 +426,4 @@ $n = $query->rows();
         });
     });
 </script>
+ 

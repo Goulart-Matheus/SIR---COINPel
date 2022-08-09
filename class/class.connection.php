@@ -284,6 +284,21 @@ class Query {
 		}
 	}
 
+	function commitSetMessage($mensagem)
+    {
+        pg_exec($this->bd->connection,"Commit;");
+        if(!$this->sql_err) {
+            $msg = $mensagem;
+            echo callException($msg,0);
+        }
+    }
+
+	function commitNotMessage()
+    {
+        pg_exec($this->bd->connection,"Commit;");
+    }
+
+
 	function rollback()
 	{
 		pg_exec($this->bd->connection,"Rollback;");
