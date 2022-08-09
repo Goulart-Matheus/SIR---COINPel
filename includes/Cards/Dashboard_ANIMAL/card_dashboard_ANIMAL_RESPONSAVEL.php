@@ -184,34 +184,34 @@ $n = $query->rows();
 
                     
                 </div>    
-                
+                <div class="form-group col-12 col-md-4">
              
                      <button type="button" id= "btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn_ajax_responsavel">
                          <i class="fa-solid fa-filter text-green"></i>
                         Filtrar
                     </button> 
-                
+                </div>
                 
                 
 
             </div>
 
-
-    </div>
-
-    <div class="modal-footer bg-light-2 text-center ">
+            <div class="modal-footer bg-light-2 text-center ">
             <div class="form-row">
                
                 <div  id= "retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
             </div>    
 
-
+            <div class="form-group col-12 col-md-4">
                  <button type="button" id= "btn_ajax_vincular_responsavel" name="btn_ajax_vincular_responsavel" class="btn btn-light btn_ajax_vincular_responsavel">
                          <i class="fa-solid fa-filter text-green"></i>
                         Vincular
                 </button>
-               
+            </div>   
     </div>
+    </div>
+
+    
     
     </form>
 
@@ -317,7 +317,16 @@ $n = $query->rows();
     $(document).ready(function() {
 
         $(".btn_ajax_vincular_responsavel").on('click', function() {
+        
+            
+            var id_animal                               = <? echo $id_animal?>;
+            var form_vincula_responsavel                = [];
+                $.each($("input[name='form_vincula_responsavel[]']:checked"), function(){
+                    form_vincula_responsavel.push($(this).val());
 
+           console.log(id_animal);
+           console.log(form_vincula_responsavel);
+        });
        
            
 
@@ -325,25 +334,36 @@ $n = $query->rows();
                 type: 'POST',
                 url: '../../../includes/ajax_vincula_responsavel.php',
                 data: {
-                       
-                       
+                   
+                   " id_animal":id_animal,
+                   "form_vincula_responsavel" : form_vincula_responsavel,
+                  
+                   
                 },
                 beforeSend: function() {
 
                     console.log("Enviado ok");
-                                   
-
-
+                    $("#modal_loading").modal('show');
+                    
+                    //$("#modal_add_responsavel").modal('hide');
                 },
                 success: function(ret) {
 
-                    console.log(ret);
+                   // console.log(ret);
+                   window.location='ANIMAL_cover.php?id_animal=' + id_animal + '';
+                     if (ret[0] == 1) {
+                  
                    
-                    
+                    //console.log('ANIMAL_cover.php?id_animal=' + id_animal + '');
 
+                      //  $("#retorna_info_responsavel_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
+                    } else {
 
+                        $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Erro ao vincular o responsavel</h5>').addClass('bg-danger').removeClass('bg-green')
 
-                },
+                     }
+
+                 },
                 error: function(erro) {
 
                     console.log(erro);

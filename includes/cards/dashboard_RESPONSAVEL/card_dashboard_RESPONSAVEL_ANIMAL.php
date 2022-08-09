@@ -389,7 +389,7 @@ $n = $query->rows();
                 url: '../../../includes/ajax_vincula_animal.php',
                 data: {
                     
-                    "form_vincula_animal" : form_vincula_animal,
+                   "form_vincula_animal" : form_vincula_animal,
                    " id_responsavel":id_responsavel
                    
                 },
@@ -402,17 +402,17 @@ $n = $query->rows();
                 },
                 success: function(ret) {
 
-                   // console.log(ret);
+                   console.log(ret);
                    window.location='RESPONSAVEL_cover.php?id_responsavel=' + id_responsavel + '';
                      if (ret[0] == 1) {
                   
                    
-                    console.log('RESPONSAVEL_cover.php?id_responsavel=' + id_responsavel + '');
+                    //console.log('RESPONSAVEL_cover.php?id_responsavel=' + id_responsavel + '');
 
-                        $("#retorna_info_animal_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
+                     //   $("#retorna_info_animal_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
                     } else {
 
-                        $("#retorna_info_animal_ajax").html('<h5 class = "text-center col-12">Animal não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
+                        $("#retorna_info_animal_ajax").html('<h5 class = "text-center col-12">Erro ao vincular este animal</h5>').addClass('bg-danger').removeClass('bg-green')
 
                      }
 
