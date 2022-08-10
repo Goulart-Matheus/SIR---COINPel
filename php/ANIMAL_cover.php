@@ -66,7 +66,7 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
 
                 <div class="col-12">
 
-                    <? include("../includes/Cards/Dashboard_ANIMAL/card_dashboar_ANIMAL_FICHA.php"); ?>
+                    <? include("../includes/Cards/Dashboard_ANIMAL/card_dashboard_ANIMAL_FICHA.php"); ?>
 
                 </div>
 

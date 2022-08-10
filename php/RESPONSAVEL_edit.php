@@ -161,7 +161,8 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     </div>
                     <div class="form-group col-12 col-md-3">
                         <label for="form_bairro"><span class="text-danger" >*</span> Bairro :</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control" required>
+                        <select name="form_bairro" id="form_bairro" class="form-control" required value="<? if ($edit) echo trim($form_bairro);
+                                                                                                                                  else echo trim($query->record[6]); ?>">>
                             <?
                             $form_elemento = $erro ? $form_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>
@@ -178,7 +179,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                     <div class="form-group col-12 ">
 
-                        <p class="text-center py-2 bg-dark">
+                        <p class="text-center py-2 bg-green">
                             Contatos :
                         </p>
 

@@ -345,7 +345,7 @@ $n = $query->rows();
                     console.log("Enviado ok");
                     $("#modal_loading").modal('show');
                     
-                    //$("#modal_add_responsavel").modal('hide');
+                    $("#modal_add_responsavel").modal('hide');
                 },
                 success: function(ret) {
 
@@ -359,7 +359,7 @@ $n = $query->rows();
                       //  $("#retorna_info_responsavel_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
                     } else {
 
-                        $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Erro ao vincular o responsavel</h5>').addClass('bg-danger').removeClass('bg-green')
+                       // $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Erro ao vincular o responsavel</h5>').addClass('bg-danger').removeClass('bg-green')
 
                      }
 

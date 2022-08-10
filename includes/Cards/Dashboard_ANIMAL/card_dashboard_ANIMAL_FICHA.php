@@ -1,27 +1,27 @@
 <?
 
-$query->exec("SELECT 
-                     a.id_animal , a.nro_ficha , a.nro_chip , a.sexo, a.observacao, p.descricao , e.descricao
-                     FROM 
-                         animal a , pelagem p , especie e
-                     WHERE 
-                         id_animal = $id_animal
-                     AND 
-                         a.id_pelagem = p.id_pelagem 
-                     AND 
-                         a.id_especie = e.id_especie
+    $query->exec("SELECT 
+                        a.id_animal , a.nro_ficha , a.nro_chip , a.sexo, a.observacao, p.descricao , e.descricao
+                        FROM 
+                            animal a , pelagem p , especie e
+                        WHERE 
+                            id_animal = $id_animal
+                        AND 
+                            a.id_pelagem = p.id_pelagem 
+                        AND 
+                            a.id_especie = e.id_especie
 
-                 ");
+                    ");
 
-$query->result($query->linha);
+    $query->result($query->linha);
 
-$id_animal         = $query->record[0];
-$nro_ficha         = $query->record[1];
-$nro_chip          = $query->record[2];
-$id_pelagem        = $query->record[5];
-$id_especie        = $query->record[6];
-$sexo              = $query->record[3];
-$observacao        = $query->record[4];
+    $id_animal         = $query->record[0];
+    $nro_ficha         = $query->record[1];
+    $nro_chip          = $query->record[2];
+    $id_pelagem        = $query->record[5];
+    $id_especie        = $query->record[6];
+    $sexo              = $query->record[3];
+    $observacao        = $query->record[4];
 
 
 ?>
