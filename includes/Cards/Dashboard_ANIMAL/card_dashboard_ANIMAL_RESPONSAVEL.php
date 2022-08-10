@@ -329,7 +329,7 @@ $n = $query->rows();
         });
        
            
-
+          
             $.ajax({
                 type: 'POST',
                 url: '../../../includes/ajax_vincula_responsavel.php',
@@ -349,12 +349,12 @@ $n = $query->rows();
                 },
                 success: function(ret) {
 
-                   // console.log(ret);
+                   console.log(ret);
                    window.location='ANIMAL_cover.php?id_animal=' + id_animal + '';
                      if (ret[0] == 1) {
                   
                    
-                    //console.log('ANIMAL_cover.php?id_animal=' + id_animal + '');
+                    console.log('ANIMAL_cover.php?id_animal=' + id_animal + '');
 
                       //  $("#retorna_info_responsavel_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
                     } else {
