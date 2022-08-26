@@ -6,9 +6,9 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
-$tab->setTab('Pesquisar', 'fas fa-search', 'BAIRRO_view.php');
 
+$tab->setTab('Bairros', 'fas fa-home', 'BAIRRO_viewDados.php');
+$tab->setTab('Novo Bairro', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 
 ?>
@@ -32,12 +32,14 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
-                        
+
                             $valida = new Valida($form_bairro, 'Bairro');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-
+                            $valida = new Valida($form_habilitado, 'Habilitado');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
                         }
 
                         if (!$erro && isset($add)) {
@@ -53,7 +55,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                     $_ip,
                                     $_data,
                                     $_hora,
-                                    
                                 )
                             );
 
@@ -77,26 +78,18 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
 
-                <div class="form-group col-12 col-md-6">
+                    <div class="form-group col-12 col-md-6">
+
                         <label for="form_bairro"><span class="text-danger">*</span> Bairro</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control" required>
-                            <?
-                            $form_elemento = $erro ? $form_bairro : "";
-                            include("../includes/inc_select_bairro.php"); ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha o bairro.
-                        </div>
+                        <input name="form_bairro" id="form_bairro" class="form-control" required>
+                        
                     </div>
 
-                    
-
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_nome"><span class="text-danger">*</span> Habilitado</label>
-                        <select class="form-control" name="form_habilitado " id= "form_habilitado "> 
-                            <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected'; else echo 'selected'; ?>>Sim</option>
-                            <option value="N" <? if ($erro && $form_habilitado == "N")?>>Não</option>
-                            
+                        <label for="form_habilitado"><span class="text-danger">*</span> Habilitado</label>
+                        <select class="form-control" name="form_habilitado" id="form_habilitado">
+                            <option value="S">Sim</option>
+                            <option value="N">Não</option>
                         </select>
                     </div>
 
@@ -105,11 +98,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
             </div>
 
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
-                </div>
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('clean', 'save');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
             </div>
 
         </div>

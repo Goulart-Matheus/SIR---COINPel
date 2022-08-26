@@ -13,7 +13,7 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $query->exec("SELECT id_responsavel, nome , cpf, rg , dt_nascimento, endereco , id_bairro  
-              FROM responsavel 
+              FROM responsavel
               WHERE id_responsavel = " . $id_responsavel);
 
 $query->result($query->linha);
@@ -164,7 +164,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         <select name="form_bairro" id="form_bairro" class="form-control" required value="<? if ($edit) echo trim($form_bairro);
                                                                                                                                   else echo trim($query->record[6]); ?>">>
                             <?
-                            $form_elemento = $erro ? $form_bairro : "";
+                            $form_elemento = $edit ? $form_bairro : $query->record[6];
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
                         <div class="invalid-feedback">

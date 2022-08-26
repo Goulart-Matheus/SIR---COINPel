@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? " um res
 $query_responsavel = new Query($bd);
 
 $query_responsavel->exec("SELECT id_responsavel, nome FROM responsavel  ORDER BY nome");
-$n = $query_responsavel->rows();
+$n_responsavel = $query_responsavel->rows();
 
-while ($n--) {
+while ($n_responsavel--) {
 
     $query_responsavel->proximo();
 

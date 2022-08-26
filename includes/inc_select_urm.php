@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? "um URM"
 $query_urm = new Query($bd);
 
 $query_urm->exec("SELECT id_urm, valor , ativo , mes_referencia , ano_referencia FROM urm  ORDER BY valor");
-$n = $query_urm->rows();
+$n_urm = $query_urm->rows();
 
-while ($n--) {
+while ($n_urm--) {
 
     $query_urm->proximo();
 

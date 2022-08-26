@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? " uma es
 $query_especie = new Query($bd);
 
 $query_especie->exec("SELECT id_especie, descricao FROM especie  ORDER BY descricao");
-$n = $query_especie->rows();
+$n_especie = $query_especie->rows();
 
-while ($n--) {
+while ($n_especie--) {
 
     $query_especie->proximo();
 

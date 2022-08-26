@@ -1,88 +1,55 @@
-<?
+<div class="modal fade text-left" id="BAIRRO_view" tabindex="-1" role="dialog" aria-hidden="true">
 
-include('../includes/session.php');
-include_once('../includes/dashboard/header.php');
-include('../includes/variaveisAmbiente.php');
-include('../class/class.tab.php');
+    <div class="modal-dialog modal-xl" role="document">
 
-$tab = new Tab();
+        <div class="modal-content">
 
-$tab->setTab('Adicionar', 'fas fa-plus', 'BAIRRO_form.php');
-$tab->setTab('Pesquisar', 'fas fa-search', $_SERVER['PHP_SELF']);
+            <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
 
-$tab->printTab($_SERVER['PHP_SELF']);
-
-?>
-
-<section class="content">
-
-    <form method="POST" action="BAIRRO_viewDados.php">
-
-        <div class="card p-0">
-
-            <div class="card-header border-bottom-1 mb-3 bg-light-2">
-
-                <div class="text-center">
-                    <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
+                <div class="modal-header bg-light-2">
+                    <h5 class="modal-title">
+                        <i class="fas fa-filter text-green"></i>
+                        Filtrar Bairros
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
 
-                <div class="row text-center">
-                    <div class="col-12 col-sm-4 offset-sm-4">
-                        <? if ($erro) echo callException($erro, 2); ?>
-                    </div>
-                </div>
+                <div class="modal-body">
 
-            </div>
+                    <div class="form-row">
 
-            <div class="card-body pt-0">
+                        <div class="form-group col-12 col-md-6">
 
-                <div class="form-row">
+                            <label for="form_bairro">Bairro</label>
+                            <input name="form_bairro" id="form_bairro" class="form-control" >
 
-                  
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_bairro"></span> Descrição Bairro</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control">
-                            <?
-                            $form_elemento = $erro ? $form_bairro : "";
-                            include("../includes/inc_select_bairro.php"); ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha o bairro.
+                        </div>
+
+                        <div class="form-group col-12 col-md-6">
+
+                            <label for="form_habilitado">Habilitado</label>
+                            <select class="form-control" name="form_habilitado" id="form_habilitado">
+                                <option value="S">Sim</option>
+                                <option value="N">Não</option>                                
+                            </select>
                         </div>
                     </div>
 
-
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_nome"></span> Habilitado</label>
-                        <select class="form-control" name="form_habilitado" id="form_habilitado">
-                            <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected';
-                                                else echo 'selected'; ?>>Sim</option>
-                            <option value="N" <? if ($erro && $form_habilitado == "N") ?>>Não</option>
-
-                        </select>
-                    </div>
-
-
-
                 </div>
 
-            </div>
-
-            <div class="card-footer border-top-0 bg-transparent">
-
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Buscar">
+                <div class="modal-footer bg-light-2 text-center">
+                    <button type="submit" name="filter" class="btn btn-light">
+                        <i class="fa-solid fa-filter text-green"></i>
+                        Filtrar
+                    </button>
                 </div>
 
-            </div>
+            </form>
 
         </div>
 
-    </form>
+    </div>
 
-</section>
-
-<?
-include_once('../includes/dashboard/footer.php');
-?>
+</div>

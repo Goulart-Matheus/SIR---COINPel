@@ -3,10 +3,9 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT id_hospedagem , id_animal , valor , endereco_recolhimento , id_bairro , id_responsavel , dt_entreda , dt_retirada , situacao
+$query->exec("SELECT id_hospedagem , id_animal , valor , endereco_recolhimento , id_bairro , id_responsavel , dt_entrada , dt_retirada , situacao
 
 FROM hospedagem
-
 
 WHERE endereco_recolhimento= " . $endereco_recolhimento);
 

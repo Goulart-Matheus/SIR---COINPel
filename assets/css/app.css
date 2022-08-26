@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto);@import url(https://use.fontawesome.com/releases/v5.8.1/css/all.css);@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700);@import url(https://fonts.googleapis.com/css?family=Lato|Montserrat|Open+Sans&display=swap);@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/*!
+@import url(https://fonts.googleapis.com/css?family=Roboto);@import url(https://use.fontawesome.com/releases/v6.1.1/css/all.css);@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700);@import url(https://fonts.googleapis.com/css?family=Lato|Montserrat|Open+Sans&display=swap);@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/icon?family=Material+Icons);/*!
  * bootstrap-fileinput v5.0.8
  * http://plugins.krajee.com/file-input
  *
@@ -2732,9 +2732,9 @@ pre code {
 .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #5ae0ff;
+    border-color: #71dd8a;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 177, 217, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(25, 217, 0, 0.25);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -5060,6 +5060,7 @@ input[type=button].btn-block {
 .nav-tabs .nav-link:hover,
 .nav-tabs .nav-link:focus {
     border-color: #e9ecef #e9ecef #dee2e6;
+    background-color: #f7fcf7;
 }
 
 .nav-tabs .nav-link.disabled {
@@ -6164,6 +6165,20 @@ a.badge-dark.focus {
 
 .alert-success .alert-link {
     color: #040e12;
+}
+
+.alert-green {
+    color: #FFF;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.alert-green hr {
+    border-top-color: #aec6ce;
+}
+
+.alert-green .alert-link {
+    color: #28a745;
 }
 
 .alert-info {
@@ -13907,9 +13922,9 @@ pre code {
 .form-control:focus {
     color: #495057;
     background-color: #fff;
-    border-color: #5ae0ff;
+    border-color: #71dd8a;
     outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(0, 177, 217, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(25, 217, 0, 0.25);
 }
 
 .form-control::-webkit-input-placeholder {
@@ -17374,6 +17389,20 @@ a.badge-dark.focus {
 
 .alert-success .alert-link {
     color: #040e12;
+}
+
+.alert-green {
+    color: #FFF;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.alert-green hr {
+    border-top-color: #aec6ce;
+}
+
+.alert-green .alert-link {
+    color: #28a745;
 }
 
 .alert-info {
@@ -31528,6 +31557,12 @@ html.maximized-card {
     border-color: #144b60;
 }
 
+.alert-green {
+    color: #FFF;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
 .alert-default-success {
     color: #0c2f3d;
     background-color: #d1dee3;
@@ -33389,7 +33424,7 @@ html.maximized-card {
 .select2-container--default .select2-dropdown .select2-search__field:focus,
 .select2-container--default .select2-search--inline .select2-search__field:focus {
     outline: none;
-    border: 1px solid #5ae0ff;
+    border: 1px solid #28a745;
 }
 
 .select2-container--default .select2-dropdown.select2-dropdown--below {
@@ -33414,13 +33449,13 @@ html.maximized-card {
 }
 
 .select2-container--default .select2-results__option--highlighted {
-    background-color: #00b1d9;
+    background-color: #28a745;
     color: #fff;
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected],
 .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
-    background-color: #00a5ca;
+    background-color: #28a745;
     color: #fff;
 }
 
@@ -33430,7 +33465,7 @@ html.maximized-card {
 }
 
 .select2-container--default .select2-selection--multiple:focus {
-    border-color: #5ae0ff;
+    border-color: #28a745;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__rendered {
@@ -33453,8 +33488,8 @@ html.maximized-card {
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    background-color: #00b1d9;
-    border-color: #009cc0;
+    background-color: #28a745;
+    border-color: #28a745;
     color: #fff;
     padding: 0 10px;
     margin-top: 0.31rem;
@@ -33483,7 +33518,7 @@ html.maximized-card {
 
 .select2-container--default.select2-container--focus .select2-selection--single,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #5ae0ff;
+    border-color: #28a745;
 }
 
 .select2-container--default.select2-container--focus .select2-search__field {
@@ -44436,3 +44471,4 @@ html {
 .cursor-pointer {
     cursor: pointer;
 }
+

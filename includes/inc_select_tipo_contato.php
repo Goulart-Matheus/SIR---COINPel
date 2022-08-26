@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? "um tipo
 $query_tipo_contato = new Query($bd);
 
 $query_tipo_contato->exec("SELECT id_tipo_contato, descricao, mascara FROM tipo_contato  WHERE habilitado='S'  ORDER BY descricao");
-$n = $query_tipo_contato->rows();
+$n_tipo_contato = $query_tipo_contato->rows();
 
-while ($n--) {
+while ($n_tipo_contato--) {
 
     $query_tipo_contato->proximo();
 

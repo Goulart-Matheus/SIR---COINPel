@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? " uma pe
 $query_pelagem = new Query($bd);
 
 $query_pelagem->exec("SELECT id_pelagem, descricao FROM pelagem  ORDER BY descricao");
-$n = $query_pelagem->rows();
+$n_pelagem2 = $query_pelagem->rows();
 
-while ($n--) {
+while ($n_pelagem2--) {
 
     $query_pelagem->proximo();
 

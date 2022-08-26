@@ -1,6 +1,76 @@
-.nav-tabs{
+.nav-tabs {
     border-bottom: none !important;
 }
-table > tbody{
+
+table>tbody {
     cursor: pointer !important;
 }
+
+.entered:hover {
+    background-color: rgba(116, 231, 142, 0.3);
+}
+
+.select-readonly {
+    background: #eee;
+    pointer-events: none;
+    touch-action: none;
+}
+
+/***************************************************************************************| PADRÃO DE CORES VERDES - TEXTOS |***/
+
+.text-green-2 {
+    color: #67e083;
+}
+
+.text-gradient-green {
+    background: linear-gradient(to right, #28a745, #166d2a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-green-2 {
+    background: linear-gradient(to right, #28a745, #91f7a9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/***************************************************************************************| PADRÃO DE CORES VERDES - BACKGROUND |***/
+
+.bg-green-secondary {
+    background-color: #67f288;
+    text-align: 343a40;
+}
+
+/***************************************************************************************| TABLE OVERFLOW |***/
+
+table.table-overflow tbody {
+    display: block;
+    overflow-y: scroll;
+    background-color: #FFF;
+}
+
+table.table-overflow thead,
+table.table-overflow tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+table.table-overflow thead {
+    width: calc(100% - 1em)
+}
+
+table.table-overflow {
+    width: 100%;
+    background-color: #F3EFE7;
+    border-radius: 0 !important;
+}
+
+.card-body.p-0>table.table.table-overflow>thead>tr>th:first-of-type,
+.card-body.p-0>table.table.table-overflow>tbody>tr>td:first-of-type {
+    padding-left: 0.8rem !important;
+}
+
+.bb-chart-lines {
+    fill: none;
+  }

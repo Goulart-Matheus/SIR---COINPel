@@ -6,19 +6,19 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', 'ANIMAL_form.php');
-$tab->setTab('Pesquisar', 'fas fa-search', 'ANIMAL_view.php');
+$tab->setTab('Animais', 'fa-solid fa-dog', 'ANIMAL_viewDados.php');
+$tab->setTab('Animal', 'fa-solid fa-dog', 'ANIMAL_cover.php?id_animal='   . $id_animal);
 $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
 
-//$where .= $form_nro_ficha != "" ? " AND nro_ficha = $form_nro_ficha " : "";
 $query->exec(
-    "SELECT id_animal , nro_ficha , nro_chip , sexo , id_pelagem , id_especie , observacao
-              FROM animal
-              WHERE id_animal= $id_animal " 
-              
+    "SELECT a.id_animal , a.nro_ficha , a.nro_chip , a.sexo , pe.descricao as pelagem , es.descricao as especie , a.observacao, es.id_especie, pe.id_pelagem
+    FROM    animal as a, pelagem as pe, especie as es
+    WHERE   a.id_especie = es.id_especie AND
+            a.id_pelagem = pe.id_pelagem AND
+            a.id_animal= $id_animal"
 );
 
 
@@ -80,7 +80,7 @@ $query->result($query->linha);
 
                             $itens = array(
                                 $form_nro_ficha,
-                                $nro_chip,
+                                $form_nro_chip,
                                 $id_pelagem,
                                 $id_especie,
                                 $sexo,
@@ -114,34 +114,63 @@ $query->result($query->linha);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"></span> Nunero Ficha</label>
-                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($edit) echo $form_nro_ficha;else echo trim($query->record[1]) ?>">
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($edit) echo $form_nro_ficha;
+                                                                                                                                    else echo trim($query->record[1]) ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_chip"></span> Nunero Chip</label>
-                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($edit) echo $form_nro_chip; else echo trim($query->record[2])?>">
+                        <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($edit) echo $form_nro_chip;
+                                                                                                                                else echo trim($query->record[2]) ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_sexo"></span>Sexo</label>
-                        <input type="text" class="form-control" name="form_sexo" id="form_sexo" maxlength="100" value="<? if ($edit) echo $form_sexo;else echo trim($query->record[3]) ?>">
+                        <select name="form_sexo" id="form_sexo" class="form-control" value="<? if ($edit) echo $form_sexo;
+                                                                                            else echo trim($query->record[3]) ?>">
+                            <option value="M" <? if ($edit && $form_sexo == 'M') echo 'selected';
+                                                else {
+                                                    if (!$edit && $query->record[3] == "M") {
+                                                        echo 'selected';
+                                                    }
+                                                }  ?>>Macho</option>
+                            <option value="F" <? if ($edit && $form_sexo == 'F') echo 'selected';
+                                                else {
+                                                    if (!$edit && $query->record[3] == "F") {
+                                                        echo 'selected';
+                                                    }
+                                                }  ?>>Fêmea</option>
+                        </select>
                     </div>
 
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_pelagem"></span> Pelagem</label>
-                        <input type="text" class="form-control" name="form_id_pelagem" id="form_id_pelagem" maxlength="100" value="<? if ($edit) echo $form_id_pelagem;else echo trim($query->record[4]) ?>">
+                        <select class="form-control" name="form_id_pelagem" id="form_id_pelagem" required>
+                            <?
+                            $form_elemento = $edit ? $form_id_pelagem : $query->record[8];
+                            include("../includes/inc_select_pelagem.php");
+                            ?>
+                        </select>
                     </div>
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_especie"></span>Especie</label>
-                        <input type="text" class="form-control" name="form_id_especie" id="form_id_especie" maxlength="100" value="<? if ($edit) echo $form_id_especie; else echo trim($query->record[5])?>">
+                        <select class="form-control" name="form_id_especie" id="form_id_especie" required>
+                            <?
+                            $form_elemento = $edit ? $form_id_especie : $query->record[7];
+                            include("../includes/inc_select_especie.php");
+                            echo $query->record[5];
+                            ?>
+                        </select>
                     </div>
 
 
                     <div class="form-group col-12 ">
+                        
                         <label for="form_observacao">Observação</label>
-                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($edit) echo $form_observacao; else echo trim($query->record[6])?>">
+                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($edit) echo $form_observacao;
+                                                                                                                                    else echo trim($query->record[6]) ?>">
                     </div>
 
                 </div>
@@ -150,9 +179,11 @@ $query->result($query->linha);
 
             <div class="card-footer border-top-0 bg-transparent">
 
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="edit" value="Salvar">
+                <div class="card-footer bg-light-2">
+                    <?
+                    $btns = array('clean', 'edit');
+                    include('../includes/dashboard/footer_forms.php');
+                    ?>
                 </div>
 
             </div>
@@ -166,3 +197,4 @@ $query->result($query->linha);
 <?
 include_once('../includes/dashboard/footer.php');
 ?>
+<script src="../includes/inc_select_pelagem.php"></script>

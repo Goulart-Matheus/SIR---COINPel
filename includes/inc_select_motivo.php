@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? "um Moti
 $query_motivo = new Query($bd);
 
 $query_motivo->exec("SELECT id_motivo, descricao FROM motivo  ORDER BY descricao");
-$n = $query_motivo->rows();
+$n_motivo = $query_motivo->rows();
 
-while ($n--) {
+while ($n_motivo--) {
 
     $query_motivo->proximo();
 

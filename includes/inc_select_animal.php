@@ -9,9 +9,9 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? " um ani
 $query_animal = new Query($bd);
 
 $query_animal->exec("SELECT id_animal, nro_ficha, nro_chip, id_pelagem, id_especie, sexo, observacao FROM animal  ORDER BY nro_ficha");
-$n = $query_animal->rows();
+$n_animal = $query_animal->rows();
 
-while ($n--) {
+while ($n_animal--) {
 
     $query_animal->proximo();
 

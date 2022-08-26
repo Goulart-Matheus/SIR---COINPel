@@ -6,13 +6,12 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', 'MOTIVO_form.php');
-$tab->setTab('Pesquisar', 'fas fa-search', 'MOTIVO_view.php');
+$tab->setTab('Motivos', 'fa-solid fa-list','MOTIVO_viewDados.php');
 $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-$query->exec("SELECT id_motivo , descricao  
+$query->exec("SELECT id_motivo , descricao, habilitado
 
 FROM motivo WHERE id_motivo = " . $id_motivo);
 
@@ -52,10 +51,9 @@ $query->result($query->linha);
 
                             $query->begin();
 
-                            $itens = array(
-                                $id_motivo,
+                            $itens = array(                                
                                 trim($form_descricao),
-                                $habilitado,
+                                $form_habilitado,
                                 $_login,
                                 $_ip,
                                 $_data,
@@ -83,7 +81,6 @@ $query->result($query->linha);
 
                 <div class="form-row">
 
-
                     <div class="form-group col-12 col-md-6">
                         <label for="form_descricao"><span class="text-danger">*</span> Descrição</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" value="<? if ($edit) echo trim($form_descricao);
@@ -94,27 +91,25 @@ $query->result($query->linha);
                     <div class="form-group col-12 col-md-6">
                     <label for="form_habilitado"></span> Habilitado</label>
                     <select class="form-control" name="form_habilitado">
-                        <option value="S" <? if ($erro && $form_habilitado == "S") echo 'selected';
-                                            else echo 'selected'; ?>>Sim</option>
-                        <option value="N" <? if ($erro && $form_habilitado == "N") echo 'selected';                        ?>>Não</option>
+                        <option value="S" <? if ($edit && $form_habilitado == 'S') echo 'selected';  else { if(!$edit && $query->record[2] == "S") {echo 'selected'; } }  ?>>Sim</option>
+                        <option value="N" <? if ($edit && $form_habilitado == 'N') echo 'selected';  else { if(!$edit && $query->record[2] == "N") {echo 'selected'; } }  ?>>Não</option>
                     </select>
                 </div>
 
-
-
             </div>
-
 
         </div>
 
         <div class="card-footer border-top-0 bg-transparent">
 
-            <div class="text-center">
-                <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                <input class="btn btn-info" type="submit" name="edit" value="Salvar">
-            </div>
+                <div class="card-footer bg-light-2">
+                    <?
+                    $btns = array('clean', 'edit');
+                    include('../includes/dashboard/footer_forms.php');
+                    ?>
+                </div>
 
-        </div>
+            </div>
 
         </div>
 

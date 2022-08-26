@@ -1,41 +1,22 @@
-<?
+<div class="modal fade text-left" id="ANIMAL_view" tabindex="-1" role="dialog" aria-hidden="true">
 
-include('../includes/session.php');
-include_once('../includes/dashboard/header.php');
-include('../class/class.tab.php');
+    <div class="modal-dialog modal-xl" role="document">
 
-$tab = new Tab();
+        <div class="modal-content">
 
-$tab->setTab('Adicionar', 'fas fa-plus', 'ANIMAL_form.php');
-$tab->setTab('Pesquisar', 'fas fa-search', $_SERVER['PHP_SELF']);
+            <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
 
-$tab->printTab($_SERVER['PHP_SELF']);
-
-?>
-
-<section class="content">
-
-    <form method="post" action="ANIMAL_viewDados.php">
-
-        <div class="card p-0">
-
-            <div class="card-header border-bottom-1 mb-3 bg-light-2">
-
-                <div class="text-center">
-                    <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
+                <div class="modal-header bg-light-2">
+                    <h5 class="modal-title">
+                        <i class="fas fa-filter text-green"></i>
+                        Filtrar Registro de Habitantes
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
 
-                <div class="row text-center">
-                    <div class="col-12 col-sm-4 offset-sm-4">
-                        <? if ($erro) echo callException($erro, 2); ?>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="card-body pt-0">
-
-                <div class="card-body pt-0">
+                <div class="modal-body">
 
                     <div class="form-row">
 
@@ -66,7 +47,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         <div class="form-group col-12 col-md-6">
                             <label for="form_id_pelagem"></span>Pelagem</label>
-                            <select name="form_id_pelagem" id="form_id_pelagem" class="form-control" >
+                            <select name="form_id_pelagem" id="form_id_pelagem" class="form-control">
                                 <?
                                 $form_elemento = $erro ? $form_id_pelagem : "";
                                 include("../includes/inc_select_pelagem.php"); ?>
@@ -91,23 +72,20 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     </div>
 
-                </div>
-
-                <div class="card-footer border-top-0 bg-transparent">
-
-                    <div class="text-center">
-                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                        <input class="btn btn-info" type="submit" name="add" value="Buscar">
-                    </div>
 
                 </div>
 
-            </div>
+                <div class="modal-footer bg-light-2 text-center">
+                    <button type="submit" name="filter" class="btn btn-light">
+                        <i class="fa-solid fa-filter text-green"></i>
+                        Filtrar
+                    </button>
+                </div>
 
-    </form>
+            </form>
 
-</section>
+        </div>
 
-<?
-include_once('../includes/dashboard/footer.php');
-?>
+    </div>
+
+</div>

@@ -32,9 +32,9 @@ $observacao        = $query->record[6];
 
 $tab = new Tab();
 
-$tab->setTab('Pesquisar', 'fas fa-search', 'ANIMAL_view.php?id_animal='                  . $id_animal);
+$tab->setTab('Animais', 'fa-solid fa-dog', 'ANIMAL_viewDados.php');
 $tab->setTab($query->record[1], $query->record[5], $_SERVER['PHP_SELF'] . '?id_animal='   . $id_animal);
-$tab->setTab('Editar', 'fas fa-pencil-alt', 'ANIMAL_edit.php?id_animal='                 . $id_animal);
+$tab->setTab('Editar', 'fas fa-pencil-alt', 'ANIMAL_edit.php?id_animal='                  . $id_animal);
 $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
 
 ?>
