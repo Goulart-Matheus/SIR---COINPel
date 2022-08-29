@@ -2,7 +2,7 @@
 
 function callException($msg, $type, $hide=false) {
     switch ($type) {
-           case 0: $class   ='alert-success';
+           case 0: $class   ='alert-green';
                    break;
            case 1: $class   ='alert-danger';
                    break;

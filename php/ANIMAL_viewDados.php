@@ -6,7 +6,7 @@ include('../includes/variaveisAmbiente.php');
 $where = "";
 $where .= $form_nro_ficha   != "" ? " AND a.nro_ficha = $form_nro_ficha " : "";
 
-$where .= $form_sexo        != "" ? " AND a.sexo = '".$form_sexo."' " : "";
+$where .= $form_sexo        != "" ? " AND a.sexo = '" . $form_sexo . "' " : "";
 $where .= $form_id_pelagem  != "" ? " AND a.id_pelagem = $form_id_pelagem " : "";
 $where .= $form_id_especie  != "" ? " AND a.id_especie = $form_id_especie " : "";
 $where .= $form_nro_chip    != "" ? " AND a.nro_chip = $form_nro_chip " : "";
@@ -17,10 +17,8 @@ $query->exec(
               FROM animal as a, pelagem as pe, especie as es
               WHERE a.id_especie = es.id_especie AND
               a.id_pelagem = pe.id_pelagem" . $where
-              
-);
 
-echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -125,7 +123,7 @@ include 'ANIMAL_view.php'
 
             </div>
             <div class="card-body pt-0">
-                <table class="table table-sm tex-sm">
+                <table class="table table-sm text-sm">
                     <thead>
                         <tr>
                             <th colspan="7">Resultados de
@@ -142,8 +140,8 @@ include 'ANIMAL_view.php'
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nro Ficha'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Nro Chip'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Sexo'); ?> </td>                            
-                            <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Pelagem'); ?> </td> 
+                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Sexo'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Pelagem'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Especie'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Observacao'); ?> </td>
                         </tr>
@@ -161,7 +159,7 @@ include 'ANIMAL_view.php'
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_animal[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . ($paging->query->record[3] == "M" ? "Macho" : "Fêmea"). "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . ($paging->query->record[3] == "M" ? "Macho" : "Fêmea") . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";

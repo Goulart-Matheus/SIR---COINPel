@@ -6,8 +6,9 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
-$tab->setTab('Pesquisar', 'fas fa-search', 'HOSPEDAGEM_view.php');
+$tab->setTab ('Hospedaria', 'fas fa-heading','HOSPEDAGEM_viewDados.php');
+$tab->setTab('Nova Hospedaria', 'fas fa-plus', $_SERVER['PHP_SELF']);
+//$tab->setTab('Pesquisar', 'fas fa-search', 'HOSPEDAGEM_view.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
@@ -55,7 +56,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_observacao, 'Observacao');
-                            $valida->TamMinimo(1);
+                            $valida->TamMinimo(0);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_dt_retirada, 'Dt_retirada');
@@ -94,7 +95,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->insertTupla(
                                 'hospedagem',
                                 array(
-                                    trim($form_id_hospedagem),
+                                   // trim($form_id_hospedagem),
                                     $form_id_animal,
                                     $form_dt_entrada,
                                     $form_endereco_recolhimento,
@@ -106,11 +107,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                     $form_id_urm,
                                     $form_valor,
                                     $form_nro_boleto,
-                                    $form_situacao,
                                     $_login,
                                     $_ip,
                                     $_data,
                                     $_hora,
+                                    $form_situacao,
 
                                 )
                             );
@@ -142,7 +143,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_id_animal"><span class="text-danger">*</span> Animal</label>
+                        <label for="form_id_animal"><span class="text-danger">*</span> Ficha do Animal</label>
                         <select name="form_id_animal" id="form_id_animal" class="form-control" required>
                             <?
                             $form_elemento = $erro ? $form_id_animal : "";

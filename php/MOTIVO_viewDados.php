@@ -4,13 +4,13 @@ include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
 $where = "";
-$where .= $form_habilitado        != "" ? " AND habilitado = '".$form_habilitado."' ": "";
+$where .= $form_habilitado        != "" ? " AND habilitado = '" . $form_habilitado . "' " : "";
 
 $query->exec("SELECT id_motivo , descricao , habilitado
                     FROM motivo
                    WHERE descricao ilike '%" . $form_descricao . "%'
                    
-                ".$where);
+                " . $where);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -72,7 +72,6 @@ $tab = new Tab();
 $tab->setTab('Motivos', 'fa-solid fa-list', $_SERVER['PHP_SELF']);
 $tab->setTab('Novo Motivo', 'fas fa-plus', 'MOTIVO_form.php');
 
-
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
@@ -109,7 +108,7 @@ include 'ESPECIE_view.php'
 
             </div>
             <div class="card-body pt-0">
-                <table class="table table-sm tex-sm">
+                <table class="table table-sm text-sm">
                     <thead>
                         <tr>
                             <th colspan="7">Resultados de
@@ -121,7 +120,7 @@ include 'ESPECIE_view.php'
 
                     <tbody>
 
-                        <tr>                            
+                        <tr>
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Descrição Motivo'); ?> </td>
@@ -140,8 +139,6 @@ include 'ESPECIE_view.php'
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_motivo[]' value=" . $paging->query->record[0] . "></td>";
                             echo "<td valign='top' " . $js_onclick . ">" . ($query->record[2] == "S" ? "<i class='fas fa-circle text-green'</i>" : "<i class='fas fa-circle text-light'</i>") . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                            
-
 
                             echo "</tr>";
                         }
@@ -151,6 +148,16 @@ include 'ESPECIE_view.php'
                     </tbody>
 
                     <tfoot>
+
+                        <tr>
+                            <td colspan="8">
+
+                                <span>Situação: </span>
+                                <span><i class='fas fa-circle text-light'></i> Não Habilitado</span>
+                                <span><i class='fas fa-circle text-green'></i> Habilitado</span>
+
+                            </td>
+                        </tr>
 
                         <tr>
                             <td colspan="8">

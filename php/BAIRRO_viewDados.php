@@ -4,12 +4,12 @@ include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
 $where = "";
-$where .= $form_habilitado        != "" ? " AND habilitado = '".$form_habilitado."' ": "";
+$where .= $form_habilitado        != "" ? " AND habilitado = '" . $form_habilitado . "' " : "";
 
 $query->exec("SELECT id_bairro , descricao, habilitado
               FROM bairro
               WHERE descricao ilike '%" . $form_bairro . "%'                   
-            ".$where);
+            " . $where);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -104,8 +104,10 @@ include 'BAIRRO_view.php'
                 </div>
 
             </div>
+
             <div class="card-body pt-0">
-                <table class="table table-sm tex-sm">
+
+                <table class="table table-sm text-sm">
                     <thead>
                         <tr>
                             <th colspan="7">Resultados de
@@ -147,6 +149,16 @@ include 'BAIRRO_view.php'
                     </tbody>
 
                     <tfoot>
+
+                        <tr>
+                            <td colspan="8">
+
+                                <span>Situação: </span>
+                                <span><i class='fas fa-circle text-light'></i> Não Habilitado</span>
+                                <span><i class='fas fa-circle text-green'></i> Habilitado</span>
+
+                            </td>
+                        </tr>
 
                         <tr>
                             <td colspan="8">

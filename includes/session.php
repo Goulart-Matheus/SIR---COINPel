@@ -22,7 +22,7 @@ $debug = 0;
 include('../class/class.sort.php');
 $sort_icon    = array('<i class="fas fa-arrow-up"></i>', '<i class="fas fa-arrow-down"></i>');
 $sort_dirname = array("Ordenação Crescente", "Ordenação Decrescente");
-$sort_style   = array("#F3EFE7","#D0D0D0");
+$sort_style   = array("#F3EFE7","#aae3b7");
 
 #define variáveis para paginação
 include('../class/class.paging.php');

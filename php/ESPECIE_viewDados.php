@@ -4,13 +4,13 @@ include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
 $where = "";
-$where .= $form_habilitado        != "" ? " AND habilitado = '".$form_habilitado."' ": "";
+$where .= $form_habilitado        != "" ? " AND habilitado = '" . $form_habilitado . "' " : "";
 
 $query->exec("SELECT id_especie , descricao , habilitado
                     FROM especie
                    WHERE descricao ilike '%" . $form_descricao . "%'
                    
-                ".$where);
+                " . $where);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -28,9 +28,9 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'        ,      10, 0),
-        array('Descricao'     ,     190, 1),
-        array('Habilitado'    ,      10, 3)
+        array('Código',      10, 0),
+        array('Descricao',     190, 1),
+        array('Habilitado',      10, 3)
 
     );
 
@@ -109,7 +109,7 @@ include 'ESPECIE_view.php'
 
             </div>
             <div class="card-body pt-0">
-                <table class="table table-sm tex-sm">
+                <table class="table table-sm text-sm">
                     <thead>
                         <tr>
                             <th colspan="7">Resultados de
@@ -117,7 +117,7 @@ include 'ESPECIE_view.php'
                                     sobre <span class='numero-paginas'>" . $paging->getRows() . "</span>"; ?>
                             </th>
                         </tr>
-                    </thead>                   
+                    </thead>
 
                     <tbody>
 
@@ -126,7 +126,7 @@ include 'ESPECIE_view.php'
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Espécie'); ?> </td>
-                            
+
                         </tr>
 
                         <?
@@ -136,7 +136,7 @@ include 'ESPECIE_view.php'
                             $paging->query->proximo();
 
                             $js_onclick = "OnClick=javascript:window.location=('ESPECIE_edit.php?id_especie=" . $paging->query->record[0] . "')";
-                           
+
                             echo "<tr class='entered'>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_especie[]' value=" . $paging->query->record[0] . "></td>";
@@ -151,6 +151,16 @@ include 'ESPECIE_view.php'
                     </tbody>
 
                     <tfoot>
+
+                        <tr>
+                            <td colspan="8">
+
+                                <span>Situação: </span>
+                                <span><i class='fas fa-circle text-light'></i> Não Habilitado</span>
+                                <span><i class='fas fa-circle text-green'></i> Habilitado</span>
+
+                            </td>
+                        </tr>
 
                         <tr>
                             <td colspan="8">

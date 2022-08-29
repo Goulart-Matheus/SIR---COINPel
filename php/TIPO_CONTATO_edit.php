@@ -1,144 +1,135 @@
 <?
 include('../includes/session.php');
-
-
-
-
-$query->exec("SELECT id_tipo_contato, descricao , mascara, habilitado 
-              FROM tipo_contato 
-              WHERE id_tipo_contato = " . $id_tipo_contato);
-
-$query->result($query->linha);
-
-
-$sort =new Sort($query, $sort_icon, $sort_dirname, $sort_style);
-if(!$sort_by)  $sort_by  = 1;
-if(!$sort_dir) $sort_dir = 0;
-$sort->sortItem($sort_by, $sort_dir);
-
-$report_subtitulo = "tipo_contato";
-$report_periodo   = date('d/m/Y');
-if ($print){
-    // TODO
-    include('../class/class.report.php');
-    unset($_GET['print']);
-    $report_cabecalho =array(
-        array('Código'     ,   10, 0),
-        array('Descrição'  ,   50, 1),
-        array('Mascara'    ,   50, 1),
-        array('Habilitado' ,   10, 2));
-
-        
-    $query->exec($query->sql . $sort->sort_sql);
-    $report=new PDF($query, $report_titulo, $report_subtitulo, $report_periodo, $report_cabecalho, $report_orientation, $report_unit, $report_format, $report_flag);
-    exit;
-} else {
-    $paging =new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
-    if (isset($remove)) {
-        if (!isset($id_tipo_contato))
-            $erro = 'Nenhum item selecionado!';
-        else {
-            $querydel = new Query($bd);
-            for ($c=0; $c < sizeof($id_tipo_contato); $c++) {
-                $where =array(0 => array('id_tipo_contato', $id_tipo_contato[$c]));
-                $querydel->deleteTupla('tipo_contato', $where);
-            }
-            unset($_POST['id_tipo_contato']);
-        }
-    }
-    $paging->exec($query->sql . $sort->sort_sql);
-}
-
+include('../includes/variaveisAmbiente.php');
 include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
+
 $tab = new Tab();
-$tab->setTab('Adicionar','fas fa-plus', 'TIPO_CONTATO_form.php');
-$tab->setTab('Pesquisar','fas fa-search', 'TIPO_CONTATO_view.php');
-$tab->setTab('Gerenciar','fas fa-cog', $_SERVER['PHP_SELF']);
+
+$tab->setTab('Tipo de Contato', 'fas fa-address-book', 'TIPO_CONTATO_viewDados.php');
+$tab->setTab('Editar', 'fas fa-pencil-alt',  $_SERVER['PHP_SELF']);
+
 $tab->printTab($_SERVER['PHP_SELF']);
-if ($remove) {
-    $querydel->commit();
-    unset($_POST['remove']);
-}
-$n =$paging->query->rows();
+
+
+$query->exec("SELECT id_tipo_contato, descricao , mascara, habilitado FROM tipo_contato WHERE id_tipo_contato =" . $id_tipo_contato);
+
+$query->proximo();
+
 ?>
 
 <section class="content">
-    <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
-        <div class="card p-1">
-            <div class="card-header border-bottom-0">
+
+    <form method="post" action="<? echo $_SERVER['PHP_SELF'] ?>" enctype="multipart/form-data">
+
+        <input type="hidden" name="id_tipo_contato" value="<? echo $query->record[0]; ?>">
+
+        <div class="card p-0">
+
+            <div class="card-header border-bottom-1 mb-3 bg-light-2">
+
                 <div class="text-center">
-                    <h4><?=$auth->getApplicationDescription($_SERVER['PHP_SELF'])?></h4>
+                    <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
                 </div>
+
                 <div class="row text-center">
+
                     <div class="col-12 col-sm-4 offset-sm-4">
-                        <?if(!$n) echo callException('Nenhum registro encontrado!', 2);
-                        if ($erro) {echo callException($erro, 1);}
+
+                        <?
+                        if (isset($edit)) {
+                            include "../class/class.valida.php";
+
+                            $valida = new Valida($form_descricao, 'Descricao');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
+                            $valida = new Valida($form_mascara, 'Máscara');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
+                            $valida = new Valida($form_habilitado, 'Habilitado');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+                        }
+
+                        if (!$erro && isset($edit)) {
+                            
+                            $query->begin();
+                        
+                            $itens=array(
+                                trim($form_descricao),
+                                $form_mascara,
+                                $form_habilitado,
+                                $_login,
+                                $_ip,
+                                $_data,
+                                $_hora,
+
+                            );
+                           
+                            $where = array(0 => array('id_tipo_contato', $id_tipo_contato));
+                            $query->updateTupla('tipo_contato', $itens, $where);
+
+                            $query->commit();
+                            
+                        }
+
+                        if ($erro) echo callException($erro, 2);
+
                         ?>
 
                     </div>
+
                 </div>
+
             </div>
+
             <div class="card-body pt-0">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th colspan="6">Resultados de
-                            <span class="range-resultados"><?echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal() . "</span>
-                            sobre <span class='numero-paginas'>".$paging->getRows()."</span>";?>
-                            <a href="<?=$_SERVER['PHP_SELF']?>?print=1<?=$paging->verificaVariaveis()?>" target="_new">
-                                <i class="fas fa-print"></i>
-                            </a>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td width="5px"></td>
-                        <td style='<?=$sort->verifyItem(1);?>'><?=$sort->printItem(1, $sort->sort_dir, 'Descricao')              ?></td>
-                        <td style='<?=$sort->verifyItem(2);?>'><?=$sort->printItem(2, $sort->sort_dir, 'Documento')              ?></td>
-                        <td style='<?=$sort->verifyItem(2);?>'><?=$sort->printItem(2, $sort->sort_dir, 'Habilitado')             ?></td>
-                    </tr>
-                    <?
-                   while ($n--) {
 
-                    $paging->query->proximo();
+                <div class="form-row">
 
-                    $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
-                    $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[1] . "')";
-                    $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[2] . "')";
-                    echo "<tr>";
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_descricao"><span class="text-danger">*</span> Contato</label>
+                        <input type="text" class="form-control" name="form_descricao" id="form_descricao" maxlength="100" value="<? if ($edit) echo $form_descricao;
+                                                                                                                                    else echo trim($query->record[1]) ?>">
+                    </div>
 
-                    echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
-                    echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                    echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                    echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
 
-                    echo "</tr>";
-                }
-                    ?>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="11">
-                            <div class="text-center pt-2">
-                                <? echo $paging->viewTableSlice(); ?>
-                            </div>
-                            <?
-                            if($paging->query->rows()) {
-                                ?>
-                                <div class="text-right pt-2">
-                                    <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
-                                    <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
-                                </div>
-                            <? } ?>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_mascara"><span class="text-danger">*</span> Documento</label>
+                        <input type="text" class="form-control form_mascara" name="form_mascara" id="form_mascara" maxlength="20" value="<? if ($edit) echo $form_mascara;
+                                                                                                                                            else echo trim($query->record[2]) ?>">                     
+
+                    </div>
+
+
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_Habilitado"><span class="text-danger">*</span> Habilitado</label>
+                        <select class="form-control" name="form_habilitado" id="form_habilitado">
+                            <option value="S" <? if ($edit && $form_habilitado == 'S') echo 'selected';  else { if(!$edit && $query->record[3] == "S") {echo 'selected'; } }  ?>>Sim</option>
+                            <option value="N" <? if ($edit && $form_habilitado == 'N') echo 'selected';  else { if(!$edit && $query->record[3] == "N") {echo 'selected'; } }  ?>>Não</option>
+                        </select>
+                    </div>
+
+                </div>
+
+
             </div>
+
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('clean', 'edit');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
+            </div>
+
         </div>
+
     </form>
+
 </section>
 
-<? include_once('../includes/dashboard/footer.php'); ?>
+<?
+include_once('../includes/dashboard/footer.php');
+?>

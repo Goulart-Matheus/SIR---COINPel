@@ -3,12 +3,16 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
+$where = "";
+$where .= $form_mascara        != "" ? " AND mascara ilike '%".$form_mascara."%'" : "";
+$where .= $form_habilitado        != "" ? " AND habilitado ilike '%".$form_habilitado."%'" : "";
+
 
 $query->exec("SELECT id_tipo_contato , descricao , mascara , habilitado
                     FROM tipo_contato
                    WHERE descricao ilike '%" . $form_descricao . "%'
                    
-                ");
+                ".$where);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -26,10 +30,10 @@ if ($print) {
     unset($_GET['print']);
 
     $report_cabecalho = array(
-        array('Código'        ,      10, 0),
-        array('Descricao'     ,     190, 1),
-        array('Documento'     ,      13, 2),
-        array('Habilitado'    ,      10, 3)
+        array('Código',      10, 0),
+        array('Descricao',     190, 1),
+        array('Documento',      13, 2),
+        array('Habilitado',      10, 3)
 
     );
 
@@ -68,91 +72,64 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', 'TIPO_CONTATO_form.php');
-$tab->setTab('Pesquisar', 'fas fa-search', 'TIPO_CONTATO_view.php');
-$tab->setTab('Gerenciar', 'fas fa-cog', $_SERVER['PHP_SELF']);
+$tab->setTab('Tipo de Contato', 'far fa-address-book', $_SERVER['PHP_SELF']);
+$tab->setTab('Novo Tipo de Contato', 'fas fa-plus', 'TIPO_CONTATO_form.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
 
+
+include 'TIPO_CONTATO_view.php'
 ?>
 
 <section class="content">
-
     <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
-
         <div class="card p-0">
-
             <div class="card-header border-bottom-1 mb-3 bg-light-2">
 
-                <div class="text-center">
-                    <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
-                </div>
+                <div class="row">
 
-                <div class="row text-center">
+                    <div class="col-12 col-md-4 offset-md-4 text-center">
+                        <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
+                    </div>
 
-                    <div class="col-12 col-sm-4 offset-sm-4">
-                        <?
-                        if (!$n) {
-                            echo callException('Nenhum registro encontrado!', 2);
-                        }
+                    <div class="col-12 col-md-4 text-center text-md-right mt-2 mt-md-0">
 
-                        if ($erro) {
-                            echo callException($erro, 1);
-                        }
+                        <!-- Geração de Relatório -->
+                        <button type="button" class="btn btn-sm btn-green text-light">
+                            <i class="fas fa-print"></i>
+                        </button>
 
-                        if ($remove) {
-                            $querydel->commit();
-                            unset($_POST['remove']);
-                        }
-
-                        ?>
+                        <!-- Abre Modal de Filtro -->
+                        <button type="button" class="btn btn-sm btn-green text-light" data-toggle="modal" data-target="#TIPO_CONTATO_view">
+                            <i class="fas fa-search"></i>
+                        </button>
 
                     </div>
 
                 </div>
 
             </div>
-
             <div class="card-body pt-0">
-
-                <table class="table table-striped responsive">
-
+                <table class="table table-sm text-sm">
                     <thead>
-
                         <tr>
-                            <th colspan="2">
-
-                                Resultados de
-
-                                <span class="range-resultados">
-                                    <? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal(); ?>
-                                </span>
-
-                                sobre
-
-                                <span class='numero-paginas'>
-                                    <? echo $paging->getRows(); ?>
-                                </span>
-
-                                <a href="<? echo $_SERVER['PHP_SELF']; ?>?print=1<? echo $paging->verificaVariaveis(); ?>" target="_new">
-                                    <i class="fas fa-print"></i>
-                                </a>
-
+                            <th colspan="7">Resultados de
+                                <span class="range-resultados"><? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal() . "</span> 
+                                    sobre <span class='numero-paginas'>" . $paging->getRows() . "</span>"; ?>
                             </th>
                         </tr>
-
                     </thead>
 
                     <tbody>
 
                         <tr>
 
-                            <td width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Descrição Contato'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Documento'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Habilitado'); ?> </td>
+                        <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Descrição Contato'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Documento'); ?> </td>                            
                         </tr>
 
                         <?
@@ -162,13 +139,13 @@ $n = $paging->query->rows();
                             $paging->query->proximo();
 
                             $js_onclick = "OnClick=javascript:window.location=('TIPO_CONTATO_edit.php?id_tipo_contato=" . $paging->query->record[0] . "')";
-                           
-                            echo "<tr>";
+
+                            echo "<tr class='entered'>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_tipo_contato[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='top' " . $js_onclick . ">" . ($query->record[3] == "S" ? "<i class='fas fa-circle text-green'</i>" : "<i class='fas fa-circle text-light'</i>") . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";                            
 
                             echo "</tr>";
                         }
@@ -179,30 +156,37 @@ $n = $paging->query->rows();
 
                     <tfoot>
 
-                            <tr>
-                                <td colspan="7">
+                        <tr>
+                            <td colspan="8">
 
-                                    <div class="text-center pt-2">
-                                        <? echo $paging->viewTableSlice(); ?>
-                                    </div>
+                                <span>Situação: </span>
+                                <span><i class='fas fa-circle text-light'></i> Não Habilitado</span>
+                                <span><i class='fas fa-circle text-green'></i> Habilitado</span>
 
-                                    <? if($paging->query->rows()) { ?>
+                            </td>
+                        </tr>
 
-                                        <div class="text-right pt-2">
-                                            <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
-                                            <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
-                                        </div>
+                        <tr>
+                            <td colspan="8">
+                                <div class="text-center pt-2">
+                                    <? echo $paging->viewTableSlice(); ?>
+                                </div>
+                            </td>
+                        </tr>
 
-                                    <? } ?>
-
-                                </td>
-
-                            </tr>
-
-                        </tfoot>
+                    </tfoot>
 
                 </table>
 
+            </div>
+
+            <div class="card-footer bg-light-2">
+                <?
+                if ($paging->query->rows()) {
+                    $btns = array('selectAll', 'remove');
+                    include('../includes/dashboard/footer_forms.php');
+                }
+                ?>
             </div>
 
         </div>

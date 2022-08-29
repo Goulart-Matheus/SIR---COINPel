@@ -114,7 +114,7 @@ class Paging {
       }
 
       // inclui numeracao
-      if ($this->page == $atual) $array[++$indice]='<a class="btn btn-sm btn-primary">' . ($atual > 0 ? ($atual + 1) : 1) . '</a>';
+      if ($this->page == $atual) $array[++$indice]='<a class="btn btn-sm btn-green">' . ($atual > 0 ? ($atual + 1) : 1) . '</a>';
       else                       $array[++$indice]='<a href="' . $arquivo . '?paging_page=' . $atual . $extra_vars . '" class="paginacao">' . ($atual + 1) . '</a>';
 
       // inclui link posterior

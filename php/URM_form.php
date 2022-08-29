@@ -6,8 +6,8 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
-$tab->setTab('Pesquisar', 'fas fa-search', 'URM_view.php');
+$tab->setTab('URM', 'fab fa-asymmetrik','URM_viewDados.php');
+$tab->setTab('Nova URM', 'fas fa-plus', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
@@ -36,11 +36,15 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_mes_referencia, 'mes_referencia');
+                            $valida = new Valida($form_ativo, 'Ativo');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_ano_referencia, 'ano_referencia');
+                            $valida = new Valida($form_mes_referencia, 'Mês Referência');
+                            $valida->TamMinimo(1);
+                            $erro .= $valida->PegaErros();
+
+                            $valida = new Valida($form_ano_referencia, 'Ano Referência');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
@@ -93,12 +97,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     <div class="form-group col-12 col-md-6">
                         <label for="form_ativo"><span class="text-danger">*</span> Ativo</label>
                         <select class="form-control"name="form_ativo"id= "form_ativo"> 
-                            <option value="S" selected >Sim</option>
-                            <option value="N"           >Não</option>
-                            
+                            <option value="S" >Sim</option>
+                            <option value="N" >Não</option>                            
                         </select>
                     </div>
-
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_mes_referencia"><span class="text-danger">*</span> Mês Referencia</label>
@@ -114,11 +116,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
             </div>
 
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
-                </div>
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('clean', 'save');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
             </div>
 
         </div>
