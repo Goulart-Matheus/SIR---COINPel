@@ -4,14 +4,15 @@ include('../includes/variaveisAmbiente.php');
 include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
 $tab = new Tab();
-$tab->setTab('Adicionar','fas fa-plus', 'formProprietario.php');
-$tab->setTab('Pesquisar','fas fa-search', 'viewProprietario.php');
-$tab->setTab('Gerenciar','fas fa-cog', $_SERVER['PHP_SELF']);
+
+$tab->setTab('Proprietários', 'fas fa-user-circle', 'PROPRIETARIO_viewDados.php');
+$tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
+
 $tab->printTab($_SERVER['PHP_SELF']);
 ?>
 
 <style>
-    .marca{
+    .marca {
         display: block;
         margin-left: auto;
         margin-right: auto;
@@ -24,13 +25,13 @@ $tab->printTab($_SERVER['PHP_SELF']);
 </style>
 
 <section class="content">
-    <form method="post" action="<? echo $_SERVER['PHP_SELF'];?>" enctype="multipart/form-data">
-        <input type="hidden" name="id_proprietario" value="<?=$id_proprietario?>">
+    <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>" enctype="multipart/form-data">
+        <input type="hidden" name="id_proprietario" value="<?= $id_proprietario ?>">
         <div class="card p-1">
             <div class="card-header border-bottom-0">
                 <div class="text-center">
                     <h4>
-                        <?=$auth->getApplicationDescription($_SERVER['PHP_SELF'])?>
+                        <?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?>
                         <a href="certificadoProprietario.php?id_proprietario=<?= $id_proprietario ?>" target="_blank">
                             <i class="fas fa-print"></i>
                         </a>
@@ -40,7 +41,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="row text-center">
                     <div class="col-12 col-sm-4 offset-sm-4">
                         <?
-                        if(isset($edit)){
+                        if (isset($edit)) {
                             include "../class/class.valida.php";
 
                             $valida_nome = new Valida($form_nome, 'Nome');
@@ -58,8 +59,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $has_uploaded_image =
                                 !empty($_FILES["form_imagem"]["tmp_name"]) &&
                                 is_uploaded_file($_FILES["form_imagem"]["tmp_name"]);
-                            if($has_uploaded_image && !$erro)
-                            {
+                            if ($has_uploaded_image && !$erro) {
                                 $diretorio = "assets/images/marcas";
                                 include "../includes/uploadarquivo.php";
                             }
@@ -85,29 +85,31 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->updateTupla('proprietario', $itens, $where);
                             $query->commit();
 
-                            if(!$erro) { unlink($marca_antiga); }
+                            if (!$erro) {
+                                unlink($marca_antiga);
+                            }
                         }
-                        if($erro) echo callException($erro, 2);?>
+                        if ($erro) echo callException($erro, 2); ?>
                     </div>
                 </div>
             </div>
 
             <?
-                $query->exec("SELECT * FROM proprietario WHERE id_proprietario = $id_proprietario");
-                $query->result($query->linha);
+            $query->exec("SELECT * FROM proprietario WHERE id_proprietario = $id_proprietario");
+            $query->result($query->linha);
             ?>
 
             <div class="card-body pt-0">
                 <div class="form-row">
-                    <input type="hidden" name="form_marca_old" value="<?=$query->record['desenho_marca']?>">
+                    <input type="hidden" name="form_marca_old" value="<?= $query->record['desenho_marca'] ?>">
                     <div class="form-group col-md-6">
                         <label for="form_cpf">CPF</label>
-                        <input autocomplete="off" type="text" class="form-control" name="form_cpf" id="form_cpf" value="<?=$query->record['cpf']?>">
+                        <input autocomplete="off" type="text" class="form-control" name="form_cpf" id="form_cpf" value="<?= $query->record['cpf'] ?>">
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="form_nome">Nome</label>
-                        <input autocomplete="off" type="text" class="form-control" name="form_nome" id="form_nome" value="<?=$query->record['nome']?>">
+                        <input autocomplete="off" type="text" class="form-control" name="form_nome" id="form_nome" value="<?= $query->record['nome'] ?>">
                     </div>
                 </div>
 
@@ -116,33 +118,19 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="form_inscricao_estadual">Inscrição estadual</label>
-                                <input
-                                    autocomplete="off"
-                                    type="number"
-                                    class="form-control"
-                                    name="form_inscricao_estadual"
-                                    id="form_inscricao_estadual"
-                                    value="<?=$query->record['inscricao_estadual']?>"
-                                >
+                                <input autocomplete="off" type="number" class="form-control" name="form_inscricao_estadual" id="form_inscricao_estadual" value="<?= $query->record['inscricao_estadual'] ?>">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="form_data">Data de registro</label>
-                                <input readonly type="date" class="form-control" name="form_data" id="form_data" value="<?=$query->record['dt_registro_marca']?>">
+                                <input readonly type="date" class="form-control" name="form_data" id="form_data" value="<?= $query->record['dt_registro_marca'] ?>">
                             </div>
 
                             <div class="form-group col-md-6">
                                 <label for="form_data">Ano estimado</label>
-                                <input
-                                    autocomplete="off"
-                                    type="number"
-                                    class="form-control"
-                                    name="form_ano_estimado"
-                                    id="form_ano_estimado"
-                                    value="<?=$query->record['ano_estimado']?>"
-                                >
+                                <input autocomplete="off" type="number" class="form-control" name="form_ano_estimado" id="form_ano_estimado" value="<?= $query->record['ano_estimado'] ?>">
                             </div>
                         </div>
 
@@ -156,10 +144,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <div class="form-row">
                             <div class="form-group col-md-12">
                                 <label for="form_tipo">Tipo de marca</label>
-                                <select class="form-control" name="form_tipo" id="form_tipo" >
+                                <select class="form-control" name="form_tipo" id="form_tipo">
                                     <?
-                                        include "../includes/tipo_de_marca.php";
-                                        print_options_for_tipo_de_marca($query->record['tipo_marca']);
+                                    include "../includes/tipo_de_marca.php";
+                                    print_options_for_tipo_de_marca($query->record['tipo_marca']);
                                     ?>
                                 </select>
                             </div>
@@ -167,13 +155,9 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="col-6">
-                        <img
-                            src="<?= isset($edit) && !$erro && $has_uploaded_image && isset($imagem_dir)
-                                ? $imagem_dir
-                                : "../assets/images/marcas/" . $query->record['desenho_marca'] ?>"
-                            alt="Desenho marca"
-                            class="marca"
-                        >
+                        <img src="<?= isset($edit) && !$erro && $has_uploaded_image && isset($imagem_dir)
+                                        ? $imagem_dir
+                                        : "../assets/images/marcas/" . $query->record['desenho_marca'] ?>" alt="Desenho marca" class="marca">
                     </div>
                 </div>
 
@@ -190,11 +174,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 </div>
             </div>
 
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="edit" value="Salvar">
-                </div>
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('reload', 'edit');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
             </div>
         </div>
     </form>

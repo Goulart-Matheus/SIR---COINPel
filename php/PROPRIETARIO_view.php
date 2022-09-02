@@ -1,4 +1,4 @@
-<div class="modal fade text-left" id="MOTIVO_view" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade text-left" id="PROPRIETARIO_view" tabindex="-1" role="dialog" aria-hidden="true">
 
     <div class="modal-dialog modal-xl" role="document">
 
@@ -9,7 +9,7 @@
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
                         <i class="fas fa-filter text-green"></i>
-                        Filtrar Motivos
+                        Filtrar Proprietários
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -20,22 +20,21 @@
 
                     <div class="form-row">
 
-                    <div class="form-group col-12 col-md-6">
-
-                        <label for="form_descricao"> Descrição do Motivo</label>
-                        <input type="text" class="form-control" name="form_descricao" id="form_descricao">
-
-                    </div>
-
-                        <div class="form-group col-12 col-md-6">
-
-                            <label for="form_habilitado">Habilitado</label>
-                            <select class="form-control" name="form_habilitado" id="form_habilitado">
-                                <option value="S">Sim</option>
-                                <option value="N">Não</option>                                
-                            </select>
-
+                        <div class="form-group col-md-6">
+                            <label for="form_cpf">CPF</label>
+                            <input autocomplete="off" type="text" class="form-control" name="form_cpf" id="form_cpf">
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="form_inscricao_estadual">Inscrição Estadual</label>
+                            <input autocomplete="off" type="text" class="form-control" name="form_inscricao_estadual" id="form_inscricao_estadual">
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label for="form_nome">Nome</label>
+                            <input autocomplete="off" type="text" class="form-control" name="form_nome" id="form_nome">
+                        </div>                        
+
                     </div>
 
                 </div>

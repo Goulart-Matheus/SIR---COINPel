@@ -76,7 +76,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
 
-include 'ESPECIE_view.php'
+include 'MOTIVO_view.php'
 ?>
 
 <section class="content">
@@ -98,7 +98,7 @@ include 'ESPECIE_view.php'
                         </button>
 
                         <!-- Abre Modal de Filtro -->
-                        <button type="button" class="btn btn-sm btn-green text-light" data-toggle="modal" data-target="#ESPECIE_view">
+                        <button type="button" class="btn btn-sm btn-green text-light" data-toggle="modal" data-target="#MOTIVO_view">
                             <i class="fas fa-search"></i>
                         </button>
 

@@ -104,7 +104,7 @@
 
                     <span class="info-box-text text-green">Sexo:</span>
 
-                    <?= $query->record[3] ?> 
+                    <?= $query->record[3] == "M" ? "MACHO" : "FÊMEA" ?> 
 
 
                 </div>

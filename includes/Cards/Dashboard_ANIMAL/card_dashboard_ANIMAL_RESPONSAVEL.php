@@ -10,7 +10,9 @@ $query->exec(
                 r.rg,
                 r.dt_nascimento,
                 r.endereco,
-                b.descricao
+                b.descricao,
+                ar.id_animal_responsavel
+
 
             FROM
                 responsavel r,
@@ -24,14 +26,11 @@ $query->exec(
             AND
             ar.id_animal = a.id_animal
             AND
-            b.id_bairro = r.id_bairro
-             "
+            b.id_bairro = r.id_bairro             "
 
 );
-//$total_contato = $query->record[0];
-$n = $query->rows();
 
-//$js_Onclick = "OnClick=javascript:window.location=('ANIMAL_edit.php?search=true&id_animal=$id_animal";
+$n = $query->rows();
 
 ?>
 
@@ -47,7 +46,6 @@ $n = $query->rows();
 
             </div>
 
-
             <div class="col-md-6 text-right">
                 <button type="button" class="btn bg-gray btn-light btn-sm text-light btn_modal_add_responsaveis" data-toggle="modal" data-target="#modal_add_responsavel" data-modal="VI">
                     <i class="fas fa-plus"></i>
@@ -59,36 +57,37 @@ $n = $query->rows();
 
     </div>
 
-    <div class="card-body p-0 m-0" style="height: 175px;">
+    <div class="card-body p-0 m-0">
 
         <div class="col-12 p-0 m-0" id="chart_info"></div>
-        <!-- Inicio -->
+
+        <div class="col-12 text-center pt-5 text-dark d-none" id="nenhum_responsavel_vinculado">
+
+            <h5 class="mb-5">Este animal ainda não possui responsável vinculado</h5>
+
+        </div>
         <?
         if ($n == 0) {
         ?>
 
-            <div class="col-12 text-center pt-5 text-dark">
+            <div class="col-12 text-center pt-5 text-dark" id="ajax_excluir_responsavel_nenhum">
 
-                <h5 class="mb-5">Este animal ainda não possue nenhum responsável vinculado</h5>
-
-
+                <h5 class="mb-5">Este animal ainda não possui responsável vinculado</h5>
 
             </div>
         <?
         } else {
         ?>
 
-            <table class="table p-0 m-0">
+            <table class="table table-sm text-sm" id="atualizacao_tabela_ajax">
 
                 <thead class="bg-light grey">
 
                     <tr>
-
-                        <th style="width: 150px;" class="px-1">Nome</th>
-                        <th style="width: 25px;" class="px-1">CPF</th>
-                        <th style="width: 25px;" class="px-1">RG</th>
-
-
+                        <th scope="col">Nome</th>
+                        <th scope="col">CPF</th>
+                        <th scope="col">RG</th>
+                        <th scope="col" class="px-1"></th>
                     </tr>
 
                 </thead>
@@ -100,19 +99,21 @@ $n = $query->rows();
                         $query->proximo();
 
                     ?>
-                        <tr>
+                        <tr class='entered'>
                             <td><?= $query->record[2]; ?></td>
                             <td><?= $query->record[3]; ?></td>
                             <td><?= $query->record[4]; ?></td>
-
+                            <td class="text-right px-0 pr-1" style="width: 100px; vertical-align: middle;">
+                                <button class="btn btn-sm btn-light delete_responsavel_button" type="button" data-id-responsavel="<?= $query->record[8] ?>" data-nome-responsavel=" <?= $query->record[2] . ' - CPF: ' . $query->record[3] ?>" title="Excluir Relatório">
+                                    <i class="fas fa-trash text-danger"></i>
+                                </button>
+                            </td>
                         </tr>
                     <?
 
                     }
 
                     ?>
-
-                </tbody>
 
             </table>
 
@@ -121,8 +122,6 @@ $n = $query->rows();
 
         ?>
 
-
-        <!-- Fim-->
 
     </div>
 
@@ -143,18 +142,16 @@ $n = $query->rows();
 
 <div class="modal fade text-left" id="modal_add_responsavel" tabindex="-1" role="dialog" aria-hidden="true">
 
-<div class="modal-dialog modal-xl" role="document">
+    <div class="modal-dialog modal-xl" role="document">
 
-    <div class="modal-content">
-
-        <form method="post" action="<?= $_SERVER['PHP_SELF'] ?>">
+        <div class="modal-content">
 
             <div class="modal-header bg-light-2">
                 <h5 class="modal-title">
 
-                    <i class="fas fa-meh text-green"></i>
+                    <i class="fas fa-address-card"></i>
 
-                    Registro de Responsavel
+                    Registro de Responsável
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -164,7 +161,6 @@ $n = $query->rows();
             <div class="modal-body">
 
                 <div class="form-row">
-
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_responsavel"><span class="text-danger">*</span>Nome</label>
@@ -176,132 +172,168 @@ $n = $query->rows();
                         <input type="text" class="form-control" name="form_mascara" id="form_mascara" maxlength="11">
                     </div>
 
-
                     <div class="form-group col-12 col-md-4">
                         <label for="form_rg"><span class="text-danger">*</span>RG</label>
                         <input type="text" class="form-control" name="form_rg" id="form_rg" maxlength="14">
                     </div>
 
-                    
-                </div>    
-                <div class="form-group col-12 col-md-4">
-             
-                     <button type="button" id= "btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn_ajax_responsavel">
-                         <i class="fa-solid fa-filter text-green"></i>
-                        Filtrar
-                    </button> 
                 </div>
-                
-                
 
             </div>
 
-            <div class="modal-footer bg-light-2 text-center ">
-            <div class="form-row">
-               
-                <div  id= "retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
-            </div>    
+            <div class="modal-footer bg-light-2">
+                <div class="row col-12 p-0">
+                    <div class="col-md-6 text-left">
+                        <button type="button" id="btn_ajax_responsavel" name="btn_ajax_responsavel" class="btn btn-light btn-sm btn_ajax_responsavel">
+                            <i class="fa-solid fa-filter text-green"></i>
+                            Filtrar
+                        </button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button type="button" id="btn_ajax_vincular_responsavel" name="btn_ajax_vincular_responsavel" class="btn  btn-light btn-sm btn_ajax_vincular_responsavel">
+                            <i class="fa-solid fa-filter text-green"></i>
+                            Vincular
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-            <div class="form-group col-12 col-md-4">
-                 <button type="button" id= "btn_ajax_vincular_responsavel" name="btn_ajax_vincular_responsavel" class="btn btn-light btn_ajax_vincular_responsavel">
-                         <i class="fa-solid fa-filter text-green"></i>
-                        Vincular
+            <div id="retorna_info_responsavel_ajax" name="retorna_info_responsavel_ajax"></div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="modal fade" id="delete_responsavel_modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-danger">
+                <h5 class="modal-title"><i class="fas fa-project-diagram"></i> Atenção</h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
                 </button>
-            </div>   
-    </div>
-    </div>
+            </div>
+            <div class="modal-body col-12 text-center">
 
-    
-    
-    </form>
+                <div class="form-row">
+                    <input type="hidden" id="id_responsavel_desvincular_ajax">
+                </div>
 
+                <div class="form-row">
+                    <div class="form-group col-12">
+                        <h1 class="text-danger text-center py-2">
+                            <i class="fas fa-trash"></i>
+                        </h1>
+                    </div>
+                </div>
+                <div class="row text-center">
+                    <div class="form-group col-12 text-dark">
+                        Você deseja realmente excluir: <br><span class="font-weight-bold" id="responsavel_label"></span> ?
+
+                    </div>
+                    <div class="form-group col-12 text-dark">
+                        <p class="text-dark" style="font-size: small;">Este procedimento irá realizar a exclusão do responsável vinculado.</9>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer p-0 pt-2">
+                    <div class="row col-12 p-0">
+                        <div class="col-md-6 text-left">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <button type="button" class="btn btn-danger" id="deleta_responsavel">Excluir</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
 
-</div>
-
-<script src="../assets/js/jquery.js"></script>
-<script src="../assets/js/jquery.mask.js"></script>
-<script type="text/javascript">
-    $('#form_mascara').mask('000.000.000-00');
-    $('#form_rg').mask('00000000000000');
-
-</script> 
 <script src="../../../assets/js/jquery.js"></script>
 
-<script>
+<script type="text/javascript">
     $(document).ready(function() {
 
         $(".btn_ajax_responsavel").on('click', function() {
 
-
             var nome = $("#form_responsavel").val();
-            var cpf  = $("#form_mascara").val();
-            var rg   = $("#form_rg").val();
-           
-           
+            var cpf = $("#form_mascara").val();
+            var rg = $("#form_rg").val();
 
             $.ajax({
                 type: 'POST',
                 url: '../../../includes/ajax_busca_responsavel.php',
                 data: {
-                       "nome"  : nome,
-                       "cpf"   : cpf,
-                       "rg"    : rg,
-                       
+                    "nome": nome,
+                    "cpf": cpf,
+                    "rg": rg,
+
                 },
                 beforeSend: function() {
-
-                    console.log("Enviado ok");
-                    $("#modal_loading").modal('show');                
 
 
                 },
                 success: function(ret) {
 
-                    console.log(ret);
-                   
-                    if(ret[0].resultado ==1){
-                                           
-                      var monta_tabela = "";
-                     
-                      monta_tabela+= " <table class='table table-striped responsive text-center'>";
-                      monta_tabela +="<tbody>";
-                      monta_tabela +="<tr>";
-                      monta_tabela += "<td style='width: 30px;'>*</td>";
-                      monta_tabela += "<td style='width: 250px;'>Nome:</td>"; 
-                      monta_tabela += "<td style='width: 180px;'>CPF:</td>"; 
-                      monta_tabela += "<td style='width: 180px;'>RG:</td>"; 
-                      monta_tabela += "<td style='width: 240px;'>Endereço:</td>"; 
-                      monta_tabela += "<td style='width: 200px;'>Bairro:</td>"; 
-                      monta_tabela +="</tr>";
-                     
-                      $.each(ret,function(indice,nome){
-                      monta_tabela +="<tr>";
-                      monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_responsavel[]' value= "+ret[indice].id_responsavel+" ></td>";
-                      monta_tabela += "<td style='width: 250px;'>"+ret[indice].nome+"</td>"; 
-                      monta_tabela += "<td style='width: 180px;'>"+ret[indice].cpf+"</td>"; 
-                      monta_tabela += "<td style='width: 180px;'>"+ret[indice].rg+"</td>"; 
-                      monta_tabela += "<td style='width: 240px;'>"+ret[indice].endereco+"</td>"; 
-                      monta_tabela += "<td style='width: 200px;'>"+ret[indice].bairro+"</td>"; 
-                      monta_tabela +="</tr>";
-                     
-                       
-                       
-                     
-                      });
-                      monta_tabela +="</tbody>";
-                      monta_tabela+= " </table>";
-                      $("#retorna_info_responsavel_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
+                    if (ret[0].resultado == 1) {
+
+                        var monta_tabela = "";
+                        monta_tabela += "<div class='card-body p-0 m-0'>";
+                        monta_tabela += "<table class='table table-sm text-sm text-left'>";
+                        monta_tabela += "<thead p-0 text-left>";
+                        monta_tabela += "<tr>";
+                        monta_tabela += "<th style='width: 5px;   background-color:#F3EFE7; '></th>";
+                        monta_tabela += "<th style='width: 250px; background-color:#F3EFE7;'>Nome:</th>";
+                        monta_tabela += "<th style='width: 180px; background-color:#F3EFE7;'>CPF:</th>";
+                        monta_tabela += "<th style='width: 180px; background-color:#F3EFE7;'>RG:</th>";
+                        monta_tabela += "<th style='width: 240px; background-color:#F3EFE7;'>Endereço:</th>";
+                        monta_tabela += "<th style='width: 200px; background-color:#F3EFE7;'>Bairro:</th>";
+                        monta_tabela += "</tr>";
+                        monta_tabela += "</tread>";
+
+                        monta_tabela += "<tbody p-0>";
+
+                        $.each(ret, function(indice, nome) {
+
+                            monta_tabela += "<tr class='entered'>";
+                            monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_responsavel[]' value= " + ret[indice].id_responsavel + " ></td>";
+                            monta_tabela += "<td style='width: 250px;'>" + ret[indice].nome + "</td>";
+                            monta_tabela += "<td style='width: 180px;'>" + ret[indice].cpf + "</td>";
+                            monta_tabela += "<td style='width: 180px;'>" + ret[indice].rg + "</td>";
+                            monta_tabela += "<td style='width: 240px;'>" + ret[indice].endereco + "</td>";
+                            monta_tabela += "<td style='width: 200px;'>" + ret[indice].bairro + "</td>";
+                            monta_tabela += "</tr>";
+
+                        });
+                        monta_tabela += "</tbody>";
+                        monta_tabela += "<tfoot>";
+                        monta_tabela += "<tr>";
+                        monta_tabela += "<td></td>";
+                        monta_tabela += "<td></td>";
+                        monta_tabela += "<td></td>";
+                        monta_tabela += "<td></td>";
+                        monta_tabela += "<td></td>";
+                        monta_tabela += "<td></td>";
+                        monta_tabela += "</tr>";
+                        monta_tabela += "</tfoot>";
+                        monta_tabela += " </table>";
+                        monta_tabela += " </div>";
+
+                        $("#retorna_info_responsavel_ajax").html(monta_tabela).addClass('bg-ligth').removeClass('bg-danger')
+
+                    } else {
+
+                        $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Responsável não encontrado</h5>').addClass('bg-danger').removeClass('bg-green');
+
                     }
-                    else{
-
-
-                        $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Responsável não encontrado</h5>').addClass('bg-danger').removeClass('bg-green')
-
-
-                    }
-
-                   
 
                 },
                 error: function(erro) {
@@ -311,65 +343,113 @@ $n = $query->rows();
                 }
             });
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
+
 
         $(".btn_ajax_vincular_responsavel").on('click', function() {
-        
-            
-            var id_animal                               = <? echo $id_animal?>;
-            var form_vincula_responsavel                = [];
-                $.each($("input[name='form_vincula_responsavel[]']:checked"), function(){
-                    form_vincula_responsavel.push($(this).val());
 
-           console.log(id_animal);
-           console.log(form_vincula_responsavel);
-        });
-       
-           
-          
+
+            var id_animal = <? echo $id_animal ?>;
+            var form_vincula_responsavel = [];
+            $.each($("input[name='form_vincula_responsavel[]']:checked"), function() {
+                form_vincula_responsavel.push($(this).val());
+
+            });
+
             $.ajax({
                 type: 'POST',
                 url: '../../../includes/ajax_vincula_responsavel.php',
                 data: {
-                   
-                   " id_animal":id_animal,
-                   "form_vincula_responsavel" : form_vincula_responsavel,
-                  
-                   
+
+                    " id_animal": id_animal,
+                    "form_vincula_responsavel": form_vincula_responsavel,
+
                 },
                 beforeSend: function() {
 
                     console.log("Enviado ok");
-                    $("#modal_loading").modal('show');
-                    
                     $("#modal_add_responsavel").modal('hide');
+
                 },
-                success: function(ret) {
+                success: function(ret) {                  
 
-                   console.log(ret);
-                   window.location='ANIMAL_cover.php?id_animal=' + id_animal + '';
-                     if (ret[0] == 1) {
-                  
-                   
-                    console.log('ANIMAL_cover.php?id_animal=' + id_animal + '');
-
-                      //  $("#retorna_info_responsavel_ajax").html('').addClass('bg-ligth').removeClass('bg-danger')
+                    if (ret.status ==1) {
+                        window.location = 'ANIMAL_cover.php?id_animal=' + id_animal + '';
+                        $("#ajax_excluir_responsavel_nenhum").addClass("d-none");
+                        $("#ajax_excluir_responsavel_nenhum_botao").removeClass("d-none");
+                        
                     } else {
+                        $("#ajax_excluir_responsavel_nenhum").removeClass("d-none");
+                        $("#ajax_excluir_responsavel_nenhum_botao").addClass("d-none");
+                       
+                    }
 
-                       // $("#retorna_info_responsavel_ajax").html('<h5 class = "text-center col-12">Erro ao vincular o responsavel</h5>').addClass('bg-danger').removeClass('bg-green')
-
-                     }
-
-                 },
+                },
                 error: function(erro) {
 
                     console.log(erro);
 
                 }
             });
+
         });
+
+
+
+
+        $(".delete_responsavel_button").on('click', function() {
+
+            var local = $("#delete_responsavel_modal");
+            local.find("#responsavel_label").html($(this).attr('data-nome-responsavel'));
+            local.find("#id_responsavel_desvincular_ajax").val($(this).attr('data-id-responsavel'));
+            $("#delete_responsavel_modal").modal('show');
+
+        });
+
+        $("#deleta_responsavel").on('click', function() {
+
+
+            $("#delete_responsavel_modal").modal('hide');
+
+            var id_responsavel_animal = $("#id_responsavel_desvincular_ajax").val();
+            var id_animal = <? echo $id_animal ?>;
+
+            $.ajax({
+                type: 'POST',
+                url: '../../../includes/ajax_exclui_responsavel.php',
+                data: {
+
+                    "id_responsavel_animal": id_responsavel_animal,
+                    "id_animal": id_animal
+
+                },
+                beforeSend: function() {
+
+                    console.log("Enviado ok");
+
+                },
+                success: function(ret) {
+
+                    if (ret.status == 1) {
+                        $("button[data-id-responsavel='" + id_responsavel_animal + "']").parents("tr").remove();
+
+                        if ($("#atualizacao_tabela_ajax").children('tbody').children().length == 0) {
+                            $("#nenhum_responsavel_vinculado").removeClass("d-none");
+                            $("#atualizacao_tabela_ajax").children('thead').remove();
+                        } else {
+                            $("#nenhum_responsavel_vinculado").addClass("d-none");
+                        }
+                    }
+                },
+                error: function(erro) {
+
+                    console.log(erro);
+
+                }
+
+            });
+
+        });
+
+
     });
 </script>

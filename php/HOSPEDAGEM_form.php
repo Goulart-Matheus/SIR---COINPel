@@ -270,3 +270,38 @@ $tab->printTab($_SERVER['PHP_SELF']);
 <?
 include_once('../includes/dashboard/footer.php');
 ?>
+
+<script src="../assets/js/jquery.js"></script>
+<script type="text/javascript">
+
+$("#form_id_urm").on('change',function(){
+
+    var id_urm = $("#form_id_urm").val();    
+
+    $.ajax({
+                type: 'POST',
+                url: '../../../includes/ajax_atualiza_valor_urm.php',
+                data: {
+                   
+                   "id_urm":id_urm                                    
+                   
+                },
+                beforeSend: function() {
+
+                    console.log("Enviado ok");
+                                 
+                },
+                success: function(response) {
+                   
+                   $("#form_valor").val(response['valor']);                 
+
+                 },
+                error: function(erro) {
+
+                    // console.log(erro);
+
+                }
+            });       
+});
+
+</script>

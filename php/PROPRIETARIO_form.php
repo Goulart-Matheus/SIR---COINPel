@@ -4,8 +4,10 @@ include('../include/variaveisAmbiente.php');
 include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
 $tab = new Tab();
-$tab->setTab('Adicionar','fas fa-plus', $_SERVER['PHP_SELF']);
-$tab->setTab('Pesquisar','fas fa-search', 'viewProprietario.php');
+
+$tab->setTab('Proprietários','fas fa-user-circle', 'PROPRIETARIO_viewDados.php');
+$tab->setTab('Novo Proprietário','fas fa-plus', $_SERVER['PHP_SELF']);
+
 $tab->printTab($_SERVER['PHP_SELF']);
 ?>
 
@@ -228,10 +230,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-12 font-weight-bold bg-dark py-1 text-center">
+                <div class="form-row">                    
+                    <div class="form-group bg-green col-12 font-weight-bold col-md-12 py-2 text-center">   
+                    
                         <div class="form-check form-check-inline">
-                            <label class="form-check-label mr-2" for="form_registrar_propriedade">Cadastrar propriedade</label>
+                            <label class="form-check-label mr-2" for="form_registrar_propriedade">CADASTRAR PROPRIEDADE</label>
                             <input type="hidden" value="N" name='form_registrar_propriedade'>
                             <input
                                 type="checkbox"
@@ -345,11 +348,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 </div>
             </div>
 
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
-                </div>
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('clean', 'save');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
             </div>
 
         </div>

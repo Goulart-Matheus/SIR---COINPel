@@ -73,49 +73,59 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $itens = array(
                                 $id_responsavel,
                                 trim($form_responsavel),
-                                    $form_mascara, //CPF
-                                    $form_rg,
-                                    $form_dt_nascimento,
-                                    $form_endereco,
-                                    $form_bairro,
-                                    $_login,
-                                    $_ip,
-                                    $_data,
-                                    $_hora,
+                                $form_mascara, //CPF
+                                $form_rg,
+                                $form_dt_nascimento,
+                                $form_endereco,
+                                $form_bairro,
+                                $_login,
+                                $_ip,
+                                $_data,
+                                $_hora,
 
                             );
-                            
-                            $query_aux  = new Query($bd);
-                            $query_aux->exec("SELECT rc.id_responsavel_contato, rc.id_tipo_contato FROM responsavel_contato rc, responsavel r WHERE rc.id_responsavel = r.id_responsavel AND r.id_responsavem = $id_responsavel ");
-                            $id_tipo_contato = $query_aux->last_insert[1];
-                            $id_responsavel_contato = $query_aux->last_insert[0];
 
                             $where = array(0 => array('id_responsavel', $id_responsavel));
                             $query->updateTupla('responsavel', $itens, $where);
+                            $query->commit();
+
                             
-                            $itens = array(
-                                    $id_responsavel_contato,
+                            var_dump($id_responsavel);
+
+                            $query_aux  = new Query($bd);
+
+                            $query_aux->exec("SELECT rc.id_responsavel_contato, rc.id_tipo_contato FROM responsavel_contato rc, responsavel r WHERE rc.id_responsavel = r.id_responsavel AND r.id_responsavel = $id_responsavel ");
+                            $query_aux->proximo();
+
+                            $id_tipo_contato = $query_auxrecord[1];
+                            $id_responsavel_contato = $query_aux->record[0];
+
+
+
+                            $i = 0;
+                            foreach ($form_valor_contato as $val) {
+                                var_dump($val[$i]);
+                                $itens = array(    
+                                    $id_responsavel_contato,                                
                                     $id_responsavel,
-                                    $id_tipo_contato,
-                                    $form_tipo_contato[0],
-                                    trim($form_tipo_mascara),
-                                    $form_principal, 
+                                    $form_tipo_contato[$i],
+                                    $val[$i],                                    
+                                    $form_principal[$i],
                                     $_login,
                                     $_ip,
                                     $_data,
                                     $_hora,
-                                    
-                            );
-                            
 
-                            $where = array(0 => array('id_responsavel', $id_responsavel));
-                            $query->updateTupla('responsavel_contato', $itens, $where);
-                            var_dump($id_responsavel_contato);    
-                            var_dump($id_tipo_contato);
-                            var_dump($form_tipo_contato[0]);
+                                );
 
+                                $where = array(0 => array('id_responsavel', $id_responsavel));
+                                $query->updateTupla('responsavel_contato', $itens, $where);
+                                $i++;
+                            }
 
-
+                            var_dump($query->sql);
+                            // var_dump($id_tipo_contato);
+                            // var_dump($form_tipo_contato[0]);
 
                             $query->commit();
                         }
@@ -136,19 +146,21 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     <div class="form-group col-12 col-md-6">
                         <label for="form_responsavel"><span class="text-danger">*</span> Nome :</label>
                         <input required autocomplete="off" type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="100" value="<? if ($edit) echo trim($form_responsavel);
-                                                                                                                                        else echo trim($query->record[1]); ?>">
+                                                                                                                                                                    else echo trim($query->record[1]); ?>">
                     </div>
-                <div class="form-group col-12 col-md-3">
-                    <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
-                    <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($edit) echo trim($form_mascara);                                                                                                                                                    else echo trim($query->record[2]); ?>">
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
+                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($edit) echo trim($form_mascara);
+                                                                                                                            else echo trim($query->record[2]); ?>">
+                    </div>
+                    <div class="form-group col-12 col-md-3">
+                        <label for="form_rg"><span class="text-danger">*</span> RG :</label>
+                        <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);
+                                                                                                                                                else echo trim($query->record[3]); ?>">
+                    </div>
                 </div>
-                <div class="form-group col-12 col-md-3">
-                    <label for="form_rg"><span class="text-danger">*</span> RG :</label>
-                    <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);                                                                                                                                  else echo trim($query->record[3]); ?>">
-                </div>
-                </div> 
                 <div class="form-row">
-                    
+
                     <div class="form-group col-12 col-md-3">
                         <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
                         <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="100" value="<? if ($edit) echo trim($form_dt_nascimento);
@@ -157,12 +169,12 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     <div class="form-group col-12 col-md-3">
                         <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
                         <input required autocomplete="off" type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="100" value="<? if ($edit) echo trim($form_endereco);
-                                                                                                                                  else echo trim($query->record[5]); ?>">
+                                                                                                                                                            else echo trim($query->record[5]); ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_bairro"><span class="text-danger" >*</span> Bairro :</label>
+                        <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
                         <select name="form_bairro" id="form_bairro" class="form-control" required value="<? if ($edit) echo trim($form_bairro);
-                                                                                                                                  else echo trim($query->record[6]); ?>">>
+                                                                                                            else echo trim($query->record[6]); ?>">>
                             <?
                             $form_elemento = $edit ? $form_bairro : $query->record[6];
                             include("../includes/inc_select_bairro.php"); ?>
@@ -170,12 +182,12 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         <div class="invalid-feedback">
                             Escolha o bairro.
                         </div>
-                        </div>
-
                     </div>
 
+                </div>
 
-                    <div class="form-row ">
+
+                <div class="form-row ">
 
                     <div class="form-group col-12 ">
 
@@ -188,7 +200,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                 </div>
 
                 <div class="form-row">
-                   
+
 
                     <div class="form-group col-12" id="container_dinamico">
 
@@ -205,32 +217,32 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                             <div class="input-group ml-0 mb-2" id="campo_dinamico">
 
-                           
-                                    <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
-                                        <? $form_elemento = $erro ? $form_tipo_contato :  include("../includes/inc_select_tipo_contato.php"); ?>
-                                    </select>
 
-                                    <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
-                                    <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
-                                    <select name="form_principal[]"  required id="form_principal" required  class="form-control col-md-1 form_principal">
+                                <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
+                                    <? $form_elemento = $erro ? $form_tipo_contato :  include("../includes/inc_select_tipo_contato.php"); ?>
+                                </select>
+
+                                <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
+                                <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal" />
+                                <select name="form_principal[]" required id="form_principal" class="form-control col-md-1 form_principal">
                                     <option value="" selected>Selecione</option>
-                                        <option value="S">Sim</option>
-                                        <option value="N">Não</option>
-                                    </select>
+                                    <option value="S">Sim</option>
+                                    <option value="N">Não</option>
+                                </select>
 
-                                    <div class="input-group-append">
+                                <div class="input-group-append">
 
-                                        <? if ($c == $qnt - 1) { ?>
+                                    <? if ($c == $qnt - 1) { ?>
 
-                                            <a class="btn btn-success " id="novo_campo_dinamico" href="#form_principal">+</a>
+                                        <a class="btn btn-success " id="novo_campo_dinamico" href="#form_principal">+</a>
 
-                                        <? } else { ?>
+                                    <? } else { ?>
 
-                                            <a class="btn btn-danger" id="remove_campo_dinamico" href="#form_principal">x</a>
+                                        <a class="btn btn-danger" id="remove_campo_dinamico" href="#form_principal">x</a>
 
-                                        <? } ?>
+                                    <? } ?>
 
-                                    </div>
+                                </div>
 
                             </div>
 
@@ -239,24 +251,24 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         }
 
                         ?>
-                   
-                </div>
-                
-            
-                  
-                               
-            </div>
 
-            <div class="card-footer border-top-0 bg-transparent">
+                    </div>
 
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="edit" value="Salvar">
+
+
+
                 </div>
 
-            </div>
+                <div class="card-footer border-top-0 bg-transparent">
 
-        </div>
+                    <div class="text-center">
+                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
+                        <input class="btn btn-info" type="submit" name="edit" value="Salvar">
+                    </div>
+
+                </div>
+
+            </div>
 
     </form>
 
@@ -268,17 +280,14 @@ include_once('../includes/dashboard/footer.php');
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.mask.js"></script>
 <script type="text/javascript">
-
     $('#form_mascara').mask('000.000.000-00');
     $('#form_rg').mask('00000000000000');
-    $(document).on('change','.form_tipo_contato',function(){
-       var mascara = $(this).find(':selected').data('mascara');
-       if(mascara == 'email'){
-        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','email');
-       }
-       else {
-        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','text').mask(mascara);
-       }
+    $(document).on('change', '.form_tipo_contato', function() {
+        var mascara = $(this).find(':selected').data('mascara');
+        if (mascara == 'email') {
+            $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type', 'email');
+        } else {
+            $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type', 'text').mask(mascara);
+        }
     });
-
 </script>

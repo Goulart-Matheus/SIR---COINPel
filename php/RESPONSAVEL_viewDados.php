@@ -31,14 +31,14 @@
                 WHERE
                     r.nome ilike '%" . $form_responsavel . "%'
                    
-                and 
+                AND 
                     b.id_bairro =r.id_bairro 
-                and
+                AND
                     rc.id_responsavel = r.id_responsavel
-                and 
+                AND
                     rc.id_tipo_contato = tc.id_tipo_contato   
-                and 
-                    rc.principal ='S'             
+                AND 
+                    rc.principal ='S'           
 
                 ".$where
       
@@ -291,3 +291,61 @@
     <?
     include_once('../includes/dashboard/footer.php');
 ?>
+
+
+
+
+
+
+
+
+
+
+<!-- SELECT 					r.id_responsavel,
+                        r.nome,
+                        r.cpf,
+                        r.rg,
+                        r.dt_nascimento,
+                        r.endereco,
+                        b.descricao,
+						rc.valor_contato,
+						rc.principal
+                FROM
+                        responsavel r,
+                        bairro b,
+						responsavel_contato rc	
+                WHERE           
+						b.id_bairro = r.id_bairro AND
+						r.id_responsavel = rc.id_responsavel AND
+						r.id_responsavel IN (SELECT r.id_responsavel
+											 FROM responsavel r,
+												  responsavel_contato rc	
+											 WHERE b.id_bairro = r.id_bairro AND
+											 r.id_responsavel = rc.id_responsavel
+											ORDER BY rc.id_responsavel LIMIT 1)					
+						 -->
+
+
+                         <!-- SELECT 					r.id_responsavel,
+                        r.nome,
+                        r.cpf,
+                        r.rg,
+                        r.dt_nascimento,
+                        r.endereco,
+                        b.descricao,
+						rc.valor_contato,
+						rc.principal
+                FROM
+                        responsavel r,
+                        bairro b,
+						responsavel_contato rc	
+                WHERE           
+						b.id_bairro = r.id_bairro AND
+						r.id_responsavel = rc.id_responsavel AND
+						rc.valor_contato IN (SELECT (rc.valor_contato)
+											 FROM responsavel r,
+												  responsavel_contato rc	
+											 WHERE b.id_bairro = r.id_bairro AND
+											 r.id_responsavel = rc.id_responsavel
+											ORDER BY rc.valor_contato LIMIT 1 )					 -->
+						

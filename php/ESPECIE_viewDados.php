@@ -124,7 +124,7 @@ include 'ESPECIE_view.php'
                         <tr>
 
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Espécie'); ?> </td>
 
                         </tr>

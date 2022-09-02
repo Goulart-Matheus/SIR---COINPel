@@ -102,7 +102,7 @@ $query->result($query->linha);
 
                 <div class="card-footer bg-light-2">
                     <?
-                    $btns = array('clean', 'edit');
+                    $btns = array('reload', 'edit');
                     include('../includes/dashboard/footer_forms.php');
                     ?>
                 </div>

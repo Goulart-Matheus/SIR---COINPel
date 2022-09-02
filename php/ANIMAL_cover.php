@@ -78,10 +78,7 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
 
                     <? include("../includes/Cards/Dashboard_ANIMAL/card_dashboard_ANIMAL_RESPONSAVEL.php"); ?>
 
-
                 </div>
-
-
 
                 <div class="col-12 col-md-12">
 
