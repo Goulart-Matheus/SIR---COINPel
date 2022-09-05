@@ -5,9 +5,9 @@ include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
 
 $tab = new Tab();
+$tab->setTab('Responsáveis', 'fas fa-user', 'RESPONSAVEL_viewDados.php');
+$tab->setTab('Novo Responsável', 'fas fa-plus', $_SERVER['PHP_SELF']);
 
-$tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
-$tab->setTab('Pesquisar', 'fas fa-search', 'RESPONSAVEL_view.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
 $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
@@ -247,7 +247,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
                                 <select name="form_principal[]"  required id="form_principal" required  class="form-control col-md-1 form_principal">
                                 <option value="" selected>Selecione</option>
-                                    <option value="S">Sim</option>
+                                    <option value="S" >Sim</option>
                                     <option value="N">Não</option>
                                 </select>
 

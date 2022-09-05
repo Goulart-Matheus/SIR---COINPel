@@ -61,7 +61,7 @@ function buttons($type)
                             </button>',
                             
         'reload'     =>  '<button class="btn btn-light" type="reset" name="clear">
-                                <i class="fa-solid fa-arrows-rotate"></i>
+                                <i class="fa-solid fa-arrows-rotate text-green"></i>
                                 <span>Restaurar</span>
                             </button>',
 

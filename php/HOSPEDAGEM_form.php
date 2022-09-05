@@ -6,7 +6,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab ('Hospedaria', 'fas fa-heading','HOSPEDAGEM_viewDados.php');
+$tab->setTab('Hospedaria', 'fas fa-heading', 'HOSPEDAGEM_viewDados.php');
 $tab->setTab('Nova Hospedaria', 'fas fa-plus', $_SERVER['PHP_SELF']);
 //$tab->setTab('Pesquisar', 'fas fa-search', 'HOSPEDAGEM_view.php');
 
@@ -95,7 +95,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->insertTupla(
                                 'hospedagem',
                                 array(
-                                   // trim($form_id_hospedagem),
+                                    // trim($form_id_hospedagem),
                                     $form_id_animal,
                                     $form_dt_entrada,
                                     $form_endereco_recolhimento,
@@ -254,11 +254,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                 </div>
 
-                <div class="card-footer border-top-0 bg-transparent">
-                    <div class="text-center">
-                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                        <input class="btn btn-info" type="submit" name="add" value="Salvar">
-                    </div>
+                <div class="card-footer bg-light-2">
+                    <?
+                    $btns = array('clean', 'save');
+                    include('../includes/dashboard/footer_forms.php');
+                    ?>
                 </div>
 
             </div>
@@ -273,35 +273,33 @@ include_once('../includes/dashboard/footer.php');
 
 <script src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
+    $("#form_id_urm").on('change', function() {
 
-$("#form_id_urm").on('change',function(){
+        var id_urm = $("#form_id_urm").val();
 
-    var id_urm = $("#form_id_urm").val();    
+        $.ajax({
+            type: 'POST',
+            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            data: {
 
-    $.ajax({
-                type: 'POST',
-                url: '../../../includes/ajax_atualiza_valor_urm.php',
-                data: {
-                   
-                   "id_urm":id_urm                                    
-                   
-                },
-                beforeSend: function() {
+                "id_urm": id_urm
 
-                    console.log("Enviado ok");
-                                 
-                },
-                success: function(response) {
-                   
-                   $("#form_valor").val(response['valor']);                 
+            },
+            beforeSend: function() {
 
-                 },
-                error: function(erro) {
+                console.log("Enviado ok");
 
-                    // console.log(erro);
+            },
+            success: function(response) {
 
-                }
-            });       
-});
+                $("#form_valor").val(response['valor']);
 
+            },
+            error: function(erro) {
+
+                // console.log(erro);
+
+            }
+        });
+    });
 </script>

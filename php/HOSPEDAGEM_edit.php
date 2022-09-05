@@ -32,7 +32,7 @@ $query->result($query->linha);
 
     <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
 
-    <input type="hidden" name="id_hospedagem" value="<? echo $query->record[0]; ?>">
+        <input type="hidden" name="id_hospedagem" value="<? echo $query->record[0]; ?>">
 
         <div class="card p-0">
 
@@ -136,7 +136,7 @@ $query->result($query->linha);
                                 $where = array(0 => array('id_hospedagem', $id_hospedagem));
                                 $query->updateTupla('hospedagem', $itens, $where);
 
-                                $query->commit();                                
+                                $query->commit();
                             }
                         }
 
@@ -249,7 +249,7 @@ $query->result($query->linha);
 
 
                     <div class="form-group col-12 col-md-4">
-                        
+
                         <label for="form_valor"><span class="text-danger">*</span> Valor</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($edit) echo $form_valor;
                                                                                                                             else echo trim($query->record[11]) ?>">
@@ -270,26 +270,39 @@ $query->result($query->linha);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_situacao"><span class="text-danger">*</span> Situação</label>
-                        <select class="form-control" name="form_situacao" id="form_situacao">                            
-                            <option value="S" <? if ($edit && $form_situacao == 'S') echo 'selected';  else { if(!$edit && $query->record[10] == "S") {echo 'selected'; } }  ?>>Disponível</option>
-                            <option value="N" <? if ($edit && $form_situacao == 'N') echo 'selected';  else { if(!$edit && $query->record[10] == "N") {echo 'selected'; } }  ?>>Não Disponível</option>
+                        <select class="form-control" name="form_situacao" id="form_situacao">
+                            <option value="S" <? if ($edit && $form_situacao == 'S') echo 'selected';
+                                                else {
+                                                    if (!$edit && $query->record[10] == "S") {
+                                                        echo 'selected';
+                                                    }
+                                                }  ?>>Disponível</option>
+                            <option value="N" <? if ($edit && $form_situacao == 'N') echo 'selected';
+                                                else {
+                                                    if (!$edit && $query->record[10] == "N") {
+                                                        echo 'selected';
+                                                    }
+                                                }  ?>>Não Disponível</option>
 
                         </select>
                     </div>
 
                 </div>
 
-                <div class="card-footer border-top-0 bg-transparent">
-
-                    <div class="card-footer bg-light-2">
-                        <?
-                        $btns = array('reload', 'edit');
-                        include('../includes/dashboard/footer_forms.php');
-                        ?>
-                    </div>
-
-                </div>
             </div>
+
+            <div class="card-footer border-top-0 bg-transparent">
+
+                <div class="card-footer bg-light-2">
+                    <?
+                    $btns = array('reload', 'edit');
+                    include('../includes/dashboard/footer_forms.php');
+                    ?>
+                </div>
+
+            </div>
+            
+        </div>
 
     </form>
 
@@ -301,35 +314,33 @@ include_once('../includes/dashboard/footer.php');
 
 <script src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
+    $("#form_id_urm").on('change', function() {
 
-$("#form_id_urm").on('change',function(){
+        var id_urm = $("#form_id_urm").val();
 
-    var id_urm = $("#form_id_urm").val();    
+        $.ajax({
+            type: 'POST',
+            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            data: {
 
-    $.ajax({
-                type: 'POST',
-                url: '../../../includes/ajax_atualiza_valor_urm.php',
-                data: {
-                   
-                   "id_urm":id_urm                                    
-                   
-                },
-                beforeSend: function() {
+                "id_urm": id_urm
 
-                    console.log("Enviado ok");
-                                 
-                },
-                success: function(response) {
-                   
-                   $("#form_valor").val(response['valor']);                 
+            },
+            beforeSend: function() {
 
-                 },
-                error: function(erro) {
+                console.log("Enviado ok");
 
-                    // console.log(erro);
+            },
+            success: function(response) {
 
-                }
-            });       
-});
+                $("#form_valor").val(response['valor']);
 
+            },
+            error: function(erro) {
+
+                // console.log(erro);
+
+            }
+        });
+    });
 </script>

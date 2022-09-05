@@ -174,7 +174,7 @@ $n = $query->rows();
             <div class="modal-header bg-light-2">
                 <h5 class="modal-title">
 
-                    <i class="fas fa-meh text-green"></i>
+                    <i class="fa-solid fa-dog text-green"></i>
 
                     Registro de Animais
                 </h5>
@@ -359,19 +359,19 @@ $n = $query->rows();
 
                         var monta_tabela = "";
 
-                        monta_tabela += " <table class='table table-striped responsive text-center'>";
+                        monta_tabela += " <table class='table table-sm responsive text-center'>";
                         monta_tabela += "<tbody>";
                         monta_tabela += "<tr>";
-                        monta_tabela += "<td style='width: 30px;'>*</td>";
-                        monta_tabela += "<td style='width: 250px;'>Nro. Ficha:</td>";
-                        monta_tabela += "<td style='width: 180px;'>Nro. Chip:</td>";
-                        monta_tabela += "<td style='width: 180px;'>Pelagem:</td>";
-                        monta_tabela += "<td style='width: 240px;'>Especie:</td>";
-                        monta_tabela += "<td style='width: 200px;'>Sexo:</td>";
+                        monta_tabela += "<td style='width: 30px; background-color:#F3EFE7;'>*</td>";
+                        monta_tabela += "<td style='width: 250px; background-color:#F3EFE7;'>Nro. Ficha:</td>";
+                        monta_tabela += "<td style='width: 180px; background-color:#F3EFE7;'>Nro. Chip:</td>";
+                        monta_tabela += "<td style='width: 180px; background-color:#F3EFE7;'>Pelagem:</td>";
+                        monta_tabela += "<td style='width: 240px; background-color:#F3EFE7;'>Especie:</td>";
+                        monta_tabela += "<td style='width: 200px; background-color:#F3EFE7;'>Sexo:</td>";
                         monta_tabela += "</tr>";
 
                         $.each(ret, function(indice, sexo) {
-                            monta_tabela += "<tr>";
+                            monta_tabela += "<tr class='entered'>";
                             monta_tabela += "<td style='width: 30px;'><input type='checkbox' name='form_vincula_animal[]' value= " + ret[indice].id_animal + " ></td>";
                             monta_tabela += "<td style='width: 250px;'>" + ret[indice].nro_ficha + "</td>";
                             monta_tabela += "<td style='width: 180px;'>" + ret[indice].nro_chip + "</td>";

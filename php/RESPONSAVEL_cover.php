@@ -27,8 +27,8 @@
     $bairro                 = $query->record[6];
 
     $tab = new Tab();
-
-    $tab->setTab('Pesquisar'               , 'fas fa-search', 'RESPONSAVEL_view.php?id_responsavel='                   .$id_responsavel );
+    
+    $tab->setTab('Responsáveis', 'fa-solid fa-user', 'RESPONSAVEL_viewDados.php');
     $tab->setTab($query->record[1]         , $query->record[5]    , $_SERVER['PHP_SELF'] . '?id_responsavel='                .$id_responsavel );
     $tab->setTab('Editar'                  , 'fas fa-pencil-alt'  , 'RESPONSAVEL_edit.php?id_responsavel='                   .$id_responsavel );
     $tab->printTab($_SERVER['PHP_SELF']. '?id_responsavel='.$query->record[0]);

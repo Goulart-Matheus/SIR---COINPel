@@ -1,19 +1,24 @@
 <?
 
-    include('../includes/session.php');
-    include('../includes/variaveisAmbiente.php');
-    include('../function/function.date.php'         );
-    
-        $where  = "";
-        if($form_mascara!=""){
-            $where.=" and r.cpf ilike '{$form_mascara}' ";
-        }
-        if($form_rg!=""){
-            $where.= " and r.rg ilike '{$form_rg}'";
-        }
-       
-         //incui a linha contendo and  rc.principal ='S'   para realização de testes
-    $query->exec("SELECT
+include('../includes/session.php');
+include('../includes/variaveisAmbiente.php');
+include('../function/function.date.php');
+
+$where  = "";
+
+if ($form_mascara != "") {
+    $where .= " and r.cpf ilike '%{$form_mascara}%' ";
+}
+if ($form_rg != "") {
+    $where .= " and r.rg ilike '%{$form_rg}%'";
+}
+
+
+//incui a linha contendo and  rc.principal ='S'   para realização de testes
+
+
+
+    $query->exec("SELECT 
                         r.id_responsavel,
                         r.nome,
                         r.cpf,
@@ -26,326 +31,253 @@
                 FROM
                         responsavel r,
                         bairro b,
-                        tipo_contato tc,
                         responsavel_contato rc
                 WHERE
                     r.nome ilike '%" . $form_responsavel . "%'
                    
-                AND 
+                and 
                     b.id_bairro =r.id_bairro 
-                AND
+                and
                     rc.id_responsavel = r.id_responsavel
-                AND
-                    rc.id_tipo_contato = tc.id_tipo_contato   
-                AND 
-                    rc.principal ='S'           
+                and 
+                    rc.valor_contato IN (SELECT (rc.valor_contato) FROM responsavel_contato rc 
+                    WHERE r.id_responsavel = rc.id_responsavel ORDER BY rc.valor_contato LIMIT 1)  
+                     
+
+                and r.rg ilike '%" . $form_rg . "%'   
+                
+                and 
+                    r.cpf ilike '%". $form_mascara. "%'
 
                 ".$where
       
     );
 
-    $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
-    if (!$sort_by)   $sort_by  = 1;
-    if (!$sort_dir)   $sort_dir = 0;
+   
+    
 
-    $sort->sortItem($sort_by, $sort_dir);
 
-    $report_subtitulo   = "Descrição";
-    $report_periodo     = date('d/m/Y');
+$sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
-    if ($print) {
-        include('../class/class.report.php');
+if (!$sort_by)   $sort_by  = 1;
+if (!$sort_dir)   $sort_dir = 0;
 
-        unset($_GET['print']);
+$sort->sortItem($sort_by, $sort_dir);
 
-        $report_cabecalho = array(
-            array('Código',     10, 0),
-            array('Descricao',     190, 1)
-        );
+$report_subtitulo   = "Descrição";
+$report_periodo     = date('d/m/Y');
 
-        $query->exec($query->sql . $sort->sort_sql);
+if ($print) {
+    include('../class/class.report.php');
 
-        $report = new PDF($query, $report_titulo, $report_subtitulo, $report_periodo, $report_cabecalho, $report_orientation, $report_unit, $report_format, $report_flag);
+    unset($_GET['print']);
 
-        exit;
-    } else {
-        $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
+    $report_cabecalho = array(
+        array('Código',     10, 0),
+        array('Descricao',     190, 1)
+    );
 
-        if (isset($remove)) {
+    $query->exec($query->sql . $sort->sort_sql);
 
-            if (!isset($id_responsavel)) {
+    $report = new PDF($query, $report_titulo, $report_subtitulo, $report_periodo, $report_cabecalho, $report_orientation, $report_unit, $report_format, $report_flag);
 
-                $erro = 'Nenhum item selecionado!';
-            } else {
+    exit;
+} else {
+    $paging = new Paging($query, $paging_maxres, $paging_maxlink, $paging_link, $paging_page, $paging_flag);
 
-                $querydel = new Query($bd);
+    if (isset($remove)) {
 
-                for ($c = 0; $c < sizeof($id_responsavel); $c++) {
-                    
-                   
-                    $query->exec ("SELECT  rc.id_responsavel_contato, rc.id_responsavel,rc.id_tipo_contato,rc.valor_contato,rc.principal,
+        if (!isset($id_responsavel)) {
+
+            $erro = 'Nenhum item selecionado!';
+        } else {
+
+            $querydel = new Query($bd);
+
+            for ($c = 0; $c < sizeof($id_responsavel); $c++) {
+
+
+                $query->exec(
+                    "SELECT  rc.id_responsavel_contato, rc.id_responsavel,rc.id_tipo_contato,rc.valor_contato,rc.principal,
                                            r.nome,r.cpf,r.rg,r.dt_nascimento 
                                   FROM   responsavel_contato rc, responsavel r ,animal_responsavel ar
-                                  WHERE  rc.id_responsavel = ". $id_responsavel[$c],
-                                  "AND   r.id_responsavel =". $id_responsavel[$c],
-                                  "AND  ar.id_responsavel =".$id_responsavel[$c],
+                                  WHERE  rc.id_responsavel = " . $id_responsavel[$c],
+                    "AND   r.id_responsavel =" . $id_responsavel[$c],
+                    "AND  ar.id_responsavel =" . $id_responsavel[$c],
 
-                                   
-                                
-                                 ); 
 
-                        
-                    if($query->rows() > 0)
-                    {
-                        $n = $query->rows();
 
-                        while($n --)
-                        {
+                );
 
-                                                       
-                            $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
-                            $querydel->deleteTupla('animal_responsavel', $where);
 
-                            $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
-                            $querydel->deleteTupla('responsavel_contato', $where);
+                if ($query->rows() > 0) {
+                    $n = $query->rows();
 
-                            
-                        };    
-                            
+                    while ($n--) {
+
+
                         $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
-                        $querydel->deleteTupla('responsavel', $where);
-      
+                        $querydel->deleteTupla('animal_responsavel', $where);
+
+                        $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
+                        $querydel->deleteTupla('responsavel_contato', $where);
                     };
-                    
 
-                    
-                    
-                }
-
-                unset($_POST['id_responsavel']);
+                    $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
+                    $querydel->deleteTupla('responsavel', $where);
+                };
             }
-        }
 
-        $paging->exec($query->sql . $sort->sort_sql);
+            unset($_POST['id_responsavel']);
+        }
     }
 
-    include_once('../includes/dashboard/header.php');
-    include('../class/class.tab.php');
+    $paging->exec($query->sql . $sort->sort_sql);
+}
 
-    $tab = new Tab();
+include_once('../includes/dashboard/header.php');
+include('../class/class.tab.php');
 
-    $tab->setTab('Adicionar', 'fas fa-plus', 'RESPONSAVEL_form.php');
-    $tab->setTab('Pesquisar', 'fas fa-search', 'RESPONSAVEL_view.php');
-    $tab->setTab('Gerenciar', 'fas fa-cog', $_SERVER['PHP_SELF']);
+$tab = new Tab();
+$tab->setTab('Responsáveis', 'fas fa-user', $_SERVER['PHP_SELF']);
+$tab->setTab('Novo Responsável', 'fas fa-plus', 'RESPONSAVEL_form.php');
 
-    $tab->printTab($_SERVER['PHP_SELF']);
 
-    $n = $paging->query->rows();
+$tab->printTab($_SERVER['PHP_SELF']);
 
-    ?>
+$n = $paging->query->rows();
 
-    <section class="content">
+include('../php/RESPONSAVEL_view.php');
 
-        <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
+?>
 
-            <div class="card p-0">
+<section class="content">
 
-                <div class="card-header border-bottom-1 mb-3 bg-light-2">
+    <form method="post" action="<? echo $_SERVER['PHP_SELF']; ?>">
 
-                    <div class="text-center">
+        <div class="card p-0">
+
+            <div class="card-header border-bottom-1 mb-3 bg-light-2">
+                <div class="row">
+                    <div class=".col-12 col-md-4 offset-md-4 text-center">
                         <h4><?= $auth->getApplicationDescription($_SERVER['PHP_SELF']) ?></h4>
                     </div>
 
-                    <div class="row text-center">
+                    <div class="col-12 col-md-4 text-center text-md-right mt-2 mt-md-0">
 
-                        <div class="col-12 col-sm-4 offset-sm-4">
-                            <?
-                            if (!$n) {
-                                echo callException('Nenhum registro encontrado!', 2);
-                            }
 
-                            if ($erro) {
-                                echo callException($erro, 1);
-                            }
+                        <button type="button" class="btn btn-sm btn-green text-light">
+                            <i class="fas fa-print"></i>
+                        </button>
 
-                            if ($remove) {
-                                $querydel->commit();
-                                unset($_POST['remove']);
-                            }
 
-                            ?>
-
-                        </div>
+                        <button type="button" class="btn btn-sm btn-green text-light" data-toggle="modal" data-target="#RESPONSAVEL_view">
+                            <i class="fas fa-search"></i>
+                        </button>
 
                     </div>
-
                 </div>
 
-                <div class="card-body pt-0">
-
-                    <table class="table table-striped responsive">
-
-                        <thead>
-
-                            <tr>
-                                <th colspan="2">
-
-                                    Resultados de
-
-                                    <span class="range-resultados">
-                                        <? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal(); ?>
-                                    </span>
-
-                                    sobre
-
-                                    <span class='numero-paginas'>
-                                        <? echo $paging->getRows(); ?>
-                                    </span>
-
-                                    <a href="<? echo $_SERVER['PHP_SELF']; ?>?print=1<? echo $paging->verificaVariaveis(); ?>" target="_new">
-                                        <i class="fas fa-print"></i>
-                                    </a>
-
-                                </th>
-                            </tr>
-
-                        </thead>
-
-                        <tbody>
-
-                            <tr>
-
-                                <td width="5px"></td>
-                                <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nome: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'CPF: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'RG: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Data de nascimento: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Endereço: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Bairro: '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Contato '); ?> </td>
-                                <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Principal: '); ?> </td>
-
-                            </tr>
-
-                            <?
-
-                            while ($n--) {
-
-                                $paging->query->proximo();
-
-                                $js_onclick = "OnClick=javascript:window.location=('RESPONSAVEL_cover.php?id_responsavel=" . $paging->query->record[0] . "')";
-
-                                echo "<tr>";
-
-                                echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_responsavel[]' value=" . $paging->query->record[0] . "></td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . retornaData($paging->query->record[4]) . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
-                                echo "</tr>";
-                            }
-
-                            ?>
-
-                        </tbody>
-
-                        <tfoot>
-
-                            <tr>
-                                <td colspan="9">
-
-                                    <div class="text-center pt-2">
-                                        <? echo $paging->viewTableSlice(); ?>
-                                    </div>
-
-                                    <? if ($paging->query->rows()) { ?>
-
-                                        <div class="text-right pt-2">
-                                            <input name='remove' type='submit' value='Remover' class='btn btn-danger'>
-                                            <input class="btn btn-warning" type="button" id="selectButton" value="Selecionar Todos" onClick="toggleSelect(); return false">
-                                        </div>
-
-                                    <? } ?>
-
-                                </td>
-
-                            </tr>
-
-                        </tfoot>
-
-                    </table>
-
-                </div>
 
             </div>
 
-        </form>
+            <div class="card-body pt-0">
 
-    </section>
+                <table class="table table-sm text-sm">
 
-    <?
-    include_once('../includes/dashboard/footer.php');
+                    <thead>
+
+                        <tr>
+                            <th colspan="7">Resultados de
+                                <span class="range-resultados"><? echo $paging->getResultadoInicial() . "-" . $paging->getResultadoFinal() . "</span>
+                                 sobre <span class='numero-paginas'>" . $paging->getRows() . "</span>"; ?>
+                                </span>
+
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+
+                            <td width="5px"></td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Nome: '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'CPF: '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'RG: '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Data de nascimento: '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Endereço: '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Bairro: '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Contato '); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Principal: '); ?> </td>
+
+                        </tr>
+
+                        <?
+
+                        while ($n--) {
+
+                            $paging->query->proximo();
+
+                            $js_onclick = "OnClick=javascript:window.location=('RESPONSAVEL_cover.php?id_responsavel=" . $paging->query->record[0] . "')";
+
+                            echo "<tr class='entered'>";
+
+                            echo "<td valign='middle'><input type='checkbox' class='form-check-value' name='id_responsavel[]' value=" . $paging->query->record[0] . "></td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . retornaData($paging->query->record[4]) . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
+                            echo "</tr>";
+                        }
+
+                        ?>
+
+                    </tbody>
+
+                    <tfoot>
+
+                        <tr>
+                            <td colspan="8">
+
+                                <div class="text-center pt-2">
+                                    <? echo $paging->viewTableSlice(); ?>
+                                </div>
+
+
+
+                            </td>
+
+                        </tr>
+
+                    </tfoot>
+
+                </table>
+
+
+
+            </div>
+
+            <div class="card-footer bg-light-2">
+                <?
+                if ($paging->query->rows()) {
+                    $btns = array('selectAll', 'remove');
+                    include('../includes/dashboard/footer_forms.php');
+                }
+                ?>
+
+            </div>
+
+    </form>
+
+</section>
+
+<?
+include_once('../includes/dashboard/footer.php');
 ?>
-
-
-
-
-
-
-
-
-
-
-<!-- SELECT 					r.id_responsavel,
-                        r.nome,
-                        r.cpf,
-                        r.rg,
-                        r.dt_nascimento,
-                        r.endereco,
-                        b.descricao,
-						rc.valor_contato,
-						rc.principal
-                FROM
-                        responsavel r,
-                        bairro b,
-						responsavel_contato rc	
-                WHERE           
-						b.id_bairro = r.id_bairro AND
-						r.id_responsavel = rc.id_responsavel AND
-						r.id_responsavel IN (SELECT r.id_responsavel
-											 FROM responsavel r,
-												  responsavel_contato rc	
-											 WHERE b.id_bairro = r.id_bairro AND
-											 r.id_responsavel = rc.id_responsavel
-											ORDER BY rc.id_responsavel LIMIT 1)					
-						 -->
-
-
-                         <!-- SELECT 					r.id_responsavel,
-                        r.nome,
-                        r.cpf,
-                        r.rg,
-                        r.dt_nascimento,
-                        r.endereco,
-                        b.descricao,
-						rc.valor_contato,
-						rc.principal
-                FROM
-                        responsavel r,
-                        bairro b,
-						responsavel_contato rc	
-                WHERE           
-						b.id_bairro = r.id_bairro AND
-						r.id_responsavel = rc.id_responsavel AND
-						rc.valor_contato IN (SELECT (rc.valor_contato)
-											 FROM responsavel r,
-												  responsavel_contato rc	
-											 WHERE b.id_bairro = r.id_bairro AND
-											 r.id_responsavel = rc.id_responsavel
-											ORDER BY rc.valor_contato LIMIT 1 )					 -->
-						

@@ -75,13 +75,13 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 <div class="form-row">
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_descricao"><span class="text-danger">*</span> Contato</label>
+                        <label for="form_descricao"><span class="text-danger">*</span> Descrição do Contato</label>
                         <input type="text" class="form-control" name="form_descricao" id="form_descricao" maxlength="100" value="<? if ($erro) echo $form_descricao; ?>">
                     </div>
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_mascara"><span class="text-danger">*</span> Documento</label>
+                        <label for="form_mascara"><span class="text-danger">*</span> Forma de Preenchimento</label>
                         <input type="text" class="form-control form_mascara" name="form_mascara" id="form_mascara" maxlength="20" value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                         <div class="invalid-feedback">

@@ -3,9 +3,31 @@
 include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
-$query->exec("SELECT '', h.id_hospedagem , id_animal  , endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo,h.situacao
 
-FROM hospedagem as h, bairro as b , responsavel as r, motivo as m WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo");
+
+
+//var_dump($form_situacao);
+
+
+
+$where="";
+$where .= $form_id_hospedagem   != "" ? " AND h.id_hospedagem = $form_id_hospedagem " : "";
+$where .= $form_id_animal   != "" ? " AND h.id_animal = $form_id_animal " : "";
+$where .= $form_endereco_recolhimento   != "" ? " AND h.endereco_recolhimento ilike '%" . $form_endereco_recolhimento . "%' " : "";
+$where .= $form_id_bairro   != "" ? " AND h.id_bairro = $form_id_bairro " : "";
+$where .= $form_id_responsavel   != "" ? " AND h.id_responsavel = $form_id_responsavel " : "";
+$where .= $form_id_motivo   != "" ? " AND h.id_motivo = $form_id_motivo " : "";
+$where .= $form_situacao   != "" ? " AND h.situacao = '".$form_situacao."' " : "";
+$where .= $form_dt_entrada   != "" ? " AND h.dt_entrada = '".$form_dt_entrada."' " : "";
+$where .= $form_dt_retirada   != "" ? " AND h.dt_retirada = '".$form_dt_retirada."' " : "";
+
+
+
+
+
+$query->exec("SELECT h.id_hospedagem , h.id_animal  , h.endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo, h.situacao
+
+FROM hospedagem as h, bairro as b , responsavel as r, motivo as m WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo".$where);
 
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
@@ -53,16 +75,14 @@ if ($print) {
         if (!isset($id_hospedagem)) {
 
             $erro = 'Nenhum item selecionado!';
-
         } else {
 
             $querydel = new Query($bd);
-            
+
             for ($c = 0; $c < sizeof($id_hospedagem); $c++) {
-                
+
                 $where = array(0 => array('id_hospedagem', $id_hospedagem[$c]));
                 $querydel->deleteTupla('hospedagem', $where);
-                
             }
 
             unset($_POST['id_hospedagem']);
@@ -81,10 +101,11 @@ $tab->setTab('Hospedaria', 'fas fa-heading', $_SERVER['PHP_SELF']);
 $tab->setTab('Nova Hospedaria', 'fas fa-plus', 'HOSPEDAGEM_form.php');
 
 
+
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
-// include('HOSPEDAGEM_view.php');
+ include('HOSPEDAGEM_view.php');
 
 ?>
 
@@ -139,7 +160,7 @@ $n = $paging->query->rows();
                             <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Responsavel'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Dt_entrada'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Dt_retirada'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(9); ?>'> <? echo $sort->printItem(9, $sort->sort_dir, 'Motivo'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(9); ?>'> <? echo $sort->printItem(9, $sort->sort_dir, 'Motivo'); ?> </td>                            
 
                         </tr>
 
@@ -148,12 +169,13 @@ $n = $paging->query->rows();
 
                             $paging->query->proximo();
 
-                            $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_edit.php?id_hospedagem=" . $paging->query->record[1] . "')";
+                            $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_edit.php?id_hospedagem=" . $paging->query->record[0] . "')";
 
                             echo "<tr class='entered'>";
 
-                                echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[1] . "></td>";
-                                echo "<td valign='top' "    . $js_onclick . ">" . ($query->record[9] == "S" ? "<i class='fas fa-circle text-green'</i>" : "<i class='fas fa-circle text-light'</i>") . "</td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0] . "></td>";
+                                echo "<td valign='top' " . $js_onclick . ">" . ($query->record[8] == "S" ? "<i class='fas fa-circle text-green'</i>" : "<i class='fas fa-circle text-light'</i>") . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
@@ -161,7 +183,6 @@ $n = $paging->query->rows();
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
 
                             echo "</tr>";
                         }
@@ -173,7 +194,7 @@ $n = $paging->query->rows();
                     <tfoot>
 
                         <tr>
-                            <td colspan="12">
+                            <td colspan="8">
 
                                 <span>Situação: </span>
                                 <span><i class='fas fa-circle text-light'></i> Não Disponível</span>
@@ -203,6 +224,7 @@ $n = $paging->query->rows();
                     include('../includes/dashboard/footer_forms.php');
                 }
                 ?>
+
             </div>
 
         </div>

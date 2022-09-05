@@ -28,7 +28,7 @@
 
 
                         <div class="form-group col-12 col-md-4">
-                            <label for="form_mascara">Documento</label>
+                            <label for="form_mascara">Forma de Preenchimento</label>
 
                             <input type="text" class="form-control" name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
                         </div>

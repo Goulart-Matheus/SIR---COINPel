@@ -6,8 +6,9 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
-$tab->setTab('Pesquisar', 'fas fa-search', 'PELAGEM_view.php');
+$tab->setTab('Pelagens', 'fas fa-horse', 'PELAGEM_viewDados.php');
+$tab->setTab('Nova Pelagem', 'fas fa-plus', $_SERVER['PHP_SELF']);
+
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
@@ -93,11 +94,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
             </div>
 
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
-                </div>
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('clean', 'save');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
             </div>
 
         </div>
