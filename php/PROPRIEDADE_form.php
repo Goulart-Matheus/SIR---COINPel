@@ -89,19 +89,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="form_proprietario" class="mb-0 mt-1">Proprietário</label>
-                                <select name="form_proprietario" class="form-control">
+                                <select name="form_proprietario" class="form-control select2_proprietario">
                                     <option value="">Selecione um proprietário...</option>
                                     <?
-                                    include "../function/function.query_foreach.php";
-                                    query_foreach(
-                                        "SELECT id_proprietario, nome FROM proprietario ORDER BY nome",
-                                        function ($q) {
-                                            $selected_str = $erro && $form_proprietario == $q->record[0]
-                                                ? " selected"
-                                                : "";
-                                            echo "<option value=\"{$q->record[0]}\"{$selected_str}>{$q->record[1]}</option>";
-                                        }
-                                    );
+                                    $where="";
+                                    include "../includes/inc_select_proprietario.php";                                   
+                                    
                                     ?>
                                 </select>
                             </div>
@@ -235,5 +228,15 @@ $tab->printTab($_SERVER['PHP_SELF']);
         map.flyTo({
             center: lnglat
         });
+    });
+    $(document).ready(function() {
+
+        if ($(".select2_proprietario").length > 0) {
+            $(".select2_proprietario").attr('data-live-search', 'true');
+
+            $(".select2_proprietario").select2({
+                width: '100%'
+            });
+        }
     });
 </script>

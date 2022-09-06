@@ -156,8 +156,9 @@ $query->result($query->linha);
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_especie"></span>Especie</label>
-                        <select class="form-control" name="form_id_especie" id="form_id_especie" required>
+                        <select class="form-control select2_animal-especie" name="form_id_especie" id="form_id_especie" required>
                             <?
+                            $where="";
                             $form_elemento = $edit ? $form_id_especie : $query->record[7];
                             include("../includes/inc_select_especie.php");
                             echo $query->record[5];
@@ -167,7 +168,7 @@ $query->result($query->linha);
 
 
                     <div class="form-group col-12 ">
-                        
+
                         <label for="form_observacao">Observação</label>
                         <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($edit) echo $form_observacao;
                                                                                                                                     else echo trim($query->record[6]) ?>">
@@ -198,3 +199,15 @@ $query->result($query->linha);
 include_once('../includes/dashboard/footer.php');
 ?>
 <script src="../includes/inc_select_pelagem.php"></script>
+<script>
+    $(document).ready(function() {
+
+        if ($(".select2_animal-especie").length > 0) {
+            $(".select2_animal-especie").attr('data-live-search', 'true');
+
+            $(".select2_animal-especie").select2({
+                width: '100%'
+            });
+        }
+    });
+</script>

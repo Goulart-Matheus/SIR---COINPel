@@ -14,7 +14,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 ?>
 <section class="content">
 
-<form method="post" id= "form.cadresponsavel" action="<? echo $_SERVER['PHP_SELF'] . $link ?>" enctype="multipart/form-data"> 
+    <form method="post" id="form.cadresponsavel" action="<? echo $_SERVER['PHP_SELF'] . $link ?>" enctype="multipart/form-data">
 
 
         <div class="card p-0">
@@ -30,14 +30,14 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     <div class="col-12 col-sm-4 offset-sm-4">
 
                         <?
-                        
-                       
+
+
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
                             $query_aux  = new Query($bd);
                             $query_aux1 = new Query($bd);
-                        
+
 
                             $valida = new Valida($form_responsavel, 'Responsável');
                             $valida->TamMinimo(1);
@@ -54,105 +54,102 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $valida = new Valida($form_endereco, 'Endereço');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
-                            
+
                             foreach ($form_valor_contato as $val) {
                                 $valida = new Valida($val[0], 'Contato');
 
                                 $valida->TamMinimo(1);
                                 $erro .= $valida->PegaErros();
                             }
-                             // Validação testa se o CPF e o RG já estão cadastrados no BD
+                            // Validação testa se o CPF e o RG já estão cadastrados no BD
                             // inicio
-                           
+
                             $query_aux->exec("SELECT id_responsavel
                                                         FROM responsavel
                                                         WHERE cpf = '$form_mascara'
                                                         
                                                     ");
-                                   
-                                              
-                                    if($query_aux->rows() > 0)
-                                    {
-                                        $erro .= "Já existe CPF cadastrado com este numero: $form_mascara";
-                                        $erro .= "CPF de numero $form_mascara, já esta cadastrado no sistema <br>";
-                                    }
-                            
+
+
+                            if ($query_aux->rows() > 0) {
+                                $erro .= "Já existe CPF cadastrado com este numero: $form_mascara";
+                                $erro .= "CPF de numero $form_mascara, já esta cadastrado no sistema <br>";
+                            }
+
                             $query_aux1->exec("SELECT id_responsavel, nome
                                               FROM responsavel
                                               WHERE rg = '$form_rg'
                                 ");
-                                    $nome1 = $query_aux1->last_insert[1];
-                                    if($query_aux1->rows() > 0)
-                                    {
-                                        $erro .= "Já existe RG cadastrado com este numero: $form_rg";
-                                        $erro .= "RG de numero $form_rg, já esta cadastrado no sistema ";
-                                    }        
+                            $nome1 = $query_aux1->last_insert[1];
+                            if ($query_aux1->rows() > 0) {
+                                $erro .= "Já existe RG cadastrado com este numero: $form_rg";
+                                $erro .= "RG de numero $form_rg, já esta cadastrado no sistema ";
+                            }
                             //fim        
                         }
 
 
-                            if (!$erro && isset($add)) {
+                        if (!$erro && isset($add)) {
 
-                                $query->begin();
-    
+                            $query->begin();
+
+                            $query->insertTupla(
+                                'responsavel',
+                                array(
+                                    trim($form_responsavel),
+                                    $form_mascara, // CPF
+                                    $form_rg,
+                                    $form_dt_nascimento,
+                                    $form_endereco,
+                                    $form_bairro,
+                                    $_login,
+                                    $_ip,
+                                    $_data,
+                                    $_hora,
+
+                                )
+                            );
+
+                            $id_responsavel = $query->last_insert[0];
+                            $i = 0;
+                            foreach ($form_valor_contato as $val) {
                                 $query->insertTupla(
-                                    'responsavel',
+                                    'responsavel_contato',
                                     array(
-                                        trim($form_responsavel),
-                                        $form_mascara, // CPF
-                                        $form_rg,
-                                        $form_dt_nascimento,
-                                        $form_endereco,
-                                        $form_bairro,
-                                        $_login,
+                                        $id_responsavel,
+                                        $form_tipo_contato[$i],
+                                        $val,
+                                        $form_principal[$i],
+                                        $auth->getUser(),
                                         $_ip,
                                         $_data,
                                         $_hora,
-                                        
+
                                     )
-                                    );
-                            
-                            $id_responsavel = $query->last_insert[0];
-                            $i=0;                                             
-                            foreach($form_valor_contato as $val){
-                            $query->insertTupla(
-                                'responsavel_contato',
-                                array(
-                                    $id_responsavel,
-                                    $form_tipo_contato[$i],
-                                    $val,
-                                    $form_principal[$i], 
-                                    $auth->getUser(),
-                                    $_ip,
-                                    $_data,
-                                    $_hora,
-                                    
-                                )
-                              
-                            );
-                            $i++;
-                           
-                            
-                            if ($id_animal != ""){
-                                $query->insertTupla(
-                                'animal_responsavel',
-                                array(
-                                    $id_animal,
-                                    $id_responsavel, 
-                                    $auth->getUser(),
-                                    $_ip,
-                                    $_data,
-                                    $_hora,
-                                      )    
+
                                 );
-                            }  
-                        }
-                           
+                                $i++;
+
+
+                                if ($id_animal != "") {
+                                    $query->insertTupla(
+                                        'animal_responsavel',
+                                        array(
+                                            $id_animal,
+                                            $id_responsavel,
+                                            $auth->getUser(),
+                                            $_ip,
+                                            $_data,
+                                            $_hora,
+                                        )
+                                    );
+                                }
+                            }
+
                             $query->commit();
-                           
                         }
-                        
-                       
+
+
                         if ($erro)
 
                             echo callException($erro, 2);
@@ -168,7 +165,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
             <div class="card-body pt-0">
 
                 <div class="form-row">
-                
+
                     <div class="form-group col-6 ">
                         <label for="form_responsavel"><span class="text-danger">*</span> Nome :</label>
                         <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="200" required value="<? if ($erro) echo $form_responsavel; ?>">
@@ -181,15 +178,15 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     <div class="form-group col-12 col-md-3">
                         <label for="form_rg"><span class="text-danger">*</span> RG :</label>
                         <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" required maxlength="14" value="<? if ($erro) echo $form_rg; ?>">
-                    </div>    
+                    </div>
                 </div>
 
-                <div class="form-row">                                        
+                <div class="form-row">
                     <div class="form-group col-12 col-md-2">
                         <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
                         <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="08" value="<? if ($erro) echo $form_dt_nascimento; ?>">
                     </div>
-                    
+
                     <div class="form-group col-12 col-md-6">
                         <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
                         <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="200" required value="<? if ($erro) echo $form_endereco; ?>">
@@ -204,15 +201,15 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         <div class="invalid-feedback">
                             Escolha o bairro.
                         </div>
-                        </div>
-                   
+                    </div>
+
                 </div>
 
                 <div class="form-row ">
 
                     <div class="form-group col-12 ">
 
-                        <p class="text-center py-2 bg-green" >
+                        <p class="text-center py-2 bg-green">
                             Contatos :
                         </p>
 
@@ -221,8 +218,8 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                 </div>
 
                 <div class="form-row">
-                   
-                <label for="form_contato"><span class="text-danger">*</span> Contatos:</label>
+
+                    <label for="form_contato"><span class="text-danger">*</span> Contatos:</label>
                     <div class="form-group col-12" id="container_dinamico">
 
                         <?
@@ -238,16 +235,16 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                             <div class="input-group ml-0 mb-2" id="campo_dinamico">
 
-                           
+
                                 <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
                                     <? $form_elemento = $erro ? $form_tipo_contato :  include("../includes/inc_select_tipo_contato.php"); ?>
                                 </select>
-                              
-                                <input type="text"  name="form_valor_contato[]" id="form_valor_contato"  class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" /> 
-                                <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal"/>
-                                <select name="form_principal[]"  required id="form_principal" required  class="form-control col-md-1 form_principal">
-                                <option value="" selected>Selecione</option>
-                                    <option value="S" >Sim</option>
+
+                                <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
+                                <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal" />
+                                <select name="form_principal[]" required id="form_principal" required class="form-control col-md-1 form_principal">
+                                    <option value="" selected>Selecione</option>
+                                    <option value="S">Sim</option>
                                     <option value="N">Não</option>
                                 </select>
 
@@ -264,9 +261,9 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                     <? } ?>
 
                                 </div>
-                               
+
                             </div>
-                                       
+
                         <?
 
                         }
@@ -274,15 +271,15 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         ?>
                     </div>
                 </div>
-                 
-                <div class="card-footer border-top-0 bg-transparent">
-                    <div class="text-center">
-                        <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                        <input class="btn btn-info " type="submit" name="add" value="Salvar">
-                    </div>
+
+                <div class="card-footer bg-light-2">
+                    <?
+                    $btns = array('clean', 'save');
+                    include('../includes/dashboard/footer_forms.php');
+                    ?>
                 </div>
 
-        </div>
+            </div>
 
     </form>
 
@@ -294,54 +291,48 @@ include_once('../includes/dashboard/footer.php');
 <script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/jquery.mask.js"></script>
 <script type="text/javascript">
-
     $('#form_mascara').mask('000.000.000-00');
     $('#form_rg').mask('00000000000000');
-    $(document).on('change','.form_tipo_contato',function(){
-       var mascara = $(this).find(':selected').data('mascara');
-       if(mascara == 'email'){
-        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','email');
-       }
-       else {
-        $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type','text').mask(mascara);
-       }
+    $(document).on('change', '.form_tipo_contato', function() {
+        var mascara = $(this).find(':selected').data('mascara');
+        if (mascara == 'email') {
+            $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type', 'email');
+        } else {
+            $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type', 'text').mask(mascara);
+        }
     });
 
     $("#modal_add_responsavel").on('click', function() {
-       
-
-       var nome_responsavel = $("#form_nome_responsavel").val();
 
 
-       $.ajax({
-           type: "post",
-           url: "../includes/ajax_add_responsavel.php",
+        var nome_responsavel = $("#form_nome_responsavel").val();
 
-           
-           data: {
-               "nome": nome,
 
-           },
-           dataType: "json",
-           beforeSend: function() {
+        $.ajax({
+            type: "post",
+            url: "../includes/ajax_add_responsavel.php",
 
-               $("#modal_add_responsavel").modal('hide');
-           },
-           success: function(response) {
 
-               var option = "<option value='" + response['id_responsavel'] + "' selected>" + response['nome'] + "</option>";
+            data: {
+                "nome": nome,
 
-               $("#RESPONSAVEL_form").append(option)
+            },
+            dataType: "json",
+            beforeSend: function() {
 
-           },
-           error: function(response) {
+                $("#modal_add_responsavel").modal('hide');
+            },
+            success: function(response) {
 
-           }
-       });
+                var option = "<option value='" + response['id_responsavel'] + "' selected>" + response['nome'] + "</option>";
 
-   });
+                $("#RESPONSAVEL_form").append(option)
+
+            },
+            error: function(response) {
+
+            }
+        });
+
+    });
 </script>
-
-
-
-

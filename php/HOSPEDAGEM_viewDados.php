@@ -4,12 +4,6 @@ include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
 
-
-
-//var_dump($form_situacao);
-
-
-
 $where="";
 $where .= $form_id_hospedagem   != "" ? " AND h.id_hospedagem = $form_id_hospedagem " : "";
 $where .= $form_id_animal   != "" ? " AND h.id_animal = $form_id_animal " : "";
@@ -23,11 +17,9 @@ $where .= $form_dt_retirada   != "" ? " AND h.dt_retirada = '".$form_dt_retirada
 
 
 
+$query->exec("SELECT h.id_hospedagem , a.nro_ficha  , h.endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo, h.situacao
 
-
-$query->exec("SELECT h.id_hospedagem , h.id_animal  , h.endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo, h.situacao
-
-FROM hospedagem as h, bairro as b , responsavel as r, motivo as m WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo".$where);
+FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , animal as a WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where);
 
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
@@ -98,7 +90,7 @@ include('../class/class.tab.php');
 $tab = new Tab();
 
 $tab->setTab('Hospedaria', 'fas fa-heading', $_SERVER['PHP_SELF']);
-$tab->setTab('Nova Hospedaria', 'fas fa-plus', 'HOSPEDAGEM_form.php');
+$tab->setTab('Hospedagem', 'fas fa-plus', 'HOSPEDAGEM_form.php');
 
 
 
@@ -154,7 +146,7 @@ $n = $paging->query->rows();
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Hospedagem'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Animal'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Ficha Animal'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Endereco_recolhimento'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Bairro'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Responsavel'); ?> </td>

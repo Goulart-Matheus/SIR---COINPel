@@ -7,7 +7,7 @@ include('../class/class.tab.php');
 $tab = new Tab();
 
 $tab->setTab('Hospedaria', 'fas fa-heading', 'HOSPEDAGEM_viewDados.php');
-$tab->setTab('Nova Hospedaria', 'fas fa-plus', $_SERVER['PHP_SELF']);
+$tab->setTab('Hospedagem', 'fas fa-plus', $_SERVER['PHP_SELF']);
 //$tab->setTab('Pesquisar', 'fas fa-search', 'HOSPEDAGEM_view.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
@@ -144,9 +144,9 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_animal"><span class="text-danger">*</span> Ficha do Animal</label>
-                        <select name="form_id_animal" id="form_id_animal" class="form-control" required>
+                        <select name="form_id_animal" id="form_id_animal" class="form-control select2_ficha_animal" required>
                             <?
-                            $form_elemento = $erro ? $form_id_animal : "";
+                            $where = $form_elemento = $erro ? $form_id_animal : "";
                             include("../includes/inc_select_animal.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -176,9 +176,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
-                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control" required>
+                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel" required>
                             <?
-                            $form_elemento = $erro ? $form_id_responsavel : "";
+                            
+                            $where = $form_elemento = $erro ? $form_id_responsavel : "";
                             include("../includes/inc_select_responsavel.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -271,7 +272,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
 include_once('../includes/dashboard/footer.php');
 ?>
 
-<script src="../assets/js/jquery.js"></script>
 <script type="text/javascript">
     $("#form_id_urm").on('change', function() {
 
@@ -301,5 +301,24 @@ include_once('../includes/dashboard/footer.php');
 
             }
         });
+    });
+
+    $(document).ready(function() {
+
+        if ($(".select2_responsavel").length > 0) {
+            $(".select2_responsavel").attr('data-live-search', 'true');
+
+            $(".select2_responsavel").select2({
+                width: '100%'
+            });
+        }
+
+        if ($(".select2_ficha_animal").length > 0) {
+            $(".select2_ficha_animal").attr('data-live-search', 'true');
+
+            $(".select2_ficha_animal").select2({
+                width: '100%'
+            });
+        }
     });
 </script>

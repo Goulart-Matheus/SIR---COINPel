@@ -180,8 +180,9 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_especie"><span class="text-danger">*</span>Espécie</label>
-                        <select name="form_id_especie" id="form_id_especie" class="form-control" required>
+                        <select name="form_id_especie" id="form_id_especie" class="form-control select2_animal-especie" required>
                             <?
+                            $where="";
                             $form_elemento = $erro ? $form_especie : "";
                             include("../includes/inc_select_especie.php"); ?>
                         </select>
@@ -198,7 +199,7 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
                         <label for="form_observacao">Observação</label>
                         <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($erro) echo $form_observacao; ?>">
                     </div>
-                    
+
                 </div>
 
                 <script>
@@ -225,4 +226,15 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
 include_once('../includes/dashboard/footer.php');
 ?>
 
-<script src="../assets/js/jquery.js"></script>
+<script>
+    $(document).ready(function() {
+
+        if ($(".select2_animal-especie").length > 0) {
+            $(".select2_animal-especie").attr('data-live-search', 'true');
+
+            $(".select2_animal-especie").select2({
+                width: '100%'
+            });
+        }        
+    });
+</script>
