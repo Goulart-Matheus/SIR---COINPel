@@ -9,7 +9,7 @@
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
                         <i class="fas fa-filter text-green"></i>
-                        Filtrar Registro de Habitantes
+                        Filtrar Animais
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -60,7 +60,7 @@
 
                         <div class="form-group col-12 col-md-6">
                             <label for="form_id_especie"></span>Espécie</label>
-                            <select name="form_id_especie" id="form_id_especie" class="form-control">
+                            <select name="form_id_especie" id="form_id_especie" class="form-control select2_animal-especie">
                                 <?
                                 $form_elemento = $erro ? $form_id_especie : "";
                                 include("../includes/inc_select_especie.php"); ?>
@@ -89,3 +89,16 @@
     </div>
 
 </div>
+
+<script>
+    $(document).ready(function() {
+
+        if ($(".select2_animal-especie").length > 0) {
+            $(".select2_animal-especie").attr('data-live-search', 'true');
+
+            $(".select2_animal-especie").select2({
+                width: '100%'
+            });
+        }        
+    });
+</script>

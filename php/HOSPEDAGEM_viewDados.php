@@ -97,7 +97,6 @@ $tab->setTab('Hospedagem', 'fas fa-plus', 'HOSPEDAGEM_form.php');
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
- include('HOSPEDAGEM_view.php');
 
 ?>
 
@@ -227,4 +226,5 @@ $n = $paging->query->rows();
 
 <?
 include_once('../includes/dashboard/footer.php');
+include('HOSPEDAGEM_view.php');
 ?>

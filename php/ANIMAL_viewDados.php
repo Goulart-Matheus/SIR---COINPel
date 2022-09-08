@@ -90,7 +90,6 @@ $tab->setTab('Novo Animal', 'fas fa-plus', 'ANIMAL_form.php');
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
-include 'ANIMAL_view.php'
 
 ?>
 
@@ -203,4 +202,5 @@ include 'ANIMAL_view.php'
 
 <?
 include_once('../includes/dashboard/footer.php');
+include 'ANIMAL_view.php'
 ?>

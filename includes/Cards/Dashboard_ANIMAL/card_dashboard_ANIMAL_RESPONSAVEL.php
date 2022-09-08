@@ -42,7 +42,7 @@ $n = $query->rows();
 
             <div class="col-md-6 text-left">
 
-                <i class="fas fa-list"></i> Responsáveis Vinculados
+                <i class="fas fa-list"></i> RESPONSÁVEIS VINCULADOS
 
             </div>
 
@@ -79,9 +79,9 @@ $n = $query->rows();
         } else {
         ?>
 
-            <table class="table table-sm text-sm" id="atualizacao_tabela_ajax">
+            <table class="table table-sm text-sm table-overflow" style="width:auto;" id="atualizacao_tabela_ajax">
 
-                <thead class="bg-light grey">
+                <thead class="bg-light grey table-responsive">
 
                     <tr>
                         <th scope="col">Nome</th>
@@ -92,7 +92,7 @@ $n = $query->rows();
 
                 </thead>
 
-                <tbody>
+                <tbody style="height: 200px;  width:auto;">
 
                     <?
                     while ($n--) {
@@ -103,7 +103,7 @@ $n = $query->rows();
                             <td><?= $query->record[2]; ?></td>
                             <td><?= $query->record[3]; ?></td>
                             <td><?= $query->record[4]; ?></td>
-                            <td class="text-right px-0 pr-1" style="width: 100px; vertical-align: middle;">
+                            <td class="text-right px-0 pr-1">
                                 <button class="btn btn-sm btn-light delete_responsavel_button" type="button" data-id-responsavel="<?= $query->record[8] ?>" data-nome-responsavel=" <?= $query->record[2] . ' - CPF: ' . $query->record[3] ?>" title="Excluir Relatório">
                                     <i class="fas fa-trash text-danger"></i>
                                 </button>
@@ -260,7 +260,7 @@ $n = $query->rows();
 <script src="../../../assets/js/jquery.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function() {        
 
         $(".btn_ajax_responsavel").on('click', function() {
 
@@ -286,8 +286,8 @@ $n = $query->rows();
                     if (ret[0].resultado == 1) {
 
                         var monta_tabela = "";
-                        monta_tabela += "<div class='card-body p-0 m-0'>";
-                        monta_tabela += "<table class='table table-sm text-sm text-left'>";
+                        monta_tabela += "<div class='card-body p-0 m-0' style='height: 250px;'>";
+                        monta_tabela += "<table class='table table-sm text-sm text-left table-overflow'>";
                         monta_tabela += "<thead p-0 text-left>";
                         monta_tabela += "<tr>";
                         monta_tabela += "<th style='width: 5px;   background-color:#F3EFE7; '></th>";
@@ -299,7 +299,7 @@ $n = $query->rows();
                         monta_tabela += "</tr>";
                         monta_tabela += "</tread>";
 
-                        monta_tabela += "<tbody p-0>";
+                        monta_tabela += "<tbody p-0 style='height: 190px;'>";
 
                         $.each(ret, function(indice, nome) {
 
@@ -313,17 +313,7 @@ $n = $query->rows();
                             monta_tabela += "</tr>";
 
                         });
-                        monta_tabela += "</tbody>";
-                        monta_tabela += "<tfoot>";
-                        monta_tabela += "<tr>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "</tr>";
-                        monta_tabela += "</tfoot>";
+                        monta_tabela += "</tbody>";                   
                         monta_tabela += " </table>";
                         monta_tabela += " </div>";
 

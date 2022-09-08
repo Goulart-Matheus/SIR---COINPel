@@ -4,11 +4,24 @@ include('../includes/variaveisAmbiente.php');
 include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
 
+
+
+if ($id_animal != "") {
+
+
+    $query->exec("SELECT ar.id_animal, ar.id_responsavel
+                  FROM animal as a, animal_responsavel as ar                        
+                  WHERE a.id_animal = ar.id_animal AND 
+                        a.id_animal = $id_animal
+                ");
+    $query->proximo();
+}
+
+
 $tab = new Tab();
 
 $tab->setTab('Hospedaria', 'fas fa-heading', 'HOSPEDAGEM_viewDados.php');
 $tab->setTab('Hospedagem', 'fas fa-plus', $_SERVER['PHP_SELF']);
-//$tab->setTab('Pesquisar', 'fas fa-search', 'HOSPEDAGEM_view.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
@@ -95,7 +108,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $query->insertTupla(
                                 'hospedagem',
                                 array(
-                                    // trim($form_id_hospedagem),
+
                                     $form_id_animal,
                                     $form_dt_entrada,
                                     $form_endereco_recolhimento,
@@ -144,15 +157,14 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-6">
                         <label for="form_id_animal"><span class="text-danger">*</span> Ficha do Animal</label>
-                        <select name="form_id_animal" id="form_id_animal" class="form-control select2_ficha_animal" required>
+                        <select name="form_id_animal" id="form_id_animal" class="form-control select2_ficha_animal" required value="<? if ($erro) echo $form_id_animal; ?>">
                             <?
-                            $where = $form_elemento = $erro ? $form_id_animal : "";
+                            $where = $form_elemento = $erro ? $form_id_animal : $id_animal;
                             include("../includes/inc_select_animal.php"); ?>
                         </select>
                         <div class="invalid-feedback">
                             Escolha um Animal.
                         </div>
-
 
                     </div>
 
@@ -176,10 +188,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
-                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel" required>
+                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel" required value="<? if ($erro) echo $form_id_responsavel; ?>">
                             <?
-                            
-                            $where = $form_elemento = $erro ? $form_id_responsavel : "";
+
+                            $where = $form_elemento = $erro ? $form_id_responsavel : $query->record[1];
                             include("../includes/inc_select_responsavel.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -190,7 +202,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_dt_entrada"><span class="text-danger">*</span>Data Entrada</label>
-                        <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada; ?>">
+                        <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada;
+                                                                                                                                    else echo $_data ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-4">
@@ -226,7 +239,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_valor"><span class="text-danger">*</span> Valor</label>
+                        <label for="form_valor"><span class="text-danger">*</span> Valor da Multa</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?>">
                     </div>
 
@@ -250,9 +263,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         </select>
                     </div>
-
-
-
                 </div>
 
                 <div class="card-footer bg-light-2">
@@ -273,21 +283,27 @@ include_once('../includes/dashboard/footer.php');
 ?>
 
 <script type="text/javascript">
-    $("#form_id_urm").on('change', function() {
+    
+    $("#form_id_urm, #form_dt_entrada, #form_id_animal").on('change', function() {
 
         var id_urm = $("#form_id_urm").val();
+        var id_animal = $("#form_id_animal").val();
+        var dt_entrada = $("#form_dt_entrada").val();
 
         $.ajax({
             type: 'POST',
             url: '../../../includes/ajax_atualiza_valor_urm.php',
             data: {
 
-                "id_urm": id_urm
+                "id_urm": id_urm,
+                "id_animal": id_animal,
+                "dt_entrada": dt_entrada
 
             },
             beforeSend: function() {
 
                 console.log("Enviado ok");
+
 
             },
             success: function(response) {
@@ -303,7 +319,50 @@ include_once('../includes/dashboard/footer.php');
         });
     });
 
+    function atualizaValor() {
+
+        var id_urm = $("#form_id_urm").val();
+        var id_animal = $("#form_id_animal").val();
+        var dt_entrada = $("#form_dt_entrada").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            data: {
+
+                "id_urm": id_urm,
+                "id_animal": id_animal,
+                "dt_entrada": dt_entrada
+
+            },
+            beforeSend: function() {
+
+                console.log("Enviado ok");
+
+
+            },
+            success: function(response) {
+
+                $("#form_valor").val(response['valor']);
+
+            },
+            error: function(erro) {
+
+                // console.log(erro);
+
+            }
+        });
+    }
+
+
+
     $(document).ready(function() {
+
+        if ($("#form_id_urm").prop("selectedIndex", 1).val() != "") {
+            atualizaValor();
+        }
+
+        $("#form_id_urm").prop("selectedIndex", 1).val();
 
         if ($(".select2_responsavel").length > 0) {
             $(".select2_responsavel").attr('data-live-search', 'true');

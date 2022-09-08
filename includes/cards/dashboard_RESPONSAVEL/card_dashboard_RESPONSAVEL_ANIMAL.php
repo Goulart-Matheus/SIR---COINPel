@@ -47,7 +47,7 @@ $n = $query->rows();
 
             <div class="col-md-6 text-left">
 
-                <i class="fas fa-list"></i> Animais Vinculados
+                <i class="fas fa-list"></i> ANIMAIS VINCULADOS
 
             </div>
 
@@ -58,14 +58,11 @@ $n = $query->rows();
                 </button>
             </div>
 
-
-
-
         </div>
 
     </div>
 
-    <div class="card-body p-0 m-0 overflow-auto" style="height: 175px;">
+    <div class="card-body p-0 m-0" style="height: 200px;">
 
         <div class="col-12 p-0 m-0" id="chart_info"></div>
         <!-- Inicio -->
@@ -92,9 +89,9 @@ $n = $query->rows();
         ?>
 
             <? ?>
-            <table class="table responsive" id="atualizacao_tabela_ajax2">
+            <table class="table table-overflow table-sm text-sm" id="atualizacao_tabela_ajax2">
 
-                <thead class="bg-light grey pl-1" style="position: sticky;top: 0">
+                <thead class="bg-light grey pl-1 table-responsive" style="position: sticky;top: 0">
 
                     <tr>
                         <th scope="col" class="px-1">Nro Ficha</th>
@@ -109,7 +106,7 @@ $n = $query->rows();
 
                 </thead>
 
-                <tbody>
+                <tbody style="height: 166px;  width:auto;">
 
                     <?
                     while ($n--) {
@@ -359,8 +356,9 @@ $n = $query->rows();
 
                         var monta_tabela = "";
 
-                        monta_tabela += " <table class='table table-sm responsive text-center'>";
-                        monta_tabela += "<tbody>";
+                        monta_tabela += "<div class='card-body p-0 m-0' style='height: 250px;'>";
+                        monta_tabela += "<table class='table table-sm text-sm text-left table-overflow'>";
+                        monta_tabela += "<thead p-0 text-left>";
                         monta_tabela += "<tr>";
                         monta_tabela += "<td style='width: 30px; background-color:#F3EFE7;'>*</td>";
                         monta_tabela += "<td style='width: 250px; background-color:#F3EFE7;'>Nro. Ficha:</td>";
@@ -368,7 +366,9 @@ $n = $query->rows();
                         monta_tabela += "<td style='width: 180px; background-color:#F3EFE7;'>Pelagem:</td>";
                         monta_tabela += "<td style='width: 240px; background-color:#F3EFE7;'>Especie:</td>";
                         monta_tabela += "<td style='width: 200px; background-color:#F3EFE7;'>Sexo:</td>";
-                        monta_tabela += "</tr>";
+                        monta_tabela += "</tread>";
+
+                        monta_tabela += "<tbody p-0 style='height: 190px;'>";
 
                         $.each(ret, function(indice, sexo) {
                             monta_tabela += "<tr class='entered'>";
@@ -382,18 +382,7 @@ $n = $query->rows();
 
 
                         });
-                        monta_tabela += "</tbody>";
-
-                        monta_tabela += "<tfoot>";
-                        monta_tabela += "<tr>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "<td></td>";
-                        monta_tabela += "</tr>";
-                        monta_tabela += "</tfoot>";
+                        monta_tabela += "</tbody>";                      
 
                         monta_tabela += " </table>";
 

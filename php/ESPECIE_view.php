@@ -9,7 +9,7 @@
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
                         <i class="fas fa-filter text-green"></i>
-                        Filtrar Bairros
+                        Filtrar Espécies
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

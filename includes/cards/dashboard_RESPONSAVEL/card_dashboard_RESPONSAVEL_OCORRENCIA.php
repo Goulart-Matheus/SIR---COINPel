@@ -54,7 +54,7 @@ $query->exec("SELECT
             <div class="row">
 
                 <div class="col-12">
-                    <i class="fas fa-hand-paper"></i> Ocorrências 
+                    <i class="fas fa-hand-paper pr-1"></i>  OCORRÊNCIAS
                 </div>
 
             </div>
@@ -115,8 +115,7 @@ $query->exec("SELECT
                                         
                                        
                                         ?>
-                                            <tr>
-                                              
+                                            <tr class="entered">                                              
                                                 <td><?= $animal['nro_ficha']; ?></td>
                                                 <td><?= $animal['nro_chip']; ?></td>
                                                 <td><?= $animal['endereco_recolhimento']; ?></td>

@@ -27,7 +27,7 @@
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_id_animal"></span>Ficha do Animal</label>
-                            <select name="form_id_animal" id="form_id_animal" class="form-control">
+                            <select name="form_id_animal" id="form_id_animal" class="form-control select2_animal_ficha">
                                 <?
                                 $form_elemento = $erro ? $form_id_animal : "";
                                 include("../includes/inc_select_animal.php"); ?>
@@ -59,7 +59,7 @@
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_id_responsavel"></span> Responsavel</label>
-                            <select name="form_id_responsavel" id="form_id_responsavel" class="form-control">
+                            <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_animal_responsavel">
                                 <?
                                 $form_elemento = $erro ? $form_id_responsavel : "";
                                 include("../includes/inc_select_responsavel.php"); ?>
@@ -97,8 +97,8 @@
                         <div class="form-group col-12 col-md-4">
                             <label for="form_situacao"><span class="text-danger">*</span> Situação</label>
                             <select class="form-control" name="form_situacao" id="form_situacao">
-                                <option value="S"  >Ativo</option>
-                                <option value="N" >Não Ativo</option>
+                                <option value="S">Ativo</option>
+                                <option value="N">Não Ativo</option>
 
                             </select>
                         </div>
@@ -113,12 +113,32 @@
                         Filtrar
                     </button>
                 </div>
-
-
-
-
-
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+
+        if ($(".select2_animal_ficha").length > 0) {
+            $(".select2_animal_ficha").attr('data-live-search', 'true');
+
+            $(".select2_animal_ficha").select2({
+                width: '100%'
+            });
+        }
+
+    });
+
+    $(document).ready(function() {
+
+        if ($(".select2_animal_responsavel").length > 0) {
+            $(".select2_animal_responsavel").attr('data-live-search', 'true');
+
+            $(".select2_animal_responsavel").select2({
+                width: '100%'
+            });
+        }
+    });
+</script>

@@ -60,14 +60,14 @@ $query->exec("SELECT
             <div class="row">
 
                 <div class="col-12">
-                    <i class="fas fa-hand-paper"></i> Ocorrências 
+                    <i class="fas fa-hand-paper"></i> OCORRÊNCIAS
                 </div>
 
             </div>
 
         </div>
 
-        <div class="card-body p-0 m-0" style="height: 175px;">
+        <div class="card-body p-0 m-0">
 
             <div class="col-12 p-0 m-0" id="chart_info"></div>
 <!-- Inicio -->
@@ -89,9 +89,9 @@ $query->exec("SELECT
                 {
                     ?>
 
-                        <table class="table p-0 m-0">
+                        <table class="table table-sm text-sm p-0 m-0 table-overflow" style=" width:auto;">
                                     
-                            <thead class="bg-light grey">
+                            <thead class="bg-light grey table-responsive">
                             
                                 <tr>
                                                                     
@@ -110,7 +110,7 @@ $query->exec("SELECT
 
                             </thead>
 
-                            <tbody>
+                            <tbody style="height: 200px;  width:auto;">
                             
                                 <?
                                     while($n--)
@@ -118,7 +118,7 @@ $query->exec("SELECT
                                         $query->proximo();
                                        
                                         ?>
-                                            <tr>
+                                            <tr class="entered">
                                                 
                                                 <td><?= $query->record[1]; ?></td>
                                                 <td><?= $query->record[2]; ?></td>
@@ -154,9 +154,7 @@ $query->exec("SELECT
 
             <div class="row">
 
-                <div class="col-6"><a href='HOSPEDAGEM_form.php?id_responsavel=<?= $id_responsavel ?>'><i class="fa fa-plus"></i> Novo</a></div>
-
-             
+                <div class="col-6"><a href='HOSPEDAGEM_form.php?id_animal=<?= $id_animal ?>'><i class="fa fa-plus"></i> Novo</a></div>             
 
             </div>
 
