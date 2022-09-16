@@ -6,23 +6,20 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Hospedaria', 'fas fa-heading', 'HOSPEDAGEM_viewDados.php');
-$tab->setTab('Hospegem', 'fa-solid fa-heading', 'HOSPEDAGEM_cover.php?id_hospedagem=' . $id_hospedagem);
+$tab->setTab('Atendimentos', 'fa-solid fa-house-chimney-medical', 'HOSPEDAGEM_viewDados.php');
+$tab->setTab('Atendimento', 'fa-solid fa-house-chimney-medical', 'HOSPEDAGEM_cover.php?id_hospedagem=' . $id_hospedagem);
 $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
-/*
-$query->exec("SELECT id_hospedagem , id_animal , valor , endereco_recolhimento , id_bairro , id_responsavel , dt_entrada , dt_retirada , situacao
 
-FROM hospedagem
-
-WHERE id_hospedagem = " . $id_hospedagem);
-*/
-
-$query->exec("SELECT  h.id_hospedagem , h.id_animal  , endereco_recolhimento , b.id_bairro , r.id_responsavel , h.dt_entrada , h.dt_retirada ,m.id_motivo ,h.id_urm ,h.nro_boleto,h.situacao, h.valor
-
-FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , urm as u WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo ");
+$query->exec("SELECT  h.id_hospedagem , h.id_animal  , endereco_recolhimento , b.id_bairro , r.id_responsavel , h.dt_entrada , h.dt_retirada ,m.id_motivo ,h.id_urm ,h.nro_boleto,h.situacao, h.valor, a.nro_chip, a.nro_ficha
+            FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , urm as u , animal as a
+            WHERE b.id_bairro = h.id_bairro AND
+            h.id_animal = a.id_animal AND
+            r.id_responsavel = h.id_responsavel AND 
+            h.id_motivo = m.id_motivo AND
+            h.id_hospedagem = $id_hospedagem ");
 
 $query->result($query->linha);
 
@@ -111,6 +108,16 @@ $query->result($query->linha);
 
                             if (!$erro && isset($edit)) {
 
+                                if ($form_dt_retirada == "") {
+                                    $form_dt_retirada = "NULL";
+                                }
+                                if($form_nro_boleto==""){
+                                    $form_nro_boleto="NULL";
+                                }
+                                if($form_observacao==""){
+                                    $form_observacao="NULL";
+                                }
+
                                 $query->begin();
 
                                 $itens = array(
@@ -135,6 +142,7 @@ $query->result($query->linha);
 
                                 $where = array(0 => array('id_hospedagem', $id_hospedagem));
                                 $query->updateTupla('hospedagem', $itens, $where);
+                                var_dump($query->sql);
 
                                 $query->commit();
                             }
@@ -156,25 +164,34 @@ $query->result($query->linha);
 
                 <div class="form-row">
 
-                    <div class="form-group col-12 col-md-6">
-                        <label for="form_id_hospedagem"><span class="text-danger">*</span> Hospedagem</label>
-                        <input type="text" class="form-control" name="form_id_hospedagem" id="form_id_hospedagem" maxlength="100" value="<? if ($edit) echo $form_id_hospedagem;
-                                                                                                                                            else echo trim($query->record[0]) ?>">
-                    </div>
-
+                    <input type="hidden" name="form_id_animal" id="form_id_animal" value="<? if ($edit) echo $form_id_animal;
+                                                                                            else echo $query->record[1] ?>">
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_id_animal"><span class="text-danger">*</span> Ficha do Animal</label>
-                        <select name="form_id_animal" id="form_id_animal" class="form-control select2_ficha_animal" required>
+
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Ficha do Animal</label>
+                        <select name="form_nro_ficha" id="form_nro_ficha" class="form-control select2_ficha_animal" required value="<? if ($edit) echo $form_nro_ficha; else $query->record[13]; ?>">
                             <?
-                            $where="";
-                            $form_elemento = $edit ? $form_id_animal : $query->record[1] . "";
-                            include("../includes/inc_select_animal.php"); ?>
+                            $where = $form_elemento = $edit ? $form_nro_ficha : $query->record[13];
+                            include("../includes/inc_select_ficha_animal.php");
+                            ?>
                         </select>
                         <div class="invalid-feedback">
                             Escolha um Animal.
                         </div>
 
+                    </div>
+
+                    <div class="form-group col-12 col-md-6">
+
+                        <label for="form_nro_chip"><span class="text-danger">*</span> Numero do Chip Animal</label>
+                        <select name="form_nro_chip" id="form_nro_chip" class="form-control select2_nro_chip" required value="<? if ($edit) echo $form_nro_chip;
+                                                                                                                                else echo $query->record[12]; ?>">
+                            <?
+                            $where = $form_elemento = $edit ? $form_nro_chip : $query->record[12];
+                            include("../includes/inc_select_chip.php");
+                            ?>
+                        </select>
 
                     </div>
 
@@ -201,7 +218,7 @@ $query->result($query->linha);
                         <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
                         <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel" required>
                             <?
-                            $where="";
+                            $where = "";
                             $form_elemento = $edit ? $form_id_responsavel : $query->record[4];
                             include("../includes/inc_select_responsavel.php"); ?>
                         </select>
@@ -228,7 +245,7 @@ $query->result($query->linha);
                         <label for="form_id_motivo"><span class="text-danger">*</span> Motivo</label>
                         <select name="form_id_motivo" id="form_id_motivo" class="form-control" required>
                             <?
-                            $form_elemento = $erro ? $form_id_motivo : $query->record[7];
+                            $form_elemento = $edit ? $form_id_motivo : $query->record[7];
                             include("../includes/inc_select_motivo.php"); ?>
                         </select>
                         <div class="invalid-feedback">
@@ -278,13 +295,13 @@ $query->result($query->linha);
                                                     if (!$edit && $query->record[10] == "S") {
                                                         echo 'selected';
                                                     }
-                                                }  ?>>Disponível</option>
+                                                }  ?>>Em Atendimento</option>
                             <option value="N" <? if ($edit && $form_situacao == 'N') echo 'selected';
                                                 else {
                                                     if (!$edit && $query->record[10] == "N") {
                                                         echo 'selected';
                                                     }
-                                                }  ?>>Não Disponível</option>
+                                                }  ?>>Atendimento Finalizado</option>
 
                         </select>
                     </div>
@@ -316,21 +333,71 @@ include_once('../includes/dashboard/footer.php');
 
 
 <script type="text/javascript">
-    $("#form_id_urm").on('change', function() {
+    $("#form_id_urm, #form_dt_entrada, #form_nro_ficha, #form_nro_chip").on('change', function() {
 
         var id_urm = $("#form_id_urm").val();
+        var nro_ficha = $("#form_nro_ficha").val();
+        var dt_entrada = $("#form_dt_entrada").val();
+        var nro_chip = $("#form_nro_chip").val();
+        var identificador = $(this).attr('id');
 
         $.ajax({
             type: 'POST',
             url: '../../../includes/ajax_atualiza_valor_urm.php',
             data: {
 
-                "id_urm": id_urm
+                "id_urm": id_urm,
+                "nro_ficha": nro_ficha,
+                "dt_entrada": dt_entrada,
+                "nro_chip": nro_chip,
+                "identificador": identificador
+            },
+            beforeSend: function() {
+
+                console.log("Enviado ok");
+                console.log(identificador);
+
+            },
+            success: function(response) {
+
+                $("#form_valor").val(response['valor']);
+                $("#form_nro_chip").prop("selectedIndex", 1).val(response['nro_chip']).select2();
+                $("#form_nro_ficha").prop("selectedIndex", 1).val(response['nro_ficha']).select2();
+                if (response['id_responsavel'] != 0) {
+                    $("#form_id_responsavel").prop("selectedIndex", 1).val(response['id_responsavel']).select2();
+                } else {
+                    $("#form_id_responsavel").prop("selectedIndex", 0).select2();
+                }
+                $("#form_id_animal").val(response['id_animal']);
+            },
+            error: function(erro) {
+
+                // console.log(erro);
+
+            }
+        });
+    });
+
+    function atualizaValor() {
+
+        var id_urm = $("#form_id_urm").val();
+        var nro_ficha = $("#form_nro_ficha").val();
+        var dt_entrada = $("#form_dt_entrada").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            data: {
+
+                "id_urm": id_urm,
+                "nro_ficha": nro_ficha,
+                "dt_entrada": dt_entrada
 
             },
             beforeSend: function() {
 
                 console.log("Enviado ok");
+
 
             },
             success: function(response) {
@@ -344,9 +411,16 @@ include_once('../includes/dashboard/footer.php');
 
             }
         });
-    });
+    }
+
 
     $(document).ready(function() {
+
+        if ($("#form_id_urm").prop("selectedIndex", 1).val() != "") {
+            atualizaValor();
+        }
+
+        $("#form_id_urm").prop("selectedIndex", 1).val();
 
         if ($(".select2_responsavel").length > 0) {
             $(".select2_responsavel").attr('data-live-search', 'true');
@@ -360,6 +434,14 @@ include_once('../includes/dashboard/footer.php');
             $(".select2_ficha_animal").attr('data-live-search', 'true');
 
             $(".select2_ficha_animal").select2({
+                width: '100%'
+            });
+        }
+
+        if ($(".select2_nro_chip").length > 0) {
+            $(".select2_nro_chip").attr('data-live-search', 'true');
+
+            $(".select2_nro_chip").select2({
                 width: '100%'
             });
         }

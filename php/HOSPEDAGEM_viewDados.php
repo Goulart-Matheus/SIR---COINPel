@@ -11,13 +11,19 @@ $where .= $form_endereco_recolhimento   != "" ? " AND h.endereco_recolhimento il
 $where .= $form_id_bairro   != "" ? " AND h.id_bairro = $form_id_bairro " : "";
 $where .= $form_id_responsavel   != "" ? " AND h.id_responsavel = $form_id_responsavel " : "";
 $where .= $form_id_motivo   != "" ? " AND h.id_motivo = $form_id_motivo " : "";
-$where .= $form_situacao   != "" ? " AND h.situacao = '".$form_situacao."' " : "";
+if($form_situacao   == "" || $form_situacao   == "S"){
+    $where .= " AND h.situacao = 'S' ";
+}elseif($form_situacao   == "N"){
+    $where .= " AND h.situacao = '".$form_situacao."' ";
+}
 $where .= $form_dt_entrada   != "" ? " AND h.dt_entrada = '".$form_dt_entrada."' " : "";
 $where .= $form_dt_retirada   != "" ? " AND h.dt_retirada = '".$form_dt_retirada."' " : "";
+$where .= $form_nro_chip != "" ? "AND a.nro_chip = '".$form_nro_chip."'" : "";
+$where .= $form_nro_ficha != "" ? "AND a.nro_ficha = '".$form_nro_ficha."'" : "";
 
 
 
-$query->exec("SELECT h.id_hospedagem , a.nro_ficha  , h.endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo, h.situacao
+$query->exec("SELECT h.id_hospedagem , a.nro_ficha  , h.endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo, h.situacao, a.nro_chip
 
 FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , animal as a WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where);
 
@@ -89,14 +95,15 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Hospedaria', 'fas fa-heading', $_SERVER['PHP_SELF']);
-$tab->setTab('Hospedagem', 'fas fa-plus', 'HOSPEDAGEM_form.php');
+$tab->setTab('Atendimento', 'fa-solid fa-house-chimney-medical', $_SERVER['PHP_SELF']);
+$tab->setTab('Novo Atendimento', 'fas fa-plus', 'HOSPEDAGEM_form.php');
 
 
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
+ include('HOSPEDAGEM_view.php');
 
 ?>
 
@@ -144,8 +151,8 @@ $n = $paging->query->rows();
 
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Hospedagem'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Ficha Animal'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Nro Chip'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Endereco_recolhimento'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Bairro'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Responsavel'); ?> </td>
@@ -158,20 +165,24 @@ $n = $paging->query->rows();
                         <?
                         while ($n--) {
 
+                            if(isset($query->record[6])){
+                                $query->record[6] = date('d/m/Y',strtotime($paging->query->record[6]));
+                            }
+
                             $paging->query->proximo();
 
-                            $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_edit.php?id_hospedagem=" . $paging->query->record[0] . "')";
+                            $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_cover.php?id_hospedagem=" . $paging->query->record[0] . "')";
 
                             echo "<tr class='entered'>";
 
                             echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0] . "></td>";
-                                echo "<td valign='top' " . $js_onclick . ">" . ($query->record[8] == "S" ? "<i class='fas fa-circle text-green'</i>" : "<i class='fas fa-circle text-light'</i>") . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
+                                echo "<td valign='top' " . $js_onclick . ">" . ($query->record[8] == "S" ? "<i class='fas fa-circle text-warning'</i>" : "<i class='fas fa-circle text-green'</i>") . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[9] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . date('d/m/Y',strtotime($paging->query->record[5])) . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
 
@@ -188,8 +199,8 @@ $n = $paging->query->rows();
                             <td colspan="8">
 
                                 <span>Situação: </span>
-                                <span><i class='fas fa-circle text-light'></i> Não Disponível</span>
-                                <span><i class='fas fa-circle text-green'></i> Disponível</span>
+                                <span><i class='fas fa-circle text-green'></i> Atendimento Finalizado</span>
+                                <span><i class='fas fa-circle text-warning'></i> Em Atendimento</span>
 
                             </td>
                         </tr>

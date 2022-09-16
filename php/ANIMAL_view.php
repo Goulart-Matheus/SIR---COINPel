@@ -47,7 +47,7 @@
 
                         <div class="form-group col-12 col-md-6">
                             <label for="form_id_pelagem"></span>Pelagem</label>
-                            <select name="form_id_pelagem" id="form_id_pelagem" class="form-control">
+                            <select name="form_id_pelagem" id="form_id_pelagem" class="form-control select2_pelagem">
                                 <?
                                 $form_elemento = $erro ? $form_id_pelagem : "";
                                 include("../includes/inc_select_pelagem.php"); ?>
@@ -99,6 +99,14 @@
             $(".select2_animal-especie").select2({
                 width: '100%'
             });
-        }        
+        } 
+        
+        if ($(".select2_pelagem").length > 0) {
+            $(".select2_pelagem").attr('data-live-search', 'true');
+
+            $(".select2_pelagem").select2({
+                width: '100%'
+            });
+        }
     });
 </script>

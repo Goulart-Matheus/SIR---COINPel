@@ -19,24 +19,35 @@
                 <div class="modal-body">
                     <div class="form-row">
 
-                        <div class="form-group col-12 col-md-4">
-                            <label for="form_id_hospedagem"></span> Hospedagem</label>
-                            <input type="text" class="form-control" name="form_id_hospedagem" id="form_id_hospedagem" maxlength="100" value="<? if ($erro) echo $form_id_hospedagem; ?>">
-                        </div>
+                        
 
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_id_animal"></span>Ficha do Animal</label>
-                            <select name="form_id_animal" id="form_id_animal" class="form-control select2_animal_ficha">
+                            <select name="form_id_animal" id="form_id_animal" class="form-control select2_form_animal_modal">
                                 <?
                                 $form_elemento = $erro ? $form_id_animal : "";
                                 include("../includes/inc_select_animal.php"); ?>
                             </select>
                             <div class="invalid-feedback">
-                                Escolha um Animal.
+                                Escolha uma ficha.
                             </div>
 
 
+                        </div>
+
+                        <div class="form-group col-12 col-md-4">
+                            <label for="form_nro_chip"></span> Numero do Chip</label>
+                            <select name="form_nro_chip" id="form_nro_chip" class="form-control select2_form_chip_modal">
+                                <?php
+                                    $form_elemento = $erro ? $form_nro_chip : "";
+                                    include("../includes/inc_select_chip.php"); 
+                                ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                Escolha um chip
+                            </div>
+                            
                         </div>
 
                         <div class="form-group col-12 col-md-4">
@@ -59,7 +70,7 @@
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_id_responsavel"></span> Responsavel</label>
-                            <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_animal_responsavel">
+                            <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_id_responsavel_modal">
                                 <?
                                 $form_elemento = $erro ? $form_id_responsavel : "";
                                 include("../includes/inc_select_responsavel.php"); ?>
@@ -97,9 +108,9 @@
                         <div class="form-group col-12 col-md-4">
                             <label for="form_situacao"><span class="text-danger">*</span> Situação</label>
                             <select class="form-control" name="form_situacao" id="form_situacao">
-                                <option value="S">Ativo</option>
-                                <option value="N">Não Ativo</option>
-
+                                <option value="S"  >Em Atendimento</option>
+                                <option value="N" >Atendimento Finalizado</option>
+                                <option value="T" >Todos</option>
                             </select>
                         </div>
 
@@ -113,32 +124,46 @@
                         Filtrar
                     </button>
                 </div>
+
+
+
+
+
             </form>
         </div>
     </div>
 </div>
-
-<script>
+<script src="../assets/js/jquery.js"></script>
+<script type="text/javascript">
     $(document).ready(function() {
 
-        if ($(".select2_animal_ficha").length > 0) {
-            $(".select2_animal_ficha").attr('data-live-search', 'true');
+    if ($(".select2_form_animal_modal").length > 0) {
+        $(".select2_form_animal_modal").attr('data-live-search', 'true');
 
-            $(".select2_animal_ficha").select2({
-                width: '100%'
-            });
-        }
+        $(".select2_form_animal_modal").select2({
+            width: '100%'
+        });
+    }
 
-    });
+    if ($(".select2_form_chip_modal").length > 0) {
+        $(".select2_form_chip_modal").attr('data-live-search', 'true');
 
-    $(document).ready(function() {
+        $(".select2_form_chip_modal").select2({
+            width: '100%'
+        });
+    }
 
-        if ($(".select2_animal_responsavel").length > 0) {
-            $(".select2_animal_responsavel").attr('data-live-search', 'true');
+    if ($(".select2_id_responsavel_modal").length > 0) {
+                $(".select2_id_responsavel_modal").attr('data-live-search', 'true');
 
-            $(".select2_animal_responsavel").select2({
-                width: '100%'
-            });
-        }
-    });
+                $(".select2_id_responsavel_modal").select2({
+                    width: '100%'
+                });
+    }
+
+});
+
+
+    
+    
 </script>

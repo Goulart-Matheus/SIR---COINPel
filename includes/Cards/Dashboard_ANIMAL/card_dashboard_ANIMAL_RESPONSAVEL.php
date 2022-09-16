@@ -104,7 +104,7 @@ $n = $query->rows();
                             <td><?= $query->record[3]; ?></td>
                             <td><?= $query->record[4]; ?></td>
                             <td class="text-right px-0 pr-1">
-                                <button class="btn btn-sm btn-light delete_responsavel_button" type="button" data-id-responsavel="<?= $query->record[8] ?>" data-nome-responsavel=" <?= $query->record[2] . ' - CPF: ' . $query->record[3] ?>" title="Excluir Relatório">
+                                <button class="btn btn-sm btn-light delete_responsavel_button" type="button" data-id-responsavel="<?= $query->record[8] ?>" data-nome-responsavel=" <?= $query->record[2] . ' - CPF: ' . $query->record[3] ?>" title="Exclir Vínculo">
                                     <i class="fas fa-trash text-danger"></i>
                                 </button>
                             </td>
@@ -369,8 +369,7 @@ $n = $query->rows();
                         
                     } else {
                         $("#ajax_excluir_responsavel_nenhum").removeClass("d-none");
-                        $("#ajax_excluir_responsavel_nenhum_botao").addClass("d-none");
-                       
+                        $("#ajax_excluir_responsavel_nenhum_botao").addClass("d-none");                       
                     }
 
                 },

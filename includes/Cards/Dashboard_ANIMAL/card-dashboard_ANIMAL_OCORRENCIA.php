@@ -1,6 +1,4 @@
 <?
-    // preparando a listagem dos contatos (endereço, bairro, fone,celular, e-mail e se o contato é principal ou não)
-    //Sandra alterei o teu where para testar pelo $id_animal esta variavel foi criada no ANIMAL_form.php
 $query->exec("SELECT
                 h.id_hospedagem,
                 a.nro_ficha,
@@ -36,19 +34,7 @@ $query->exec("SELECT
             AND
                 m.id_motivo = h.id_motivo ");     
 
-    //echo $query-> sql;
-    // $query->result($query->linha);
-    // $id_hospedagem                  = $query->record[0];
-    // $nro_ficha                      = $query->record[1];
-    // $nro_chip                       = $query->record[2];
-    // $endereco_recolhimento          = $query->record[3];
-    // $bairro                         = $query->record[4];
-    // $responsavel                    = $query->record[5];
-    // $dt_entrada                     = $query->record[6];
-    // $dt_retirada                    = $query->record[7];
-    // $motivo                         = $query->record[8];
-    // $valor                          = $query->record[9];
-    
+       
     $n = $query->rows();
 
     ?>

@@ -6,36 +6,73 @@ include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
 include('../function/function.date.php');
 
-$query->exec("SELECT 
-a.id_animal , a.nro_ficha , a.nro_chip , a.sexo , a.observacao, p. descricao , e.descricao
+$query_hospedagem = new Query($bd);
+$query_hospedagem->exec("SELECT 
+h.id_hospedagem , a.nro_ficha , a.nro_chip , h.dt_entrada , h.endereco_recolhimento, b.descricao , h.dt_retirada, u.mes_referencia, u.ano_referencia,h.valor,e.descricao, r.nome,p.descricao,h.id_animal, h.situacao
 FROM 
-animal a, pelagem p , especie e
+animal a,  hospedagem as h, bairro as b , urm as u, especie as e, responsavel as r, pelagem as p
  WHERE 
-id_animal = $id_animal
+h.id_hospedagem = $id_hospedagem
+AND
+h.id_animal = a.id_animal 
 AND 
-a.id_pelagem = p.id_pelagem
-AND 
-a.id_especie = e.id_especie
+h.id_bairro = b.id_bairro
+AND
+h.id_urm = u.id_urm
+
 
 ");
 
 
-$query->result($query->linha);
 
-$id_animal         = $query->record[0];
-$nro_ficha         = $query->record[1];
-$nro_chip          = $query->record[2];
-$id_pelagem        = $query->record[3];
-$id_especie        = $query->record[4];
-$sexo              = $query->record[5];
-$observacao        = $query->record[6];
+
+$query_hospedagem->result($query->linha);
+
+if(isset($query_hospedagem->record[6])){
+    $dt_retirada = date('d/m/Y',strtotime($query_hospedagem->record[6]));
+}else{
+    $dt_retirada =  $query_hospedagem->record[6];
+}
+
+$id_hospedagem                = $query_hospedagem->record[0];
+$nro_ficha                    = $query_hospedagem->record[1];
+$nro_chip                     = $query_hospedagem->record[2];
+$dt_entrada                   = date('d/m/Y', strtotime($query_hospedagem->record[3]));
+$dt_entrada_reincidencia      = $query_hospedagem->record[3];
+$endereco_recolhimento        = $query_hospedagem->record[4];
+$bairro                       = $query_hospedagem->record[5];
+$urm_mes                      = $query_hospedagem->record[7];
+$urm_ano                      = $query_hospedagem->record[8];
+$hospedagem_valor             = number_format($query_hospedagem->record[9], 2, ',', '.');
+$especie_descricao            = $query_hospedagem->record[10];
+$responsavel_nome             = $query_hospedagem->record[11];
+$pelagem                      = $query_hospedagem->record[12];
+$id_animal_count              = $query_hospedagem->record[13];
+$situacao                     = $query_hospedagem->record[14];
+
+
+
+//Contagem de Reincidencias
+$query_reincidencias = new Query($bd);
+
+$query_reincidencias->exec("SELECT count(id_animal) FROM hospedagem WHERE  id_animal = '".$id_animal_count."' AND dt_retirada <= '".$dt_entrada_reincidencia."'");
+$query_reincidencias->proximo();
+
+if ($query_reincidencias->record[0] > 0) {
+
+    $nro_reincidencias = $query_reincidencias->record[0];
+} else {
+    $nro_reincidencias = 0;
+}
+
+
 
 $tab = new Tab();
 
-$tab->setTab('Animais', 'fa-solid fa-dog', 'ANIMAL_viewDados.php');
-$tab->setTab($query->record[1], $query->record[5], $_SERVER['PHP_SELF'] . '?id_animal='   . $id_animal);
-$tab->setTab('Editar', 'fas fa-pencil-alt', 'ANIMAL_edit.php?id_animal='                  . $id_animal);
-$tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
+$tab->setTab('Atendimentos', 'fa-solid fa-house-chimney-medical', 'HOSPEDAGEM_viewDados.php');
+$tab->setTab($query_hospedagem->record[1], $query_hospedagem->record[5], $_SERVER['PHP_SELF'] . '?id_hospedagem='   . $id_hospedagem);
+$tab->setTab('Editar', 'fas fa-pencil-alt', 'HOSPEDAGEM_edit.php?id_hospedagem=' . $id_hospedagem);
+$tab->printTab($_SERVER['PHP_SELF'] . '?id_hospedagem=' . $id_hospedagem);
 
 ?>
 
@@ -66,7 +103,7 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
 
                 <div class="col-12">
 
-                    <? include("../includes/Cards/Dashboard_ANIMAL/card_dashboard_ANIMAL_FICHA.php"); ?>
+                    <? include("../includes/cards/card_dashboard_HOSPEDAGEM/card_dashboard_HOSPEDAGEM_FICHA.php"); ?>
 
                 </div>
 
@@ -76,19 +113,23 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_animal=' . $query->record[0]);
 
                 <div class="col-12 col-md-12">
 
-                    <? include("../includes/Cards/Dashboard_ANIMAL/card_dashboard_ANIMAL_RESPONSAVEL.php"); ?>
+                    <? include("../includes/cards/card_dashboard_HOSPEDAGEM/card_dashboard_HOSPEDAGEM_ANEXO.php"); ?>
 
                 </div>
 
                 <div class="col-12 col-md-12">
 
-                    <? include("../includes/Cards/Dashboard_ANIMAL/card-dashboard_ANIMAL_OCORRENCIA.php"); ?>
+                    <?  ?>
 
                 </div>
 
             </div>
 
         </div>
+
+    </div>
+
+    <div class="col-12 col-md-12">
 
     </div>
 
@@ -108,3 +149,43 @@ function isNum($val)
     return 0;
 }
 ?>
+
+<script>
+    $(document).ready(function() {
+
+        $("#add_hospedagem_anexo").on('change', function() {
+
+            var id_hospedagem = <?= $id_hospedagem ?>;
+            var nome_arquivo = $("#nome_arquivo_hospedagem_anexo").val();
+            var arquivo = $("#arquivo_hospedagem_anexo").val();
+
+            $.ajax({
+                type: 'POST',
+                url: '../../../includes/ajax_atualiza_valor_urm.php',
+                data: {
+
+                    "id_hospedagem": id_hospedagem,
+                    "nome_arquivo": nome_arquivo,
+                    "arquivo": arquivo
+
+                },
+                beforeSend: function() {
+
+                    console.log("Enviado ok");
+                    $("HOSPEDAGEM_ANEXO_ADD").modal('hide');
+
+                },
+                success: function(response) {
+
+                    $("#form_valor").val(response['valor']);
+
+                },
+                error: function(erro) {
+
+                    // console.log(erro);
+
+                }
+            });
+        });
+    });
+</script>

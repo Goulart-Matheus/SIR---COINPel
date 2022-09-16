@@ -21,7 +21,6 @@ $query->exec(
             a.id_animal= $id_animal"
 );
 
-
 $query->result($query->linha);
 
 ?>
@@ -67,11 +66,7 @@ $query->result($query->linha);
 
                             $valida = new Valida($form_sexo, 'sexo ');
                             $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
-                            $valida = new Valida($form_observacao, 'observacao ');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
+                            $erro .= $valida->PegaErros();                           
                         }
 
                         if (!$erro && isset($edit)) {
@@ -81,9 +76,9 @@ $query->result($query->linha);
                             $itens = array(
                                 $form_nro_ficha,
                                 $form_nro_chip,
-                                $id_pelagem,
-                                $id_especie,
-                                $sexo,
+                                $form_id_pelagem,
+                                $form_id_especie,
+                                $form_sexo,
                                 $observacao,
                                 $_login,
                                 $_ip,

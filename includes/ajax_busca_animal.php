@@ -13,6 +13,8 @@
     $_especie   = $_POST['especie'];
     $_pelagem   = $_POST['pelagem'];
     $_sexo      = $_POST['sexo'];
+    $_id_especie = $_POST['id_especie'];
+    $_id_pelagem = $_POST['id_pelagem'];
 
 
                 
@@ -33,10 +35,16 @@
             if($_sexo!=""){
                 $where.= " and a.sexo ilike '{$_sexo}'";
             }
+            if($_id_pelagem!=""){
+                $where.= " and a.id_pelagem = '{$_id_pelagem}'";
+            }
+            if($_id_especie!=""){
+                $where.= " and a.id_especie = '{$_id_especie}'";
+            }
 
             $query_valores = new Query($bd);
             $query_valores->exec("  SELECT   
-                                            a.id_animal,a.nro_ficha , a.nro_chip ,e.descricao as especie ,p.descricao as pelagem ,a.sexo
+                                            a.id_animal,a.nro_ficha , a.nro_chip ,e.descricao as especie ,p.descricao as pelagem ,a.sexo, a.id_pelagem, a.id_especie
                                     FROM 
                                             animal a, especie e, pelagem p
                                     WHERE 
@@ -58,7 +66,8 @@
                 "nro_chip"                              =>  trim($query_valores->record['nro_chip'])                  ,
                 "pelagem"                               =>  trim($query_valores->record['pelagem'])                     ,                        
                 "especie"                               =>  trim($query_valores->record['especie'])             ,
-                "sexo"                                  =>  trim($query_valores->record['sexo'])                      ,    
+                "sexo"                                  =>  trim($query_valores->record['sexo'])                      , 
+                
             
                 
             );

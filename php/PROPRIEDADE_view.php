@@ -23,31 +23,18 @@
                     <div class="form-row">
                         <div class="form-group col-12 col-md-6">
                             <label for="form_proprietario" class="">Proprietário</label>
-                            <select name="form_proprietario" class="form-control">
-                                <option value="">Selecione um proprietário...</option>
+                            <select name="form_proprietario" class="form-control select2_proprietario">
                                 <?
-
-                                $query_proprietario = new Query($bd);
-                                $query_proprietario->exec(
-                                    "SELECT id_proprietario, nome FROM proprietario ORDER BY nome"
-                                );
-                                $n2 = $query_proprietario->rows();
-                                while ($n2--) {
-                                    $query_proprietario->proximo();
-                                    if ($erro)
-                                        if ($form_proprietario == $query_proprietario->record[0]) $flag = 'selected';
-                                        else unset($flag);
-                                    echo "<option value='{$query_proprietario->record[0]}' $flag > {$query_proprietario->record[1]} </option>";
-                                }
-
+                                $where = "";
+                                include "../includes/inc_select_proprietario.php";
                                 ?>
                             </select>
                         </div>
 
                         <div class="form-group col-12 col-md-6">
-                                <label for="form_nome">Nome da propriedade</label>
-                                <input autocomplete="off" type="text" class="form-control" name="form_nome" id="form_nome">
-                            </div>
+                            <label for="form_nome">Nome da propriedade</label>
+                            <input autocomplete="off" type="text" class="form-control" name="form_nome" id="form_nome">
+                        </div>
                     </div>
                 </div>
 
@@ -57,12 +44,22 @@
                         Filtrar
                     </button>
                 </div>
-                    
+
             </form>
 
 
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
 
+        if ($(".select2_proprietario").length > 0) {
+            $(".select2_proprietario").attr('data-live-search', 'true');
 
+            $(".select2_proprietario").select2({
+                width: '100%'
+            });
+        }
+    });
+</script>

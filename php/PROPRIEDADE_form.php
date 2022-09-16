@@ -89,12 +89,10 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         <div class="form-row">
                             <div class="form-group col-12">
                                 <label for="form_proprietario" class="mb-0 mt-1">Proprietário</label>
-                                <select name="form_proprietario" class="form-control select2_proprietario">
-                                    <option value="">Selecione um proprietário...</option>
+                                <select name="form_proprietario" class="form-control select2_proprietario">                                    
                                     <?
                                     $where="";
-                                    include "../includes/inc_select_proprietario.php";                                   
-                                    
+                                    include "../includes/inc_select_proprietario.php";
                                     ?>
                                 </select>
                             </div>

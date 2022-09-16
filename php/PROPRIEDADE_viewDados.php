@@ -63,7 +63,6 @@ if ($remove) {
 }
 $n = $paging->query->rows();
 
-include('../php/PROPRIEDADE_view.php');
 ?>
 
 <section class="content">
@@ -118,7 +117,7 @@ include('../php/PROPRIEDADE_view.php');
                     <tbody>
                         <tr>
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
-                            
+
                             <td style='<? echo $sort->verifyItem(1); ?>'><? echo $sort->printItem(1, $sort->sort_dir, 'Proprietário')         ?></td>
                             <td style='<? echo $sort->verifyItem(2); ?>'><? echo $sort->printItem(3, $sort->sort_dir, 'Nome')               ?></td>
                         </tr>
@@ -141,7 +140,7 @@ include('../php/PROPRIEDADE_view.php');
                     </tbody>
                     <tfoot>
                         <tr>
-                        <td colspan="8">
+                            <td colspan="8">
                                 <div class="text-center pt-2">
                                     <? echo $paging->viewTableSlice(); ?>
                                 </div>
@@ -152,7 +151,7 @@ include('../php/PROPRIEDADE_view.php');
             </div>
 
             <div class="card-footer bg-light-2">
-            <?
+                <?
                 if ($paging->query->rows()) {
                     $btns = array('selectAll', 'remove');
                     include('../includes/dashboard/footer_forms.php');
@@ -163,4 +162,7 @@ include('../php/PROPRIEDADE_view.php');
     </form>
 </section>
 
-<? include_once('../includes/dashboard/footer.php'); ?>
+<?
+include_once('../includes/dashboard/footer.php');
+include('../php/PROPRIEDADE_view.php');
+?>

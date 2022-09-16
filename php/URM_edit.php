@@ -82,8 +82,7 @@ $query -> proximo();
                             $query->updateTupla('urm', $itens, $where);
 
                             $query->commit();
-                            var_dump($query->sql);
-
+                        
                         }
 
                         if ($erro) echo callException($erro, 2);
