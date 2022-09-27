@@ -9,7 +9,9 @@
     <meta content="William da Cruz Sinotti" name="author">
     <link rel="shortcut icon" href="../assets/images/logo-short.png">
     <link href="../assets/css/app.css" rel="stylesheet" type="text/css">
-    <link href="../assets/css/style.css" rel="stylesheet" type="text/css">
+    <link href="../assets/css/style.css" rel="stylesheet" type="text/css">   
+    <link rel="stylesheet" href="/assets/css/datalab.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">
 <?include_once('navbar.php')?>

@@ -1,5 +1,4 @@
 <?
-
 $query_anexo = new Query($bd);
 
 $query_anexo->exec("SELECT ha.nome, ha.arquivo, ha.dt_alteracao, ha.login, ha.id_hospedagem_anexo

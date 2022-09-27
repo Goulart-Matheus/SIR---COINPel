@@ -333,7 +333,7 @@ include_once('../includes/dashboard/footer.php');
 
 
 <script type="text/javascript">
-    $("#form_id_urm, #form_dt_entrada, #form_nro_ficha, #form_nro_chip").on('change', function() {
+    $("#form_nro_ficha, #form_nro_chip").on('change', function() {
 
         var id_urm = $("#form_id_urm").val();
         var nro_ficha = $("#form_nro_ficha").val();
