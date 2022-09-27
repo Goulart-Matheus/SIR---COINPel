@@ -1,17 +1,17 @@
 <?
 
 include("../../../includes/mapbox.header.php");
-
 $_data;
-
-if (isset($filter) && $dados_ano != "") {
+var_dump($filter);
+if ($dados_ano != "") {
     $ano_corrente = $dados_ano;
+   
 } else {
     $ano_corrente = explode('-', $_data)[0];
+ 
 }
 
 $mes_corrente = explode('-', $_data)[1];
-
 
 $query_quantidade = new Query($bd);
 
@@ -305,7 +305,7 @@ if ($query_especies->rows() > 0) {
 
         <div class="modal-content">
 
-            <form method="post" action="<?= $_SERVER['PHP_SELF'] . "?dados_ano=" . $ano_corrente_filtro . "" ?> ">
+            <form method="post" action="<?= $_SERVER['PHP_SELF'] . "?dados_ano=".$ano_corrente_filtro."" ?> ">
 
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
@@ -322,7 +322,7 @@ if ($query_especies->rows() > 0) {
                     <div class="form-row">
 
                         <div class="form-group col-12 col-md-12">
-                            <label for="ano_corrente"></span> Ano</label>
+                            <label for="ano_corrente_filtro"></span> Ano</label>
 
                             <select name="ano_corrente_filtro" id="ano_corrente_filtro" class="form-control">
                                 <?
@@ -352,7 +352,7 @@ if ($query_especies->rows() > 0) {
                 </div>
 
                 <div class="modal-footer bg-light-2 text-center">
-                    <button type="submit" name="filter" class="btn btn-light">
+                    <button type="submit" name="filter" class="btn btn-light" value="1">
                         <i class="fa-solid fa-filter text-green"></i>
                         Filtrar
                     </button>

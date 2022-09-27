@@ -22,7 +22,9 @@ $where .= $form_nro_chip != "" ? " AND a.nro_chip = '".$form_nro_chip."'" : "";
 $where .= $form_nro_ficha != "" ? " AND a.nro_ficha = '".$form_nro_ficha."'" : "";
 
 
-$query->exec("SELECT h.id_hospedagem , (SELECT a.nro_ficha FROM animal as a WHERE a.id_animal = h.id_animal),(SELECT a.nro_chip FROM animal as a WHERE a.id_animal = h.id_animal),h.endereco_recolhimento as recolhimento,
+$query->exec("SELECT h.id_hospedagem , (SELECT a.nro_ficha FROM animal as a WHERE a.id_animal = h.id_animal),
+(SELECT a.nro_chip FROM animal as a WHERE a.id_animal = h.id_animal)
+,h.endereco_recolhimento as recolhimento,
 
 (SELECT b.descricao as bairro FROM bairro as b WHERE b.id_bairro = h.id_bairro),
 
@@ -35,71 +37,11 @@ h.dt_retirada,
 h.situacao
 
 
-FROM hospedagem as h WHERE h.id_hospedagem = (SELECT h.id_hospedagem  FROM bairro as b , responsavel as r, motivo as m , animal as a WHERE b.id_bairro = h.id_bairro 
-AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where.")");
+FROM hospedagem as h WHERE h.id_hospedagem = (SELECT h.id_hospedagem  FROM bairro as b , motivo as m , animal as a WHERE b.id_bairro = h.id_bairro 
+ AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where.")");
 
 $query->proximo();
 
-
-
-
-/*
-//Query filtro responsavel
-//Traz hospedagem com id_responsavel
-$query_responsavel = new Query($bd);
-$query_responsavel->exec("SELECT h.id_hospedagem FROM hospedagem as h WHERE h.id_responsavel IS NULL");
-$query_responsavel->proximo();
-
-
-
-
-
-if($query_responsavel->rows() < 0){
-    //Traz Responsaveis Null
-    $query = new Query($bd);
-    $query->exec("SELECT h.id_hospedagem, a.nro_ficha, a.nro_chip, h.endereco_recolhimento, b.descricao,
-    CASE 
-        WHEN h.id_responsavel IS NULL
-        THEN ''
-    END 
-    ,h.dt_entrada, h.dt_retirada, m.descricao, h.situacao
-    FROM hospedagem as h, animal as a, bairro as b , motivo as m 
-    WHERE h.id_responsavel IS NULL
-    AND b.id_bairro = h.id_bairro
-    AND h.id_animal = a.id_animal
-    AND m.id_motivo = h.id_motivo
-    ".$where);
-
-    $query->proximo();
-
-    $qtn = $query->rows();
-    $i =0;
-
-    while($i < $qtn){
-
-        
-        
-        $i++;
-
-    }
-
-}else{
-    //Traz Responsaveis != NULL
-    $query->exec("SELECT h.id_hospedagem, a.nro_ficha,a.nro_chip ,h.endereco_recolhimento, b.descricao,r.nome
-    ,h.dt_entrada, h.dt_retirada, m.descricao, h.situacao
-    FROM hospedagem as h , animal as a, bairro as b, motivo as m , responsavel as r 
-    WHERE
-     h.id_responsavel = r.id_responsavel
-     AND a.id_animal = h.id_animal 
-     AND h.id_motivo = m.id_motivo
-     AND h.id_bairro = b.id_bairro
-     ".$where);
-
-
-
-    $query->proximo();
-}
-*/
 
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
