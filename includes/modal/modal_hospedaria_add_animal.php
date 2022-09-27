@@ -139,13 +139,22 @@
 
                         if (ret[0]['resultado'] === '1') {
 
-                         
-                            $("#form_nro_chip").prop("selectedIndex", 1).val(ret[0]['nro_chip']).select2();
-                            $("#form_nro_ficha").prop("selectedIndex", 1).val(ret[0]['nro_ficha']).select2();
+                            $("#form_nro_chip").val(ret[0]['nro_chip']);
+                            $("#form_nro_ficha").val(ret[0]['nro_ficha']);
+                            $("#form_especie").val(ret[0]['especie']);
+                            $("#form_pelagem").val(ret[0]['pelagem']);
+                            if(ret[0]['sexo']=='M'){
+                                ret[0]['sexo'] = "Macho";
+                            }else{
+                                ret[0]['sexo'] = "Fêmea";
+                            }
+                            $("#form_sexo").val(ret[0]['sexo']);
+                            //$("#form_nro_chip").prop("selectedIndex", 1).val(ret[0]['nro_chip']).select2();
+                            //$("#form_nro_ficha").prop("selectedIndex", 1).val(ret[0]['nro_ficha']).select2();
                             if (ret[0]['id_responsavel'] != 0) {
-                                $("#form_id_responsavel").prop("selectedIndex", 1).val(ret[0]['id_responsavel']).select2();
+                               // $("#form_id_responsavel").prop("selectedIndex", 1).val(ret[0]['id_responsavel']).select2();
                             } else {
-                                $("#form_id_responsavel").prop("selectedIndex", 0).select2();
+                               // $("#form_id_responsavel").prop("selectedIndex", 0).select2();
                             }
 
                             $("#PESQUISA_ANIMAL_modal").modal('hide');

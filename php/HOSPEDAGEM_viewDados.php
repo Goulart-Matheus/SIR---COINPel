@@ -18,14 +18,88 @@ if($form_situacao   == "" || $form_situacao   == "S"){
 }
 $where .= $form_dt_entrada   != "" ? " AND h.dt_entrada = '".$form_dt_entrada."' " : "";
 $where .= $form_dt_retirada   != "" ? " AND h.dt_retirada = '".$form_dt_retirada."' " : "";
-$where .= $form_nro_chip != "" ? "AND a.nro_chip = '".$form_nro_chip."'" : "";
-$where .= $form_nro_ficha != "" ? "AND a.nro_ficha = '".$form_nro_ficha."'" : "";
+$where .= $form_nro_chip != "" ? " AND a.nro_chip = '".$form_nro_chip."'" : "";
+$where .= $form_nro_ficha != "" ? " AND a.nro_ficha = '".$form_nro_ficha."'" : "";
+
+
+$query->exec("SELECT h.id_hospedagem , (SELECT a.nro_ficha FROM animal as a WHERE a.id_animal = h.id_animal),(SELECT a.nro_chip FROM animal as a WHERE a.id_animal = h.id_animal),h.endereco_recolhimento as recolhimento,
+
+(SELECT b.descricao as bairro FROM bairro as b WHERE b.id_bairro = h.id_bairro),
+
+(SELECT r.nome as responsavel FROM bairro as b , responsavel as r, motivo as m , animal as a WHERE b.id_bairro = h.id_bairro 
+AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal),
+h.dt_entrada,
+h.dt_retirada,
+
+(SELECT m.descricao as motivo FROM motivo as m WHERE m.id_motivo = h.id_motivo),
+h.situacao
+
+
+FROM hospedagem as h WHERE h.id_hospedagem = (SELECT h.id_hospedagem  FROM bairro as b , responsavel as r, motivo as m , animal as a WHERE b.id_bairro = h.id_bairro 
+AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where.")");
+
+$query->proximo();
 
 
 
-$query->exec("SELECT h.id_hospedagem , a.nro_ficha  , h.endereco_recolhimento as recolhimento , b.descricao as bairro, r.nome , h.dt_entrada , h.dt_retirada ,m.descricao as motivo, h.situacao, a.nro_chip
 
-FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , animal as a WHERE b.id_bairro = h.id_bairro AND r.id_responsavel = h.id_responsavel AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where);
+/*
+//Query filtro responsavel
+//Traz hospedagem com id_responsavel
+$query_responsavel = new Query($bd);
+$query_responsavel->exec("SELECT h.id_hospedagem FROM hospedagem as h WHERE h.id_responsavel IS NULL");
+$query_responsavel->proximo();
+
+
+
+
+
+if($query_responsavel->rows() < 0){
+    //Traz Responsaveis Null
+    $query = new Query($bd);
+    $query->exec("SELECT h.id_hospedagem, a.nro_ficha, a.nro_chip, h.endereco_recolhimento, b.descricao,
+    CASE 
+        WHEN h.id_responsavel IS NULL
+        THEN ''
+    END 
+    ,h.dt_entrada, h.dt_retirada, m.descricao, h.situacao
+    FROM hospedagem as h, animal as a, bairro as b , motivo as m 
+    WHERE h.id_responsavel IS NULL
+    AND b.id_bairro = h.id_bairro
+    AND h.id_animal = a.id_animal
+    AND m.id_motivo = h.id_motivo
+    ".$where);
+
+    $query->proximo();
+
+    $qtn = $query->rows();
+    $i =0;
+
+    while($i < $qtn){
+
+        
+        
+        $i++;
+
+    }
+
+}else{
+    //Traz Responsaveis != NULL
+    $query->exec("SELECT h.id_hospedagem, a.nro_ficha,a.nro_chip ,h.endereco_recolhimento, b.descricao,r.nome
+    ,h.dt_entrada, h.dt_retirada, m.descricao, h.situacao
+    FROM hospedagem as h , animal as a, bairro as b, motivo as m , responsavel as r 
+    WHERE
+     h.id_responsavel = r.id_responsavel
+     AND a.id_animal = h.id_animal 
+     AND h.id_motivo = m.id_motivo
+     AND h.id_bairro = b.id_bairro
+     ".$where);
+
+
+
+    $query->proximo();
+}
+*/
 
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
@@ -151,6 +225,7 @@ $n = $paging->query->rows();
 
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
                             <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Atendimento'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Ficha Animal'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Nro Chip'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Endereco_recolhimento'); ?> </td>
@@ -163,28 +238,33 @@ $n = $paging->query->rows();
                         </tr>
 
                         <?
-                        while ($n--) {
-
-                            if(isset($query->record[6])){
-                                $query->record[6] = date('d/m/Y',strtotime($paging->query->record[6]));
-                            }
+                            while ($n--) {
 
                             $paging->query->proximo();
+
+                            if($query->record[7] > 0){
+                               
+                                $paging->query->record[7] = date('d/m/Y',strtotime($query->record[7]));
+                                
+                            }
+
 
                             $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_cover.php?id_hospedagem=" . $paging->query->record[0] . "')";
 
                             echo "<tr class='entered'>";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0] . "></td>";
-                                echo "<td valign='top' " . $js_onclick . ">" . ($query->record[8] == "S" ? "<i class='fas fa-circle text-warning'</i>" : "<i class='fas fa-circle text-green'</i>") . "</td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0]. "></td>";
+                                
+                                echo "<td valign='top' " . $js_onclick . ">" . ($paging->query->record[9] == "S" ? "<i class='fas fa-circle text-warning'</i>" : "<i class='fas fa-circle text-green'</i>") . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[9] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
                                 echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . date('d/m/Y',strtotime($paging->query->record[5])) . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">".  $paging->query->record[5] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">".  date('d/m/Y',strtotime($paging->query->record[6])) . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">".  $paging->query->record[7] . "</td>";
+                                echo "<td valign='middle' " . $js_onclick . ">".  $paging->query->record[8] . "</td>";
 
                             echo "</tr>";
                         }

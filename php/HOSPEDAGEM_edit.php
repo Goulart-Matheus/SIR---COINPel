@@ -12,16 +12,54 @@ $tab->setTab('Editar', 'fas fa-pencil-alt', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);
 
+$where = "";
+$where .= $id_responsavel != "" ? " AND h.id_responsavel = r.id_responsavel " : "";
 
-$query->exec("SELECT  h.id_hospedagem , h.id_animal  , endereco_recolhimento , b.id_bairro , r.id_responsavel , h.dt_entrada , h.dt_retirada ,m.id_motivo ,h.id_urm ,h.nro_boleto,h.situacao, h.valor, a.nro_chip, a.nro_ficha
-            FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , urm as u , animal as a
+
+$query_responsavel = new Query($bd);
+$query_responsavel->exec("SELECT h.id_responsavel FROM hospedagem as h WHERE h.id_hospedagem = $id_hospedagem");
+$query_responsavel->result($query->linha);
+
+
+if ($query_responsavel->record[0] == null) {
+    $query->exec("SELECT  h.id_hospedagem , h.id_animal  , endereco_recolhimento , b.id_bairro , r.id_responsavel , h.dt_entrada , h.dt_retirada ,m.id_motivo ,h.id_urm ,h.nro_boleto,h.situacao, h.valor, a.nro_chip, a.nro_ficha, p.descricao, e.descricao, a.sexo
+            FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , urm as u , animal as a, pelagem as p, especie as e
             WHERE b.id_bairro = h.id_bairro AND
-            h.id_animal = a.id_animal AND
-            r.id_responsavel = h.id_responsavel AND 
+            h.id_animal = a.id_animal  AND 
+            p.id_pelagem = a.id_pelagem  AND 
+            e.id_especie = a.id_especie AND
             h.id_motivo = m.id_motivo AND
             h.id_hospedagem = $id_hospedagem ");
+    $query->result($query->linha);
 
-$query->result($query->linha);
+   
+    $query->record[4] = NULL;
+} else {
+
+    $query->exec("SELECT  h.id_hospedagem , h.id_animal  , endereco_recolhimento , b.id_bairro , r.id_responsavel , h.dt_entrada , h.dt_retirada ,m.id_motivo ,h.id_urm ,h.nro_boleto,h.situacao, h.valor, a.nro_chip, a.nro_ficha,  p.descricao, e.descricao, a.sexo
+            FROM hospedagem as h, bairro as b , responsavel as r, motivo as m , urm as u , animal as a, pelagem as p, especie as e
+            WHERE b.id_bairro = h.id_bairro AND
+            h.id_animal = a.id_animal  AND 
+            h.id_motivo = m.id_motivo AND 
+            p.id_pelagem = a.id_pelagem  AND 
+            e.id_especie = a.id_especie AND
+            h.id_responsavel = r.id_responsavel AND
+            h.id_hospedagem = $id_hospedagem ");
+
+    $query->result($query->linha);
+}
+
+if($query->record[16] =='F'){
+    $query->record[16]= "Fêmea";
+}else{
+    $query->record[16]= "Macho";
+}
+
+$query_reincidencias = new Query($bd);
+$query_reincidencias->exec("SELECT count(id_animal) FROM hospedagem WHERE  id_animal = '" . $query->record[1] . "' AND dt_retirada <= '" . $query->record[5] . "'");
+$query_reincidencias->proximo();
+$nro_reincidencias = $query_reincidencias->record[0];
+
 
 ?>
 
@@ -78,7 +116,7 @@ $query->result($query->linha);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_id_responsavel, 'Id_responsavel');
-                            $valida->TamMinimo(1);
+                            $valida->TamMinimo(0);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_id_motivo, 'Id_motivo');
@@ -111,11 +149,14 @@ $query->result($query->linha);
                                 if ($form_dt_retirada == "") {
                                     $form_dt_retirada = "NULL";
                                 }
-                                if($form_nro_boleto==""){
-                                    $form_nro_boleto="NULL";
+                                if ($form_nro_boleto == "") {
+                                    $form_nro_boleto = "NULL";
                                 }
-                                if($form_observacao==""){
-                                    $form_observacao="NULL";
+                                if ($form_observacao == "") {
+                                    $form_observacao = "NULL";
+                                }
+                                if ($form_id_responsavel == "") {
+                                    $form_id_responsavel = "NULL";
                                 }
 
                                 $query->begin();
@@ -142,7 +183,7 @@ $query->result($query->linha);
 
                                 $where = array(0 => array('id_hospedagem', $id_hospedagem));
                                 $query->updateTupla('hospedagem', $itens, $where);
-                                var_dump($query->sql);
+
 
                                 $query->commit();
                             }
@@ -162,20 +203,56 @@ $query->result($query->linha);
 
             <div class="card-body pt-0">
 
-                <div class="form-row">
+
+                <div class="form-row mt-0">
+                    <div class="form-group bg-green mb-3 col-12 col-md-12">
+
+                        <p class="card-header p-2"><i class="fa-solid fa-file-invoice"></i> Cadastro Inicial</p>
+
+
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+
+
+                        <div class="row mx-0 ">
+                            <div class="col-6 text-left px-0 ">
+                                <a class=" btn btn-success mx-1 text-light bg-green" data-toggle="modal" data-target="#PESQUISA_ANIMAL_modal" title="Pesquisar Animal"><i class="fa fa-search"></i> Pesquisar Animal</a>
+                            </div>
+
+                            <div class="col-6 text-right px-0 ">
+                                <a title='Adicionar Animal' class='btn btn-success text-light bg-green' data-toggle='modal' data-target='#ANIMAL_modal'>+ Adicionar animal <i class='fa fa-dog text-light'></i></a>
+                            </div>
+
+                        </div>
+                    </div>
 
                     <input type="hidden" name="form_id_animal" id="form_id_animal" value="<? if ($edit) echo $form_id_animal;
                                                                                             else echo $query->record[1] ?>">
 
+
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Espécie</label>
+                        <input class="form-control" type="text" name="form_especie" id="form_especie" value="<? if ($edit) echo $form_id_animal;
+                                                                                            else echo $query->record[15]; ?>" disabled>
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Pelagem</label>
+                        <input class="form-control" type="text" name="" id="form_pelagem"  value="<? if ($edit) echo $form_id_animal;
+                                                                                            else echo $query->record[14]; ?>" disabled>
+                    </div>
+                    <div class="form-group col-12 col-md-4">
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Sexo</label>
+                        <input class="form-control" type="text" name="" id="form_sexo"  value="<? if ($edit) echo $form_id_animal;
+                                                                                            else echo $query->record[16]; ?>" disabled>
+                    </div>
                     <div class="form-group col-12 col-md-6">
 
                         <label for="form_nro_ficha"><span class="text-danger">*</span> Ficha do Animal</label>
-                        <select name="form_nro_ficha" id="form_nro_ficha" class="form-control select2_ficha_animal" required value="<? if ($edit) echo $form_nro_ficha; else $query->record[13]; ?>">
-                            <?
-                            $where = $form_elemento = $edit ? $form_nro_ficha : $query->record[13];
-                            include("../includes/inc_select_ficha_animal.php");
-                            ?>
-                        </select>
+
+
+                        <input type="text" name="form_nro_ficha" id="form_nro_ficha" class="form-control" value="<? if ($edit) echo $form_nro_ficha;
+                                                                                                                    else echo $query->record[13]; ?>" required disabled>
                         <div class="invalid-feedback">
                             Escolha um Animal.
                         </div>
@@ -185,23 +262,20 @@ $query->result($query->linha);
                     <div class="form-group col-12 col-md-6">
 
                         <label for="form_nro_chip"><span class="text-danger">*</span> Numero do Chip Animal</label>
-                        <select name="form_nro_chip" id="form_nro_chip" class="form-control select2_nro_chip" required value="<? if ($edit) echo $form_nro_chip;
-                                                                                                                                else echo $query->record[12]; ?>">
-                            <?
-                            $where = $form_elemento = $edit ? $form_nro_chip : $query->record[12];
-                            include("../includes/inc_select_chip.php");
-                            ?>
-                        </select>
+
+                        <input type="text" name="form_nro_chip" id="form_nro_chip" class="form-control" value="<? if ($edit) echo $form_nro_ficha;
+                                                                                                                else echo $query->record[12];
+                                                                                                                ?>" required disabled>
 
                     </div>
 
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_endereco_recolhimento"><span class="text-danger">*</span> Endereço de Recolhimento</label>
                         <input type="text" class="form-control" name="form_endereco_recolhimento" id="form_endereco_recolhimento" maxlength="100" value="<? if ($edit) echo $form_endereco_recolhimento;
                                                                                                                                                             else echo trim($query->record[2]) ?>">
                     </div>
 
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_id_bairro"><span class="text-danger">*</span> Bairro</label>
                         <select name="form_id_bairro" id="form_id_bairro" class="form-control" required>
                             <?
@@ -213,35 +287,13 @@ $query->result($query->linha);
                         </div>
                     </div>
 
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
-                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel" required>
-                            <?
-                            $where = "";
-                            $form_elemento = $edit ? $form_id_responsavel : $query->record[4];
-                            include("../includes/inc_select_responsavel.php"); ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha o Responsavel.
-                        </div>
-                    </div>
-
-
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-6">
                         <label for="form_dt_entrada"><span class="text-danger">*</span>Data Entrada</label>
                         <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada;
                                                                                                                                     else echo trim($query->record[5]); ?>">
                     </div>
 
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_dt_retirada"><span class="text-danger">*</span> Data Retirada</label>
-                        <input type="date" class="form-control" name="form_dt_retirada" id="form_dt_retirada" maxlength="100" value="<? if ($erro) echo $form_dt_retirada;
-                                                                                                                                        else echo trim($query->record[6]); ?>">
-                    </div>
-
-
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_id_motivo"><span class="text-danger">*</span> Motivo</label>
                         <select name="form_id_motivo" id="form_id_motivo" class="form-control" required>
                             <?
@@ -253,41 +305,7 @@ $query->result($query->linha);
                         </div>
                     </div>
 
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_id_urm"><span class="text-danger">*</span>URM</label>
-                        <select name="form_id_urm" id="form_id_urm" class="form-control" required>
-                            <?
-                            $form_elemento = $edit ? $form_id_urm : $query->record[8];
-                            include("../includes/inc_select_urm.php"); ?>
-                        </select>
-                        <div class="invalid-feedback">
-                            Escolha a URM.
-                        </div>
-                    </div>
-
-
-                    <div class="form-group col-12 col-md-4">
-
-                        <label for="form_valor"><span class="text-danger">*</span> Valor</label>
-                        <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($edit) echo $form_valor;
-                                                                                                                            else echo trim($query->record[11]) ?>">
-                    </div>
-
-
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_nro_boleto"><span class="text-danger">*</span> Numero Boleto</label>
-                        <input type="text" class="form-control" name="form_nro_boleto" id="form_nro_boleto" maxlength="100" value="<? if ($edit) echo $form_nro_boleto;
-                                                                                                                                    else echo trim($query->record[9]) ?>">
-                    </div>
-
-                    <div class="form-group col-12 col-md-8">
-                        <label for="form_observacao"></span> Observação</label>
-                        <input type="text" class="form-control" name="form_observacao" id="form_observacao" maxlength="200" value="<? if ($edit) echo $form_observacao; ?>">
-                    </div>
-
-
-                    <div class="form-group col-12 col-md-4">
+                    <div class="form-group col-12 col-md-3">
                         <label for="form_situacao"><span class="text-danger">*</span> Situação</label>
                         <select class="form-control" name="form_situacao" id="form_situacao">
                             <option value="S" <? if ($edit && $form_situacao == 'S') echo 'selected';
@@ -305,6 +323,72 @@ $query->result($query->linha);
 
                         </select>
                     </div>
+                </div>
+
+                <div class="form-row ">
+
+                    <div class="form-group bg-green mb-3 col-12 col-md-12">
+
+                        <p class="card-header p-2"><i class="fa-solid fa-file-invoice"></i> Cadastro Retirada</p>
+
+
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_dt_retirada"><span class="text-danger">*</span> Data Retirada</label>
+                        <input type="date" class="form-control" name="form_dt_retirada" id="form_dt_retirada" maxlength="100" value="<? if ($erro) echo $form_dt_retirada;
+                                                                                                                                        else echo trim($query->record[6]); ?>">
+                    </div>
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
+                        <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel">
+                            <?
+
+
+                            $form_elemento = $edit ? $form_id_responsavel : $query->record[4];
+
+                            include("../includes/inc_select_responsavel.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha o Responsavel.
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 col-md-2">
+                        <label for="form_id_urm"><span class="text-danger">*</span>URM</label>
+                        <select name="form_id_urm" id="form_id_urm" class="form-control" required>
+                            <?
+                            $form_elemento = $edit ? $form_id_urm : $query->record[8];
+                            include("../includes/inc_select_urm.php"); ?>
+                        </select>
+                        <div class="invalid-feedback">
+                            Escolha a URM.
+                        </div>
+                    </div>
+
+                    <div class="form-group col-12 col-md-2">
+                        <label for="form_reincidencias"><span class="text-danger">*</span> Reincidências</label>
+                        <input class="form-control" name="form_reincidencias" id="form_reincidencias" value="<?= $nro_reincidencias; ?>" type="text" disabled>
+                    </div>
+
+                    <div class="form-group col-12 col-md-2">
+
+                        <label for="form_valor"><span class="text-danger">*</span> Valor</label>
+                        <input type="text" class="form-control palin-text" name="form_valor" id="form_valor" maxlength="100" value="<? if ($edit) echo $form_valor;
+                                                                                                                                    else echo trim($query->record[11]) ?>" disabled>
+                    </div>
+
+
+                    <div class="form-group col-12 col-md-6">
+                        <label for="form_nro_boleto"><span class="text-danger">*</span> Numero Boleto</label>
+                        <input type="text" class="form-control" name="form_nro_boleto" id="form_nro_boleto" maxlength="100" value="<? if ($edit) echo $form_nro_boleto;
+                                                                                                                                    else echo trim($query->record[9]) ?>">
+                    </div>
+
+                    <div class="form-group col-12 col-md-12">
+                        <label for="form_observacao"></span> Observação</label>
+                        <textarea name="form_observacao" class="col-12 col-md-12 form-control" id="form_observacao" rows="3" value="<? if ($edit) echo $form_observacao; ?>"></textarea>
+                    </div>
+
 
                 </div>
 
@@ -329,11 +413,13 @@ $query->result($query->linha);
 
 <?
 include_once('../includes/dashboard/footer.php');
+include('../includes/modal/modal_hospedaria_pesquisa_animal.php');
+include('../includes/modal/modal_hospedaria_add_animal.php');
 ?>
 
 
 <script type="text/javascript">
-    $("#form_nro_ficha, #form_nro_chip").on('change', function() {
+    $("#form_id_urm, #form_dt_entrada, #form_nro_ficha, #form_nro_chip").on('change', function() {
 
         var id_urm = $("#form_id_urm").val();
         var nro_ficha = $("#form_nro_ficha").val();
@@ -361,8 +447,10 @@ include_once('../includes/dashboard/footer.php');
             success: function(response) {
 
                 $("#form_valor").val(response['valor']);
-                $("#form_nro_chip").prop("selectedIndex", 1).val(response['nro_chip']).select2();
-                $("#form_nro_ficha").prop("selectedIndex", 1).val(response['nro_ficha']).select2();
+                $("#form_nro_chip").val(response['nro_chip']);
+                $("#form_nro_ficha").val(response['nro_ficha']);
+                //$("#form_nro_chip").prop("selectedIndex", 1).val(response['nro_chip']).select2();
+                //$("#form_nro_ficha").prop("selectedIndex", 1).val(response['nro_ficha']).select2();
                 if (response['id_responsavel'] != 0) {
                     $("#form_id_responsavel").prop("selectedIndex", 1).val(response['id_responsavel']).select2();
                 } else {

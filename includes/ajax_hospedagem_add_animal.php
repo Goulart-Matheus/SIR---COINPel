@@ -31,11 +31,11 @@
              array(
                  
                  trim($nro_ficha),
-                 $nro_chip,
-                 $id_pelagem,
-                 $id_especie,
+                 trim($nro_chip),
+                 trim($id_pelagem),
+                 trim($id_especie),
                  trim($sexo),
-                 $observacao,
+                 trim($observacao),
                  $_login,
                  $_ip,
                  $_data,
@@ -45,11 +45,17 @@
          );
          $query->commitNotMessage();
 
-  $ret[] = array(
+         $query_dados = new Query($bd);
+         $query_dados->exec("SELECT e.descricao , p.descricao, u.mes , u.ano, u.valor FROM especie as e , pelagem as p ,urm as u WHERE e.id_especie = $id_especie AND p.id_pelagem = $id_pelagem");
+         $query_dados->proximo();
+
+        $ret[] = array(
         'resultado' => '1',
         'nro_ficha' => $nro_ficha,
          'nro_chip' => $nro_chip,
          'sexo' => $sexo,
+         'especie' => $query_dados->record[0],
+         'pelagem' => $query_dados->record[1],
          'id_animal' => $query->lastInsert(),
          'msg' => "Animal Cadastrado com Sucesso",
          'id_responsavel' => $query_verifica->record[2]

@@ -79,18 +79,21 @@
 
             <div class="modal-footer bg-light-2 text-center">
                 <div class="row col-12 p-0">
-                    <div class="col-md-6 text-left">
+                    <div class="col-md-12 text-right">
                         <button type="button" id="btn_ajax_pesquisa_animal" name="btn_ajax_pesquisa_animal" class="btn btn-light btn-sm btn_ajax_pesquisa_animal">
                             <i class="fa-solid fa-filter text-green"></i>
                             Filtrar
                         </button>
                     </div>
+                    <!---
                     <div class="col-md-6 text-right">
                         <button type="button" id="btn_ajax_vincula_animal_hospedaria" name="btn_ajax_vincula_animal_hospedaria" class="btn  btn-light btn-sm btn_ajax_vincula_animal_hospedaria">
                             <i class="fa-solid fa-filter text-green"></i>
                             Vincular
                         </button>
                     </div>
+
+                    --->
                 </div>
 
                 <select hidden name="form_id_urm2" id="form_id_urm2" class="form-control">
@@ -216,18 +219,33 @@ $table_body .= "<td><button class='btn_vincula_animal2' type='button'  data-id-a
                                 success: function(ret) {
 
                                     if (ret.resultado = 1) {
-
-
+                                        
+                                        
                                         $("#PESQUISA_ANIMAL_modal").modal('hide');
-
-                                        $("#form_nro_chip").prop("selectedIndex", 1).val(ret[0]['nro_chip']).select2();
-                                        $("#form_nro_ficha").prop("selectedIndex", 1).val(ret[0]['nro_ficha']).select2();
-                                        if (ret[0]['id_responsavel'] != 0) {
-                                            $("#form_id_responsavel").prop("selectedIndex", 1).val(ret[0]['id_responsavel']).select2();
-                                        } else {
-                                            $("#form_id_responsavel").prop("selectedIndex", 0).select2();
+                                        $("#form_id_animal").val(ret[0]['id_animal']);
+                                        $("#form_nro_ficha").val(ret[0]['nro_ficha']);
+                                        $("#form_nro_chip").val(ret[0]['nro_chip']);
+                                        
+                                        if(ret[0]['sexo'] == 'M'){
+                                            ret[0]['sexo'] = "Macho";
+                                        }else{
+                                            ret[0]['sexo'] = "Femêa";
                                         }
+                                       // $("#form_nro_chip").prop("selectedIndex", 1).val(ret[0]['nro_chip']).select2();
+                                       // $("#form_nro_ficha").prop("selectedIndex", 1).val(ret[0]['nro_ficha']).select2();
                                         $("#form_valor").val(ret[0]['valor']);
+                                        $("#form_reincidencias").val(ret[0]['reincidencias']);
+                                        //$("#form_dados_animal").val("Especie: "+ ret[0]['especie']+ " Pelagem: "+ret[0]['pelagem'] +"- Sexo: " +ret[0]['sexo']);
+                                        $("#form_especie").val(ret[0]['especie']);
+                                        $("#form_pelagem").val(ret[0]['pelagem']);
+                                        $("#form_sexo").val(ret[0]['sexo']);
+                                        if (ret[0]['id_responsavel'] != 0) {
+                                           // $("#form_id_responsavel").prop("selectedIndex", 1).val(ret[0]['id_responsavel']).select2();
+                                        } else {
+                                           // $("#form_id_responsavel").prop("selectedIndex", 0).select2();
+                                        }
+                                        
+                                        
                                     }
 
                                 }
