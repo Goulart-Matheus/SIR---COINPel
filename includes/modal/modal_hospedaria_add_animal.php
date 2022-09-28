@@ -133,7 +133,7 @@
                     },
                     beforeSend: function() {
 
-                        //$("#ANIMAL_modal").modal('hide');
+                        $("#ANIMAL_modal").modal('hide');
                     },
                     success: function(ret) {
 
@@ -148,14 +148,10 @@
                             }else{
                                 ret[0]['sexo'] = "Fêmea";
                             }
-                            $("#form_sexo").val(ret[0]['sexo']);
-                            //$("#form_nro_chip").prop("selectedIndex", 1).val(ret[0]['nro_chip']).select2();
-                            //$("#form_nro_ficha").prop("selectedIndex", 1).val(ret[0]['nro_ficha']).select2();
-                            if (ret[0]['id_responsavel'] != 0) {
-                               // $("#form_id_responsavel").prop("selectedIndex", 1).val(ret[0]['id_responsavel']).select2();
-                            } else {
-                               // $("#form_id_responsavel").prop("selectedIndex", 0).select2();
-                            }
+                            $("#form_sexo").val(ret[0]['sexo']); console.log(valor);
+                           // $("#form_valor").val(ret[0]['valor']);
+                            $("#form_reincidencias").val(ret[0]['reincidencias']);
+                            
 
                             $("#PESQUISA_ANIMAL_modal").modal('hide');
                             $("#ANIMAL_modal").modal('hide');

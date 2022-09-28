@@ -46,7 +46,7 @@
          $query->commitNotMessage();
 
          $query_dados = new Query($bd);
-         $query_dados->exec("SELECT e.descricao , p.descricao, u.mes , u.ano, u.valor FROM especie as e , pelagem as p ,urm as u WHERE e.id_especie = $id_especie AND p.id_pelagem = $id_pelagem");
+         $query_dados->exec("SELECT e.descricao , p.descricao FROM especie as e , pelagem as p  WHERE e.id_especie = $id_especie AND p.id_pelagem = $id_pelagem");
          $query_dados->proximo();
 
         $ret[] = array(
@@ -57,6 +57,7 @@
          'especie' => $query_dados->record[0],
          'pelagem' => $query_dados->record[1],
          'id_animal' => $query->lastInsert(),
+         'reincidencias' => 0,
          'msg' => "Animal Cadastrado com Sucesso",
          'id_responsavel' => $query_verifica->record[2]
 
