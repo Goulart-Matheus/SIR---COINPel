@@ -374,7 +374,7 @@ $nro_reincidencias = $query_reincidencias->record[0];
 
                         <label for="form_valor"><span class="text-danger">*</span> Valor</label>
                         <input type="text" class="form-control palin-text" name="form_valor" id="form_valor" maxlength="100" value="<? if ($edit) echo $form_valor;
-                                                                                                                                    else echo trim($query->record[11]) ?>" disabled>
+                                                                                                                                    else echo trim($query->record[11]) ?>" readonly>
                     </div>
 
 

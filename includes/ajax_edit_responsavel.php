@@ -16,14 +16,14 @@ $rg = $_POST['rg'];
 $dt_nascimento['dt_nascimento'];
 $endereco = $_POST['endereco'];
 $bairro = $_POST['bairro'];
-$tipo_contato = $_POST['tipo_contato'];
+$tipo_contato[] = $_POST['tipo_contato'];
 $valor_contato = $_POST['valor_contato'];
-$principal = $_POST['principal'];
+$principal[] = $_POST['principal'];
 
 $query->begin();
 
                             $itens = array(
-                                $id_responsavel,
+                                trim($id_responsavel),
                                 trim($nome),
                                 $cpf, //CPF
                                 $rg,
@@ -97,7 +97,8 @@ $query->begin();
 
                             $query->commitNotMessage();
                 $ret [] =array(
-                    'resultado' => 1
+                    'resultado' => 1,
+                    'valor_contato' => $valor_contato
                 );
 
                 $ret['erro']= $query->sql;

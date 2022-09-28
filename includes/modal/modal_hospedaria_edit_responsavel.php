@@ -71,13 +71,13 @@
 
                         <div class="form-row">
 
-
                             <div class="form-group col-12" id="container_dinamico">
 
                                 <?
 
                                 if ($edit) {
                                     $qnt = count($form_valor_contato);
+                                    //var_dump($qnt);
                                 } else {
                                     $programas = new Query($bd);
                                     $programas->exec("SELECT rc.id_tipo_contato, rc.valor_contato, rc.principal, rc.id_responsavel_contato
@@ -126,7 +126,7 @@
 
                                                 <? if ($c == $qnt - 1) { ?>
 
-                                                    <a class="btn btn-success " id="novo_campo_dinamico" href="#form_principal">+</a>
+                                                    <a class="btn btn-green " id="novo_campo_dinamico" href="#form_principal">+</a>
 
                                                 <? } else { ?>
 
@@ -138,9 +138,6 @@
 
                                     </div>
 
-                                    
-
-
                                 <?
                                
 
@@ -148,9 +145,6 @@
                                 
                              
                                 ?>
-
-                                
-                               
 
                             </div>
 
@@ -173,14 +167,23 @@
     </div>
 </div>
 <script type="text/javascript">
+    $('#form_mascara').mask('000.000.000-00');
+    $('#form_rg').mask('00000000000000');
+    
+    $(document).on('change', '.form_tipo_contato', function() {
+        var mascara = $(this).find(':selected').data('mascara');
+        if (mascara == 'email') {
+            $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type', 'email');
+        }else {
+            $(this).parents('#campo_dinamico').find('.form_valor_contato').attr('type', 'text').mask('(00) 0000-0000');
+           // $('#form_valor_contato').mask();
+        }
+    });
+        
     $(document).ready(function() {
-        $("#novo_campo_dinamico").on('click', function(){
-            var contador = 0;
-            contador ++;
+        
 
-            console.log(contador);
-            console.log($("#novo_campo_dinamico").val());
-        })
+        
         $("#btn_edit_responsavel").on('click', function(){
                 var id_responsavel = $("#form_id_responsavel").val();
                 var nome = $("#form_responsavel").val();
@@ -192,63 +195,60 @@
                 var tipo_contato = [];
                 var valor_contato = [];
                 var principal = [];
-
-                             
                 
-
-                $("#form_tipo_contato").each(function(i,e){
-                    tipo_contato.push(e.value)
                     
-                });
+                    $.each($('[name="form_tipo_contato[]"] option:selected'),function(i,e){
+                        tipo_contato.push($(this).val())
+                                            
+                    });
 
-                $("#form_valor_contato").each(function(i,e){
-                    valor_contato.push(e.value)
-                    //console.log(valor_contato.push(i,e.value))
-                    console.log(i);
-                    i++
-                });
-            
-
-                $("#form_principal").each(function(i,e){
-                    principal.push(e.value)
-                });
-
-                var i = $("#form_valor_contato").val();
-                //console.log(i); 
-
-               // console.log(form_principal.size());
-
-
-                $.ajax({
-                    type: 'POST',
-                    url:'../../../includes/ajax_edit_responsavel.php',
-                    data:{
-                        "id_responsavel": id_responsavel,
-                        "nome": nome,
-                        "cpf": cpf,
-                        "rg": rg,
-                        "dt_nascimento": dt_nascimento,
-                        "endereco": endereco,
-                        "bairro": bairro,
-                        "tipo_contato": tipo_contato,
-                        "valor_contato": valor_contato,
-                        "principal": principal
-                    },
-
-                    beforeSend: function(){
+                    $.each($('[name="form_valor_contato[]"]'),function(i,e){
+                        valor_contato.push($(this).val())    
                         
-                    },
-                    success: function(){
-                        $("#RESPONSAVEL_edit_modal").modal('hide');
+                    });
+
+                    $.each($('[name="form_principal[]"] option:selected'),function(i,e){
+                        principal.push($(this).val())
+                        
+                    });
+
+                   
+
+                    
+
+                    $.ajax({
+                        type: 'POST',
+                        url:'../../../includes/ajax_edit_responsavel.php',
+                        data:{
+                            "id_responsavel": id_responsavel,
+                            "nome": nome,
+                            "cpf": cpf,
+                            "rg": rg,
+                            "dt_nascimento": dt_nascimento,
+                            "endereco": endereco,
+                            "bairro": bairro,
+                            "tipo_contato": tipo_contato,
+                            "valor_contato": valor_contato,
+                            "principal": principal
+
+                        },
+
+                        beforeSend: function(){
+                            
+                        },
+                        success: function(ret){
+                            $("#RESPONSAVEL_edit_modal").modal('hide');
                             location.reload(true);
-                           
-                        
-                    },
-                    error:function(erro){
+                            console.log(ret[0]['valor_contato']);
+                            
+                            
+                        },
+                        error:function(erro){
 
-                    } 
-                })
-            })
+                        } 
+                    })
+                
+        })
 
     });           
 </script>
