@@ -148,8 +148,8 @@
                             }else{
                                 ret[0]['sexo'] = "Fêmea";
                             }
-                            $("#form_sexo").val(ret[0]['sexo']); console.log(valor);
-                           // $("#form_valor").val(ret[0]['valor']);
+                            $("#form_sexo").val(ret[0]['sexo']);
+                            $("#form_valor").val(ret[0]['valor']);
                             $("#form_reincidencias").val(ret[0]['reincidencias']);
                             
 
@@ -157,7 +157,7 @@
                             $("#ANIMAL_modal").modal('hide');
                             
                             
-                            console.log(ret[0]);
+                           
                         } else {
                             $("#msg").text("Animal ja Existente");
 
