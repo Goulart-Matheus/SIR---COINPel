@@ -100,7 +100,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                 $form_observacao = "NULL";
                             }
                             if ($form_id_responsavel == "") {
-                                $form_id_responsavel =  NULL;
+                                $form_id_responsavel =  "NULL";
                             }
                             $query->begin();
 
@@ -126,7 +126,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                                     $form_situacao,
                                 )
                             );
-
 
                             $query->commit();
                         }
