@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="../assets/images/logo-short.png">
     <link href="../assets/css/app.css" rel="stylesheet" type="text/css">
     <link href="../assets/css/style.css" rel="stylesheet" type="text/css">   
-    <link rel="stylesheet" href="/assets/css/datalab.min.css">
+    <link rel="stylesheet" href="/assets/css/insight.min.css">
 
 </head>
 <body class="hold-transition sidebar-mini sidebar-collapse">

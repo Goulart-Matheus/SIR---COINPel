@@ -4,22 +4,57 @@ include('../includes/session.php');
 include('../includes/variaveisAmbiente.php');
 
 
-$where="";
+$where = "";
 $where .= $form_id_hospedagem   != "" ? " AND h.id_hospedagem = $form_id_hospedagem " : "";
 $where .= $form_id_animal   != "" ? " AND h.id_animal = $form_id_animal " : "";
 $where .= $form_endereco_recolhimento   != "" ? " AND h.endereco_recolhimento ilike '%" . $form_endereco_recolhimento . "%' " : "";
 $where .= $form_id_bairro   != "" ? " AND h.id_bairro = $form_id_bairro " : "";
+
+if ($bairro   != "") {
+
+    if ($bairro   != "Total") {
+        $where .= $bairro   != "" ? " AND b.descricao ilike '%" . $bairro . "%' " : "";
+    }
+    if ($ano != "") {
+        $where .= " AND EXTRACT(YEAR FROM h.dt_entrada) = " . $ano . " ";
+    }
+} else {
+    if ($form_situacao   == "" || $form_situacao   == "S") {
+        $where .= " AND h.situacao = 'S' ";
+    } elseif ($form_situacao   == "N") {
+        $where .= " AND h.situacao = '" . $form_situacao . "' ";
+    }
+}
+
+if ($especie != "") {
+
+    if ($especie   == "Total") {
+        if ($ano != "") {
+            $where .= " AND EXTRACT(YEAR FROM h.dt_entrada) = " . $ano . " ";
+        }
+    } else {
+        $query_especie = new Query($bd);
+        $query_especie->exec("SELECT id_especie FROM especie WHERE descricao LIKE ( '%" . str_replace("-", " ", ($especie)) . "%') ");
+        if ($query_especie->rows() > 0) {
+            $query_especie->proximo();
+            $id_especie = $query_especie->record[0];
+
+            $where .= " AND a.id_especie = " . $id_especie . " ";
+            $where .= " AND h.situacao != '' ";
+            if ($ano != "") {
+                $where .= " AND EXTRACT(YEAR FROM h.dt_entrada) = " . $ano . " ";
+            }
+        }
+    }
+}
+
 $where .= $form_id_responsavel   != "" ? " AND h.id_responsavel = $form_id_responsavel " : "";
 $where .= $form_id_motivo   != "" ? " AND h.id_motivo = $form_id_motivo " : "";
-if($form_situacao   == "" || $form_situacao   == "S"){
-    $where .= " AND h.situacao = 'S' ";
-}elseif($form_situacao   == "N"){
-    $where .= " AND h.situacao = '".$form_situacao."' ";
-}
-$where .= $form_dt_entrada   != "" ? " AND h.dt_entrada = '".$form_dt_entrada."' " : "";
-$where .= $form_dt_retirada   != "" ? " AND h.dt_retirada = '".$form_dt_retirada."' " : "";
-$where .= $form_nro_chip != "" ? " AND a.nro_chip = '".$form_nro_chip."'" : "";
-$where .= $form_nro_ficha != "" ? " AND a.nro_ficha = '".$form_nro_ficha."'" : "";
+
+$where .= $form_dt_entrada   != "" ? " AND h.dt_entrada = '" . $form_dt_entrada . "' " : "";
+$where .= $form_dt_retirada   != "" ? " AND h.dt_retirada = '" . $form_dt_retirada . "' " : "";
+$where .= $form_nro_chip != "" ? " AND a.nro_chip = '" . $form_nro_chip . "'" : "";
+$where .= $form_nro_ficha != "" ? " AND a.nro_ficha = '" . $form_nro_ficha . "'" : "";
 
 
 $query->exec("SELECT h.id_hospedagem , (SELECT a.nro_ficha FROM animal as a WHERE a.id_animal = h.id_animal),
@@ -38,7 +73,7 @@ h.situacao
 
 
 FROM hospedagem as h WHERE h.id_hospedagem = (SELECT h.id_hospedagem  FROM bairro as b , motivo as m , animal as a WHERE b.id_bairro = h.id_bairro 
- AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal".$where.")");
+ AND h.id_motivo = m.id_motivo AND a.id_animal = h.id_animal" . $where . ")");
 
 $query->proximo();
 
@@ -119,7 +154,7 @@ $tab->setTab('Novo Atendimento', 'fas fa-plus', 'HOSPEDAGEM_form.php');
 $tab->printTab($_SERVER['PHP_SELF']);
 
 $n = $paging->query->rows();
- include('HOSPEDAGEM_view.php');
+include('HOSPEDAGEM_view.php');
 
 ?>
 
@@ -175,19 +210,18 @@ $n = $paging->query->rows();
                             <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Responsavel'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Dt_entrada'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Dt_retirada'); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(9); ?>'> <? echo $sort->printItem(9, $sort->sort_dir, 'Motivo'); ?> </td>                            
+                            <td style=' <? echo $sort->verifyItem(9); ?>'> <? echo $sort->printItem(9, $sort->sort_dir, 'Motivo'); ?> </td>
 
                         </tr>
 
                         <?
-                            while ($n--) {
+                        while ($n--) {
 
                             $paging->query->proximo();
 
-                            if($query->record[7] > 0){
-                               
-                                $paging->query->record[7] = date('d/m/Y',strtotime($query->record[7]));
-                                
+                            if ($query->record[7] > 0) {
+
+                                $paging->query->record[7] = date('d/m/Y', strtotime($query->record[7]));
                             }
 
 
@@ -195,18 +229,18 @@ $n = $paging->query->rows();
 
                             echo "<tr class='entered'>";
 
-                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0]. "></td>";
-                                
-                                echo "<td valign='top' " . $js_onclick . ">" . ($paging->query->record[9] == "S" ? "<i class='fas fa-circle text-warning'</i>" : "<i class='fas fa-circle text-green'</i>") . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">".  $paging->query->record[5] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">".  date('d/m/Y',strtotime($paging->query->record[6])) . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">".  $paging->query->record[7] . "</td>";
-                                echo "<td valign='middle' " . $js_onclick . ">".  $paging->query->record[8] . "</td>";
+                            echo "<td valign='middle'><input type=checkbox class='form-check-value' name='id_hospedagem[]' value=" . $paging->query->record[0] . "></td>";
+
+                            echo "<td valign='top' " . $js_onclick . ">" . ($paging->query->record[9] == "S" ? "<i class='fas fa-circle text-warning'</i>" : "<i class='fas fa-circle text-green'</i>") . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[0] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[1] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" .  $paging->query->record[5] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" .  date('d/m/Y', strtotime($paging->query->record[6])) . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" .  $paging->query->record[7] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" .  $paging->query->record[8] . "</td>";
 
                             echo "</tr>";
                         }

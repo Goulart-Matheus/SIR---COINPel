@@ -138,6 +138,7 @@ $nro_reincidencias = $query_reincidencias->record[0];
                             $valida = new Valida($form_situacao, 'Situacao');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
+
                         }
 
                         if (!$erro && isset($edit)) {
@@ -158,9 +159,9 @@ $nro_reincidencias = $query_reincidencias->record[0];
                                 if ($form_id_responsavel == "") {
                                     $form_id_responsavel = "NULL";
                                 }
-
+                            
                                 $query->begin();
-
+                          
                                 $itens = array(
                                     $form_id_animal,
                                     $form_dt_entrada,
@@ -373,8 +374,8 @@ $nro_reincidencias = $query_reincidencias->record[0];
                     <div class="form-group col-12 col-md-2">
 
                         <label for="form_valor"><span class="text-danger">*</span> Valor</label>
-                        <input type="text" class="form-control palin-text" name="form_valor" id="form_valor" maxlength="100" value="<? if ($edit) echo $form_valor;
-                                                                                                                                    else echo trim($query->record[11]) ?>" disabled>
+                        <input type="text" class="form-control palin-text" readonly name="form_valor" id="form_valor" maxlength="100" value="<? if ($edit) echo $form_valor;
+                                                                                                                                    else echo $query->record[11] ?>" >
                     </div>
 
 
@@ -419,13 +420,15 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
 
 
 <script type="text/javascript">
-    $("#form_id_urm, #form_dt_entrada, #form_nro_ficha, #form_nro_chip").on('change', function() {
+    $("#form_id_urm").on('change', function() {
 
         var id_urm = $("#form_id_urm").val();
         var nro_ficha = $("#form_nro_ficha").val();
         var dt_entrada = $("#form_dt_entrada").val();
         var nro_chip = $("#form_nro_chip").val();
         var identificador = $(this).attr('id');
+        var reincidencias = $("#form_reincidencias").val();
+        
 
         $.ajax({
             type: 'POST',
@@ -436,7 +439,8 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
                 "nro_ficha": nro_ficha,
                 "dt_entrada": dt_entrada,
                 "nro_chip": nro_chip,
-                "identificador": identificador
+                "identificador": identificador,
+                "reincidencias":reincidencias
             },
             beforeSend: function() {
 
@@ -446,17 +450,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             },
             success: function(response) {
 
-                $("#form_valor").val(response['valor']);
-                $("#form_nro_chip").val(response['nro_chip']);
-                $("#form_nro_ficha").val(response['nro_ficha']);
-                //$("#form_nro_chip").prop("selectedIndex", 1).val(response['nro_chip']).select2();
-                //$("#form_nro_ficha").prop("selectedIndex", 1).val(response['nro_ficha']).select2();
-                if (response['id_responsavel'] != 0) {
-                    $("#form_id_responsavel").prop("selectedIndex", 1).val(response['id_responsavel']).select2();
-                } else {
-                    $("#form_id_responsavel").prop("selectedIndex", 0).select2();
-                }
-                $("#form_id_animal").val(response['id_animal']);
+                $("#form_valor").val(response['valor']);         
             },
             error: function(erro) {
 
@@ -471,6 +465,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
         var id_urm = $("#form_id_urm").val();
         var nro_ficha = $("#form_nro_ficha").val();
         var dt_entrada = $("#form_dt_entrada").val();
+        var reincidencias = $("#form_reincidencias").val();
 
         $.ajax({
             type: 'POST',
@@ -479,8 +474,8 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
 
                 "id_urm": id_urm,
                 "nro_ficha": nro_ficha,
-                "dt_entrada": dt_entrada
-
+                "dt_entrada": dt_entrada,
+                "reincidencias":reincidencias
             },
             beforeSend: function() {
 
@@ -516,22 +511,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             $(".select2_responsavel").select2({
                 width: '100%'
             });
-        }
+        }   
 
-        if ($(".select2_ficha_animal").length > 0) {
-            $(".select2_ficha_animal").attr('data-live-search', 'true');
-
-            $(".select2_ficha_animal").select2({
-                width: '100%'
-            });
-        }
-
-        if ($(".select2_nro_chip").length > 0) {
-            $(".select2_nro_chip").attr('data-live-search', 'true');
-
-            $(".select2_nro_chip").select2({
-                width: '100%'
-            });
-        }
     });
 </script>

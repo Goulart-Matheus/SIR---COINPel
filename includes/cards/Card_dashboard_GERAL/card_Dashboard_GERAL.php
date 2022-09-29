@@ -1,17 +1,16 @@
 <?
-
+$meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 include("../../../includes/mapbox.header.php");
 $_data;
-var_dump($filter);
+
 if ($dados_ano != "") {
     $ano_corrente = $dados_ano;
-   
 } else {
     $ano_corrente = explode('-', $_data)[0];
- 
 }
 
 $mes_corrente = explode('-', $_data)[1];
+$mes_corrente = 12;
 
 $query_quantidade = new Query($bd);
 
@@ -232,8 +231,93 @@ if ($query_especies->rows() > 0) {
             </div>
 
 
-            <div class="card-body">
-                <div id="grafico_bairro"></div>
+            <div class="col-12 p-0">
+                <div class="col-12 col-md-12 p-3 pt-4">
+                    <div id="grafico_bairro"></div>
+                </div>
+
+                <div class="col-12 p-0">
+
+                    <table class="table table-sm table-overflow mt-3 border tabela_principal">
+
+                        <thead class="bg-white">
+
+                            <tr>
+                                <th>Bairro</th>
+                                <?
+                                $conta_mes = 0;
+                                while ($conta_mes < 12) {
+                                ?>
+                                    <th class="text-center"> <? echo $meses[$conta_mes] ?> </th>
+
+                                <?
+                                    $conta_mes++;
+                                }
+                                ?>
+                                <th class="text-center">Total</th>
+
+                            </tr>
+
+                        </thead>
+
+                        <tbody class="table-responsive" style="height: 200px;">
+
+                            <?
+                            $num_bairros = sizeof($bairros_atendimentos_individual);
+                            $conta_bairros = 0;
+                            while ($conta_bairros < $num_bairros) {
+
+                                $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_viewDados.php?bairro=" . str_replace(" ", "", ($bairros_atendimentos_individual[$conta_bairros][0])) . "&ano=" . $ano_corrente . "')";
+
+                            ?>
+
+                                <tr class="entered">
+                                    <?
+                                    $total = 0;
+                                    foreach ($bairros_atendimentos_individual[$conta_bairros] as $key => $bairro) {
+                                    ?>
+                                        <td <?= $js_onclick  ?>><?= $bairro ?></td>
+
+                                    <?
+                                        if ($key != 0) {
+                                            $total += $bairro;
+                                        }
+                                    }
+                                    ?>
+                                    <td <?= $js_onclick  ?>><?= $total ?></td>
+                                </tr>
+
+                            <?
+
+                                $conta_bairros++;
+                            }
+                            $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_viewDados.php?bairro=" . str_replace(" ", "", "Total") . "&ano=" . $ano_corrente . "')";
+                            ?>
+                            <tr class="entered">
+                                <td <?= $js_onclick  ?>>Total</td>
+                                <?
+                                $total = 0;
+
+                                foreach ($bairros_atendimentos[$ano_corrente] as $key => $bairro) {
+
+                                ?>
+                                    <td <?= $js_onclick  ?>><?= $bairro ?></td>
+
+                                <?
+                                    if ($key != 0) {
+                                        $total += $bairro;
+                                    }
+                                }
+                                ?>
+                                <td <?= $js_onclick  ?>><?= $total ?></td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+
             </div>
 
         </div>
@@ -252,6 +336,44 @@ if ($query_especies->rows() > 0) {
                     <div class="card-body">
                         <div id="grafico_bairro_total"></div>
                     </div>
+                    <div class="col-12 p-0">
+
+                        <table class="table table-sm table-overflow mt-3 border tabela_bairro">
+
+                            <thead class="bg-white">
+
+                                <tr>
+                                    <th>Bairro</th>
+                                    <th>Total</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody class="table-responsive" style="height: 200px;">
+
+                                <?
+
+                                $total = 0;
+                                foreach ($bairros_total as $key => $bairros) {
+                                    $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_viewDados.php?bairro=" . str_replace(" ", "", ($key)) . "&ano=" . $ano_corrente . "')";
+                                ?>
+                                    <tr class="entered">
+                                        <td <?= $js_onclick  ?>><?= $key ?></td>
+                                        <td <?= $js_onclick  ?>><?= $bairros ?></td>
+                                    </tr>
+                                <?
+                                    $total += $bairros;
+                                }
+                                $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_viewDados.php?bairro=" . str_replace(" ", "", "Total") . "&ano=" . $ano_corrente . "')";
+                                ?>
+                                <tr class="entered">
+                                    <td <?= $js_onclick  ?>>Total</td>
+                                    <td <?= $js_onclick  ?>><?= $total ?></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
 
                 </div>
             </div>
@@ -267,6 +389,44 @@ if ($query_especies->rows() > 0) {
 
                     <div class="card-body">
                         <div id="grafico_especie"></div>
+                    </div>
+                    <div class="col-12 p-0">
+
+                        <table class="table table-sm table-overflow mt-3 border tabela_especie">
+
+                            <thead class="bg-white">
+
+                                <tr>
+                                    <th>Espécie</th>
+                                    <th>Total</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody class="table-responsive" style="height: 200px;">
+
+                                <?
+
+                                $total = 0;
+                                foreach ($especies as $key => $especie) {
+                                    $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_viewDados.php?especie=" . str_replace(" ", "-", ($key)) . "&ano=" . $ano_corrente . "')";
+                                ?>
+                                    <tr class="entered">
+                                        <td <?= $js_onclick  ?>><?= $key ?></td>
+                                        <td <?= $js_onclick  ?>><?= $especie ?></td>
+                                    </tr>
+                                <?
+                                    $total += $especie;
+                                }
+                                $js_onclick = "OnClick=javascript:window.location=('HOSPEDAGEM_viewDados.php?especie=" . "Total" . "&ano=" . $ano_corrente . "')";
+                                ?>
+                                <tr class="entered">
+                                    <td <?= $js_onclick  ?>>Total</td>
+                                    <td <?= $js_onclick  ?>><?= $total ?></td>
+                                </tr>
+                            </tbody>
+
+                        </table>
                     </div>
 
                 </div>
@@ -284,12 +444,10 @@ if ($query_especies->rows() > 0) {
                         Mapa de Marcas
                     </div>
 
-                    <div class="card-body">
-                        <div id="map2" style='min-height: 300px; height: 100% !important'>
+                    <div class="col-12 p-1">
 
-                          
+                        <div id="map2" style='min-height: 300px; height: 100% !important'></div>
 
-                        </div>
                     </div>
 
                 </div>
@@ -305,7 +463,7 @@ if ($query_especies->rows() > 0) {
 
         <div class="modal-content">
 
-            <form method="post" action="<?= $_SERVER['PHP_SELF'] . "?dados_ano=".$ano_corrente_filtro."" ?> ">
+            <form method="post" id="form_ano" action="<?= $_SERVER['PHP_SELF'] . "?dados_ano=" . $ano_corrente_filtro . "" ?> ">
 
                 <div class="modal-header bg-light-2">
                     <h5 class="modal-title">
@@ -322,8 +480,8 @@ if ($query_especies->rows() > 0) {
                     <div class="form-row">
 
                         <div class="form-group col-12 col-md-12">
-                            <label for="ano_corrente_filtro"></span> Ano</label>
 
+                            <label for="ano_corrente_filtro"></span> Ano</label>
                             <select name="ano_corrente_filtro" id="ano_corrente_filtro" class="form-control">
                                 <?
                                 $query->exec("SELECT DISTINCT EXTRACT(YEAR FROM dt_entrada)
@@ -348,11 +506,10 @@ if ($query_especies->rows() > 0) {
 
                     </div>
 
-
                 </div>
 
                 <div class="modal-footer bg-light-2 text-center">
-                    <button type="submit" name="filter" class="btn btn-light" value="1">
+                    <button type="button" id="filter" class="btn btn-light" value="1">
                         <i class="fa-solid fa-filter text-green"></i>
                         Filtrar
                     </button>
@@ -369,7 +526,7 @@ if ($query_especies->rows() > 0) {
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
-
+<script src="../assets/js/jquery.js"></script>
 
 <script src="https://d3js.org/d3.v6.min.js"></script>
 <script src="../../../assets/js/billboard.js"></script>
@@ -378,7 +535,7 @@ if ($query_especies->rows() > 0) {
     var meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
     var bairros_atendimentos_individual = <?= json_encode($bairros_atendimentos_individual) ?>;
-   
+
     var ano_corrente = <?= $ano_corrente ?>;
 
     // Total
@@ -415,7 +572,7 @@ if ($query_especies->rows() > 0) {
 
 
     // Espécies
-    var especies_total = <?= json_encode($especies) ?>;
+    var especies_total = <?= json_encode($especies) ?>;  
     var dados_especie = [];
     var dados_especie_ax = [];
 
@@ -429,7 +586,7 @@ if ($query_especies->rows() > 0) {
     })
 
     // Total
-    var chart = bb.generate({
+    var chart1 = bb.generate({
         data: {
             x: "x",
             columns: [
@@ -447,8 +604,9 @@ if ($query_especies->rows() > 0) {
                             ?>
 
             ],
+            type: "area-spline",
             types: {
-                Total: "line",
+                Total: "bar",
 
             },
             labels: true,
@@ -468,139 +626,192 @@ if ($query_especies->rows() > 0) {
     });
 
     // Bairro
-    var chart = bb.generate({
+
+    dados_bairro.sort((a, b) => a[1] - b[1]);
+    var chart2 = bb.generate({
         data: {
             columns: dados_bairro,
-            type: "donut",
+            type: "bar",
+            // labels: true,
 
         },
-        donut: {
-            label: {
-                format: function(value, ratio, id) {
-                    return value;
-                }
-            },
-            title: "",
-            padAngle: 0.1
+        // donut: {
+        //     label: {
+        //         format: function(value, ratio, id) {
+        //             return value;
+        //         }
+        //     },
+        //     title: "",
+        //     padAngle: 0.1
+        // },
+        axis: {
+            rotated: true
         },
+
 
         bindto: "#grafico_bairro_total"
     });
 
     // Espécie
-    var chart = bb.generate({
+    dados_especie.sort((a, b) => a[1] - b[1]);
+    var chart3 = bb.generate({
         data: {
             columns: dados_especie,
             type: "bar",
-            labels: true,
+            // labels: true,
         },
+        axis: {
+            rotated: true
+        },
+
 
         bindto: "#grafico_especie"
     });
-    
+
+
+    $(".tabela_principal tbody tr").on('mouseover', function() {
+        chart1.focus($(this).children("td:first").html().replace(/\s/g, '-'));
+       
+    });
+    $(".tabela_principal tbody tr").on('mouseleave', function() {
+        chart1.focus();
+
+    });
+
+    $(".tabela_bairro tbody tr").on('mouseover', function() {
+        chart2.focus($(this).children("td:first").html().replace(/\s/g, '-'));
+        
+    });
+    $(".tabela_bairro tbody tr").on('mouseleave', function() {
+        chart2.focus();
+
+    });
+
+    $(".tabela_especie tbody tr").on('mouseover', function() {
+        chart3.focus($(this).children("td:first").html().replace(/\s/g, '-'));
+     
+    });
+    $(".tabela_especie tbody tr").on('mouseleave', function() {
+        chart3.focus();
+
+    });
+
+    $("#map2").on('click', function() {
+        window.location = ('mapaDeMarcas.php');
+    });
+
+    $("#filter").on('click', function() {
+        let ano_reload = $("#ano_corrente_filtro").val();
+        if (ano_reload != null) {
+            window.location = ('index.php?dados_ano=' + ano_reload + '');
+        }
+    });
 </script>
 
 <script language="javascript">
-        // var map;
-        // var markers = [<?php
-        //     include('../../function/function.query_foreach.php');
+    var map;
+    var map;
+    var markers = [<?php
+                    include('../function/function.query_foreach.php');
 
-        //     $select =
-        //         "SELECT l.*, p.id_proprietario, p.nome as nome_proprietario, p.desenho_marca
-        //         FROM propriedade l JOIN proprietario p ON l.id_proprietario = p.id_proprietario";
+                    $select =
+                        "SELECT l.*, p.id_proprietario, p.nome as nome_proprietario, p.desenho_marca
+                FROM propriedade l JOIN proprietario p ON l.id_proprietario = p.id_proprietario";
 
-        //     query_foreach($select, function($q) {
-        //         // E.g: "(-31.760635190792186,-52.2732359795348)" => [-52.27..., -31.76...]
-        //         $coords = $q->record['coordenadas'];
-        //         $coords = substr($coords, 1, strlen($coords) - 2);
-        //         $coords = explode(',', $coords);
-        //         $coords = [ (float)$coords[1], (float)$coords[0] ];
+                    query_foreach($select, function ($q) {
+                        // E.g: "(-31.760635190792186,-52.2732359795348)" => [-52.27..., -31.76...]
+                        $coords = $q->record['coordenadas'];
+                        $coords = substr($coords, 1, strlen($coords) - 2);
+                        $coords = explode(',', $coords);
+                        $coords = [(float)$coords[1], (float)$coords[0]];
 
-        //         $icon_url = "../assets/images/marcas/{$q->record['desenho_marca']}";
-        //         $icon_size = getimagesize($icon_url);
-        //         $icon_max_px = 40;
-        //         $icon_scale = $icon_max_px / max([$icon_size[0], $icon_size[1]]);
+                        $icon_url = "../assets/images/marcas/{$q->record['desenho_marca']}";
+                        $icon_size = getimagesize($icon_url);
+                        $icon_max_px = 40;
+                        $icon_scale = $icon_max_px / max([$icon_size[0], $icon_size[1]]);
 
-        //         echo json_encode([
-        //             "coords" => $coords,
-        //             "icon" => $icon_url,
-        //             "icon_scale" => $icon_scale,
-        //             "name" => $q->record['nome_proprietario'],
-        //             "property_name" => $q->record['nome'],
-        //         ]);
+                        echo json_encode([
+                            "coords" => $coords,
+                            "icon" => $icon_url,
+                            "icon_scale" => $icon_scale,
+                            "name" => $q->record['nome_proprietario'],
+                            "property_name" => $q->record['nome'],
+                        ]);
 
-        //         echo ",";
-        //     });
-        // ?>];
+                        echo ",";
+                    });
+                    ?>];
 
-        $(document).ready(function() {
+    $(document).ready(function() {
 
-            mapboxgl.accessToken = 'pk.eyJ1IjoicmFmYWVsZHR4IiwiYSI6ImNsODNlYTQ1cTA0eHczbm1mOHJ5eGVqZWgifQ.KBhV05aSsZP1Kp-hMLE2cA';
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmFmYWVsZHR4IiwiYSI6ImNsODNlYTQ1cTA0eHczbm1mOHJ5eGVqZWgifQ.KBhV05aSsZP1Kp-hMLE2cA';
 
-            map = new mapboxgl.Map({
-                container: 'map2',
-                style    : 'mapbox://styles/mapbox/streets-v11',
-                center   : [-52.34395415359246, -31.75916486759182],
-                zoom     : 11,
-            });
+        map = new mapboxgl.Map({
+            container: 'map2',
+            style: 'mapbox://styles/mapbox/streets-v11',
+            center: [-52.34395415359246, -31.75916486759182],
+            zoom: 10,
+        });
 
-            var sources = {};
-            var layers = {};
-            var images = [];
+        var sources = {};
+        var layers = {};
+        var images = [];
 
-            // 1 proprietario = 1 layer = 1 source = 1 ponto por propriedade
-            // markers.forEach(marker => {
-            //     layer_name = `layer-${marker.name}`;
-            //     source_name = `source-${marker.name}`;
-            //     image_name = `img-${marker.name}`;
+        // 1 proprietario = 1 layer = 1 source = 1 ponto por propriedade
+        markers.forEach(marker => {
+            layer_name = `layer-${marker.name}`;
+            source_name = `source-${marker.name}`;
+            image_name = `img-${marker.name}`;
 
-            //     if(!sources.hasOwnProperty(source_name)) {
-            //         sources[source_name] = {
-            //             'type': 'geojson',
-            //             'data': {
-            //                 'type': 'FeatureCollection',
-            //                 'features': []
-            //             }
-            //         }
-            //     }
-            //     if(!layers.hasOwnProperty(layer_name)) {
-            //         layers[layer_name] = {
-            //             'id': layer_name,
-            //             'type': 'symbol',
-            //             'source': source_name,
-            //             'layout': {
-            //                 'icon-image': image_name,
-            //                 'icon-size': marker.icon_scale,
-            //             }
-            //         };
-            //     }
-            //     if(!(image_name in images)) {
-            //         images.push(image_name);
-            //         (function (image_name) {
-            //             map.loadImage(marker.icon, (error, image) => {
-            //                 if (error) throw error;
-            //                 if(!map.hasImage(image_name)) { map.addImage(image_name, image); }
-            //             });
-            //         })(image_name);
-            //     }
-
-            //     sources[source_name].data.features.push({
-            //         'type': 'Feature',
-            //         'geometry': {
-            //             'type': 'Point',
-            //             'coordinates': marker.coords
-            //         }
-            //     });
-            // });
-
-            map.on('load', function() {
-                for (const [source_name, geojson] of Object.entries(sources)) {
-                    map.addSource(source_name, geojson);
+            if (!sources.hasOwnProperty(source_name)) {
+                sources[source_name] = {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': []
+                    }
                 }
+            }
+            if (!layers.hasOwnProperty(layer_name)) {
+                layers[layer_name] = {
+                    'id': layer_name,
+                    'type': 'symbol',
+                    'source': source_name,
+                    'layout': {
+                        'icon-image': image_name,
+                        'icon-size': marker.icon_scale,
+                    }
+                };
+            }
+            if (!(image_name in images)) {
+                images.push(image_name);
+                (function(image_name) {
+                    map.loadImage(marker.icon, (error, image) => {
+                        if (error) throw error;
+                        if (!map.hasImage(image_name)) {
+                            map.addImage(image_name, image);
+                        }
+                    });
+                })(image_name);
+            }
 
-                for(const [_, layer_settings] of Object.entries(layers)) {
-                    map.addLayer(layer_settings)
+            sources[source_name].data.features.push({
+                'type': 'Feature',
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': marker.coords
                 }
             });
         });
-    </script>
+
+        map.on('load', function() {
+            for (const [source_name, geojson] of Object.entries(sources)) {
+                map.addSource(source_name, geojson);
+            }
+
+            for (const [_, layer_settings] of Object.entries(layers)) {
+                map.addLayer(layer_settings)
+            }
+        });
+    });
+</script>

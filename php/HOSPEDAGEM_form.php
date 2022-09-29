@@ -9,9 +9,11 @@ include('../class/class.tab.php');
 if ($id_animal != "") {
 
 
-    $query->exec("SELECT ar.id_animal, ar.id_responsavel, nro_chip, nro_ficha
-                  FROM animal as a, animal_responsavel as ar                        
-                  WHERE a.id_animal = ar.id_animal AND 
+    $query->exec("SELECT ar.id_animal, ar.id_responsavel, nro_chip, nro_ficha, e.descricao, p.descricao, a.sexo
+                  FROM animal as a, animal_responsavel as ar, pelagem as p, especie as e                       
+                  WHERE a.id_animal = ar.id_animal AND
+                        p.id_pelagem = a.id_pelagem AND
+                        e.id_especie = a.id_especie AND
                         a.id_animal = $id_animal
                 ");
     $query->proximo();
@@ -62,11 +64,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $valida->TamMinimo(0);
                             $erro .= $valida->PegaErros();
 
-                            
+
                             $valida = new Valida($form_id_responsavel, 'Id_responsavel');
                             $valida->TamMinimo(0);
                             $erro .= $valida->PegaErros();
-                            
+
 
                             $valida = new Valida($form_id_motivo, 'Id_motivo');
                             $valida->TamMinimo(1);
@@ -96,7 +98,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             if ($form_observacao == "") {
                                 $form_observacao = "NULL";
                             }
-                            if($form_id_responsavel ==""){
+                            if ($form_id_responsavel == "") {
                                 $form_id_responsavel =  NULL;
                             }
                             $query->begin();
@@ -186,23 +188,25 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     <div class="form-group col-12 col-md-4">
                         <label for="form_especie"><span class="text-danger">*</span> Espécie</label>
                         <input class="form-control" type="text" name="form_especie" id="form_especie" value="<?php if ($erro) echo $form_especie;
-                                                                                                                                    else echo $form_especie ?>" disabled>
+                                                                                                                else echo $query->record[4] ?>" disabled>
                     </div>
                     <div class="form-group col-12 col-md-4">
-                    <label for="form_nro_ficha"><span class="text-danger">*</span> Pelagem</label>
-                        <input class="form-control" type="text" name="" id="form_pelagem" disabled>
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Pelagem</label>
+                        <input class="form-control" type="text" name="" id="form_pelagem" value="<?php if ($erro) echo $form_pelagem;
+                                                                                                    else echo $query->record[5] ?>" disabled>
                     </div>
                     <div class="form-group col-12 col-md-4">
-                    <label for="form_nro_ficha"><span class="text-danger">*</span> Sexo</label>
-                        <input class="form-control" type="text" name="" id="form_sexo" disabled>
+                        <label for="form_nro_ficha"><span class="text-danger">*</span> Sexo</label>
+                        <input class="form-control" type="text" name="" id="form_sexo" value="<?php if ($erro) echo $form_sexo;
+                                                                                                else echo ($query->record[6] == 'M' ? 'Macho' : 'Fêmea') ?>" disabled>
                     </div>
-                       
+
 
                     <div class="form-group col-12 col-md-6">
 
                         <label for="form_nro_ficha"><span class="text-danger">*</span> Ficha do Animal</label>
                         <input type="text" name="form_nro_ficha" id="form_nro_ficha" class="form-control col-12" value="<? if ($erro) echo $form_nro_ficha;
-                                                                                                                    else echo $form_nro_ficha; ?>" required disabled>
+                                                                                                                        else echo $query->record[3]; ?>" required disabled>
                         <!--
         <select name="form_nro_ficha" id="form_nro_ficha" class="form-control select2_ficha_animal" required value="<? if ($erro) echo $form_nro_ficha; ?>">
             <?
@@ -221,7 +225,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                         <label for="form_nro_chip"><span class="text-danger">*</span> Numero do Chip Animal</label>
                         <input type="text" name="form_nro_chip" id="form_nro_chip" class="form-control" value="<? if ($erro) echo $form_nro_chip;
-                                                                                                                else echo $form_nro_chip; ?>" required disabled>
+                                                                                                                else echo $query->record[2]; ?>" required disabled>
                         <!--
         <select name="form_nro_chip" id="form_nro_chip" class="form-control select2_nro_chip" required value="<? if ($erro) echo $form_nro_chip;
                                                                                                                 else echo $form_nro_chip; ?>">
@@ -268,7 +272,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             Escolha o Motivo.
                         </div>
                     </div>
-                    
+
                     <div class="form-group col-12 col-md-3">
                         <label for="form_situacao"><span class="text-danger">*</span> Situação</label>
                         <select class="form-control" name="form_situacao" id="form_situacao">
@@ -327,7 +331,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
                     <div class="form-group col-12 col-md-2">
                         <label for="form_valor"><span class="text-danger">*</span> Valor R$</label>
-                        <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?> " disabled>
+                        <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?> " readonly>
                     </div>
 
 
@@ -419,8 +423,9 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
         var nro_ficha = $("#form_nro_ficha").val();
         var nro_chip = $("#form_nro_chip").val();
         var dt_entrada = $("#form_dt_entrada").val();
-        var identificador = 'urm'
-        
+        var identificador = 1;
+        var reincidencias = $("#form_reincidencias").val();
+
 
         $.ajax({
             type: 'POST',
@@ -431,7 +436,8 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
                 "dt_entrada": dt_entrada,
                 "nro_chip": nro_chip,
                 "id_urm": id_urm,
-                "identificador": identificador
+                "identificador": identificador,
+                "reincidencias": reincidencias
 
             },
             beforeSend: function() {
@@ -440,8 +446,9 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
 
             },
             success: function(response) {
-                
+
                 $("#form_valor").val(response['valor']);
+                $("#form_reincidencias").val(response['quantidade']);                
 
             },
             error: function(erro) {
@@ -452,11 +459,52 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
         });
     });
 
+    function atualizaValor() {
+        var nro_chip = $("#form_nro_chip").val();        
+        var id_urm = $("#form_id_urm").val();
+        var nro_ficha = $("#form_nro_ficha").val();
+        var dt_entrada = $("#form_dt_entrada").val();
+        var reincidencias = $("#form_reincidencias").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            data: {
+
+                "id_urm": id_urm,
+                "nro_ficha": nro_ficha,
+                "dt_entrada": dt_entrada,
+                "reincidencias": reincidencias,
+                "nro_chip": nro_chip
+            },
+            beforeSend: function() {
+
+                console.log("Enviado ok");
+
+
+            },
+            success: function(response) {
+
+                $("#form_valor").val(response['valor']);
+                $("#form_reincidencias").val(response['quantidade']); 
+
+            },
+            error: function(erro) {
+
+                // console.log(erro);
+
+            }
+        });
+    }
+
+
 
     $(document).ready(function() {
 
-        $("#form_id_urm").prop("selectedIndex", 1).val();
+       
 
+        $("#form_id_urm").prop("selectedIndex", 1).val();
+        atualizaValor();
         if ($(".select2_responsavel").length > 0) {
             $(".select2_responsavel").attr('data-live-search', 'true');
 
@@ -465,20 +513,5 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             });
         }
 
-        if ($(".select2_ficha_animal").length > 0) {
-            $(".select2_ficha_animal").attr('data-live-search', 'true');
-
-            $(".select2_ficha_animal").select2({
-                width: '100%'
-            });
-        }
-
-        if ($(".select2_nro_chip").length > 0) {
-            $(".select2_nro_chip").attr('data-live-search', 'true');
-
-            $(".select2_nro_chip").select2({
-                width: '100%'
-            });
-        }
     });
 </script>
