@@ -10,6 +10,22 @@
  * Licensed under the BSD-3-Clause
  * https://github.com/kartik-v/bootstrap-fileinput/blob/master/LICENSE.md
  */
+
+ ::-webkit-scrollbar{
+    background-color: #999;
+    width: 10px;
+ 
+    
+}
+::-webkit-scrollbar-thumb{
+    background-color: #28a745;
+    width: 10px;
+    border-radius: 80px;
+
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color: #26fe846d;
+}
 .file-loading input[type=file], input[type=file].file-loading {
     width: 0;
     height: 0;

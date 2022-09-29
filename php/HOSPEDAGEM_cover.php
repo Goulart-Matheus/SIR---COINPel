@@ -340,7 +340,7 @@ $tab->printTab($_SERVER['PHP_SELF'] . '?id_hospedagem=' . $id_hospedagem);
                                     </div>
                                     <div class="row">
                                         <p><b>Valor da Multa:</b> R$ <? if($nro_reincidencias == 0){echo $hospedagem_valor;}else{
-                                           echo number_format($hospedagem_valor * $nro_reincidencias,2,',','.') ;} ?></p>
+                                           echo number_format($hospedagem_valor * ($nro_reincidencias +1) ,2,',','.') ;} ?></p>
                                     </div>
                                     <div class="row">
                                         <p><b>Numero do Boleto:</b> <?= $nro_boleto; ?></p>

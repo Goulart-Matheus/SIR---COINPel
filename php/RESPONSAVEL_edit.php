@@ -272,7 +272,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                                         <? if ($c == $qnt - 1) { ?>
 
-                                            <a class="btn btn-success " id="novo_campo_dinamico" href="#form_principal">+</a>
+                                            <a class="btn btn-green " id="novo_campo_dinamico" href="#form_principal">+</a>
 
                                         <? } else { ?>
 

@@ -45,6 +45,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     <div class="col-12 col-sm-4 offset-sm-4">
 
                         <?
+                        
                         if (isset($add)) {
                             include "../class/class.valida.php";
 
@@ -79,7 +80,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_valor, 'Valor');
-                            $valida->TamMinimo(1);
+                            $valida->TamMinimo(0);
                             $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_situacao, 'Situacao');
@@ -169,21 +170,6 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <input type="hidden" name="form_id_animal" id="form_id_animal">
-
-                    <!---
-                    <div class="form-group col-12 col-md-4">
-                        <label for="form_nro_ficha"><span class="text-danger">*</span> Espécie</label>
-                        <input class="form-control-plaintext" type="text" name="" id="form_especie" disabled>
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                    <label for="form_nro_ficha"><span class="text-danger">*</span> Pelagem</label>
-                        <input class="form-control-plaintext" type="text" name="" id="form_pelagem" disabled>
-                    </div>
-                    <div class="form-group col-12 col-md-4">
-                    <label for="form_nro_ficha"><span class="text-danger">*</span> Sexo</label>
-                        <input class="form-control-plaintext" type="text" name="" id="form_sexo" disabled>
-                    </div>
-                    --->
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_especie"><span class="text-danger">*</span> Espécie</label>

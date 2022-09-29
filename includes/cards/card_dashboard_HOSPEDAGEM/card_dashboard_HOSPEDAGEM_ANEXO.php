@@ -1,4 +1,5 @@
 <?
+
 $query_anexo = new Query($bd);
 
 $query_anexo->exec("SELECT ha.nome, ha.arquivo, ha.dt_alteracao, ha.login, ha.id_hospedagem_anexo
@@ -24,7 +25,7 @@ $n_anexo = $query_anexo->rows();
 
 
             <div class="col-md-6 text-right">
-                <button type="button" class="btn bg-gray btn-light btn-sm text-light" data-toggle="modal" data-target="#HOSPEDAGEM_ANEXO_ADD" data-modal="VI">
+                <button type="button" class="btn bg-light btn-light btn-sm text-light" data-toggle="modal" data-target="#HOSPEDAGEM_ANEXO_ADD" data-modal="VI">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -136,40 +137,40 @@ $n_anexo = $query_anexo->rows();
         <div class="modal-content">
 
 
-            <div class="modal-header bg-light-2">
-                <h5 class="modal-title">
-                    <i class="fas fa-filter text-green"></i>
-                    Adicionar Anexo
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="formulario" method="post" enctype="multipart/form-data">
-                <div class="modal-body">
-
-                    <label for="form_arquivo">Anexo</label>
-                    <div class="input-group ml-0 mb-2">
-
-                        <input type="text" name="nome_arquivo_hospedagem_anexo" id="nome_arquivo_hospedagem_anexo" class="form-control col-7" placeholder="Nome do Anexo">
-
-                        <div class="custom-file col-5">
-                            <label for="arquivo_hospedagem_anexo" class="custom-file-label" data-browse="Pesquisar"><? echo "Selecione um Anexo" ?></label>
-                            <input type="file" class="form-control custom-file-input" name="arquivo_hospedagem_anexo" id="arquivo_hospedagem_anexo">
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer bg-light-2 text-center">
-                    <button type="button" id="add_hospedagem_anexo" class="btn btn-light">
-                        <i class="fa-solid fa-filter text-green"></i>
-                        Salvar
+                <div class="modal-header bg-light-2">
+                    <h5 class="modal-title">
+                        <i class="fas fa-filter text-green"></i>
+                        Adicionar Anexo
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <form id="formulario" method="post" enctype="multipart/form-data">
+                    <div class="modal-body">
+
+                        <label for="form_arquivo">Anexo</label>
+                        <div class="input-group ml-0 mb-2">
+
+                            <input type="text" name="nome_arquivo_hospedagem_anexo" id="nome_arquivo_hospedagem_anexo" class="form-control col-7" placeholder="Nome do Anexo">
+
+                            <div class="custom-file col-5">
+                                <label for="arquivo_hospedagem_anexo" class="custom-file-label" data-browse="Pesquisar"><? echo "Selecione um Anexo" ?></label>
+                                <input type="file" class="form-control custom-file-input" name="arquivo_hospedagem_anexo" id="arquivo_hospedagem_anexo">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer bg-light-2 text-center">
+                        <button type="button" id="add_hospedagem_anexo" class="btn btn-light">
+                            <i class="fa-solid fa-filter text-green"></i>
+                            Salvar
+                        </button>
+                    </div>
+                </form>
         </div>
     </div>
-</div>
 </div>
 
 <div class="modal fade" id="delete_anexo_modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">

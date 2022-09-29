@@ -9,7 +9,7 @@
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
-                <a class="nav-link" href="USUARIO_formPass.php">
+                <a class="nav-link" href="formPass.php">
                     <i class="fas fa-user-astronaut"></i>
                 </a>
             </li>
@@ -18,7 +18,7 @@
                     <i class="fas fa-power-off"></i>
                 </button>
                 <form id="logout-form"
-                      action="../php/USUARIO_formLogoff.php"
+                      action="../php/formLogoff.php"
                       method="POST" class="d-none">
                 </form>
             </li>
