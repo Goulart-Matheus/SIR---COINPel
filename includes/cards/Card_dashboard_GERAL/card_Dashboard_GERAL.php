@@ -572,7 +572,7 @@ if ($query_especies->rows() > 0) {
 
 
     // Espécies
-    var especies_total = <?= json_encode($especies) ?>;  
+    var especies_total = <?= json_encode($especies) ?>;
     var dados_especie = [];
     var dados_especie_ax = [];
 
@@ -614,13 +614,22 @@ if ($query_especies->rows() > 0) {
         axis: {
             x: {
                 type: "category",
-
             }
         },
+
         zoom: {
             enabled: true, // for ESM specify as: zoom()
             type: "drag"
         },
+        legend: {
+            show: false
+        },
+        bar: {
+    width: {
+      ratio: 0.9,
+      max: 40
+    }
+  },
 
         bindto: "#grafico_bairro"
     });
@@ -644,6 +653,9 @@ if ($query_especies->rows() > 0) {
         //     title: "",
         //     padAngle: 0.1
         // },
+        legend: {
+            show: false
+        },
         axis: {
             rotated: true
         },
@@ -651,6 +663,7 @@ if ($query_especies->rows() > 0) {
 
         bindto: "#grafico_bairro_total"
     });
+
 
     // Espécie
     dados_especie.sort((a, b) => a[1] - b[1]);
@@ -663,6 +676,9 @@ if ($query_especies->rows() > 0) {
         axis: {
             rotated: true
         },
+        legend: {
+            show: false
+        },
 
 
         bindto: "#grafico_especie"
@@ -671,7 +687,7 @@ if ($query_especies->rows() > 0) {
 
     $(".tabela_principal tbody tr").on('mouseover', function() {
         chart1.focus($(this).children("td:first").html().replace(/\s/g, '-'));
-       
+
     });
     $(".tabela_principal tbody tr").on('mouseleave', function() {
         chart1.focus();
@@ -680,7 +696,7 @@ if ($query_especies->rows() > 0) {
 
     $(".tabela_bairro tbody tr").on('mouseover', function() {
         chart2.focus($(this).children("td:first").html().replace(/\s/g, '-'));
-        
+
     });
     $(".tabela_bairro tbody tr").on('mouseleave', function() {
         chart2.focus();
@@ -689,7 +705,7 @@ if ($query_especies->rows() > 0) {
 
     $(".tabela_especie tbody tr").on('mouseover', function() {
         chart3.focus($(this).children("td:first").html().replace(/\s/g, '-'));
-     
+
     });
     $(".tabela_especie tbody tr").on('mouseleave', function() {
         chart3.focus();

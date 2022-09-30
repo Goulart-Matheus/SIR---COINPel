@@ -63,7 +63,7 @@ $n_anexo = $query_anexo->rows();
 
             <table class="table table-overflow table-sm text-sm" id="atualizacao_tabela_anexo">
 
-                <thead class="bg-light grey pl-1 table-responsive" style="position: sticky;top: 0">
+                <thead class="bg-light grey pl-1" style="position: sticky;top: 0">
 
                     <tr>
                         <th scope="col" class="px-1">Nome do Arquivo</th>
@@ -77,7 +77,7 @@ $n_anexo = $query_anexo->rows();
 
                 </thead>
 
-                <tbody style="height: min 166px; width:auto;">
+                <tbody style="height: 166px;" class="table-responsive">
 
                     <?
                     while ($n_anexo--) {
@@ -366,6 +366,7 @@ $n_anexo = $query_anexo->rows();
                         if ($("#atualizacao_tabela_anexo").children('tbody').children().length == 0) {
                             $("#nenhum_anexo_vinculado").removeClass("d-none");
                             $("#atualizacao_tabela_anexo").children('thead').remove();
+                            $("#atualizacao_tabela_anexo").children('tbody').remove();
                         } else {
                             $("#nenhum_anexo_vinculado").addClass("d-none");
                         }
