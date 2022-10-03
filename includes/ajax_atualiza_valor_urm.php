@@ -22,6 +22,8 @@ if ($reincidencias == "") {
         $reincidencias = $query_animal_atendimentos->record[0];
         $identificador = 1;
     }
+}{
+    $identificador = 1;
 }
 
 
