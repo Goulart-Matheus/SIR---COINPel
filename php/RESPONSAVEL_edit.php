@@ -13,7 +13,8 @@ $query->exec("SELECT
                     r.endereco,
                     b.descricao,
                     rc.valor_contato,
-                    rc.principal
+                    rc.principal,
+                    b.id_bairro
                 FROM
                     bairro b,
                     responsavel r left join
@@ -211,7 +212,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         <select name="form_bairro" id="form_bairro" class="form-control" required value="<? if ($edit) echo trim($form_bairro);
                                                                                                             else echo trim($query->record[6]); ?>">>
                             <?
-                            $form_elemento = $edit ? $form_bairro : $query->record[6];
+                            $form_elemento = $edit ? $form_bairro : $query->record[9];
                             include("../includes/inc_select_bairro.php"); ?>
                         </select>
                         <div class="invalid-feedback">

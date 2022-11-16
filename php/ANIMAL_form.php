@@ -16,7 +16,6 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
 ?>
 <section class="content">
 
-
     <form method="post" action="<? echo $_SERVER['PHP_SELF'] . $link ?>" enctype="multipart/form-data">
 
         <div class="card p-0">
@@ -140,7 +139,7 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"><span class="text-danger">*</span> Numero Ficha</label>
-                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>" disabled>
                     </div>
 
 

@@ -14,25 +14,28 @@ if ($form_rg != "") {
 }
 
 $query->exec(
-    "SELECT       distinct      r.id_responsavel,
+    "SELECT       distinct r.id_responsavel,
                         r.nome,
                         r.cpf,
                         r.rg,
                         r.dt_nascimento,
                         r.endereco,
-                        b.descricao,                   
-                        rc.valor_contato,
-                        CASE rc.principal
-                        WHEN 'N' THEN 'Não'
-                        WHEN 'S' THEN 'Sim'
-                        ELSE '-'
-                        END
+                        b.descricao,              
+                     
+                        (select valor_contato from responsavel_contato 
+                         where id_responsavel = r.id_responsavel ORDER BY principal limit 1),
+
+                        (select CASE principal
+                                WHEN 'N' THEN 'Não'
+                                WHEN 'S' THEN 'Sim'
+                                ELSE '-'
+                                END from responsavel_contato 
+                         where id_responsavel = r.id_responsavel ORDER BY principal limit 1)
+                   
                         
                 FROM
                         bairro b,
-						responsavel r left join 
-						responsavel_contato rc
-                        ON rc.id_responsavel = r.id_responsavel                        
+						responsavel r                       
                 WHERE
                 
                     r.nome ilike '%" . $form_responsavel . "%'
