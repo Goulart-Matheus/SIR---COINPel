@@ -1,0 +1,179 @@
+
+
+
+
+$query_bairros->exec("SELECT b.descricao, (SELECT count(a.id_animal) FROM animal as a,hospedagem as h WHERE a.id_animal = h.id_animal AND b.id_bairro = h.id_bairro AND EXTRACT(MONTH FROM h.dt_entrada)=$mes AND EXTRACT(YEAR FROM h.dt_entrada) = $ano_corrente)
+                      FROM bairro as b 			  			  
+                      ORDER BY b.descricao");
+
+
+
+
+(SELECT EXTRACT(MONTH FROM h.dt_entrada) FROM animal as a,hospedagem as h WHERE a.id_animal = h.id_animal AND b.id_bairro = h.id_bairro)
+                      FROM bairro as b 			  			  
+
+
+
+SELECT b.descricao, (SELECT count(a.id_animal) FROM animal as a,hospedagem as h WHERE a.id_animal = h.id_animal AND b.id_bairro = h.id_bairro)
+              FROM bairro as b 			  			  
+			  ORDER BY b.descricao
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT b.descricao, (SELECT count(id_animal) FROM animal as a WHERE a.id_animal = h.id_animal)
+              FROM bairro as b, hospedagem as h WHERE b.id_bairro = h.id_bairro ORDER BY b.descricao
+			  
+			  
+SELECT DISTINCT (b.id_bairro) FROM bairro as b, hospedagem as h  WHERE b.id_bairro = h.id_bairro
+
+
+
+SELECT b.descricao, (SELECT count(a.id_animal) FROM animal as a,hospedagem as h WHERE a.id_animal = h.id_animal AND b.id_bairro = h.id_bairro)
+              FROM bairro as b 
+			  WHERE b.id_bairro=(SELECT DISTINCT (b.id_bairro) FROM hospedagem as h  WHERE b.id_bairro = h.id_bairro)			  
+			  ORDER BY b.descricao
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT 					r.id_responsavel,
+                        r.nome,
+                        r.cpf,
+                        r.rg,
+                        r.dt_nascimento,
+                        r.endereco,
+                        b.descricao,
+						rc.valor_contato,
+						rc.principal
+                FROM
+                        responsavel r,
+                        bairro b,
+						responsavel_contato rc	
+                WHERE           
+						b.id_bairro = r.id_bairro AND
+						r.id_responsavel = rc.id_responsavel AND
+						rc.valor_contato IN (SELECT (rc.valor_contato)
+											 FROM 
+												  responsavel_contato rc	
+											 WHERE 
+											 		r.id_responsavel = rc.id_responsavel
+											ORDER BY rc.valor_contato LIMIT 1 )	
+
+function add_responsavel() {
+
+                    $("#btn_add_responsavel").on('click', function() {
+
+
+                        var form_responsavel_ajax = $("#form_responsavel_ajax").val();
+                        var form_cpf_ajax = $("#form_cpf_ajax").val();
+                        var form_rg_ajax = $("#form_rg_ajax").val();
+                        var form_dt_nascimento_ajax = $("#form_dt_nascimento_ajax").val();
+                        var form_endereco_ajax = $("#form_endereco_ajax").val();
+                        var form_bairro_ajax = $("#form_bairro_ajax").val();
+
+                        $.each($("input[form_valor_contato[]']"), function() {
+                            form_valor_contato.push($(this).val());
+                        });
+
+                        $.each($("input[form_principal[]']:checked"), function() {
+                            form_principal.push($(this).val());
+                        });
+
+
+                        $.ajax({
+                            type: "post",
+                            url: "../includes/ajax_add_responsavel.php",
+
+
+                            data: {
+
+                                "form_responsavel_ajax": form_responsavel_ajax,
+                                "form_cpf_ajax": form_cpf_ajax,
+                                "form_rg_ajax": form_rg_ajax,
+                                "form_dt_nascimento_ajax": form_dt_nascimento_ajax,
+                                "form_endereco_ajax": form_endereco_ajax,
+                                "form_bairro_ajax": form_bairro_ajax,
+                                "form_valor_contato": form_valor_contato,
+                                "form_principal": form_principal
+                            },
+                            dataType: "json",
+                            beforeSend: function() {
+
+
+                            },
+                            success: function(response) {
+                                if (response.status == 1) {
+                                    console.log(response.resultado)
+                                } else {
+                                    console.log(response.statu)
+                                }
+
+                            },
+                            error: function(response) {
+
+                            }
+                        });
+
+                    });
+                }
+
+                (function() {
+                    'use strict';
+                    window.addEventListener('load', function() {
+                        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                        var forms = document.getElementsByClassName('needs-validation');
+                        // Loop over them and prevent submission
+                        var validation = Array.prototype.filter.call(forms, function(form) {
+                            form.addEventListener('submit', function(event) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                                if (form.checkValidity() === true) {
+                                    add_responsavel();
+                                }
+                                form.classList.add('was-validated');
+                            }, false);
+                        });
+                    }, false);
+                })();
+</script>
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

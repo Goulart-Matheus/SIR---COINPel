@@ -167,7 +167,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
         initialize(<?= $coordenada ?>)
 
-        mapboxgl.accessToken = 'pk.eyJ1IjoiY29pbnBlbGRldiIsImEiOiJjam9laHBtenUwMmg5M3BuaTdxbGZ5NWtxIn0.2TpX0olW1I9fpl9qs3LyJw';
+        mapboxgl.accessToken = 'pk.eyJ1IjoicmFmYWVsZHR4IiwiYSI6ImNsODNlYTQ1cTA0eHczbm1mOHJ5eGVqZWgifQ.KBhV05aSsZP1Kp-hMLE2cA';
 
         map = new mapboxgl.Map({
             container: 'map',
