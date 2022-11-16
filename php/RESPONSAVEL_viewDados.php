@@ -14,26 +14,30 @@ if ($form_rg != "") {
 }
 
 $query->exec(
-    "SELECT       distinct      r.id_responsavel,
-                        r.nome,
-                        r.cpf,
-                        r.rg,
-                        r.dt_nascimento,
-                        r.endereco,
-                        b.descricao,                   
-                        rc.valor_contato,
-                        CASE rc.principal
-                        WHEN 'N' THEN 'Não'
-                        WHEN 'S' THEN 'Sim'
-                        ELSE '-'
-                        END
-                        
-                FROM
-                        bairro b,
-						responsavel r left join 
-						responsavel_contato rc
-                        ON rc.id_responsavel = r.id_responsavel                        
-                WHERE
+    "SELECT     DISTINCT     r.id_responsavel,
+    r.nome,
+    r.cpf,
+    r.rg,
+    r.dt_nascimento,
+    r.endereco,
+    b.descricao,                   
+   (SELECT valor_contato from responsavel_contato 
+    WHERE id_responsavel =r.id_responsavel  limit 1 ),
+    (select CASE principal
+                                WHEN 'N' THEN 'Não'
+                                WHEN 'S' THEN 'Sim'
+                                ELSE '-'
+                                END from responsavel_contato 
+                         where id_responsavel = r.id_responsavel ORDER BY principal limit 1)
+    
+    
+FROM
+    bairro b,
+    responsavel r 
+
+
+WHERE  b.id_bairro =r.id_bairro                       
+                and
                 
                     r.nome ilike '%" . $form_responsavel . "%'
                    
@@ -218,6 +222,7 @@ include('../php/RESPONSAVEL_view.php');
                         while ($n--) {
 
                             $paging->query->proximo();
+                            
 
                             $js_onclick = "OnClick=javascript:window.location=('RESPONSAVEL_cover.php?id_responsavel=" . $paging->query->record[0] . "')";
 

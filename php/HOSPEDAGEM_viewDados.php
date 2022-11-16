@@ -252,7 +252,7 @@ include('HOSPEDAGEM_view.php');
                     <tfoot>
 
                         <tr>
-                            <td colspan="8">
+                            <td colspan="12">
 
                                 <span>Situação: </span>
                                 <span><i class='fas fa-circle text-green'></i> Atendimento Finalizado</span>

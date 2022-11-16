@@ -13,6 +13,21 @@ $tab->setTab('Novo Animal', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_responsavel" : "";
 
+
+$query_count = new Query($bd);
+$query_count->exec("SELECT nro_ficha FROM animal ORDER BY nro_ficha DESC");
+$query_count->proximo();
+
+$t = $query_count->rows();
+if($t  > 0){
+   // $nro_ficha = $query_count->record[0 ]+ 1;
+   $contagem_ficha = $query_count->record[0] + 1;
+}else{
+    $contagem_ficha = 1;
+}
+
+
+
 ?>
 <section class="content">
 
@@ -38,10 +53,6 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
                             $query_aux  = new Query($bd);
                             $query_aux1 = new Query($bd);
 
-                            $valida = new Valida($form_nro_ficha, 'Nro_ficha');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
 
                             $valida = new Valida($form_nro_chip, 'Nro_chip');
                             $valida->TamMinimo(1);
@@ -63,13 +74,7 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
 
                             // Validação testa se o nro_ficha e o nro_chip já estão cadastrados no BD
                             // inicio
-                            $query_aux->exec("SELECT id_animal 
-                                                                FROM animal
-                                                                WHERE nro_ficha = '$form_nro_ficha'
-                                                            ");
-                            if ($query_aux->rows() > 0) {
-                                $erro .= "A ficha de numero $form_nro_ficha, já esta cadastrada no sistema <br>";
-                            }
+                            
                             $query_aux1->exec("SELECT id_animal
                                                     FROM animal
                                                     WHERE nro_chip = '$form_nro_chip'
@@ -90,7 +95,7 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
                             $query->insertTupla(
                                 'animal',
                                 array(
-                                    trim($form_nro_ficha),
+                                    trim($contagem_ficha),
                                     $form_nro_chip,
                                     $form_id_pelagem,
                                     $form_id_especie,
@@ -140,7 +145,7 @@ $link = isset($id_responsavel) && $id_responsavel != "" ? "?id_responsavel=$id_r
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"><span class="text-danger">*</span> Numero Ficha</label>
-                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<?= str_pad($contagem_ficha,6,0, STR_PAD_LEFT) ?>" disabled>
                     </div>
 
 
