@@ -8,7 +8,7 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? "um Bair
 <?
 $query_bairro = new Query($bd);
 
-$query_bairro->exec("SELECT id_bairro, descricao FROM bairro  ORDER BY descricao");
+$query_bairro->exec("SELECT id_bairro, descricao FROM bairro WHERE habilitado ='S' ORDER BY descricao");
 $n_bairro = $query_bairro->rows();
 
 while ($n_bairro--) {

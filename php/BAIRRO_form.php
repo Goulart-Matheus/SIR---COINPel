@@ -7,7 +7,7 @@ include('../class/class.tab.php');
 $tab = new Tab();
 
 
-$tab->setTab('Bairros', 'fas fa-home', 'BAIRRO_viewDados.php');
+$tab->setTab('Bairros', 'fa-solid fa-map-location', 'BAIRRO_viewDados.php');
 $tab->setTab('Novo Bairro', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 

@@ -8,7 +8,7 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? " uma pe
 <?
 $query_pelagem = new Query($bd);
 
-$query_pelagem->exec("SELECT id_pelagem, descricao FROM pelagem  ORDER BY descricao");
+$query_pelagem->exec("SELECT id_pelagem, descricao FROM pelagem WHERE habilitado = 'S' ORDER BY descricao");
 $n_pelagem = $query_pelagem->rows();
 
 while ($n_pelagem--) {

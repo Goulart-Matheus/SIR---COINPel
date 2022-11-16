@@ -8,7 +8,7 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? " uma es
 <?
 $query_especie = new Query($bd);
 
-$query_especie->exec("SELECT id_especie, descricao FROM especie  ORDER BY descricao");
+$query_especie->exec("SELECT id_especie, descricao FROM especie WHERE habilitado = 'S'  ORDER BY descricao");
 $n_especie2 = $query_especie->rows();
 
 while ($n_especie2--) {

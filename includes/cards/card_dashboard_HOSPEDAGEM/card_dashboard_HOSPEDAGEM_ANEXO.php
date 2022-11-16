@@ -87,7 +87,7 @@ $n_anexo = $query_anexo->rows();
                         <tr class='entered'>
                             <td><?= $query_anexo->record[0]; ?></td>
                             <td><?= $query_anexo->record[3]; ?></td>
-                            <td><?= $query_anexo->record[2]; ?></td>
+                            <td><?= date('d/m/Y',strtotime($query_anexo->record[2])); ?></td>
                             <td>
                                 <a href="../arquivos/<?= $_login ?>/<?= $query_anexo->record[1] ?>" class="link" target="_blank">
                                     <i class="fas fa-paperclip"></i>

@@ -43,13 +43,6 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_mascara, 'CPF');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
-                            $valida = new Valida($form_rg, 'RG');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
 
                             $valida = new Valida($form_endereco, 'Endereço');
                             $valida->TamMinimo(1);
@@ -171,13 +164,13 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                         <input type="text" class="form-control" name="form_responsavel" id="form_responsavel" maxlength="200" required value="<? if ($erro) echo $form_responsavel; ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
-                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" required value="<? if ($erro) echo $form_mascara; ?>">
+                        <label for="form_mascara">CPF: </label>
+                        <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($erro) echo $form_mascara; ?>">
                         <input type="hidden" class="form_mascara_unmask" name="form_mascara_unmask" value="<? if ($erro) echo $form_mascara_unmask; ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_rg"><span class="text-danger">*</span> RG :</label>
-                        <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" required maxlength="14" value="<? if ($erro) echo $form_rg; ?>">
+                        <label for="form_rg">RG :</label>
+                        <input autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="14" value="<? if ($erro) echo $form_rg; ?>">
                     </div>
                 </div>
 

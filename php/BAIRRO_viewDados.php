@@ -66,7 +66,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Bairros', 'fas fa-home', $_SERVER['PHP_SELF']);
+$tab->setTab('Bairros', 'fa-solid fa-map-location', $_SERVER['PHP_SELF']);
 $tab->setTab('Novo Bairro', 'fas fa-plus', 'BAIRRO_form.php');
 
 

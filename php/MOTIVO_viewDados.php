@@ -69,7 +69,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Motivos', 'fa-solid fa-list', $_SERVER['PHP_SELF']);
+$tab->setTab('Motivos', 'fa-solid fa-address-book', $_SERVER['PHP_SELF']);
 $tab->setTab('Novo Motivo', 'fas fa-plus', 'MOTIVO_form.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);

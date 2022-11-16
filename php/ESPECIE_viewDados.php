@@ -69,7 +69,7 @@ include('../class/class.tab.php');
 $tab = new Tab();
 
 
-$tab->setTab('Espécies', 'fas fa-align-justify', $_SERVER['PHP_SELF']);
+$tab->setTab('Espécies', 'fa-solid fa-horse', $_SERVER['PHP_SELF']);
 $tab->setTab('Nova Espécie', 'fas fa-plus', 'ESPECIE_form.php');
 
 $tab->printTab($_SERVER['PHP_SELF']);
