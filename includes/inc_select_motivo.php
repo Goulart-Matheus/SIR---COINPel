@@ -8,7 +8,7 @@ $option_place    = !isset($option_place)    || $option_place    == "" ? "um Moti
 <?
 $query_motivo = new Query($bd);
 
-$query_motivo->exec("SELECT id_motivo, descricao FROM motivo  ORDER BY descricao");
+$query_motivo->exec("SELECT id_motivo, descricao FROM motivo  WHERE habilitado = 'S' ORDER BY descricao");
 $n_motivo = $query_motivo->rows();
 
 while ($n_motivo--) {

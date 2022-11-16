@@ -10,7 +10,7 @@ $mes = ["JANEIRO","FEVEREIRO","MARÇO","ABRIL","MAIO","JUNHO","JULHO","AGOSTO","
 <?
 $query_urm = new Query($bd);
 
-$query_urm->exec("SELECT id_urm, valor , ativo , mes_referencia , ano_referencia FROM urm  ORDER BY  (ano_referencia, mes_referencia) DESC");
+$query_urm->exec("SELECT id_urm, valor , ativo , mes_referencia , ano_referencia FROM urm WHERE ativo='S'  ORDER BY  (ano_referencia, mes_referencia) DESC");
 $n_urm = $query_urm->rows();
 
 while ($n_urm--) {

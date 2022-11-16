@@ -6,7 +6,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Motivos', 'fa-solid fa-list','MOTIVO_viewDados.php');
+$tab->setTab('Motivos', 'fa-solid fa-address-book','MOTIVO_viewDados.php');
 $tab->setTab('Adicionar', 'fas fa-plus', $_SERVER['PHP_SELF']);
 
 $tab->printTab($_SERVER['PHP_SELF']);

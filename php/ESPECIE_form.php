@@ -6,7 +6,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Espécies', 'fas fa-align-justify', 'ESPECIE_viewDados.php');
+$tab->setTab('Espécies', 'fa-solid fa-horse', 'ESPECIE_viewDados.php');
 $tab->setTab('Nova Espécie', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 

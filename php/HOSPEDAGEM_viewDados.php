@@ -201,8 +201,8 @@ include('HOSPEDAGEM_view.php');
                         <tr>
 
                             <td style=' <? echo $sort->verifyItem(0); ?>' width="5px"></td>
-                            <td style=' <? echo $sort->verifyItem(1); ?>' width="5px"> <? echo $sort->printItem(1, $sort->sort_dir, ''); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Atendimento'); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(10); ?>' width="5px"> <? echo $sort->printItem(10, $sort->sort_dir, ''); ?> </td>
+                            <td style=' <? echo $sort->verifyItem(1); ?>'> <? echo $sort->printItem(1, $sort->sort_dir, 'Atendimento'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(3); ?>'> <? echo $sort->printItem(3, $sort->sort_dir, 'Ficha Animal'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(2); ?>'> <? echo $sort->printItem(2, $sort->sort_dir, 'Nro Chip'); ?> </td>
                             <td style=' <? echo $sort->verifyItem(4); ?>'> <? echo $sort->printItem(4, $sort->sort_dir, 'Endereco_recolhimento'); ?> </td>
