@@ -14,42 +14,32 @@ if ($form_rg != "") {
 }
 
 $query->exec(
-    "SELECT       distinct r.id_responsavel,
-                        r.nome,
-                        r.cpf,
-                        r.rg,
-                        r.dt_nascimento,
-                        r.endereco,
-                        b.descricao,              
-                     
-                        (select valor_contato from responsavel_contato 
-                         where id_responsavel = r.id_responsavel ORDER BY principal limit 1),
+    "SELECT     DISTINCT        
+    r.id_responsavel,
+    r.nome,
+    r.cpf,
+    r.rg,
+    r.dt_nascimento,
+    r.endereco,
+    b.descricao,                   
+    (SELECT valor_contato from responsavel_contato 
+        WHERE id_responsavel =r.id_responsavel  limit 1 ),
+            (select CASE principal
+                WHEN 'N' THEN 'Não'
+                WHEN 'S' THEN 'Sim'
+                ELSE '-'
+                END from responsavel_contato 
+                where id_responsavel = r.id_responsavel ORDER BY principal limit 1)
+    FROM
+        bairro b,
+        responsavel r 
 
-                        (select CASE principal
-                                WHEN 'N' THEN 'Não'
-                                WHEN 'S' THEN 'Sim'
-                                ELSE '-'
-                                END from responsavel_contato 
-                         where id_responsavel = r.id_responsavel ORDER BY principal limit 1)
-                   
-                        
-                FROM
-                        bairro b,
-						responsavel r                       
-                WHERE
-                
-                    r.nome ilike '%" . $form_responsavel . "%'
-                   
-                and 
-                    b.id_bairro =r.id_bairro 
-
-                and r.rg ilike '%" . $form_rg . "%'   
-                
-                and 
-                    r.cpf ilike '%" . $form_mascara . "%'
-
-                " . $where
-
+    WHERE   b.id_bairro =r.id_bairro and                  
+            r.nome ilike '%" . $form_responsavel . "%' and  
+            b.id_bairro =r.id_bairro and
+            r.rg ilike '%" . $form_rg . "%'  and      
+            r.cpf ilike '%" . $form_mascara . "%'
+            " . $where
 );
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);

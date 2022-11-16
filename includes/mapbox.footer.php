@@ -10,7 +10,7 @@
 
         initialize(<?= $coordenada ?>)
 
-        mapboxgl.accessToken = 'pk.eyJ1IjoicmFmYWVsZHR4IiwiYSI6ImNsODNlYTQ1cTA0eHczbm1mOHJ5eGVqZWgifQ.KBhV05aSsZP1Kp-hMLE2cA';
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZWR1YXJkb2NhcnBlbmEiLCJhIjoiY2w3OTRhMzUxMDFyMTNucGNxdWF2M3h4ciJ9.LBhlBKBp4UGM-dgg3NUe2A';
 
         map = new mapboxgl.Map({
             container: 'map',

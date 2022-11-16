@@ -110,7 +110,7 @@ $query->result($query->linha);
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"></span> Nunero Ficha</label>
                         <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha" maxlength="100" value="<? if ($edit) echo $form_nro_ficha;
-                                                                                                                                    else echo trim($query->record[1]) ?>">
+                                                                                                                                    else echo trim(str_pad($query->record[1],6,0, STR_PAD_LEFT)) ?>" disabled>
                     </div>
 
                     <div class="form-group col-12 col-md-4">

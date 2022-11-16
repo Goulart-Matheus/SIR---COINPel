@@ -237,9 +237,9 @@ include('HOSPEDAGEM_view.php');
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[2] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[3] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[4] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" .  $paging->query->record[5] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" .  ($paging->query->record[5] != '' ? $paging->query->record[5] : "-" ) . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" .  date('d/m/Y', strtotime($paging->query->record[6])) . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" .  $paging->query->record[7] . "</td>";
+                            echo "<td valign='middle' " . $js_onclick . ">" .  ($paging->query->record[7] != '' ? $paging->query->record[7] : "-" ) . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" .  $paging->query->record[8] . "</td>";
 
                             echo "</tr>";
@@ -252,7 +252,7 @@ include('HOSPEDAGEM_view.php');
                     <tfoot>
 
                         <tr>
-                            <td colspan="8">
+                            <td colspan="12">
 
                                 <span>Situação: </span>
                                 <span><i class='fas fa-circle text-green'></i> Atendimento Finalizado</span>
