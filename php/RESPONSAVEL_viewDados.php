@@ -13,50 +13,41 @@ if ($form_rg != "") {
     $where .= " and r.rg ilike '%{$form_rg}%'";
 }
 
-
-//incui a linha contendo and  rc.principal ='S'   para realização de testes
-
-
-
-    $query->exec("SELECT 
-                        r.id_responsavel,
+$query->exec(
+    "SELECT       distinct      r.id_responsavel,
                         r.nome,
                         r.cpf,
                         r.rg,
                         r.dt_nascimento,
                         r.endereco,
-                        b.descricao,
+                        b.descricao,                   
                         rc.valor_contato,
-                        rc.principal
+                        CASE rc.principal
+                        WHEN 'N' THEN 'Não'
+                        WHEN 'S' THEN 'Sim'
+                        ELSE '-'
+                        END
+                        
                 FROM
-                        responsavel r,
                         bairro b,
-                        responsavel_contato rc
+						responsavel r left join 
+						responsavel_contato rc
+                        ON rc.id_responsavel = r.id_responsavel                        
                 WHERE
+                
                     r.nome ilike '%" . $form_responsavel . "%'
                    
                 and 
                     b.id_bairro =r.id_bairro 
-                and
-                    rc.id_responsavel = r.id_responsavel
-                and 
-                    rc.valor_contato IN (SELECT (rc.valor_contato) FROM responsavel_contato rc 
-                    WHERE r.id_responsavel = rc.id_responsavel ORDER BY rc.valor_contato LIMIT 1)  
-                     
 
                 and r.rg ilike '%" . $form_rg . "%'   
                 
                 and 
-                    r.cpf ilike '%". $form_mascara. "%'
+                    r.cpf ilike '%" . $form_mascara . "%'
 
-                ".$where
-      
-    );
+                " . $where
 
-
-   
-    
-
+);
 
 $sort = new Sort($query, $sort_icon, $sort_dirname, $sort_style);
 
@@ -89,7 +80,7 @@ if ($print) {
     if (isset($remove)) {
 
         if (!isset($id_responsavel)) {
-
+            echo callException($msg, 0);
             $erro = 'Nenhum item selecionado!';
         } else {
 
@@ -98,35 +89,42 @@ if ($print) {
             for ($c = 0; $c < sizeof($id_responsavel); $c++) {
 
 
-                $query->exec(
-                    "SELECT  rc.id_responsavel_contato, rc.id_responsavel,rc.id_tipo_contato,rc.valor_contato,rc.principal,
-                                           r.nome,r.cpf,r.rg,r.dt_nascimento 
-                                  FROM   responsavel_contato rc, responsavel r ,animal_responsavel ar
-                                  WHERE  rc.id_responsavel = " . $id_responsavel[$c],
-                    "AND   r.id_responsavel =" . $id_responsavel[$c],
-                    "AND  ar.id_responsavel =" . $id_responsavel[$c],
-
-
-
+                $querydel->exec(
+                    "SELECT  id_hospedagem 
+                    FROM hospedagem 
+                    WHERE id_responsavel = $id_responsavel[$c]"
                 );
 
+                if ($querydel->rows() > 0) {
 
-                if ($query->rows() > 0) {
-                    $n = $query->rows();
+                    $erro = 'Operação não realizada, responsável ainda vinculado a atentimentos!';
+                    echo callException($erro, 2);
+                } else {
 
-                    while ($n--) {
+                    $querydel->exec(
+                        "SELECT  id_animal_responsavel 
+                        FROM animal_responsavel 
+                        WHERE id_responsavel = $id_responsavel[$c]"
+                    );
 
-
+                    if ($querydel->rows() > 0) {
                         $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
                         $querydel->deleteTupla('animal_responsavel', $where);
+                    }
 
+                    $querydel->exec(
+                        "SELECT  id_responsavel_contato 
+                        FROM responsavel_contato 
+                        WHERE id_responsavel = $id_responsavel[$c]"
+                    );
+
+                    if ($querydel->rows() > 0) {
                         $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
                         $querydel->deleteTupla('responsavel_contato', $where);
-                    };
-
+                    }
                     $where = array(0 => array('id_responsavel', $id_responsavel[$c]));
                     $querydel->deleteTupla('responsavel', $where);
-                };
+                }
             }
 
             unset($_POST['id_responsavel']);
@@ -211,7 +209,7 @@ include('../php/RESPONSAVEL_view.php');
                             <td style=' <? echo $sort->verifyItem(5); ?>'> <? echo $sort->printItem(5, $sort->sort_dir, 'Endereço: '); ?> </td>
                             <td style=' <? echo $sort->verifyItem(6); ?>'> <? echo $sort->printItem(6, $sort->sort_dir, 'Bairro: '); ?> </td>
                             <td style=' <? echo $sort->verifyItem(7); ?>'> <? echo $sort->printItem(7, $sort->sort_dir, 'Contato '); ?> </td>
-                            <td style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Principal: '); ?> </td>
+                            <td class='text-center' style=' <? echo $sort->verifyItem(8); ?>'> <? echo $sort->printItem(8, $sort->sort_dir, 'Principal: '); ?> </td>
 
                         </tr>
 
@@ -233,7 +231,7 @@ include('../php/RESPONSAVEL_view.php');
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[5] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[6] . "</td>";
                             echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[7] . "</td>";
-                            echo "<td valign='middle' " . $js_onclick . ">" . $paging->query->record[8] . "</td>";
+                            echo "<td valign='middle' class='text-center'" . $js_onclick . ">" . $paging->query->record[8] . "</td>";
                             echo "</tr>";
                         }
 
@@ -244,7 +242,7 @@ include('../php/RESPONSAVEL_view.php');
                     <tfoot>
 
                         <tr>
-                            <td colspan="8">
+                            <td colspan="12">
 
                                 <div class="text-center pt-2">
                                     <? echo $paging->viewTableSlice(); ?>

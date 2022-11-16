@@ -4,11 +4,27 @@ include('../includes/variaveisAmbiente.php');
 include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
 
-$query->exec("SELECT r.id_responsavel, r.nome , r.cpf, r.rg , r.dt_nascimento, r.endereco , r.id_bairro , rc.id_responsavel_contato
-              FROM responsavel as r, responsavel_contato as rc, tipo_contato as t
-              WHERE r.id_responsavel = rc.id_responsavel AND
-                    t.id_tipo_contato = rc.id_tipo_contato AND
+$query->exec("SELECT 
+                    r.id_responsavel,
+                    r.nome,
+                    r.cpf,
+                    r.rg,
+                    r.dt_nascimento,
+                    r.endereco,
+                    b.descricao,
+                    rc.valor_contato,
+                    rc.principal
+                FROM
+                    bairro b,
+                    responsavel r left join
+                    responsavel_contato rc
+                    on rc.id_responsavel = r.id_responsavel
+                    WHERE
+                    b.id_bairro =r.id_bairro AND
                     r.id_responsavel = " . $id_responsavel);
+
+
+                    
 $query->result($query->linha);
 $tab = new Tab();
 
