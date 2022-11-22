@@ -218,7 +218,7 @@
 
                     $.ajax({
                         type: 'POST',
-                        url:'../../../includes/ajax_edit_responsavel.php',
+                        url:'../includes/ajax_edit_responsavel.php',
                         data:{
                             "id_responsavel": id_responsavel,
                             "nome": nome,

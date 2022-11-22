@@ -277,7 +277,7 @@ $n_anexo = $query_anexo->rows();
 
 </div>
 
-<script src="../../../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -296,7 +296,7 @@ $n_anexo = $query_anexo->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../includes/ajax_add_anexo_HOSPEDAGEM.php',
+                url: '../includes/ajax_add_anexo_HOSPEDAGEM.php',
                 data: form_data,
                 method: "POST",
                 contentType: false,
@@ -346,7 +346,7 @@ $n_anexo = $query_anexo->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_exclui_anexo_HOSPEDAGEM.php',
+                url: '../includes/ajax_exclui_anexo_HOSPEDAGEM.php',
                 data: {
 
                     "id_anexo": id_anexo
@@ -410,7 +410,7 @@ $n_anexo = $query_anexo->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../includes/ajax_edit_anexo_HOSPEDAGEM.php',
+                url: '../includes/ajax_edit_anexo_HOSPEDAGEM.php',
                 data: form_data,
                 method: "POST",
                 contentType: false,

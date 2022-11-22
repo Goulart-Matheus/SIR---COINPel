@@ -315,8 +315,8 @@ $n = $query->rows();
     </div>
 </div>
 
-<script src="../../../assets/js/app.js"></script>
-<script src="../../../assets/js/jquery.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/jquery.js"></script>
 
 <script>
     $(document).ready(function() {
@@ -332,7 +332,7 @@ $n = $query->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_busca_animal.php',
+                url: '../includes/ajax_busca_animal.php',
                 data: {
                     "nro_ficha": nro_ficha,
                     "nro_chip": nro_chip,
@@ -425,7 +425,7 @@ $n = $query->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_vincula_animal.php',
+                url: '../includes/ajax_vincula_animal.php',
                 data: {
 
                     "form_vincula_animal": form_vincula_animal,
@@ -485,7 +485,7 @@ $n = $query->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_desvincula_animal.php',
+                url: '../includes/ajax_desvincula_animal.php',
                 data: {
 
                     "id_animal_responsavel": id_animal_responsavel,

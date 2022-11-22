@@ -21,11 +21,11 @@
 
 </aside>
 </div>
-<script src="../../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.js"></script>
 <script src="../assets/js/app.js"></script>
 <script src="../assets/js/script.js"></script>
 <script src="../assets/js/campoMultiplo.js"></script>
-<script src="../../assets/js/select2.js"></script>
+<script src="../assets/js/select2.js"></script>
 <!-- <script type="text/javascript" src="../assets/js/jquery.js"></script> -->
 <!-- Bootstrap CDN -->
 <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>

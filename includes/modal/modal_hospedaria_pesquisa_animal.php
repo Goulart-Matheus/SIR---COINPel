@@ -131,7 +131,7 @@ $table_body .= "<td><button class='btn_vincula_animal2' type='button'  data-id-a
 
             $.ajax({
                 type: 'POST',
-                url: '../../includes/ajax_busca_animal.php',
+                url: '../includes/ajax_busca_animal.php',
                 data: {
                     'nro_ficha': nro_ficha,
                     'nro_chip': nro_chip,
@@ -208,7 +208,7 @@ $table_body .= "<td><button class='btn_vincula_animal2' type='button'  data-id-a
 
                             $.ajax({
                                 type: 'POST',
-                                url: '../../includes/ajax_hospedagem_vincula_animal.php',
+                                url: '../includes/ajax_hospedagem_vincula_animal.php',
                                 data: {
                                     'id_animal': form_vincula_animal,
                                     'id_urm': id_urm,

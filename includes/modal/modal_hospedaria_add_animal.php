@@ -1,3 +1,18 @@
+<?
+$query_count = new Query($bd);
+$query_count->exec("SELECT nro_ficha FROM animal ORDER BY nro_ficha DESC");
+$query_count->proximo();
+
+$t = $query_count->rows();
+if($t  > 0){
+   // $nro_ficha = $query_count->record[0 ]+ 1;
+   $contagem_ficha = $query_count->record[0] + 1;
+}else{
+    $contagem_ficha = 1;
+}
+
+?>
+
 <div class="modal fade text-left" id="ANIMAL_modal" tabindex="-1" role="dialog" aria-hidden="true">
 
     <div class="modal-dialog modal-xl" role="document">
@@ -7,7 +22,7 @@
             <div class="modal-header bg-light-2">
                 <h5 class="modal-title">
                     <i class="fas fa-dog text-green"></i>
-                    Cadastrar Animal
+                    Cadastrar Animal 
                 </h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -21,7 +36,7 @@
 
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"><span class="text-danger">*</span> Numero Ficha</label>
-                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha_ajax_cadastro" maxlength="100" value="<? if ($erro) echo $form_nro_ficha; ?>">
+                        <input type="text" class="form-control" name="form_nro_ficha" id="form_nro_ficha_ajax_cadastro" maxlength="100" value="<? echo str_pad($contagem_ficha,6,0, STR_PAD_LEFT); if ($erro) echo str_pad($contagem_ficha,6,0, STR_PAD_LEFT) ?>"disabled>
                     </div>
 
 
@@ -122,7 +137,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '../../includes/ajax_hospedagem_add_animal.php',
+                    url: '../includes/ajax_hospedagem_add_animal.php',
                     data: {
                         "nro_ficha": nro_ficha,
                         "nro_chip": nro_chip,

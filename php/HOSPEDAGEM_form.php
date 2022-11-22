@@ -183,7 +183,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     <div class="form-group col-12 col-md-4">
                         <label for="form_nro_ficha"><span class="text-danger">*</span> Sexo</label>
                         <input class="form-control" type="text" name="" id="form_sexo" value="<?php if ($erro) echo $form_sexo;
-                                                                                                else echo ($query->record[6] == 'M' ? 'Macho' : 'Fêmea') ?>" disabled>
+                                                                                                else if($query->record[6] == 'M'){
+                                                                                                    echo "Macho";
+                                                                                                }else if($query->record[6] == 'F'){
+                                                                                                    echo "Fêmea";
+                                                                                                } ?>" disabled>
                     </div>
 
 
@@ -321,7 +325,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_nro_boleto"><span class="text-danger">*</span> Numero Boleto</label>
+                        <label for="form_nro_boleto"> Numero Boleto</label>
                         <input type="text" class="form-control" name="form_nro_boleto" id="form_nro_boleto" maxlength="100" value="<? if ($erro) echo $form_nro_boleto; ?>">
                     </div>
 

@@ -257,7 +257,7 @@ $n = $query->rows();
     </div>
 </div>
 
-<script src="../../../assets/js/jquery.js"></script>
+<script src="../assets/js/jquery.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function() {        
@@ -270,7 +270,7 @@ $n = $query->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_busca_responsavel.php',
+                url: '../includes/ajax_busca_responsavel.php',
                 data: {
                     "nome": nome,
                     "cpf": cpf,
@@ -347,7 +347,7 @@ $n = $query->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_vincula_responsavel.php',
+                url: '../includes/ajax_vincula_responsavel.php',
                 data: {
 
                     " id_animal": id_animal,
@@ -404,7 +404,7 @@ $n = $query->rows();
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_exclui_responsavel.php',
+                url: '../includes/ajax_exclui_responsavel.php',
                 data: {
 
                     "id_responsavel_animal": id_responsavel_animal,
