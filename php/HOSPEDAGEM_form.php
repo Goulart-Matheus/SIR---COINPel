@@ -128,6 +128,8 @@ $tab->printTab($_SERVER['PHP_SELF']);
                             );
 
                             $query->commit();
+
+                            
                         }
 
                         if ($erro)
@@ -370,7 +372,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
 
         $.ajax({
             type: 'POST',
-            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            url: '../includes/ajax_atualiza_valor_urm.php',
             data: {
 
                 "id_urm": id_urm,
@@ -418,7 +420,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
 
         $.ajax({
             type: 'POST',
-            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            url: '../includes/ajax_atualiza_valor_urm.php',
             data: {
 
                 "nro_ficha": nro_ficha,
@@ -457,7 +459,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
 
         $.ajax({
             type: 'POST',
-            url: '../../../includes/ajax_atualiza_valor_urm.php',
+            url: '../includes/ajax_atualiza_valor_urm.php',
             data: {
 
                 "id_urm": id_urm,

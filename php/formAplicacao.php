@@ -2,10 +2,14 @@
 include('../includes/session.php');
 include_once('../includes/dashboard/header.php');
 include('../class/class.tab.php');
+
 $tab = new Tab();
+
 $tab->setTab('Aplicações', 'fas fa-file-code', 'viewAplicacaoDados.php');
 $tab->setTab('Nova Aplicação', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
+
+
 ?>
 
 <link rel="stylesheet" href="../assets/css/multi-select.css">
@@ -194,7 +198,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
         $("#form_icon").val(e.icon);
     });
 */
-    $('#icone').on('keyup', function(){
+    $('#form_icon').on('keyup', function(){
         if($(this).val() != "")
         {
             var newIcon = $(this).val();

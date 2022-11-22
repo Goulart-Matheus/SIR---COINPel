@@ -380,7 +380,7 @@ $nro_reincidencias = $query_reincidencias->record[0];
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_nro_boleto"><span class="text-danger">*</span> Numero Boleto</label>
+                        <label for="form_nro_boleto"> Numero Boleto</label>
                         <input type="text" class="form-control" name="form_nro_boleto" id="form_nro_boleto" maxlength="100" value="<? if ($edit) echo $form_nro_boleto;
                                                                                                                                     else echo trim($query->record[9]) ?>">
                     </div>

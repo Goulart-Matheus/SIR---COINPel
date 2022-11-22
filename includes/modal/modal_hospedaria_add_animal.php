@@ -89,14 +89,7 @@ if($t  > 0){
 
 
                 </div>
-                <div class="form-row">
-
-                    <div class="form-group col-12">
-                        <label for="form_observacao">Observação</label>
-                        <input type="text" class="form-control" name="form_observacao" id="form_observacao_ajax_cadastro" maxlength="200" value="<? if ($erro) echo $form_observacao; ?>">
-                    </div>
-
-                </div>
+                
 
                 <script>
                     <?
@@ -153,7 +146,7 @@ if($t  > 0){
                     success: function(ret) {
 
                         if (ret[0]['resultado'] === '1') {
-
+                            $("#form_id_animal").val(ret[0]['id_animal']);
                             $("#form_nro_chip").val(ret[0]['nro_chip']);
                             $("#form_nro_ficha").val(ret[0]['nro_ficha']);
                             $("#form_especie").val(ret[0]['especie']);

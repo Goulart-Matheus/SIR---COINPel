@@ -529,7 +529,7 @@ if ($query_especies->rows() > 0) {
 <script src="../assets/js/jquery.js"></script>
 
 <script src="https://d3js.org/d3.v6.min.js"></script>
-<script src="../../../assets/js/billboard.js"></script>
+<script src="../assets/js/billboard.js"></script>
 
 <script type="text/javascript">
     var meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];

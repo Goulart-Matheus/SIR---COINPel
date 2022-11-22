@@ -474,7 +474,7 @@ function isNum($val)
 
             $.ajax({
                 type: 'POST',
-                url: '../../../includes/ajax_atualiza_valor_urm.php',
+                url: '../includes/ajax_atualiza_valor_urm.php',
                 data: {
 
                     "id_hospedagem": id_hospedagem,
