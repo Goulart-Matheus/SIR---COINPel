@@ -48,12 +48,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            foreach ($form_valor_contato as $val) {
-                                $valida = new Valida($val[0], 'Contato');
-
-                                $valida->TamMinimo(1);
-                                $erro .= $valida->PegaErros();
-                            }
+                           
                             // Validação testa se o CPF e o RG já estão cadastrados no BD
                             // inicio
 
@@ -103,25 +98,31 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                 )
                             );
 
-                            $id_responsavel = $query->last_insert[0];
-                            $i = 0;
-                            foreach ($form_valor_contato as $val) {
-                                $query->insertTupla(
-                                    'responsavel_contato',
-                                    array(
-                                        $id_responsavel,
-                                        $form_tipo_contato[$i],
-                                        $val,
-                                        $form_principal[$i],
-                                        $auth->getUser(),
-                                        $_ip,
-                                        $_data,
-                                        $_hora,
+                            
 
-                                    )
+                            if($form_valor_contato[0] != ""){
 
-                                );
-                                $i++;
+                                $id_responsavel = $query->last_insert[0];
+                                $i = 0;
+                                foreach ($form_valor_contato as $val) {
+                                    
+                                    $query->insertTupla(
+                                        'responsavel_contato',
+                                        array(
+                                            $id_responsavel,
+                                            $form_tipo_contato[$i],
+                                            $val,
+                                            $form_principal[$i],
+                                            $auth->getUser(),
+                                            $_ip,
+                                            $_data,
+                                            $_hora,
+
+                                        )
+
+                                    );
+                                    $i++;
+                            }
 
 
                                 if ($id_animal != "") {
@@ -140,6 +141,8 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             }
 
                             $query->commit();
+
+                            echo $query->sql;
                         }
 
 
@@ -212,7 +215,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                 <div class="form-row">
 
-                    <label for="form_contato"><span class="text-danger">*</span> Contatos:</label>
+                    <label for="form_contato"> Contatos:</label>
                     <div class="form-group col-12" id="container_dinamico">
 
                         <?
@@ -229,13 +232,13 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             <div class="input-group ml-0 mb-2" id="campo_dinamico">
 
 
-                                <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
+                                <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato">
                                     <? $form_elemento = $erro ? $form_tipo_contato :  include("../includes/inc_select_tipo_contato.php"); ?>
                                 </select>
 
                                 <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7 form_valor_contato" placeholder="Contato" value="<? if ($erro) echo $form_valor_contato[$c]; ?>" />
                                 <input type="text" disabled="" class="form-control col-md-1 text-center" placeholder="Principal" />
-                                <select name="form_principal[]" required id="form_principal" required class="form-control col-md-1 form_principal">
+                                <select name="form_principal[]" id="form_principal"  class="form-control col-md-1 form_principal">
                                     <option value="" selected>Selecione</option>
                                     <option value="S">Sim</option>
                                     <option value="N">Não</option>
