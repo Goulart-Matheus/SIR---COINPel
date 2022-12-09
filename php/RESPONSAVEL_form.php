@@ -215,7 +215,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                 <div class="form-row">
 
-                    <label for="form_contato"> Contatos:</label>
+                    <label for="form_contato">  Contatos:</label>
                     <div class="form-group col-12" id="container_dinamico">
 
                         <?

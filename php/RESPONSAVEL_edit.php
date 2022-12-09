@@ -69,15 +69,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
-                            $valida = new Valida($form_mascara, 'CPF');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
-                            $valida = new Valida($form_rg, 'RG');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
-
-                            $valida = new Valida($form_rg, 'Data de nascimento');
+                            $valida = new Valida($form_dt_nascimento, 'Data de nascimento');
                             $valida->TamMinimo(1);
                             $erro .= $valida->PegaErros();
 
@@ -108,6 +100,8 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $where = array(0 => array('id_responsavel', $id_responsavel));
                             $query->updateTupla('responsavel', $itens, $where);
 
+                            
+
                             $responsavel_contato = new Query($bd);
                             $responsavel_contato->exec("SELECT rc.id_responsavel_contato
                                                     FROM responsavel as r, responsavel_contato as rc, tipo_contato as t
@@ -126,33 +120,35 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                             $i = 0;
 
-                            foreach ($form_valor_contato as $val) {
+                            if($form_valor_contato[0] != ""){
+                                foreach ($form_valor_contato as $val) {
 
-                                $itens = array(
-                                    $id_responsavel,
-                                    $form_tipo_contato[$i],
-                                    $val,
-                                    $form_principal[$i],
-                                    $_login,
-                                    $_ip,
-                                    $_data,
-                                    $_hora,
-                                );
+                                    $itens = array(
+                                        $id_responsavel,
+                                        $form_tipo_contato[$i],
+                                        $val,
+                                        $form_principal[$i],
+                                        $_login,
+                                        $_ip,
+                                        $_data,
+                                        $_hora,
+                                    );
 
 
-                                if ($id_responsavel_contato[$i]) { // Atualiza os Programas.
+                                    if ($id_responsavel_contato[$i]) { // Atualiza os Programas.
 
-                                    if (in_array($id_responsavel_contato[$i], $linhas_array)) {
+                                        if (in_array($id_responsavel_contato[$i], $linhas_array)) {
 
-                                        $where = array(0 => array('id_responsavel_contato', $id_responsavel_contato[$i]));
-                                        $query->updateTupla('responsavel_contato', $itens, $where);
-                                        array_push($linhas_array_atual, $id_responsavel_contato[$i]);
+                                            $where = array(0 => array('id_responsavel_contato', $id_responsavel_contato[$i]));
+                                            $query->updateTupla('responsavel_contato', $itens, $where);
+                                            array_push($linhas_array_atual, $id_responsavel_contato[$i]);
+                                        }
+                                    } else {
+                                        $query->insertTupla('responsavel_contato', $itens);
                                     }
-                                } else {
-                                    $query->insertTupla('responsavel_contato', $itens);
-                                }
 
-                                $i++;
+                                    $i++;
+                                }
                             }
 
                             foreach ($linhas_array as $linhas_array_deletar) { // Deleta elementos que não estão na página.
@@ -191,7 +187,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                     </div>
                     <div class="form-group col-12 col-md-3">
                         <label for="form_rg"><span class="text-danger">*</span> RG :</label>
-                        <input required autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);
+                        <input autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);
                                                                                                                                                 else echo trim($query->record[3]); ?>">
                     </div>
                 </div>
@@ -261,7 +257,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             <div class="input-group ml-0 mb-2" id="campo_dinamico">
 
 
-                                <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato" required>
+                                <select name="form_tipo_contato[]" id="form_tipo_contato" class="form-control form_tipo_contato">
                                     <? $form_elemento = $edit ? $form_tipo_contato :  $programas->record[0];
                                     include("../includes/inc_select_tipo_contato.php"); ?>
 
@@ -269,7 +265,7 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                                     <input type="text" name="form_valor_contato[]" id="form_valor_contato" class="form-control col-md-7" placeholder="Contato" value="<? if ($edit) echo $form_valor_contato[$c];
                                                                                                                                                                         else echo $programas->record[1] ?>" />
-                                    <select name="form_principal[]" required id="form_principal" class="form-control col-md-1 form_principal" value="<? if ($edit) echo $form_principal[$c];
+                                    <select name="form_principal[]" id="form_principal" class="form-control col-md-1 form_principal" value="<? if ($edit) echo $form_principal[$c];
                                                                                                                                                         else echo $programas->record[2]; ?>">
                                         <option value="S" <? if ($edit && $form_principal == 'S') echo 'selected';
                                                             else {
