@@ -181,12 +181,12 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                                                                                                                                                                     else echo trim($query->record[1]); ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_mascara"><span class="text-danger">*</span>CPF: </label>
+                        <label for="form_mascara">CPF: </label>
                         <input type="text" class="form-control form_mascara " name="form_mascara" id="form_mascara" value="<? if ($edit) echo trim($form_mascara);
                                                                                                                             else echo trim($query->record[2]); ?>">
                     </div>
                     <div class="form-group col-12 col-md-3">
-                        <label for="form_rg"><span class="text-danger">*</span> RG :</label>
+                        <label for="form_rg"> RG :</label>
                         <input autocomplete="off" type="text" class="form-control" name="form_rg" id="form_rg" maxlength="100" value="<? if ($edit) echo trim($form_rg);
                                                                                                                                                 else echo trim($query->record[3]); ?>">
                     </div>
