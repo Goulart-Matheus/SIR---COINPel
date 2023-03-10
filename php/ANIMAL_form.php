@@ -53,9 +53,9 @@ if($t  > 0){
                             $query_aux1 = new Query($bd);
 
 
-                            $valida = new Valida($form_nro_chip, 'Nro_chip');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
+                            // $valida = new Valida($form_nro_chip, 'Nro_chip');
+                            // $valida->TamMinimo(1);
+                            // $erro .= $valida->PegaErros();
 
 
                             $valida = new Valida($form_sexo, 'Sexo');
@@ -73,18 +73,26 @@ if($t  > 0){
 
                             // Validação testa se o nro_ficha e o nro_chip já estão cadastrados no BD
                             // inicio
+
+                            if($form_nro_chip != ''){
                             
-                            $query_aux1->exec("SELECT id_animal
-                                                    FROM animal
-                                                    WHERE nro_chip = '$form_nro_chip'
-                                        ");
-                            if ($query_aux1->rows() > 0) {
-                                $erro .= "O chip de numero $form_nro_chip, já esta cadastrado no sistema";
+                                $query_aux1->exec("SELECT id_animal
+                                                        FROM animal
+                                                        WHERE nro_chip = '$form_nro_chip'
+                                            ");
+                                if ($query_aux1->rows() > 0) {
+                                    $erro .= "O chip de numero $form_nro_chip, já esta cadastrado no sistema";
+                                }
+
                             }
                             //fim 
 
 
 
+                        }
+
+                        if($form_nro_chip == ''){
+                            $form_nro_chip = 'NULL';
                         }
 
                         if (!$erro && isset($add)) {
@@ -149,7 +157,7 @@ if($t  > 0){
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_nro_chip"><span class="text-danger">*</span> Numero Chip</label>
+                        <label for="form_nro_chip"> Numero Chip</label>
                         <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
                     </div>
 

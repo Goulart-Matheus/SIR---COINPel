@@ -214,7 +214,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     <div class="form-group col-12 col-md-6">
 
-                        <label for="form_nro_chip"><span class="text-danger">*</span> Numero do Chip Animal</label>
+                        <label for="form_nro_chip"> Numero do Chip Animal</label>
                         <input type="text" name="form_nro_chip" id="form_nro_chip" class="form-control" value="<? if ($erro) echo $form_nro_chip;
                                                                                                                 else echo $query->record[2]; ?>" required disabled>
                         <!--
