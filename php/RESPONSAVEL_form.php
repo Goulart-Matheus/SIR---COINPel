@@ -39,14 +39,14 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
                             $query_aux1 = new Query($bd);
 
 
-                            $valida = new Valida($form_responsavel, 'Responsável');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
+                            // $valida = new Valida($form_responsavel, 'Responsável');
+                            // $valida->TamMinimo(1);
+                            // $erro .= $valida->PegaErros();
 
 
-                            $valida = new Valida($form_endereco, 'Endereço');
-                            $valida->TamMinimo(1);
-                            $erro .= $valida->PegaErros();
+                            // $valida = new Valida($form_endereco, 'Endereço');
+                            // $valida->TamMinimo(1);
+                            // $erro .= $valida->PegaErros();
 
                            
                             // Validação testa se o CPF e o RG já estão cadastrados no BD
@@ -78,6 +78,14 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
 
                         if (!$erro && isset($add)) {
+
+                            if($form_dt_nascimento == ''){
+                                $form_dt_nascimento = 'NULL';
+                            }
+
+                            if($form_bairro == ''){
+                                $form_bairro = 'NULL';
+                            }
 
                             $query->begin();
 
@@ -179,17 +187,17 @@ $link = isset($id_animal) && $id_animal != "" ? "?id_animal=$id_animal" : "";
 
                 <div class="form-row">
                     <div class="form-group col-12 col-md-2">
-                        <label for="form_dt_nascimento"><span class="text-danger">*</span> Data de nascimento :</label>
+                        <label for="form_dt_nascimento"> Data de nascimento :</label>
                         <input type="date" class="form-control" name="form_dt_nascimento" id="form_dt_nascimento" maxlength="08" value="<? if ($erro) echo $form_dt_nascimento; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_endereco"><span class="text-danger">*</span> Endereço :</label>
-                        <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="200" required value="<? if ($erro) echo $form_endereco; ?>">
+                        <label for="form_endereco"> Endereço :</label>
+                        <input type="text" class="form-control" name="form_endereco" id="form_endereco" maxlength="200" value="<? if ($erro) echo $form_endereco; ?>">
                     </div>
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_bairro"><span class="text-danger">*</span> Bairro :</label>
-                        <select name="form_bairro" id="form_bairro" class="form-control" required>
+                        <label for="form_bairro"> Bairro :</label>
+                        <select name="form_bairro" id="form_bairro" class="form-control">
                             <?
                             $form_elemento = $erro ? $form_bairro : "";
                             include("../includes/inc_select_bairro.php"); ?>

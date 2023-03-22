@@ -247,7 +247,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
                     </div>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_dt_entrada"><span class="text-danger">*</span>Data Entrada</label>
+                        <label for="form_dt_entrada"><span class="text-danger">*</span> Data Entrada</label>
                         <input type="date" class="form-control" name="form_dt_entrada" id="form_dt_entrada" maxlength="100" value="<? if ($erro) echo $form_dt_entrada;
                                                                                                                                     else echo $_data ?>">
                     </div>
@@ -285,12 +285,12 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
                     </div>
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_dt_retirada"><span class="text-danger">*</span> Data Retirada</label>
+                        <label for="form_dt_retirada"> Data Retirada</label>
                         <input type="date" class="form-control" name="form_dt_retirada" id="form_dt_retirada" maxlength="100" value="<? if ($erro) echo $form_dt_retirada; ?>">
                     </div>
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_id_responsavel"><span class="text-danger">*</span> Responsavel</label>
+                        <label for="form_id_responsavel">Responsavel</label>
                         <select name="form_id_responsavel" id="form_id_responsavel" class="form-control select2_responsavel">
                             <?
 
@@ -304,7 +304,7 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-2">
-                        <label for="form_id_urm"><span class="text-danger">*</span>URM</label>
+                        <label for="form_id_urm"><span class="text-danger">*</span> URM</label>
                         <select name="form_id_urm" id="form_id_urm" class="form-control" required>
                             <?
                             $form_elemento = $erro ? $form_id_urm : "";
@@ -317,11 +317,11 @@ $tab->printTab($_SERVER['PHP_SELF']);
 
 
                     <div class="form-group col-12 col-md-2">
-                        <label for="form_reincidencias"><span class="text-danger">*</span> Reincidências</label>
+                        <label for="form_reincidencias"> Reincidências</label>
                         <input class="form-control" name="form_reincidencias" id="form_reincidencias" value="" type="text" disabled>
                     </div>
                     <div class="form-group col-12 col-md-2">
-                        <label for="form_valor"><span class="text-danger">*</span> Valor R$</label>
+                        <label for="form_valor"> Valor R$</label>
                         <input type="text" class="form-control" name="form_valor" id="form_valor" maxlength="100" value="<? if ($erro) echo $form_valor; ?> " readonly>
                     </div>
 

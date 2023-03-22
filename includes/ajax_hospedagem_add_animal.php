@@ -10,12 +10,19 @@
 
     // Query Valor
 
+        if($nro_chip == ''){
+            $nro_chip = 'NULL';
+        }
+       
+    
         
     $query_verifica = new Query($bd);
     $query_verifica->exec("SELECT nro_ficha , nro_chip, ar.id_responsavel FROM animal as a, animal_responsavel as ar 
-    WHERE ar.id_animal =  a.id_animal AND nro_ficha ='$nro_ficha' OR nro_chip = '$nro_chip'");
+    WHERE ar.id_animal =  a.id_animal AND nro_ficha ='$nro_ficha' ");
 
     $query_verifica->begin();
+
+    
 
 
 
@@ -33,7 +40,7 @@
              array(
                  
                  trim($nro_ficha),
-                 trim($nro_chip),
+                 $nro_chip,
                  trim($id_pelagem),
                  trim($id_especie),
                  trim($sexo),
@@ -59,17 +66,10 @@
          $query_urm->proximo();
          $valor = $query_urm->record[0];
 
-         //$query_urm->exec("SELECT valor FROM urm WHERE mes_referencia = $mes AND ano_referencia = $ano ");
-         //$i = $query_urm->rows();
-        //  if($i > 0){
-            
-        //     $query_urm->proximo();
-            
-        //  }else{
-            
-            
-        //  }
-        
+         
+         if($nro_chip == 'NULL'){
+            $nro_chip = '';
+         }
 
 
         $ret[] = array(

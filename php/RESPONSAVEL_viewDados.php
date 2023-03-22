@@ -13,6 +13,8 @@ if ($form_rg != "") {
     $where .= " and r.rg ilike '%{$form_rg}%'";
 }
 
+
+
 $query->exec(
     "SELECT     DISTINCT        
     r.id_responsavel,
@@ -21,7 +23,7 @@ $query->exec(
     r.rg,
     r.dt_nascimento,
     r.endereco,
-    b.descricao,                   
+    (SELECT b.descricao FROM bairro as b WHERE b.id_bairro =r.id_bairro ),                   
     (SELECT valor_contato from responsavel_contato 
         WHERE id_responsavel =r.id_responsavel  limit 1 ),
             (select CASE principal
@@ -34,11 +36,9 @@ $query->exec(
         bairro b,
         responsavel r 
 
-    WHERE   b.id_bairro =r.id_bairro and                  
+    WHERE                   
             r.nome ilike '%" . $form_responsavel . "%' and  
-            b.id_bairro =r.id_bairro and
-            r.rg ilike '%" . $form_rg . "%'  and      
-            r.cpf ilike '%" . $form_mascara . "%'
+           (b.id_bairro = r.id_bairro OR r.id_bairro isnull)
             " . $where
 );
 

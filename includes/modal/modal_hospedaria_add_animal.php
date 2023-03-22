@@ -41,7 +41,7 @@ if($t  > 0){
 
 
                     <div class="form-group col-12 col-md-4">
-                        <label for="form_nro_chip"><span class="text-danger">*</span> Numero Chip</label>
+                        <label for="form_nro_chip"> Numero Chip</label>
                         <input type="text" class="form-control" name="form_nro_chip" id="form_nro_chip_ajax_cadastro" maxlength="100" value="<? if ($erro) echo $form_nro_chip; ?>">
                     </div>
 
@@ -62,7 +62,7 @@ if($t  > 0){
 
 
                     <div class="form-group col-12 col-md-6">
-                        <label for="form_id_pelagem"><span class="text-danger">*</span>Pelagem</label>
+                        <label for="form_id_pelagem"><span class="text-danger">*</span> Pelagem</label>
                         <select name="form_id_pelagem" id="form_id_pelagem_ajax_cadastro" class="form-control select2_pelagem">
                             <?
                             $form_elemento = $erro ? $form_id_pelagem : "";
