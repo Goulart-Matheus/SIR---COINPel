@@ -14,10 +14,13 @@ $id_animal = $_POST['id_animal'];
 $query_responsavel = new Query($bd);
 $query_responsavel->exec("SELECT  count(id_responsavel)
                     FROM hospedagem
-                    WHERE id_animal = $id_animal                                  
+                    WHERE id_animal = $id_animal 
+                    AND id_responsavel != NULL                                 
                  ");
 $query_responsavel->proximo();
+
 $responsavel = $query_responsavel->record[0];
+
 
 $query_valor = new Query($bd);
 $query_valor->exec("SELECT  count(a.id_animal)
@@ -55,6 +58,8 @@ if ($id_urm != "") {
 
 $query_valores = new Query($bd);
 
+
+
 if ($responsavel > 0) {
     $query_valores->exec("  SELECT   
                                 a.id_animal,a.nro_ficha , a.nro_chip, ar.id_responsavel , e.descricao, p.descricao
@@ -65,6 +70,7 @@ if ($responsavel > 0) {
                                 AND a.id_animal =$id_animal
                                 AND p.id_pelagem = a.id_pelagem 
                                 AND e.id_especie = a.id_especie");
+    
     $tipo = 1;
 } else {
     $where ="";
@@ -96,16 +102,16 @@ if ($query_valores->rows() > 0) {
         if ($tipo == 1) {
             $query_valores->proximo();
             $ret[] = array(
-                "resultado"             =>  1,
+                "resultado"                             =>  1,
                 "id_animal"                             =>  trim($query_valores->record['id_animal']),
                 "nro_ficha"                             =>  trim($query_valores->record['nro_ficha']),
                 "nro_chip"                              =>  trim($query_valores->record['nro_chip']),
                 'id_responsavel'                        =>  trim($query_valores->record['id_responsavel']),
-                'valor'                        =>  $valor,
-                'reincidencias'                => $quantidade,
-                "especie"                            =>  trim($query_valores->record[4]),
+                'valor'                                 =>  $valor,
+                'reincidencias'                         => $quantidade,
+                "especie"                               =>  trim($query_valores->record[4]),
                 "sexo"                                  =>  trim($query_valores->record['sexo']),
-                "pelagem"                            =>  trim($query_valores->record[5]),
+                "pelagem"                               =>  trim($query_valores->record[5]),
             );
         }
         if ($tipo == 2) {
@@ -117,9 +123,9 @@ if ($query_valores->rows() > 0) {
                 "nro_chip"                              =>  trim($query_valores->record['nro_chip']),
                 'valor'                                 =>  $valor,
                 'reincidencias'                         => $quantidade,
-                "especie"                            =>  trim($query_valores->record[3]),
+                "especie"                                =>  trim($query_valores->record[3]),
                 "sexo"                                  =>  trim($query_valores->record['sexo']),
-                "pelagem"                            =>  trim($query_valores->record[5]),
+                "pelagem"                               =>  trim($query_valores->record[5]),
             );
         }
     }

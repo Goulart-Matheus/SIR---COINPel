@@ -383,7 +383,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             },
             beforeSend: function() {
 
-                console.log("Enviado ok");
+              
 
             },
             success: function(response) {
@@ -433,7 +433,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             },
             beforeSend: function() {
 
-                console.log("Enviado ok");
+               
 
             },
             success: function(response) {
@@ -470,7 +470,7 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             },
             beforeSend: function() {
 
-                console.log("Enviado ok");
+               
 
 
             },
