@@ -1,7 +1,7 @@
-<?
-/* Usado por /php/formProcessoMovimentacao.php */
+<?php
 
 $arquivo = isset($_FILES["form_arquivo"]) ? $_FILES["form_arquivo"] : FALSE;
+
 
 if ($arquivo) {
 
@@ -20,4 +20,3 @@ if ($arquivo) {
         if (!move_uploaded_file($arquivo["tmp_name"], $arquivo_dir)) $erro="Erro ao enviar o arquivo !<br>";
     }
 }
-?>
