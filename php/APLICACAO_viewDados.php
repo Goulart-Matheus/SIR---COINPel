@@ -56,7 +56,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 $tab->setTab('Aplicações','fas fa-cog', $_SERVER['PHP_SELF']);
-$tab->setTab('Nova Aplicação','fas fa-plus', 'formAplicacao.php');
+$tab->setTab('Nova Aplicação','fas fa-plus', 'APLICACAO_form.php');
 
 
 $tab->printTab($_SERVER['PHP_SELF']);
@@ -67,7 +67,7 @@ if ($remove) {
 $n =$paging->query->rows();
 
 // INCLUSÂO DO ARQUIVO VIEW COM A MODAL DE PESQUISA
-include 'viewAplicacao.php'
+include 'APLICACAO_view.php'
 ?>
 
     <section class="content">
@@ -144,7 +144,7 @@ include 'viewAplicacao.php'
                         <?
                             while ($n--) {
                                 $paging->query->proximo();
-                                $js_onclick ="OnClick=javascript:window.location=('editAplicacao.php?codaplicacao=" . $paging->query->record[0] . "')";
+                                $js_onclick ="OnClick=javascript:window.location=('APLICACAO_edit.php?codaplicacao=" . $paging->query->record[0] . "')";
 
                                 $tipo       = $paging->query->record[4] == 'a' ? 'Aplicação'   : 'Menu';
                                 $situacao   = $paging->query->record[5] == 0   ? 'Não Visível' : 'Visível';

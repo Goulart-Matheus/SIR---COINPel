@@ -5,7 +5,7 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Aplicações', 'fas fa-file-code', 'viewAplicacaoDados.php');
+$tab->setTab('Aplicações', 'fas fa-file-code', 'APLICACAO_viewDados.php');
 $tab->setTab('Nova Aplicação', 'fas fa-plus', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 
@@ -113,37 +113,43 @@ $tab->printTab($_SERVER['PHP_SELF']);
                         </div>
 
                         <div class="form-group col-12 col-md-4">
-                        <label for="form_nova_janela">Nova janela</label>
-                        <select class="form-control" name="form_nova_janela" id="form_nova_janela">
-                            <option value='N'>Não</option>
-                            <option value='S'>Sim</option>
-                        </select>
-                    </div>
+                            <label for="form_nova_janela">Nova janela</label>
+                            <select class="form-control" name="form_nova_janela" id="form_nova_janela">
+                                <option value='N'>Não</option>
+                                <option value='S'>Sim</option>
+                            </select>
+                        </div>
 
                     </div>
 
 
-                    
                     <div class="form-group col-12">
+
                         <label for="form_grupo">Grupo</label>
-                        <select multiple class="form-control" name="form_grupo[]" id="form_grupo">
+                        <select class="searchable form-group" multiple="multiple" id="multi-select-group" name="form_grupo[]">
                             <?
+
                             $query->exec("SELECT codgrupo, descricao FROM grupo ORDER BY descricao");
                             $n = $query->rows();
+
                             while ($n--) {
                                 $query->proximo();
                                 echo "<option value='" . $query->record[0] . "'>" . $query->record[1] . "</option>";
                             }
+
                             ?>
                         </select>
+
                     </div>
+
+
                 </div>
             </div>
-            <div class="card-footer border-top-0 bg-transparent">
-                <div class="text-center">
-                    <input class="btn btn-secondary" type="reset" name="clear" value="Limpar">
-                    <input class="btn btn-info" type="submit" name="add" value="Salvar">
-                </div>
+            <div class="card-footer bg-light-2">
+                <?
+                $btns = array('clean', 'save');
+                include('../includes/dashboard/footer_forms.php');
+                ?>
             </div>
     </form>
 </section>
@@ -157,17 +163,17 @@ $tab->printTab($_SERVER['PHP_SELF']);
     $('#multi-select-group').multiSelect({
 
         selectableHeader: "<div></div><input type='text' class='search-input form-control' autocomplete='off' placeholder='Pesquisar' style='margin-bottom:5px'>",
-        selectionHeader : "<div></div><input type='text' class='search-input form-control' autocomplete='off' placeholder='Pesquisar' style='margin-bottom:5px'>",
-        
-        afterInit: function (ms) {
+        selectionHeader: "<div></div><input type='text' class='search-input form-control' autocomplete='off' placeholder='Pesquisar' style='margin-bottom:5px'>",
+
+        afterInit: function(ms) {
             var that = this,
-                $selectableSearch      = that.$selectableUl.prev()                                                  ,
-                $selectionSearch       = that.$selectionUl.prev()                                                   ,
+                $selectableSearch = that.$selectableUl.prev(),
+                $selectionSearch = that.$selectionUl.prev(),
                 selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-                selectionSearchString  = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
+                selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
 
             that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-                .on('keydown', function (e) {
+                .on('keydown', function(e) {
                     if (e.which === 40) {
                         that.$selectableUl.focus();
                         return false;
@@ -175,38 +181,36 @@ $tab->printTab($_SERVER['PHP_SELF']);
                 });
 
             that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-                .on('keydown', function (e) {
+                .on('keydown', function(e) {
                     if (e.which == 40) {
                         that.$selectionUl.focus();
                         return false;
                     }
                 });
         },
-        afterSelect: function () {
+        afterSelect: function() {
             this.qs1.cache();
             this.qs2.cache();
         },
-        afterDeselect: function () {
+        afterDeselect: function() {
             this.qs1.cache();
             this.qs2.cache();
         },
         selectableOptgroup: true
     });
 
-/*
-    $('#icon_picker').on('change', function(e) {
-        $("#form_icon").val(e.icon);
-    });
-*/
-    $('#form_icon').on('keyup', function(){
-        if($(this).val() != "")
-        {
+    /*
+        $('#icon_picker').on('change', function(e) {
+            $("#form_icon").val(e.icon);
+        });
+    */
+    $('#form_icon').on('keyup', function() {
+        if ($(this).val() != "") {
             var newIcon = $(this).val();
             var e = $("#icone");
             e.removeClass().addClass(newIcon);
         }
     });
-
 </script>
 
 <? include_once('../includes/dashboard/footer.php'); ?>

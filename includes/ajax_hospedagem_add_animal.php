@@ -22,10 +22,6 @@
 
     $query_verifica->begin();
 
-    
-
-
-
         if($query_verifica->rows() > 0){
          $ret['resultado'] = 0;
          $ret['msg'] = "Animal já existe";

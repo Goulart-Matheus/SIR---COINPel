@@ -8,4 +8,6 @@ $_ip    = $_SERVER['REMOTE_ADDR'];
 $_id_cliente      = $auth->getClientId()              ;
 $_id_orgao        = $auth->getOrgaoId()               ;
 $_name_orgao      = $auth->getOrgaoName()             ;
+
+
 ?>

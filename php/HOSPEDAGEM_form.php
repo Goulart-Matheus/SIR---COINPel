@@ -433,8 +433,6 @@ include('../includes/modal/modal_hospedaria_add_animal.php');
             },
             beforeSend: function() {
 
-               
-
             },
             success: function(response) {
 

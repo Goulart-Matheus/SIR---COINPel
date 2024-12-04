@@ -87,7 +87,7 @@ class Query {
 
 		for($i = 0; $i < $tamanho; $i++) {
             if($colunas[$i]=='NULL') $var .=$colunas[$i] . ",";
-            else $var .="'" . $colunas[$i] . "',";
+            else $var .="'" . str_replace ("'", "", $colunas[$i]) . "',";
         }
 		while($tamanho--)                $col .=$coluna[$tamanho] . ",";
 		$col          =substr($col, 0, -1);

@@ -5,8 +5,8 @@ include('../class/class.tab.php');
 
 $tab = new Tab();
 
-$tab->setTab('Aplicações','fas fa-file-code', 'viewAplicacaoDados.php');
-$tab->setTab('Nova aplicação','fas fa-plus','formAplicacao.php');
+$tab->setTab('Aplicações','fas fa-file-code', 'APLICACAO_viewDados.php');
+$tab->setTab('Nova aplicação','fas fa-plus','APLICACAO_form.php');
 $tab->setTab('Editar','fas fa-pencil', $_SERVER['PHP_SELF']);
 $tab->printTab($_SERVER['PHP_SELF']);
 
@@ -101,43 +101,42 @@ $query->result($query->linha);
                         <div class="form-group col-12 col-md-4">
                             <label for="form_tipo">Tipo</label>
                             <select class="form-control" name="form_tipo" id="form_tipo">
-                                <option value='a' <?if($erro){if($form_tipo=='a') echo 'selected';} else if ($query->record[4]=='a') echo selected?>>Aplicação</option>
-                                <option value='m' <?if($erro){if($form_tipo=='m') echo 'selected';} else if ($query->record[4]=='m') echo selected?>>Menu</option>
+                                <option value='a' <?if($erro){if($form_tipo=='a') echo 'selected';} else if ($query->record[4]=='a') echo 'selected'?>>Aplicação</option>
+                                <option value='m' <?if($erro){if($form_tipo=='m') echo 'selected';} else if ($query->record[4]=='m') echo 'selected'?>>Menu</option>
                             </select>
                         </div>
                         
                         <div class="form-group col-12 col-md-4">
                             <label for="form_situacao">Situação</label>
                             <select class="form-control" name="form_situacao" id="form_situacao">
-                                <option value=0 <?if($erro){if($form_situacao==0) echo 'selected';} else if ($query->record[5]==0) echo selected?>>Oculto</option>
-                                <option value=1 <?if($erro){if($form_situacao==1) echo 'selected';} else if ($query->record[5]==1) echo selected?>>Vísivel</option>
+                                <option value=0 <?if($erro){if($form_situacao==0) echo 'selected';} else if ($query->record[5]==0) echo 'selected'?>>Oculto</option>
+                                <option value=1 <?if($erro){if($form_situacao==1) echo 'selected';} else if ($query->record[5]==1) echo 'selected'?>>Vísivel</option>
                             </select>
                         </div>
 
                         <div class="form-group col-12 col-md-4">
                             <label for="form_nova_janela">Nova janela</label>
                             <select class="form-control" name="form_nova_janela" id="form_nova_janela">
-                                <option value='N' <?if($erro){if($form_situacao=='N') echo 'selected';} else if ($query->record[6]=='N') echo selected?>>Não</option>
-                                <option value='S' <?if($erro){if($form_situacao=='S') echo 'selected';} else if ($query->record[6]=='S') echo selected?>>Sim</option>
+                                <option value='N' <?if($erro){if($form_situacao=='N') echo 'selected';} else if ($query->record[6]=='N') echo 'selected'?>>Não</option>
+                                <option value='S' <?if($erro){if($form_situacao=='S') echo 'selected';} else if ($query->record[6]=='S') echo 'selected'?>>Sim</option>
                             </select>
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-md-12">
-                            <label for="form_grupo">Grupo</label>
-                            <select multiple class="form-control" name="form_grupo[]" id="form_grupo">
-                                <?
-                                $query->exec("SELECT codgrupo, descricao FROM grupo ORDER BY descricao");
-                                $n=$query->rows();
-                                while($n--){
-                                    $query->proximo();
-                                    echo"<option selected value='".$query->record[0]."'>".$query->record[1]."</option>";
-                                }
-                                ?>
-                            </select>
-                        </div>
-
+                    <div class="form-group col-md-12">
+                        <label for="form_grupo">Grupo</label>
+                        <select class="searchable form-group" multiple="multiple" id="multi-select-group" name="form_grupo[]">
+                            <?
+                            $query->exec("SELECT codgrupo, descricao FROM grupo ORDER BY descricao");
+                            $n = $query->rows();
+                            while ($n--) {
+                                $query->proximo();
+                                if (in_array($query->record[0], $array)) $flag = 'selected';
+                                else $flag = '';
+                                echo "<option value='" . $query->record[0] . "' " . $flag . ">" . $query->record[1] . "</option>";
+                            }
+                            ?>
+                        </select>
                     </div>
 
                     

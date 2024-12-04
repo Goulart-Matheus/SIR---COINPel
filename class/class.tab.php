@@ -1,4 +1,5 @@
 <?
+
 class Tab {
       var $tab   =array();                     //array contendo as tabs
       var $total =0;                           //total de tabs
@@ -24,6 +25,7 @@ class Tab {
       /********************
       * Interface Pública *
       *********************/
+
       function Tab() {
           $this->total=0;
       }
@@ -31,7 +33,6 @@ class Tab {
       function setTab($id, $icon, $href, $valor=0, $tooltip="") {
           $this->tab[$this->total++] =array($id, $icon, $href, $valor,$tooltip);
       }
-
       function getTab($indice) {
           return $this->tab[$indice];
       }
